@@ -1,0 +1,20 @@
+// $body-bg: rgb(255, 47, 0);
+// $section-bg: rgba(52, 53, 52, .9);
+$body-bg: #000000;
+$section-bg: #343534;
+$main-bg: linear-gradient(to right, rgba(5, 245, 187, .9), rgba(245, 5, 192, .9));
+
+$about-text-bg: linear-gradient(to bottom,rgba(5, 245, 187, 1), rgba(245, 5, 192, 1),  rgba(5, 245, 187, 1), rgba(245, 5, 192, 1),  rgba(5, 245, 187,
+ 1));
+
+$game-font: "Bebas Neue", sans-serif;
+$body-font: "Montserrat", system-ui, sans-serif;
+
+$sections-padding-top: 150px;
+
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}

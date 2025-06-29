@@ -1,0 +1,56 @@
+/* --- Медиазапросы --- */
+@media screen and (max-width: 1023px) {
+  .sign {
+    width: 90%;
+    max-width: 360px;
+    padding: 20px;
+  }
+
+  .logo img {
+    max-width: 100px;
+  }
+
+  .sign nav ul li a {
+    font-size: clamp(22px, 2vw, 24px);
+  }
+
+  .left-chain {
+    left: calc(50% - 60px);
+  }
+
+  .right-chain {
+    left: calc(50% + 60px);
+  }
+
+  .menu {
+    justify-content: start;
+    padding-left: 20%;
+    height: 65px;
+    background: rgba($color: #212121, $alpha: .7);
+    ul {
+        display: none; 
+    }
+    &__registr {
+        display: none;
+    }
+    &__logo {
+        height: 100%;
+        &__img {
+            width: 35px;
+        }
+        // &__text {
+        //     display: none;
+        // }
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .sign,
+  .left-chain,
+  .right-chain,
+  .hamburger,
+  .overlay {
+    display: none;
+  }
+}

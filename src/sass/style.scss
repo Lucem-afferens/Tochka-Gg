@@ -1,0 +1,69 @@
+@import 'libs/bootstrap-reboot.min';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+// @import 'swiper/swiper-bundle.css';
+@import 'base/variables';
+@import 'base/mixins';
+@import 'blocks/*.scss';
+
+* {
+    font-family: $body-font;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+    overflow-x: hidden;
+    &.none-scroll {
+        overflow: hidden;
+        height: 100%;
+    }
+}
+
+body {
+    background-color: $body-bg;
+    color: #fff;
+    position: relative;
+    overflow-x: hidden;
+    &.none-scroll {
+        overflow: hidden;
+        height: 100%;
+    }
+}
+
+
+section, main { 
+    background-color: $section-bg;
+    // background: url('../img/bg-arc.jpg') no-repeat 50%/cover fixed;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+    &:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+.container {
+    width: 85%;
+    height: 100%;
+    margin: 0 auto;
+    overflow: visible;
+    container-type: inline-size;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    margin-bottom: 0;
+}
+
+@import 'base/media';
