@@ -279,7 +279,7 @@ setTimeout(() => {
   if (modal) {
     modal.classList.add('active');
   }
-}, 1000 * 10); // 1000 мс = 1 секунда
+}, 1000 * 30); // 1000 мс = 1 секунда
 
 // По клику на кнопку удаляем класс "active"
 const closeModal = document.querySelector('.modal__close');

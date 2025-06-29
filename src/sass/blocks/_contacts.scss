@@ -1,5 +1,5 @@
 .contacts {
-    padding-top: 150px;
+    padding-bottom: 150px;
     position: relative;
     z-index: 1;
     &__wrapper {
@@ -99,7 +99,7 @@
             row-gap: 30px;
             height: 70cqw;
             min-height: 600px;
-            width: clamp(200px, 50vw, 1500px);
+            width: clamp(250px, 50vw, 1500px);
             padding: 30px;
             text-align: center;
         }
