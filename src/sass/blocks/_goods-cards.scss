@@ -17,11 +17,7 @@
         left: 150%;
         transform: translate(-50%, -50%);
         &__active {
-        left: 50%;
-        opacity: 1;
-        }
-        &.hover {
-            left: 130%;
+            left: 50%;
             opacity: 1;
         }
     }
@@ -31,11 +27,7 @@
         left: 150%;
         transform: translate(-50%, -50%);
         &__active {
-        left: 50%;
-        opacity: 1;
-        }
-        &.hover {
-            left: 130%;
+            left: 50%;
             opacity: 1;
         }
     }
@@ -45,11 +37,7 @@
         left: -50%;
         transform: translate(-50%, -50%);
         &__active {
-        left: 50%;
-        opacity: 1;
-        }
-        &.hover {
-            left: -20%;
+            left: 50%;
             opacity: 1;
         }
     }
@@ -213,4 +201,27 @@
             display: none;
         }
     }
+}
+
+@media (any-hover: hover) {
+  .goods-cards {
+    &__ps {
+        &.hover {
+            left: 130%;
+            opacity: 1;
+        }
+    }
+    &__food {
+        &.hover {
+            left: 130%;
+            opacity: 1;
+        }
+    }
+    &__pc {
+        &.hover {
+            left: -20%;
+            opacity: 1;
+        }
+    }
+  }
 }
