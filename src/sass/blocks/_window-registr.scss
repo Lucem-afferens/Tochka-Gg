@@ -8,12 +8,13 @@
         height: clamp(35px, 8vh, 60px);
         width: 30%;
         min-width: 200px;
+        max-width: 350px;
         color: #fff;
         background: rgb(25, 142, 114);
         border: none;
         border-radius: 30px;
         transition: all .3s ease;
-        font-size: clamp(12px, 2.3vw, 20px);
+        font-size: clamp(14px, 2.3vw, 20px);
         text-wrap: nowrap;
         container-type: inline-size;
         &:hover {

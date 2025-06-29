@@ -55,7 +55,9 @@
             font-size: clamp(38px, 5vw, 96px);
         }
         &__table {
-            font-size: clamp(14px, 2.8vw, 34px);
+            font-size: clamp(14px, 2.8vw, 30px);
+            position: relative;
+            top: -7%;
             &__logo {
             // width: 100px;
             // padding: 50px;
@@ -92,6 +94,10 @@
                 &__center {
                     font-size: clamp(38px, 8vw, 96px);
                 }
+            }
+            &__back {
+                display: flex;
+                justify-content: center;
             }
         }
         &__back {
