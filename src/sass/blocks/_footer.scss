@@ -94,6 +94,11 @@
         text-wrap: balance;
         height: 100%;
         padding: 0 20px;
+        &__address {
+            &__text {
+                text-decoration: none;
+            }
+        }
         &__icons {
             display: flex;
             justify-content: space-around;
