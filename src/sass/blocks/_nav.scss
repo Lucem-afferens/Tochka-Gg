@@ -29,7 +29,9 @@
             position: relative;
             width: 30%;
             // min-width: 40px;
-            @include menuGlowLogo;
+            // @include menuGlowLogo;
+            filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 12px #0ff);
+            animation: neon-glow 2s infinite alternate ease-in-out;
             img {
                 height: 100%;
                 width: 100%;

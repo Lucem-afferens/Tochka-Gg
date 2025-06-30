@@ -195,7 +195,7 @@
 .swiper-pagination-bullet {
     width: 14px;
     height: 14px;
-    margin: 0 6px;
+    margin: 0 8px !important; 
     background: radial-gradient(circle, #ff7e00 0%, #ff4500 60%, #8b0000 100%);
     border-radius: 50%;
     opacity: 0.6;
@@ -265,7 +265,7 @@
 
 @media (max-width:1023px) {
     .components {
-        padding-top: 10vw;
+        padding-top: 15vw;
     }
     .swiper-button-prev,
     .swiper-button-next {
