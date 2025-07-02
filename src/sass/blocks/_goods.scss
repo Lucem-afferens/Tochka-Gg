@@ -26,6 +26,7 @@
         container-type: inline-size;
         /* Дополнительные стили для красоты */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
+        overflow: visible;
         ul {
             padding-top: 4cqh;
             li {
@@ -86,6 +87,7 @@
 
         &__img {
             position: absolute;
+            overflow: visible;
             &-1 {
                 height: 85%;
                 left: -30cqw;
@@ -94,6 +96,7 @@
                 max-height: 100%;
                 filter: drop-shadow(0 0 20px #00c2ea);
                 transition: all .5s ease;
+                overflow: visible;
                 }
             }
             &-2 {
@@ -105,6 +108,7 @@
                 max-height: 100%;
                 filter: drop-shadow(0 0 20px #43F505);
                 transition: all .5s ease;
+                overflow: visible;
                 }   
             }
             &-3 {
@@ -115,6 +119,7 @@
                 max-height: 100%;
                 filter: drop-shadow(0 0 20px #931EE2);
                 transition: all .5s ease;
+                overflow: visible;
                 } 
             }
         }
@@ -184,6 +189,7 @@
                 position: absolute;
                 top: 50%; 
                 transform: translateY(-50%);
+                overflow: visible;
                 &-1 {
                     height: 65cqw;
                     left: 5cqw;
