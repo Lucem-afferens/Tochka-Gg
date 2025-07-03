@@ -71,7 +71,7 @@
             height: 35px;
             &::after {
                 content: '';
-                background: url('../img/click-2.png') 50%/cover;
+                background: url('../img/click-2.webp') 50%/cover;
                 display: block;
                 position: absolute;
                 width: 100%;
@@ -159,7 +159,7 @@
                     position: absolute;
                     right: -50%;
                     top: -25%;
-                    font-family: "Bebas Neue", sans-serif;
+                    font-family: $game-font;
                 }
             }
             &-2 {
@@ -167,7 +167,7 @@
                     position: absolute;
                     left: -50%;
                     bottom: 0;
-                    font-family: "Bebas Neue", sans-serif;
+                    font-family: $game-font;
                 }
             }
         }

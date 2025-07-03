@@ -98,6 +98,15 @@
       right: 0;
     }
   }
+  &__logo {
+    margin-bottom: 15px;
+    img {
+    max-width: 120px;
+    filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 12px #0ff);
+    animation: neon-glow 2s infinite alternate ease-in-out;
+    }
+
+  }
 }
 
 /* Активация таблички */
@@ -131,18 +140,8 @@
     }
 }
 
-/* Логотип */
-.logo {
-  margin-bottom: 15px;
-}
 
-.logo img {
-  max-width: 120px;
-  filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 12px #0ff);
-  animation: neon-glow 2s infinite alternate ease-in-out;
-}
 
-/* Гамбургер */
 .hamburger {
   position: fixed;
   top: 16px;
@@ -178,5 +177,16 @@
 }
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(7px, -7px);
+}
+
+
+@media screen and (min-width: 1024px) {
+  .sign,
+  .left-chain,
+  .right-chain,
+  .hamburger,
+  .overlay {
+    display: none;
+  }
 }
 
