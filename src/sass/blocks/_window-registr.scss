@@ -14,7 +14,7 @@
         border: none;
         border-radius: 30px;
         transition: all .3s ease;
-        font-size: clamp(14px, 2.3vw, 20px);
+        font-size: clamp(16px, 2.3vw, 20px);
         text-wrap: nowrap;
         container-type: inline-size;
         &:hover {
@@ -68,7 +68,7 @@
         }
         &__title {
             display: block;
-            font-size: clamp(16px, 2.7vw, 32px);
+            font-size: clamp(18px, 2.8vw, 32px);
             font-weight: bold;
         }
         &__way {
@@ -86,7 +86,7 @@
                 justify-content: center;
                 gap: 20px;
                 h4 {
-                    font-size: clamp(12px, 2.3vw, 20px);
+                    font-size: clamp(16px, 2.4vw, 20px);
                     font-weight: bold;  
                     min-width: 220px;
                     margin: 0;
@@ -97,7 +97,7 @@
                 }
                 &__vk {
                     &__img {
-                        width: clamp(27px, 10vw, 90px);
+                        width: clamp(30px, 11vw, 90px);
                         filter: drop-shadow(0 0 5px rgb(98, 0, 255))
                         drop-shadow(0 0 15px rgb(0, 200, 255));
                         &:hover {
@@ -137,7 +137,7 @@
                         }
                     }
                     h5 {
-                        font-size: clamp(10px, 1.7vw, 18px);
+                        font-size: clamp(12px, 1.8vw, 18px);
                         position: relative;
                         margin: 0;
                         &::before {
@@ -168,7 +168,7 @@
                             position: absolute;
                             bottom: 50%;
                             left: 150%;
-                            font-size: clamp(10px, 1.7vw, 18px);
+                            font-size: clamp(12px, 1.8vw, 18px);
                         }
                     }
                 }
