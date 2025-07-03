@@ -35,7 +35,7 @@
             justify-content: space-evenly;
             flex-grow: 2;
             color: #fff;
-            text-shadow: 2px 2px 1px #000;
+            text-shadow: 3px 2px 3px #000;
             margin: 5px 0;
             &__title {
                 font-size: clamp(14px, 2.5cqw, 24px);
@@ -138,11 +138,14 @@
                 position: relative;
                 top: -30px;
                 &__title {
-                    font-size: clamp(16px, 2.5cqw, 24px);
+                    font-size: clamp(18px, 2.8cqw, 24px);
                     font-weight: bold;
                 }
                 &__descr {
-                    font-size: clamp(14px, 2.5cqw, 18px);
+                    font-size: clamp(16px, 2.4cqw, 20px);
+                    &-hidden {
+                        display: none;
+                    }
                 }
             }
             &__registr {
