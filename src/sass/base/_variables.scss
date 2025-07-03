@@ -5,8 +5,9 @@ $main-bg: linear-gradient(to right, rgba(5, 245, 187, .9), rgba(245, 5, 192, .9)
 $about-text-bg: linear-gradient(to bottom,rgba(5, 245, 187, 1), rgba(245, 5, 192, 1),  rgba(5, 245, 187, 1), rgba(245, 5, 192, 1),  rgba(5, 245, 187,
  1));
 
-$game-font: "Bebas Neue", sans-serif;
-$body-font: "Montserrat", system-ui, sans-serif;
+$game-font: "Bebas Neue", system-ui, sans-serif;
+// $body-font: "Montserrat", system-ui, sans-serif;
+$body-font: "Feature Mono";
 
 $sections-padding-top: 150px;
 

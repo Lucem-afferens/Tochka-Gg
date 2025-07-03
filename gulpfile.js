@@ -115,10 +115,15 @@ gulp.task('copyHtml', function(){
 //     .src('./src/audio/*', { encoding: false })
 //     .pipe(gulp.dest('./dist/audio/'))
 // })
-gulp.task('copyVideo', function () {
+// gulp.task('copyVideo', function () {
+//     return gulp
+//     .src('./src/video/*')
+//     .pipe(gulp.dest('./dist/video/'))
+// })
+gulp.task('copyFonts', function () {
     return gulp
-    .src('./src/video/*')
-    .pipe(gulp.dest('./dist/video/'))
+    .src('./src/fonts/*')
+    .pipe(gulp.dest('./dist/fonts/'))
 })
 
 gulp.task('watch', function() { // таск следит за изменениями в указанным местах и выполняет указанный таск при замеченных изменениях (не работает при удалении файлов и изображений)
@@ -127,7 +132,8 @@ gulp.task('watch', function() { // таск следит за изменения
     gulp.watch("./src/icons/**/*", gulp.parallel("copyIcons"));
     gulp.watch("./src/img/**/*", gulp.parallel("copyImg"));
     // gulp.watch("./src/audio/*", gulp.parallel("copyAudio"));
-    gulp.watch("./src/video/*", gulp.parallel("copyVideo"));
+    // gulp.watch("./src/video/*", gulp.parallel("copyVideo"));
+    gulp.watch("./src/fonts/*", gulp.parallel("copyFonts"));
     gulp.watch("./src/*.html", gulp.parallel("copyHtml"));
     // gulp.watch("./src/*.php", gulp.parallel("copyPhp"));
     gulp.watch("./src/js/**/*.js", gulp.parallel("js"));
@@ -146,7 +152,7 @@ gulp.task('js', function(){
 })
 
 
-gulp.task('copyFiles', gulp.parallel('copyCss', 'copyIcons', 'copyImg', /*'copyAudio',*/ 'copyVideo', 'copyHtml', /*'copyPhp'*/));
+gulp.task('copyFiles', gulp.parallel('copyCss', 'copyIcons', 'copyImg', /*'copyAudio',*/ /*'copyVideo',*/ 'copyFonts', 'copyHtml', /*'copyPhp'*/));
 
 gulp.task('default', gulp.series( // первый аргумент галпа , являющийся именем таска, default, это значит, что имя = gulp
     'clean',

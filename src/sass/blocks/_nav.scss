@@ -47,7 +47,7 @@
         max-width: 100%;
         position: relative;
         li {
-            font-size: clamp(12px, 1.1vw, 18px);
+            font-size: clamp(12px, 1.3vw, 18px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -100,7 +100,7 @@
         }
     }
     &__registr {
-        font-size: clamp(12px, 1.1vw, 18px);
+        font-size: clamp(12px, 1.3vw, 18px);
         span {
             cursor: pointer;
             transform: skew(-45deg);
@@ -137,5 +137,30 @@
             }
         }
     }
+}
+
+
+@media (max-width:1023px) {
+      .menu {
+    justify-content: start;
+    padding-left: 20%;
+    height: 65px;
+    background: rgba($color: #212121, $alpha: .7);
+    ul {
+        display: none; 
+    }
+    &__registr {
+        display: none;
+    }
+    &__logo {
+        height: 100%;
+        &__img {
+            width: 35px;
+        }
+        // &__text {
+        //     display: none;
+        // }
+    }
+  }
 }
 

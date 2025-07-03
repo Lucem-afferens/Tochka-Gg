@@ -35,14 +35,14 @@
             display: block;
             text-align: center;
             margin-top: 15px;
-            font-size: clamp(16px, 2cqw, 24px);
+            font-size: clamp(16px, 2cqw, 26px);
             text-wrap: nowrap;
         }
     }
     &__sections {
         flex-basis: 20cqw;
         flex-grow: 1;
-        font-size: clamp(12px, 1.2cqw, 16px);
+        font-size: clamp(12px, 1.4cqw, 16px);
         &__items {
             margin: 0;
             padding: 0 10%;
@@ -90,7 +90,7 @@
         justify-content: space-between;
         text-align: center;
         flex-shrink: 1;
-        font-size: clamp(10px, 1.2cqw, 16px);
+        font-size: clamp(12px, 1.3cqw, 16px);
         text-wrap: balance;
         height: 100%;
         padding: 0 20px;

@@ -64,7 +64,7 @@
             color: #000;
             z-index: 1;
             padding-bottom: 5px;
-            font-size: 16px;
+            font-size: 18px;
             padding-top: 10px;
 
         }
@@ -81,19 +81,19 @@
 
         }
         &__content {
-            font-size: 14px;
+            font-size: 16px;
             z-index: 1;
             padding-top: 10px;
             &-1 {
-                text-shadow: 2px 2px 3px rgb(255, 238, 0);
+                text-shadow: 2px 2px 3px rgb(179, 167, 0);
                 color: rgb(255, 241, 45);
             }
             &-2 {
-                text-shadow: 2px 2px 3px cyan;
+                text-shadow: 2px 2px 3px rgb(0, 191, 191);
                 color: rgb(33, 255, 255);
             }
             &-3 {
-                text-shadow: 2px 2px 3px rgb(26, 255, 0);
+                text-shadow: 2px 2px 3px rgb(18, 180, 0);
                 color: rgb(71, 255, 71);
             }
         }
