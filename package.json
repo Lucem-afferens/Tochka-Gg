@@ -39,7 +39,7 @@
   },
   "scripts": {
     "start": "gulp",
-    "build": "gulp build",
+    "build": "gulp",
     "dev": "gulp",
     "lint:styles": "stylelint \"src/sass/**/*.scss\"",
     "test": "jest"
