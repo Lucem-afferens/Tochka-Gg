@@ -158,3 +158,8 @@ gulp.task('default', gulp.series( // первый аргумент галпа , 
     gulp.parallel('watch','server')
 ));
 
+gulp.task('build', gulp.series(
+    'clean',
+    gulp.parallel('copyFiles', 'styles', 'js')
+));
+
