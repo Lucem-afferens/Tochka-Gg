@@ -21,10 +21,7 @@ const imagemin = require('gulp-imagemin');
 
 
 
-const changed = require('gulp-changed');  // --> разобраться с подключением . ошибка пока TypeError: changed is not a function
-
-
-
+// Удалён плагин gulp-changed и все его использования
 
 
 const clean = require('gulp-clean'); // плагин для удаления к-л папки/файла
