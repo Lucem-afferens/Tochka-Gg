@@ -67,8 +67,8 @@ gulp.task('styles', function() {
         .pipe(cleanCSS({compatibility: 'ie8'})) // совместимость: ie8 
         .pipe(sourceMaps.write()) // возвращает запомнившееся место
         // .pipe(changed ("./src/css"))
-        .pipe(gulp.dest("./src/css")) // перенос результата в папку "./src/css"
-        .pipe(browserSync.stream())   
+        .pipe(gulp.dest("./src/css")); // перенос результата в папку "./src/css"
+        // .pipe(browserSync.stream()) // Удалено для корректной работы build
 });
 
 gulp.task('clean', function(done){
