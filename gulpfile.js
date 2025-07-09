@@ -34,7 +34,8 @@ gulp.task('server', function() {
     browserSync.init({
         server: {
             baseDir: "dist" // запуск браузера через папку dist
-        }
+        },
+        open: false // Отключаем автоматическое открытие браузера для CI/CD
     });
 });
 
