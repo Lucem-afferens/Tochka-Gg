@@ -1,36 +1,41 @@
-  const playLink = 'https://play.google.com/store/apps/details?id=com.f5computers.langame_aggregator';
-  const appStoreLink = 'https://apps.apple.com/app/id1642484175';
-  const desktopLink = 'https://langame.ru';
+// Универсальная функция для проверки открытых оверлеев/модалок
+function isAnyOverlayOpen() {
+  return document.querySelector(
+    '.goods-cards__ps__active, .goods-cards__pc__active, .goods-cards__food__active, .window__registr.active, .window__price.active, .window__registr-vr.active'
+  );
+}
 
+const playLink = 'https://play.google.com/store/apps/details?id=com.f5computers.langame_aggregator';
+const appStoreLink = 'https://apps.apple.com/app/id1642484175';
+const desktopLink = 'https://langame.ru';
 
-
-  //один обработчик событий для разныз элементов с классом langame-launch
-  const langameLaunch = document.getElementsByClassName('langame-launch');
-  for(var i = 0; i < langameLaunch.length; i++) {
+// один обработчик событий для разных элементов с классом langame-launch
+const langameLaunch = document.getElementsByClassName('langame-launch');
+for (let i = 0; i < langameLaunch.length; i++) {
   (function(index) {
     langameLaunch[index].addEventListener("click", function (e) {
-    e.preventDefault();
-    const ua = navigator.userAgent;
+      e.preventDefault();
+      const ua = navigator.userAgent;
 
-    if (/android/i.test(ua)) {
-      window.location.href = 'intent://#Intent;scheme=langame;package=com.f5computers.langame_aggregator;end';
-      setTimeout(() => {
-        window.location.href = playLink;
-      }, 800);
-    } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-      window.location.href = 'langame://';
-      setTimeout(() => {
-        window.location.href = appStoreLink;
-      }, 800);
-    } else {
-      // ПК или неизвестное устройство
-      window.location.href = desktopLink;
-    }
-  });
+      if (/android/i.test(ua)) {
+        window.location.href = 'intent://#Intent;scheme=langame;package=com.f5computers.langame_aggregator;end';
+        setTimeout(() => {
+          window.location.href = playLink;
+        }, 800);
+      } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+        window.location.href = 'langame://';
+        setTimeout(() => {
+          window.location.href = appStoreLink;
+        }, 800);
+      } else {
+        // ПК или неизвестное устройство
+        window.location.href = desktopLink;
+      }
+    });
   })(i);
 }
 
- 
+
 
   //////  добавление класса для выбранного пункта меню
 document.addEventListener("DOMContentLoaded", () => {
@@ -119,7 +124,9 @@ const sections = Array.from(links)
         const parentCard = this.closest(selectorCard);
         if (parentCard) {
           parentCard.classList.remove(activeClass);
-          document.documentElement.classList.remove('none-scroll'); // Разблокировка прокрутки
+          if (!isAnyOverlayOpen()) {
+            document.documentElement.classList.remove('none-scroll'); // Разблокировка прокрутки
+          }
         }
       });
     });
@@ -143,12 +150,6 @@ const sections = Array.from(links)
     // Обработчик закрытия окна
 
           //с проверкой на наличие других открытых модальных окон для корректной работы отключения прокрутки страницы 
-    function isAnyOverlayOpen() {
-    return document.querySelector(
-      '.goods-cards__ps__active, .goods-cards__pc__active, .goods-cards__food__active, .window__registr.active, .window__price.active'
-    );
-    }
-
     closeButton.addEventListener('click', function () {
       modalWindowRegistr.classList.remove('active');
 
@@ -162,7 +163,7 @@ const sections = Array.from(links)
             const modalWindowPrice = document.querySelector('.window__price');
             const closeButtonPrice = modalWindowPrice?.querySelector('.window-back');
 
-            if (openButtonPrice.length && modalWindowPrice && closeButton) {
+            if (openButtonPrice.length && modalWindowPrice && closeButtonPrice) {
               // Назначаем обработчик на все кнопки .btn-price
               openButtonPrice.forEach(button => {
                 button.addEventListener('click', function () {
@@ -174,12 +175,6 @@ const sections = Array.from(links)
               // Обработчик закрытия окна
 
                     //с проверкой на наличие других открытых модальных окон для корректной работы отключения прокрутки страницы 
-              function isAnyOverlayOpen() {
-              return document.querySelector(
-                '.goods-cards__ps__active, .goods-cards__pc__active, .goods-cards__food__active, .window__registr.active, .window__price.active'
-              );
-              }
-
               closeButtonPrice.addEventListener('click', function () {
                 modalWindowPrice.classList.remove('active');
 
@@ -212,12 +207,6 @@ const sections = Array.from(links)
     // Обработчик закрытия окна
 
           //с проверкой на наличие других открытых модальных окон для корректной работы отключения прокрутки страницы 
-    function isAnyOverlayOpen() {
-    return document.querySelector(
-      '.goods-cards__ps__active, .goods-cards__pc__active, .goods-cards__food__active, .window__registr.active, .window__price.active, .window__registr-vr.active'
-    );
-    }
-
     closeButtonVr.addEventListener('click', function () {
       modalWindowRegistrVr.classList.remove('active');
 
@@ -236,6 +225,7 @@ const sections = Array.from(links)
 
 blocks.forEach(block => {
   const textSpan = block.querySelector('.components__center__text');
+  if (!textSpan) return;
   const originalText = textSpan.textContent;
   const newText = 'Записаться';
 
@@ -305,6 +295,7 @@ if (closeModal) {
   const rightChain = document.querySelector('.right-chain');
 
   function openMenu() {
+    if (!sign || !overlay || !button || !leftChain || !rightChain) return;
     sign.classList.add('active');
     overlay.classList.add('active');
     button.classList.add('active');
@@ -314,6 +305,7 @@ if (closeModal) {
   }
 
   function closeMenu() {
+    if (!sign || !overlay || !button || !leftChain || !rightChain) return;
     sign.classList.remove('active');
     overlay.classList.remove('active');
     button.classList.remove('active');
@@ -322,21 +314,23 @@ if (closeModal) {
     rightChain.style.animation = '';
   }
 
-  button.addEventListener('click', () => {
-    if (sign.classList.contains('active')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
+  if (button && sign && overlay && leftChain && rightChain) {
+    button.addEventListener('click', () => {
+      if (sign.classList.contains('active')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
 
-  overlay.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
 
-  sign.addEventListener('click', (e) => e.stopPropagation());
+    sign.addEventListener('click', (e) => e.stopPropagation());
 
-  menuLinks.forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
+    menuLinks.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  }
 
 
 });

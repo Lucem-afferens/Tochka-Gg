@@ -12,6 +12,8 @@
     <meta name="color-scheme" content="only light">
     <meta name="google" content="notranslate">
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kungur-tochkagg.ru/" />
 
     <!-- Primary Meta Tags -->
     <title>Компьютерный клуб Точка Gg | Кунгур</title>
@@ -43,20 +45,30 @@
     <link rel="manifest" href="https://kungur-tochkagg.ru/site.webmanifest" />
 
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-    ym(103132637, "init", {
+    <div id="yandex-metrika"></div>
+    <script>
+      if (location.hostname === 'kungur-tochkagg.ru') {
+        const ymScript = document.createElement('script');
+        ymScript.type = 'text/javascript';
+        ymScript.innerHTML = `
+          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+          (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+          ym(103132637, "init", {
             clickmap:true,
             trackLinks:true,
             accurateTrackBounce:true
-    });
+          });
+        `;
+        document.head.appendChild(ymScript);
+        // noscript
+        const noscript = document.createElement('noscript');
+        noscript.innerHTML = '<div><img src="https://mc.yandex.ru/watch/103132637" style="position:absolute; left:-9999px;" alt="" /></div>';
+        document.getElementById('yandex-metrika').appendChild(noscript);
+      }
     </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/103132637" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
 
 
@@ -66,6 +78,78 @@
     href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <link rel="stylesheet" href="css/style.min.css">
+    
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Точка Gg - Компьютерный клуб",
+        "alternateName": "Точка Good Games",
+        "description": "Премиальный компьютерный клуб в Кунгуре с мощными игровыми ПК, PS5 и VR-ареной",
+        "url": "https://kungur-tochkagg.ru/",
+        "telephone": "+79922226272",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "ул. Голованова, 43",
+            "addressLocality": "Кунгур",
+            "addressRegion": "Пермский край",
+            "postalCode": "617470",
+            "addressCountry": "RU"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "57.424953",
+            "longitude": "56.963968"
+        },
+        "openingHours": "Mo-Su 10:00-02:00",
+        "priceRange": "100-780 руб",
+        "currenciesAccepted": "RUB",
+        "paymentAccepted": "Cash, Credit Card",
+        "sameAs": [
+            "https://vk.com/tochka.good.game",
+            "https://t.me/tochaGgKungur"
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Услуги компьютерного клуба",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "VIP игровые компьютеры",
+                        "description": "6 ПК с RTX 5060 Ti, Intel i5-13400F"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "LITE игровые компьютеры",
+                        "description": "6 ПК с RTX 4060, Intel i5-12400F"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "VR-арена Другие миры",
+                        "description": "Виртуальная реальность, командные игры до 10 человек"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "PS5 игровые приставки",
+                        "description": "PlayStation 5 с 4 джойстиками"
+                    }
+                }
+            ]
+        }
+    }
+    </script>
 </head>
 <body>
     <!-- Подложка -->
@@ -125,33 +209,37 @@
             <img src="img/first-girl.webp" alt="atomic-girl"  class="main__img main__img_left">
             <img src="img/second-girl.webp" alt="atomic-girl" class="main__img main__img_right">
             <div class="window window_left">
-                Давно мечтал посетить лучший копьютерный клуб в Кунгуре?
+                Давно мечтал посетить лучший компьютерный клуб в Кунгуре?
             </div>
             <div class="window window_right">
                 А побывать в самом комфортном месте для молодежи?
             </div>
             <div class="glow">
-                <img src="img/glow-left.webp" alt="" class="glow__img glow__img_left">
-                <img src="img/glow-right.webp" alt="" class="glow__img glow__img_right">
+                <img src="img/glow-left.webp" alt="Декоративное свечение слева" class="glow__img glow__img_left">
+                <img src="img/glow-right.webp" alt="Декоративное свечение справа" class="glow__img glow__img_right">
             </div>
         </div>
         <div class="main__bg"></div>
         <div class="main__arrow">
-            <img src="icons/arrow-down.svg" alt="arrow">
+            <img src="icons/arrow-down.svg" alt="Стрелка вниз">
         </div>
     </main>
     <section class="about">
         <div class="container">
             <div class="about__wrapper">
                 <div class="about__text">
-                    <h1 class="title_about">Ком<span >пь</span>ют<span >е</span>рный к<span >л</span>уб в Кунг<span>у</span>ре<div class="signal"><span >То</span>чка G<span >g</span></div> </h1>
+                    <!-- SEO-friendly H1 с сохранением анимации -->
+                    <h1 class="title_about">
+                        <span class="seo-text">Компьютерный клуб в Кунгуре Точка Gg</span>
+                        <span class="animated-text">Ком<span>пь</span>ют<span>е</span>рный к<span>л</span>уб в Кунг<span>у</span>ре<div class="signal"><span>То</span>чка G<span>g</span></div></span>
+                    </h1>
                     <br> 
                     <div class="about__text__content"> - это больше, чем просто компьютерный клуб. Стильное и технологичное игровое пространство нового уровня, где сочетаются мощное железо, комфорт и высокий стандарт сервиса. Нас вбирают геймеры, стримеры и все, кто хочет отдохнуть с комфортом и поиграть на топовом оборудовании без лагов и очередей
                           <!-- Мы премиальный компьютерный клуб, который предлагает не только доступ к мощным игровым машинам, но и атмосферу, которая вдохновляет и объединяет любителей и профессионалов компьютерных игр и киберспорта.  -->
                     </div>
                 </div>
                 <div class="about__img">
-                    <img src="img/tochka-gg.webp" alt="Gg">
+                    <img src="img/tochka-gg.webp" alt="Компьютерный клуб Точка Gg в Кунгуре">
                 </div>
             </div>
         </div>
@@ -165,7 +253,7 @@
                 <div class="advantages__item">
                     <div class="advantages__item__icon">
                         <div class="advantages__item__icon__glow advantages__item__icon__glow-1"></div>
-                        <img src="icons/about/performance.svg" alt="perfomance">
+                        <img src="icons/about/performance.svg" alt="Иконка производительности">
                     </div>
                     <div class="advantages__item__title">
                         Высокая производительность
@@ -178,7 +266,7 @@
                 <div class="advantages__item">
                     <div class="advantages__item__icon">
                         <div class="advantages__item__icon__glow advantages__item__icon__glow-2"></div>
-                        <img src="icons/about/support.svg" alt="support">
+                        <img src="icons/about/support.svg" alt="Иконка поддержки">
                     </div>
                     <div class="advantages__item__title">
                         Поддержка
@@ -191,7 +279,7 @@
                 <div class="advantages__item">
                     <div class="advantages__item__icon">
                         <div class="advantages__item__icon__glow advantages__item__icon__glow-3"></div>
-                        <img src="icons/about/home.svg" alt="comfort">
+                        <img src="icons/about/home.svg" alt="Иконка комфорта">
                     </div>
                     <div class="advantages__item__title">
                         Комфорт
@@ -221,7 +309,7 @@
                         <li>4 джойстика</li>
                     </ul>
                     <div class="goods__item__img goods__item__img-1">
-                        <img src="img/ps5.webp" alt="ps5">
+                        <img src="img/ps5.webp" alt="PlayStation 5 игровая приставка">
                     </div>
                 </div>
                 <div data-target="food" class="goods__item goods__item-food">
@@ -236,7 +324,7 @@
                         <li>Энергетики и тд.</li>
                     </ul>
                     <div class="goods__item__img goods__item__img-2">
-                        <img src="img/food.webp" alt="food">
+                        <img src="img/food.webp" alt="Еда и напитки в компьютерном клубе">
                     </div>
                 </div>
                 <div data-target="pc" class="goods__item goods__item-pc">
@@ -250,7 +338,7 @@
                         <li>RTX 4060 </li>
                     </ul>
                     <div class="goods__item__img goods__item__img-3">
-                        <img src="img/pc.webp" alt="pc">
+                        <img src="img/pc.webp" alt="Игровой компьютер">
                     </div>
                 </div>
             </div>
@@ -259,7 +347,7 @@
         <div class="container">
             <div class="goods-cards__wrapper goods-cards__wrapper__ps">
                <div class="goods-cards__img goods-cards__img__ps">
-                    <img src="img/ps5-composition.webp" alt="play station 5">
+                    <img src="img/ps5-composition.webp" alt="PlayStation 5 игровая приставка в компьютерном клубе">
                </div> 
                <div class="goods-cards__content">
                     <div class="goods-cards__content__descr">
@@ -281,7 +369,7 @@
                     </div>
                     <button class="goods-cards__content__back">
                         <div class="goods-cards__content__back__arrow">
-                            <img src="icons/arrow-left.svg" alt="back">
+                            <img src="icons/arrow-left.svg" alt="Кнопка назад">
                         </div>
                         <div class="goods-cards__content__back__text">
                             Назад к товарам
@@ -295,7 +383,7 @@
         <div class="container">
             <div class="goods-cards__wrapper goods-cards__wrapper__food">
                <div class="goods-cards__img goods-cards__img__food">
-                    <img src="img/food.webp" alt="food">
+                    <img src="img/food.webp" alt="Еда и напитки в компьютерном клубе Точка Gg">
                </div> 
                <div class="goods-cards__content">
                     <div class="goods-cards__content__descr">
@@ -317,7 +405,7 @@
                     </div>
                     <button class="goods-cards__content__back">
                         <div class="goods-cards__content__back__arrow">
-                            <img src="icons/arrow-left.svg" alt="back">
+                            <img src="icons/arrow-left.svg" alt="Кнопка назад">
                         </div>
                         <div class="goods-cards__content__back__text">
                             Назад к товарам
@@ -331,7 +419,7 @@
         <div class="container">
             <div class="goods-cards__wrapper goods-cards__wrapper__pc">
                <div class="goods-cards__img goods-cards__img__pc">
-                    <img src="img/pc.webp" alt="personal computer">
+                    <img src="img/pc.webp" alt="Игровые компьютеры в клубе Точка Gg">
                </div> 
                <div class="goods-cards__content">
                     <div class="goods-cards__content__descr">
@@ -353,7 +441,7 @@
                     </div>
                     <button class="goods-cards__content__back">
                         <div class="goods-cards__content__back__arrow">
-                            <img src="icons/arrow-left.svg" alt="back">
+                            <img src="icons/arrow-left.svg" alt="Кнопка назад">
                         </div>
                         <div class="goods-cards__content__back__text">
                             Назад к товарам
@@ -369,30 +457,30 @@
         <h3 class="window__registr__title">
             Запишитесь одним из трех предложенных ниже способов
         </h3>
-        <div class="window__registr__way">
+                    <div class="window__registr__way">
             <div class="window__registr__way__item window__registr__way__item__vk">
                 <h4>Напишите нам в ВК</h4>
                 <a href="https://vk.com/tochka.good.game" class="window__registr__way__item__vk__img" target="_blank">
-                    <img src="icons/social/vk-mini.svg" alt="vk">
+                    <img src="icons/social/vk-mini.svg" alt="ВКонтакте">
                 </a>
             </div>
             <div class="window__registr__way__item window__registr__way__item__langame">
                 <h4>Запишитесь через приложение <span class="langame">LANGAME</span></h4>
                 <a href="#" class="window__registr__way__item__langame__img langame-launch" target="_blank">
-                    <img src="icons/langame.svg" alt="langame icon">
+                    <img src="icons/langame.svg" alt="Приложение LANGAME">
                 </a>
                 <h5>Выбор большинства игроков</h5>
             </div>
             <div class="window__registr__way__item window__registr__way__item__tel">
                 <h4>Запишитесь по телефону</h4>
                 <a href="tel:79922226272" class="window__registr__way__item__tel__img" target="_blank">
-                    <img src="icons/phone-call.svg" alt="tel">
+                    <img src="icons/phone-call.svg" alt="Телефон">
                 </a>
             </div>
         </div>
         <button class="window-back window__back">
             <div class="window__back__arrow">
-                <img src="icons/arrow-left.svg" alt="back">
+                <img src="icons/arrow-left.svg" alt="Кнопка назад">
             </div>
             <div class="window__back__text">
                 Назад к товарам
@@ -404,7 +492,7 @@
             <h3 class="price__title window__price__title">
                 Все актуальные скидки и акции можно посмотреть в приложении <span class="price__title__langame window__price__title__langame langame-launch" >
                     LANGAME
-                    <img src="icons/langame.svg" alt="langame icon">
+                    <img src="icons/langame.svg" alt="Приложение LANGAME">
                 </span>
             </h3>
             <h2 class="price__subtitle window__price__subtitle">
@@ -412,14 +500,14 @@
             </h2>
             <div class="price__table window__price__table">
                 <div class="price__table__logo window__price__table__logo">
-                    <img src="icons/logo/logo-white-only.svg" alt="Gg" class="menu__logo__img">
+                    <img src="icons/logo/logo-white-only.svg" alt="Логотип Точка Gg" class="menu__logo__img">
                 </div>
                 <div class="price__table__lite__center window__price__table__center">LITE</div>
                 <div class="price__table__vip__center window__price__table__center">VIP</div>
-                <div class="price__table__lite__weekday">Будни</div>
-                <div class="price__table__lite__weekend">Выходные</div>
-                <div class="price__table__vip__weekday">Будни</div>
-                <div class="price__table__vip__weekend">Выходные</div>
+                <div class="price__table__lite__weekday">ПН-ЧТ</div>
+                <div class="price__table__lite__weekend">ПТ-ВС</div>
+                <div class="price__table__vip__weekday">ПН-ЧТ</div>
+                <div class="price__table__vip__weekend">ПТ-ВС</div>
                 <div class="price__table__one">1 час</div>
                 <div class="price__table__one__lite__weekday price__table__ruble">100 р.</div>
                 <div class="price__table__one__lite__weekend price__table__ruble">120 р.</div>
@@ -450,7 +538,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_pc">
-                                <img src="img/comp-pc-lite.webp" alt="hardware">
+                                <img src="img/comp-pc-lite.webp" alt="Игровое оборудование LITE">
                         </div>
                         <div class="components__item__block__text components__item__block__text_pc">
                                 RTX 4060 <br>
@@ -471,7 +559,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_pc">
-                                <img src="img/comp-pc-vip.webp" alt="hardware">
+                                <img src="img/comp-pc-vip.webp" alt="Игровое оборудование VIP">
                         </div>
                         <div class="components__item__block__text components__item__block__text_pc">
                                 RTX 5060 Ti <br>
@@ -491,7 +579,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_display">
-                                <img src="img/comp-display.webp" alt="display">
+                                <img src="img/comp-display.webp" alt="Игровой монитор LITE">
                         </div>
                         <div class="components__item__block__text components__item__block__text_display">
                                 Titan Army 24.5 / 20 Гц
@@ -510,7 +598,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_display">
-                                <img src="img/comp-display.webp" alt="display">
+                                <img src="img/comp-display.webp" alt="Игровой монитор VIP">
                         </div>
                         <div class="components__item__block__text components__item__block__text_display">
                                 Titan Army 24.5 / 20 Гц
@@ -528,7 +616,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_armchair">
-                                <img src="img/comp-armchair-lite.webp" alt="armchair">
+                                <img src="img/comp-armchair-lite.webp" alt="Игровое кресло LITE">
                         </div>
                         <div class="components__item__block__text components__item__block__text_armchair">
                                 Zombie CAME Penta
@@ -547,7 +635,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_armchair">
-                                <img src="img/comp-armchair-vip.webp" alt="armchair">
+                                <img src="img/comp-armchair-vip.webp" alt="Игровое кресло VIP">
                         </div>
                         <div class="components__item__block__text components__item__block__text_armchair">
                                 ARDOR GAMING Chaos Guard
@@ -565,7 +653,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_headphones">
-                                <img src="img/comp-hear.webp" alt="headphones">
+                                <img src="img/comp-hear.webp" alt="Игровые наушники LITE">
                         </div>
                         <div class="components__item__block__text components__item__block__text_headphones">
                                 ARDOR GAMING H9
@@ -584,7 +672,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_headphones">
-                                <img src="img/comp-hear.webp" alt="headphones">
+                                <img src="img/comp-hear.webp" alt="Игровые наушники VIP">
                         </div>
                         <div class="components__item__block__text components__item__block__text_headphones">
                                 ARDOR GAMING H9
@@ -602,7 +690,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_mouse">
-                                <img src="img/comp-mouse-lite.webp" alt="mouse">
+                                <img src="img/comp-mouse-lite.webp" alt="Игровая мышь LITE">
                         </div>
                         <div class="components__item__block__text components__item__block__text_mouse">
                                 Logitech G102 <br> LIGHTSYNC
@@ -621,7 +709,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_mouse">
-                                <img src="img/comp-mouse-vip.webp" alt="mouse">
+                                <img src="img/comp-mouse-vip.webp" alt="Игровая мышь VIP">
                         </div>
                         <div class="components__item__block__text components__item__block__text_mouse">
                                 ARDOR GAMING Impact PRO
@@ -639,7 +727,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_keyboard">
-                                <img src="img/comp-keyboard.webp" alt="keyboard">
+                                <img src="img/comp-keyboard.webp" alt="Игровая клавиатура LITE">
                         </div>
                         <div class="components__item__block__text components__item__block__text_keyboard">
                                 ARDOR GAMING <br> Pathfinder
@@ -658,7 +746,7 @@
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_keyboard">
-                                <img src="img/comp-keyboard.webp" alt="keyboard">
+                                <img src="img/comp-keyboard.webp" alt="Игровая клавиатура VIP">
                         </div>
                         <div class="components__item__block__text components__item__block__text_keyboard">
                                 ARDOR GAMING <br> Pathfinder
@@ -680,7 +768,7 @@
             <h3 class="title">
                 Все актуальные скидки и акции <br> можно посмотреть в приложении <span class="price__title__langame langame-launch" >
                     LANGAME
-                    <img src="icons/langame.svg" alt="langame icon">
+                    <img src="icons/langame.svg" alt="Приложение LANGAME">
                 </span>
             </h3>
             <h2 class="price__subtitle" >
@@ -688,14 +776,14 @@
             </h2>
             <div class="price__table">
                 <div class="price__table__logo">
-                    <img src="icons/logo/logo-white-only.svg" alt="Gg" class="price__table__logo__img">
+                    <img src="icons/logo/logo-white-only.svg" alt="Логотип Точка Gg" class="price__table__logo__img">
                 </div>
                 <div class="price__table__lite__center">LITE</div>
                 <div class="price__table__vip__center">VIP</div>
-                <div class="price__table__lite__weekday">Будни</div>
-                <div class="price__table__lite__weekend">Выходные</div>
-                <div class="price__table__vip__weekday">Будни</div>
-                <div class="price__table__vip__weekend">Выходные</div>
+                <div class="price__table__lite__weekday">ПН-ЧТ</div>
+                <div class="price__table__lite__weekend">ПТ-ВС</div>
+                <div class="price__table__vip__weekday">ПН-ЧТ</div>
+                <div class="price__table__vip__weekend">ПТ-ВС</div>
                 <div class="price__table__one">1 час</div>
                 <div class="price__table__one__lite__weekday price__table__ruble">100 р.</div>
                 <div class="price__table__one__lite__weekend price__table__ruble">120 р.</div>
@@ -726,7 +814,7 @@
                             <div class="contacts__content__img">
                                 <div class="contacts__content__img__glow contacts__content__img__glow_address">
                                 </div>  
-                                <img src="icons/map.svg" alt="map">
+                                <img src="icons/map.svg" alt="Карта расположения клуба">
                             </div>
                             <address class="contacts__content__address__text">
                                 Пермский край, г.Кунгур, ул.Голованова, 43, вход с торца здания, цокольный этаж
@@ -738,7 +826,7 @@
                             <div class="contacts__content__img">
                                 <div class="contacts__content__img__glow contacts__content__img__glow_tel">
                                 </div> 
-                                <img src="icons/phone-call.svg" alt="tel">
+                                <img src="icons/phone-call.svg" alt="Телефон для связи">
                             </div>
                             +7 992 222-62-72
                         </a>
@@ -766,7 +854,7 @@
     </section>
     <div class="modal__vr">
         <div class="modal__vr__img">
-            <img src="img/vr.webp" alt="vr-arena another world">
+            <img src="img/vr.webp" alt="VR арена Другие миры в Кунгуре">
         </div>
         <div class="modal__vr__text">
             <h3 class="modal__vr__text__title">
@@ -804,19 +892,19 @@
             <div class="window__registr-vr__way__item window__registr-vr__way__item__vk">
                 <h4>Напишите нам в ВК</h4>
                 <a href="https://vk.com/another_world_kungur" class="window__registr-vr__way__item__vk__img" target="_blank">
-                    <img src="icons/social/vk-mini.svg" alt="vk">
+                    <img src="icons/social/vk-mini.svg" alt="ВКонтакте">
                 </a>
             </div>
             <div class="window__registr-vr__way__item window__registr__way__item__tel">
                 <h4>Запишитесь по телефону</h4>
                 <a href="tel:79120683417" class="window__registr-vr__way__item__tel__img" target="_blank">
-                    <img src="icons/phone-call.svg" alt="tel">
+                    <img src="icons/phone-call.svg" alt="Телефон">
                 </a>
             </div>
         </div>
         <button class="window-back window__back">
             <div class="window__back__arrow">
-                <img src="icons/arrow-left.svg" alt="back">
+                <img src="icons/arrow-left.svg" alt="Кнопка назад">
             </div>
             <div class="window__back__text">
                 Назад к товарам
@@ -833,7 +921,7 @@
             </h3>
             <div class="vr__wrapper">
                 <div class="vr__img">
-                    <img src="img/vr.webp" alt="vr-arena another world">
+                    <img src="img/vr.webp" alt="VR арена Другие миры в компьютерном клубе">
                     <button class="vr__registr btn-registr-vr">
                         <span>
                             Записаться
@@ -848,7 +936,7 @@
                     </span> <br>
                     
                     💫 <span>
-                        Передовая система трекинга для перемещения по виртуальной арене 840 м<sup>2</sup> и полноценного взаимодействуя друг с другом и предметами в игре
+                        Передовая система трекинга для перемещения по виртуальной арене <span style="white-space: nowrap;">840 м<sup>2</sup></span> и полноценного взаимодействуя друг с другом и предметами в игре
                     </span> <br>
                     
                     💫 <span>
@@ -873,7 +961,7 @@
             <div class="footer__body">
                 <a href="#main">
                     <div class="footer__logo">
-                        <img src="icons/logo/logo blue only.svg" alt="logo" class="footer__logo__img">
+                        <img src="icons/logo/logo blue only.svg" alt="Логотип Точка Gg" class="footer__logo__img">
                         <div class="footer__logo__text">
                             Точка Gg
                         </div>
@@ -892,13 +980,13 @@
                 <div class="footer__official">
                     <div class="footer__official__icons">
                         <a href="https://t.me/tochaGgKungur" target="_blank">
-                            <div class="footer__official__icon footer__official__icon__tg"><img src="icons/social/telegram.svg" alt="telegram"></div>
+                            <div class="footer__official__icon footer__official__icon__tg"><img src="icons/social/telegram.svg" alt="Telegram"></div>
                         </a>
                         <a href="https://vk.com/tochka.good.game" target="_blank">
-                            <div class="footer__official__icon footer__official__icon__vk"><img src="icons/social/vk-mini.svg" alt="vk"></div>
+                            <div class="footer__official__icon footer__official__icon__vk"><img src="icons/social/vk-mini.svg" alt="ВКонтакте"></div>
                         </a>
                         <a href="tel:79922226272" target="_blank">
-                            <div class="footer__official__icon footer__official__icon__tel"><img src="icons/social/whatsapp.svg" alt="tel"></div>
+                            <div class="footer__official__icon footer__official__icon__tel"><img src="icons/social/whatsapp.svg" alt="WhatsApp"></div>
                         </a>
                     </div>
                     <div class="footer__official__number">
@@ -913,7 +1001,10 @@
             </div>
             <!-- <div class="footer__devider-hor"></div> -->
             <div class="footer__copyright">
-                © 2025 | ИП Морозов Алексей Алексеевич 
+                © 2025 ИП Морозов Алексей Алексеевич | Сайт создан 
+                <a class="footer__copyright__link" href="https://develonik.ru/" target="_blank" rel="noopener noreferrer">
+                  Дудиным Н.А.
+                </a>
             </div>
         </div>
     </footer>

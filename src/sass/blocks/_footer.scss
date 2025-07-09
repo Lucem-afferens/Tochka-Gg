@@ -141,7 +141,14 @@
         transform: translate(-50%);
         bottom: 10%;
         min-width: 250px;
-
+        &__link {
+            color: #c0c0c0;
+            text-decoration: underline;
+            text-underline-offset: 5px; // увеличьте значение, если нужно
+            &:hover {
+                color: #fff;
+            }
+        }
     }
 }
 
