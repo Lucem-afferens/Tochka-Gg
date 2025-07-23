@@ -90,14 +90,16 @@
             overflow: visible;
             &-1 {
                 height: 85%;
+                width: auto;
                 left: -30cqw;
                 top: 70px; 
                 img {
-                max-height: 100%;
-                filter: drop-shadow(0 0 20px #00c2ea);
-                transition: all .5s ease;
-                overflow: visible;
-                -webkit-tap-highlight-color: transparent;
+                    max-height: 100%;
+                    width: auto;
+                    filter: drop-shadow(0 0 20px #00c2ea);
+                    transition: all .5s ease;
+                    overflow: visible;
+                    -webkit-tap-highlight-color: transparent;
                 }
             }
             &-2 {
@@ -106,11 +108,12 @@
                 transform: translate(-50%);
                 bottom: -110px;
                 img {
-                max-height: 100%;
-                filter: drop-shadow(0 0 20px #43F505);
-                transition: all .5s ease;
-                overflow: visible;
-                -webkit-tap-highlight-color: transparent;
+                    max-height: 100%;
+                    width: auto;
+                    filter: drop-shadow(0 0 20px #43F505);
+                    transition: all .5s ease;
+                    overflow: visible;
+                    -webkit-tap-highlight-color: transparent;
                 }   
             }
             &-3 {
@@ -118,11 +121,12 @@
                 right: -100px;
                 top: 70px; 
                 img {
-                max-height: 100%;
-                filter: drop-shadow(0 0 20px #931EE2);
-                transition: all .5s ease;
-                overflow: visible;
-                -webkit-tap-highlight-color: transparent;
+                    max-height: 100%;
+                    width: auto;
+                    filter: drop-shadow(0 0 20px #931EE2);
+                    transition: all .5s ease;
+                    overflow: visible;
+                    -webkit-tap-highlight-color: transparent;
                 } 
             }
         }

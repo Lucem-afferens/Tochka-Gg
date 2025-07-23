@@ -101,9 +101,10 @@
   &__logo {
     margin-bottom: 15px;
     img {
-    max-width: 120px;
-    filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 12px #0ff);
-    animation: neon-glow 2s infinite alternate ease-in-out;
+      max-width: 120px;
+      height: auto;
+      filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 12px #0ff);
+      animation: neon-glow 2s infinite alternate ease-in-out;
     }
 
   }
@@ -146,7 +147,7 @@
   position: fixed;
   top: 16px;
   right: 20%;
-  z-index: 14;
+  z-index: 12;
   background: none;
   border: none;
   cursor: pointer;

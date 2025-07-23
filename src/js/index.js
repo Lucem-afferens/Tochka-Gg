@@ -1,7 +1,7 @@
 // Универсальная функция для проверки открытых оверлеев/модалок
 function isAnyOverlayOpen() {
   return document.querySelector(
-    '.goods-cards__ps__active, .goods-cards__pc__active, .goods-cards__food__active, .window__registr.active, .window__price.active, .window__registr-vr.active'
+    '.goods-cards__ps__active, .goods-cards__pc__active, .goods-cards__food__active, .window__registr.active, .window__registr-vr.active'
   );
 }
 
@@ -130,6 +130,18 @@ const sections = Array.from(links)
         }
       });
     });
+
+    document.querySelectorAll(`${selectorCard} .goods-cards__content__item`).forEach(button => {
+      button.addEventListener('click', function () {
+        const parentCard = this.closest(selectorCard);
+        if (parentCard) {
+          parentCard.classList.remove(activeClass);
+          if (!isAnyOverlayOpen()) {
+            document.documentElement.classList.remove('none-scroll'); // Разблокировка прокрутки
+          }
+        }
+      });
+    });
   });
 
 
@@ -163,26 +175,26 @@ const sections = Array.from(links)
             const modalWindowPrice = document.querySelector('.window__price');
             const closeButtonPrice = modalWindowPrice?.querySelector('.window-back');
 
-            if (openButtonPrice.length && modalWindowPrice && closeButtonPrice) {
-              // Назначаем обработчик на все кнопки .btn-price
-              openButtonPrice.forEach(button => {
-                button.addEventListener('click', function () {
-                  modalWindowPrice.classList.add('active');
-                  document.documentElement.classList.add('none-scroll');
-                });
-              });
+            // if (openButtonPrice.length && modalWindowPrice && closeButtonPrice) {
+            //   // Назначаем обработчик на все кнопки .btn-price
+            //   openButtonPrice.forEach(button => {
+            //     button.addEventListener('click', function () {
+            //       modalWindowPrice.classList.add('active');
+            //       document.documentElement.classList.add('none-scroll');
+            //     });
+            //   });
 
-              // Обработчик закрытия окна
+            //   // Обработчик закрытия окна
 
-                    //с проверкой на наличие других открытых модальных окон для корректной работы отключения прокрутки страницы 
-              closeButtonPrice.addEventListener('click', function () {
-                modalWindowPrice.classList.remove('active');
+            //         //с проверкой на наличие других открытых модальных окон для корректной работы отключения прокрутки страницы 
+            //   closeButtonPrice.addEventListener('click', function () {
+            //     modalWindowPrice.classList.remove('active');
 
-                if (!isAnyOverlayOpen()) {
-                  document.documentElement.classList.remove('none-scroll');
-                }
-              });
-            }
+            //     if (!isAnyOverlayOpen()) {
+            //       document.documentElement.classList.remove('none-scroll');
+            //     }
+            //   });
+            // }
 
 
 //для записи на арену VR

@@ -51,6 +51,9 @@
             position: relative;
             img {
                 height: clamp(25px, 8vw, 35px);
+                width: auto;
+                position: relative;
+                z-index: 1;
             }
             &__glow {
                 position: absolute;
@@ -68,10 +71,6 @@
                 &_tel {
                 background: rgb(26, 255, 0);
                 }
-            }
-            img {
-                position: relative;
-                z-index: 1;
             }
         }
     }

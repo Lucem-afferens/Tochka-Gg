@@ -45,7 +45,7 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        top: 4vh;
+        top: 6vh;
         width: clamp(630px, 65vw, 760px);
         height: 95%;
         margin: 0 auto;
@@ -54,6 +54,10 @@
     &__img {
         max-height: 100%;
         position: absolute;
+        img {
+            width: auto;
+            height: 100%;
+        }
         &_left {
             left: 0;
             z-index: 2;
@@ -100,7 +104,6 @@
         width: 100%;
         height: 95%;
         z-index: 3;
-
         &__img {
             width: auto;
             height: 100%;
@@ -108,12 +111,16 @@
             position: absolute;
             top: -10px;
             opacity: .8;
-        &_left {
-            left: -80px;
-        }
-        &_right {
-            right: -80px;
-        }
+            img {
+                width: auto;
+                height: auto;
+            }
+            &_left {
+                left: -80px;
+            }
+            &_right {
+                right: -80px;
+            }
         }
     }
     &__arrow  {

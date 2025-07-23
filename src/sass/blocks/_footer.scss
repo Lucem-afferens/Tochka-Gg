@@ -28,6 +28,7 @@
             width: 60%;
             img {
                 width: 100%;
+                height: auto;
             }
         }
         &__text {
@@ -115,6 +116,7 @@
             }
             img {
                 width: 100%;
+                height: auto;
                 filter: invert(100%) drop-shadow(0 0 3px #bd1515);
             }
             &__vk {
