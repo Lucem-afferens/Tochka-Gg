@@ -112,34 +112,34 @@
 	}
 }
 
-@keyframes about-text-bg {
-    to {
-      background-position: center 200%;
-    }
-}
+// @keyframes about-text-bg {
+//     to {
+//       background-position: center 200%;
+//     }
+// }
 
-@keyframes advantages-glow-icons {
-    0% {
-        inset: -15px -45px;
-        filter: blur(20px);
-        opacity: .6;
-    }
-    20% {
-        inset: -25px -65px;
-        filter: blur(20px);
-        opacity: .7;
-    }
-    50% {
-        inset: -20px -55px;
-        filter: blur(20px);
-        opacity: .6;
-    }
-    100% {
-        inset: -25px -65px;
-        filter: blur(20px);
-        opacity: .7;
-    }
-}
+// @keyframes advantages-glow-icons {
+//     0% {
+//         inset: -15px -45px;
+//         filter: blur(20px);
+//         opacity: .6;
+//     }
+//     20% {
+//         inset: -25px -65px;
+//         filter: blur(20px);
+//         opacity: .7;
+//     }
+//     50% {
+//         inset: -20px -55px;
+//         filter: blur(20px);
+//         opacity: .6;
+//     }
+//     100% {
+//         inset: -25px -65px;
+//         filter: blur(20px);
+//         opacity: .7;
+//     }
+// }
 
 
 @keyframes advantages-glow-devider {

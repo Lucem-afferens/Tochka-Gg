@@ -77,10 +77,12 @@
                 margin: auto;
                 mask-image: linear-gradient(#000 0%, transparent 9%, transparent 91%, #000),
                 linear-gradient(90deg, #000 0%, transparent 3%, transparent 97%, #000);
-                animation: spin 3s linear infinite;
+                // animation: spin 3s linear infinite;
                 }
                 &::before {
-                    animation: spiner 3s linear infinite;
+                    // animation: spin 3s linear infinite;
+
+                    background: conic-gradient(from 180deg, transparent 70%, #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
                 }
 
                 &:hover::after, &:hover::before{
