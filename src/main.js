@@ -4,6 +4,11 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { initYandexMetrika } from './utils/yandexMetrika';
 
+  // Инициализация Метрики
+if (import.meta.env.PROD && location.hostname === 'kungur-tochkagg.ru') {
+  initYandexMetrika();
+}
+
 
 // Универсальная функция для проверки открытых оверлеев/модалок
 function isAnyOverlayOpen() {
@@ -46,8 +51,6 @@ for (let i = 0; i < langameLaunch.length; i++) {
 
   //////  добавление класса для выбранного пункта меню
 document.addEventListener("DOMContentLoaded", () => {
-  // Инициализация Метрики
-  initYandexMetrika();
 
 
   const navItems = document.querySelectorAll(".menu ul li");
