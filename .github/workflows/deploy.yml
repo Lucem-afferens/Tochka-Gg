@@ -8,12 +8,11 @@ on:
 jobs:
   ftp-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
@@ -24,26 +23,15 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Show dist content for debug
-        run: ls -lR dist/
-
       - name: Prepare files for deployment
         run: |
           mkdir -p dist/offer/assets
 
-          # Находим основной JS файл в dist/assets
-          MAIN_JS=$(basename dist/assets/main-*.js)
-
-          # Копируем offer.html в dist/offer/index.html
           cp offer.html dist/offer/index.html
+          cp dist/assets/index-*.js dist/offer/assets/
+          cp dist/assets/index-*.css dist/offer/assets/
 
-          # Заменяем плейсхолдер __MAIN_JS__ на имя js-файла в offer/index.html
-          sed -i "s|__MAIN_JS__|$MAIN_JS|g" dist/offer/index.html
-
-          # Копируем основной JS в папку dist/offer/assets
-          cp dist/assets/$MAIN_JS dist/offer/assets/
-
-          echo "Prepared offer/index.html with script $MAIN_JS"
+          echo "Files prepared for deployment"
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
