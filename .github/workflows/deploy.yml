@@ -22,17 +22,25 @@ jobs:
 
       - name: Build project
         run: npm run build
+
       - name: Prepare files for deployment
         run: |
+          # Создаём нужные папки
+          mkdir -p dist/offer/assets
 
-          # Создаём папки
-          mkdir -p dist/offer
+          # Получаем имя main-*.js из dist/assets
+          MAIN_JS=$(basename dist/assets/main-*.js)
 
-
-          # Копируем HTML в нужные папки
+          # Копируем offer.html как index.html в папку offer
           cp offer.html dist/offer/index.html
 
-          echo "Files prepared for deployment"
+          # Подставляем актуальное имя скрипта в HTML (заменяем __MAIN_JS__)
+          sed -i "s|__MAIN_JS__|$MAIN_JS|g" dist/offer/index.html
+
+          # Копируем js-файл в подпапку, чтобы он был доступен по /assets
+          cp dist/assets/$MAIN_JS dist/offer/assets/
+
+          echo "Prepared: offer/index.html + $MAIN_JS"
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
