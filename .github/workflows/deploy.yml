@@ -24,6 +24,11 @@ jobs:
         run: npm run build
       - name: Prepare files for deployment
         run: |
+
+          # Создаём папки
+          mkdir -p dist/offer
+
+
           # Копируем HTML в нужные папки
           cp offer.html dist/offer/index.html
 
