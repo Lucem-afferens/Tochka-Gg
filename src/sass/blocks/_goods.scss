@@ -80,7 +80,11 @@
                     position: absolute;
                     width: 100%;
                     height: 100%;
-                    animation: clicker 1s infinite alternate;
+                }
+                &.animate {
+                    &::after {
+                        animation: clicker 1s infinite alternate;
+                    }
                 }
             }
         }
@@ -98,7 +102,6 @@
                     width: auto;
                     filter: drop-shadow(0 0 20px #00c2ea);
                     transition: all .5s ease;
-                    overflow: visible;
                     -webkit-tap-highlight-color: transparent;
                 }
             }
@@ -112,7 +115,6 @@
                     width: auto;
                     filter: drop-shadow(0 0 20px #43F505);
                     transition: all .5s ease;
-                    overflow: visible;
                     -webkit-tap-highlight-color: transparent;
                 }   
             }
@@ -125,7 +127,6 @@
                     width: auto;
                     filter: drop-shadow(0 0 20px #931EE2);
                     transition: all .5s ease;
-                    overflow: visible;
                     -webkit-tap-highlight-color: transparent;
                 } 
             }
@@ -229,5 +230,11 @@
                 }
             }
         }
+    }
+}
+
+@media (max-width:600px) {
+    .goods {
+        padding-bottom: 50px;
     }
 }

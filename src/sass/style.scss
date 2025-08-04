@@ -24,7 +24,7 @@
 // @import 'swiper/swiper-bundle.css';
 @import 'base/variables';
 @import 'base/mixins';
-@import 'blocks/*.scss';
+@import 'blocks/index.scss';
 
 * {
     font-family: $body-font;
@@ -62,11 +62,23 @@ body {
     }
 }
 
+// .main, .about {
+//     background: #000;
+// }
+// .main {
+//     mask-image: linear-gradient(transparent 0, #000 10%);
 
-section, main { 
-    background-color: $section-bg;
-    // background: url('../img/bg-arc.jpg') no-repeat 50%/cover fixed;
-}
+// }
+// .about {
+//     &::after {
+//         content:"";
+//         position: absolute;
+//         width: 100%;
+//         height: 100%;
+//         background: $body-bg;
+//         mask-image: linear-gradient(transparent 90%, #000 100%);
+//     }
+// }
 
 a {
     text-decoration: none;
@@ -107,4 +119,3 @@ h1 {
     display: inline-block;
 }
 
-@import 'base/media';

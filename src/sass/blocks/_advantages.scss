@@ -61,7 +61,7 @@
             }
         }
         &__title {
-            color: #000;
+            color:rgb(226, 226, 226);
             z-index: 1;
             padding-bottom: 5px;
             font-size: 18px;
@@ -75,10 +75,10 @@
             background: linear-gradient(to right, rgba(5, 245, 187, .9), rgba(245, 5, 192, .9), rgba(5, 245, 187, .9));
             z-index: 1;
             background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
-            // transition: all 2s linear; /* Анимация */
             background-position: 0 0; /* Изначальное положение */
-            animation: advantages-glow-devider 1s linear  infinite ; 
-
+            &.animate {
+                animation: advantages-glow-devider 1s linear  infinite ; 
+            }
         }
         &__content {
             font-size: 16px;

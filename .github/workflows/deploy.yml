@@ -22,6 +22,12 @@ jobs:
 
       - name: Build project
         run: npm run build
+      - name: Prepare files for deployment
+        run: |
+          # Копируем HTML в нужные папки
+          cp offer.html dist/offer/index.html
+
+          echo "Files prepared for deployment"
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4

@@ -24,6 +24,7 @@
             align-items: center;
             position: relative;
             overflow: visible;
+            padding: 150px 0;
         }
     }
     &__center {
@@ -76,7 +77,11 @@
                 position: absolute;
                 width: 100%;
                 height: 100%;
-                animation: clicker 1s infinite alternate;
+            }
+            &.animate {
+                &::after {
+                    animation: clicker 1s infinite alternate;
+                }
             }
         }
         &__text {
@@ -88,7 +93,7 @@
     }
     &__item {
             width: 22vw;
-            height: 26vw;
+            height: 28vw;
             position: relative;
             font-size: clamp(40px, 6.3vw, 96px);
         &__block {
@@ -197,7 +202,7 @@
     width: 14px;
     height: 14px;
     margin: 0 8px !important; 
-    background: radial-gradient(circle, #ff7e00 0%, #ff4500 60%, #8b0000 100%);
+    background: radial-gradient(circle, #ff7e00 0%, #ff4500 60%, #8b0000 100%) !important;
     border-radius: 50%;
     opacity: 0.6;
     transition: all 0.3s ease;
@@ -208,14 +213,16 @@
 .swiper-pagination-bullet-active {
     width: 18px;
     height: 18px;
-    background: radial-gradient(circle, #ffae00, #ff3c00, #c40000);
+    background: radial-gradient(circle, #ffae00, #ff3c00, #c40000) !important;
     opacity: 1;
     box-shadow:
         0 0 10px rgba(255, 90, 0, 0.8),
         0 0 20px rgba(255, 60, 0, 0.6),
         0 0 30px rgba(255, 30, 0, 0.4);
     transform: scale(1.2);
-    animation: flamePulseSwiper 1.2s infinite ease-in-out;
+    &.animate {
+        animation: flamePulseSwiper 1.2s infinite ease-in-out;
+    }
 }
 
 // Общие стили стрелок
@@ -227,8 +234,8 @@
 
 .swiper-button-prev,
 .swiper-button-next {
-  width: 3vw;
-  height: 3vw;
+  width: 3vw !important;
+  height: 3vw !important;
   min-width: 22px;
   min-height: 22px;
   background-color: rgba(0, 0, 0, 0.4);
@@ -255,19 +262,16 @@
 
 // Позиционирование
 .swiper-button-prev {
-  left: 30px;
+  left: 30px !important;
   background-image: url("data:image/svg+xml;utf8,<svg fill='%23ff3c00' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z'/></svg>");
 }
 
 .swiper-button-next {
-  right: 30px;
+  right: 30px !important;
   background-image: url("data:image/svg+xml;utf8,<svg fill='%23ff3c00' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z'/></svg>");
 }
 
 @media (max-width:1023px) {
-    .components {
-        padding-top: 15vw;
-    }
     .swiper-button-prev,
     .swiper-button-next {
         top: 50%;

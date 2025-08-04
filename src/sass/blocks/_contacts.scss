@@ -64,7 +64,6 @@
                 opacity: .6;
                 z-index: 0;
                 pointer-events: none;
-                // animation: glow-contacts 1s ease infinite alternate;
                 &_address {
                 background: rgb(255, 238, 0);
                 }
@@ -78,11 +77,16 @@
         display: flex;
         align-items: center;
         border-radius: 20px;
-        // box-shadow: 0 0 30px rgba(0,255,255,1);
-        filter: drop-shadow(0 0 10px red)
-                drop-shadow(0 0 20px red);
         max-width: 35cqw;
         min-width: 300px;
+        border: none;
+        div {
+            display: flex;
+            align-items: center;
+            border-radius: 20px;
+            width: 100%;
+            border: none;
+        }
     }
 }
 

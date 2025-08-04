@@ -7,20 +7,20 @@
         text-align: center;
         &__langame {
             display: block;
+            width: max-content;
+            margin: auto auto;
             cursor: pointer;
             text-decoration: underline;
             img {
-                width: 15%;
+                width: 25%;
                 max-width: 80px;
                 filter: drop-shadow(0 0 5px rgb(170, 0, 255))
                         drop-shadow(0 0 2px rgb(255, 0, 55));
-                animation: priceGlowLangame 1s linear infinite alternate;
             }
             &:hover img {
                 filter: drop-shadow(0 0 6px rgb(170, 0, 255))
                         drop-shadow(0 0 3px rgb(255, 0, 55))
                         drop-shadow(0 0 3px rgb(255, 0, 55));
-                animation: none;
             }
         }
     }
@@ -74,13 +74,17 @@
             filter: drop-shadow(0px 0px 0px cyan)
                     drop-shadow(0px 0px 0px cyan)
                     drop-shadow(0px 0px 0px cyan);
-            animation: priceGlowLogo 1s linear infinite alternate;
+            &.animate {
+                animation: priceGlowLogo 1s linear infinite alternate;
+            }
             &__img {
                 display: block;
                 position: relative;
                 width: 30%;
                 // min-width: 40px;
-                @include menuGlowLogo;
+                filter: drop-shadow(0 0 1px #00c5e4)
+                        drop-shadow(0 0 1px #00c5e4)
+                        drop-shadow(0 0 1px #00c5e4);
             }
             img {
                 width: 100%;
@@ -93,9 +97,6 @@
             background: linear-gradient(45deg,rgba(5, 245, 187, 1), rgba(245, 5, 192, 1),  rgba(5, 245, 187, 1), rgba(245, 5, 192, 1),  rgba(5, 245, 187, 1));
             background-clip: text;
             color: transparent;
-            // background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
-            // background-position: 0 0; /* Изначальное положение */
-            // animation: movie-vr 1s linear infinite ; 
         }
         &__vip__center {
             grid-area: 1 / 4 / 2 / 6;
@@ -104,9 +105,6 @@
             background: linear-gradient(45deg, #ff0000, #ffb700, #ff0000, #ffb700, #ff0000);
             background-clip: text;
             color: transparent;
-            // background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
-            // background-position: 0 0; /* Изначальное положение */
-            // animation: movie-vr 1s linear infinite ; 
         } 
         &__lite__weekday {
             grid-area: 2 / 2 / 3 / 3;
@@ -143,7 +141,6 @@
                 filter: drop-shadow(3px 3px 1px rgb(41, 0, 0));
                 background-size: 200% 100%; /* Размер фона больше, чтобы    градиент мог сдвигаться */
                 background-position: 0 0; /* Изначальное положение */
-                animation: movie-vr 1s linear infinite ;
                 &::after {
                     content: "";
                     position: absolute;
@@ -160,7 +157,6 @@
                 filter: drop-shadow(3px 3px 1px rgb(41, 0, 0));
                 background-size: 200% 100%; /* Размер фона больше, чтобы    градиент мог сдвигаться */
                 background-position: 0 0; /* Изначальное положение */
-                animation: movie-vr 1s linear infinite ;
                 &::after {
                     content: "";
                     position: absolute;
@@ -177,7 +173,6 @@
                 filter: drop-shadow(3px 3px 1px rgb(41, 0, 0));
                 background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
                 background-position: 0 0; /* Изначальное положение */
-                animation: movie-vr 1s linear infinite ; 
                 &::after {
                     content: "";
                     position: absolute;
@@ -194,7 +189,6 @@
                 filter: drop-shadow(3px 3px 1px rgb(41, 0, 0));
                 background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
                 background-position: 0 0; /* Изначальное положение */
-                animation: movie-vr 1s linear infinite ; 
                 &::after {
                     content: "";
                     position: absolute;
@@ -212,11 +206,11 @@
             &__img-gift {
                 position: absolute;
                 display: block;
-                height: 13vw;
-                width: auto;
+                width: 7vw;
+                height: auto;
                 z-index: -1;
                 bottom: -20%;
-                right: -18%;
+                right: -10%;
             }
         }
         &__start, &__gg, &__night, &__one-n {
@@ -228,7 +222,6 @@
                 filter: drop-shadow(3px 3px 1px rgb(41, 0, 0));
                 background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
                 background-position: 0 0; /* Изначальное положение */
-                animation: movie-vr 1s linear infinite ;
             } 
             &__lite__weekend {
                 background: linear-gradient(90deg,rgba(245, 5, 192, 1),rgba(5, 245, 187, 1), rgba(245, 5, 192, 1),  rgba(5, 245, 187, 1), rgba(245, 5, 192, 1));
@@ -237,7 +230,6 @@
                 filter: drop-shadow(3px 3px 1px rgb(41, 0, 0));
                 background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
                 background-position: 0 0; /* Изначальное положение */
-                animation: movie-vr 1s linear infinite ;
             } 
             &__vip__weekday {
                 background: linear-gradient(90deg, #ff0000, #ffb700, #ff0000, #ffb700, #ff0000);
@@ -246,7 +238,6 @@
                 filter: drop-shadow(3px 3px 1px rgb(41, 0, 0));
                 background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
                 background-position: 0 0; /* Изначальное положение */
-                animation: movie-vr 1s linear infinite ; 
             } 
             &__vip__weekend {
                 background: linear-gradient(90deg, #ffb700, #ff0000,  #ffb700, #ff0000,  #ffb700);
@@ -255,7 +246,6 @@
                 filter: drop-shadow(3px 3px 1px rgb(41, 0, 0));
                 background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
                 background-position: 0 0; /* Изначальное положение */
-                animation: movie-vr 1s linear infinite ; 
             }  
         } 
         &__gg, &__one-n {
@@ -304,6 +294,11 @@
 }
 
 
+.animate__movie {
+    &.animate {
+        animation: movie-vr 1s linear infinite ;
+    }
+}
 
 
 @media (max-width:767px) {
@@ -312,6 +307,19 @@
             &__logo {
                 &__img {
                     display: none;
+                }
+            }
+        }
+    }
+}
+@media (max-width:425px) {
+    .price {
+        &__table {
+            &__gg {
+                &__img-gift {
+                    width: 9vw;
+                    bottom: -30%;
+                    right: -25%;
                 }
             }
         }

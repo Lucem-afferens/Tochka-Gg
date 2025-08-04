@@ -13,30 +13,8 @@
     }
 }
 
-@mixin menuGlowLogo {
-    filter: drop-shadow(0 0 1px #00c5e4)
-            drop-shadow(0 0 1px #00c5e4)
-            // drop-shadow(0 0 1px #00c5e4)
-            drop-shadow(0 0 1px #00c5e4);
-}
 
 
-@mixin mainDialogWindow {
-    &::after, &::before{
-        content: '';
-        position: absolute;
-        background: conic-gradient(from var(--angle), #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
-        z-index: -1;
-        inset: -3px;
-        border-radius: 20px;
-        filter: blur(.1rem);
-        animation: spin 2s linear infinite;
-    }
-    &::before {
-        filter: blur(1.5rem);
-        opacity: .7;  
-    }
-}
 
 @mixin priceGift {
     &::before {

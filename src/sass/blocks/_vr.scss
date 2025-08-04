@@ -39,7 +39,6 @@
             height: 100%;
             background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
             background-position: 0 0; /* Изначальное положение */
-            animation: movie-vr 1s linear infinite ; 
         }
     }
     &__text {
@@ -66,7 +65,9 @@
         mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent);
         background-size: 200% 100%; /* Размер фона больше, чтобы градиент мог сдвигаться */
         background-position: 0 0; /* Изначальное положение */
-        animation: movie-vr 2s linear infinite ; 
+        &.animate {
+            animation: movie-vr 2s linear infinite ; 
+        }
         &:hover {
             background: linear-gradient(90deg, #0502bd, #cf0202, #0502bd);
             mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
