@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     if (location.hostname === 'kungur-tochkagg.ru') {
       initYandexMetrika(); // запускаем метрику, если согласие уже есть
-      banner.style.display = 'none'; // показываем баннер, если согласия нет
     }
   }
 

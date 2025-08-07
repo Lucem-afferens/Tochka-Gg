@@ -14,6 +14,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: undefined,
+        entryFileNames: 'assets/main.js', // ⬅️ Без хеша
       }
     }
   },
