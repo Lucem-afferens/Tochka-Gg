@@ -2,13 +2,33 @@ import './sass/style.scss'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import { initYandexMetrika } from './utils/yandexMetrika';
 
-  // Инициализация Метрики
-if (import.meta.env.PROD && location.hostname === 'kungur-tochkagg.ru') {
-  initYandexMetrika();
-}
 
+import { initYandexMetrika } from './utils/yandexMetrika.js';
+
+document.addEventListener('DOMContentLoaded', function () {
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+  const hasConsent = localStorage.getItem('cookie_consent') === 'true';
+
+  if (!hasConsent) {
+    banner.style.display = 'block'; // показываем баннер, если согласия нет
+  } else {
+    if (location.hostname === 'kungur-tochkagg.ru') {
+      initYandexMetrika(); // запускаем метрику, если согласие уже есть
+      banner.style.display = 'none'; // показываем баннер, если согласия нет
+    }
+  }
+
+  acceptBtn?.addEventListener('click', function () {
+    localStorage.setItem('cookie_consent', 'true');
+    banner.style.display = 'none'; // скрываем баннер после принятия
+
+    if (location.hostname === 'kungur-tochkagg.ru') {
+      initYandexMetrika(); // сразу запускаем метрику после согласия
+    }
+  });
+});
 
 // Универсальная функция для проверки открытых оверлеев/модалок
 function isAnyOverlayOpen() {
