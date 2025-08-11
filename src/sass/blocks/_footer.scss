@@ -143,6 +143,7 @@
             color: #c0c0c0;
             text-decoration: underline;
             text-underline-offset: 5px; // увеличьте значение, если нужно
+            cursor: pointer;
             &:hover {
                 color: #fff;
             }
