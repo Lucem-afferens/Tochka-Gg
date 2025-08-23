@@ -3,11 +3,7 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/assets/main.js',
-  '/assets/index.css',
   '/img/tochka-gg.webp',
-  '/img/ps5-composition.webp',
-  '/img/food.webp',
-  '/img/pc.webp',
   '/fonts/FeatureMono-Regular.ttf',
   '/fonts/FeatureMono-Medium.ttf'
 ];
@@ -17,7 +13,15 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        return cache.addAll(urlsToCache);
+        // Кешируем файлы по одному с обработкой ошибок
+        return Promise.allSettled(
+          urlsToCache.map(url => 
+            cache.add(url).catch(error => {
+              console.warn(`Failed to cache ${url}:`, error);
+              return null;
+            })
+          )
+        );
       })
   );
 });
@@ -44,6 +48,13 @@ self.addEventListener('fetch', event => {
       .then(response => {
         // Возвращаем кешированный ответ или делаем сетевой запрос
         return response || fetch(event.request);
+      })
+      .catch(error => {
+        console.warn('Fetch failed:', error);
+        // Возвращаем fallback для HTML запросов
+        if (event.request.destination === 'document') {
+          return caches.match('/');
+        }
       })
   );
 });
