@@ -5,19 +5,22 @@
 @font-face {
     font-family: "Feature Mono", system-ui, serif;
     src: url('fonts/FeatureMono-Regular.ttf')format("truetype");
-    font-weight: 400
+    font-weight: 400;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Feature Mono", system-ui, serif;
     src: url('fonts/FeatureMono-Medium.ttf')format("truetype");
-    font-weight: 500
+    font-weight: 500;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Feature Mono", system-ui, serif;
     src: url('fonts/FeatureMono-Medium.ttf')format("truetype");
-    font-weight: 600
+    font-weight: 600;
+    font-display: swap;
 }
 
 
@@ -26,11 +29,6 @@
 @import 'base/mixins';
 @import 'blocks/index.scss';
 
-
-// Для Lighthouse
-section h1, article h1, aside h1, nav h1, h1, h2 {
-    font-size: 2rem;
-}
 
 * {
     font-family: $body-font;
@@ -41,10 +39,17 @@ section h1, article h1, aside h1, nav h1, h1, h2 {
     padding: 0;
 }
 
+// Легкие оптимизации для изображений (не влияют на стили)
+img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
 html {
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; // Улучшает скролл на iOS
     &.none-scroll {
         overflow: hidden;
         height: 100%;
@@ -62,6 +67,7 @@ body {
     color: #fff;
     position: relative;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; // Улучшает скролл на iOS
     &.none-scroll {
         overflow: hidden;
         height: 100%;
@@ -123,5 +129,11 @@ h1 {
 
 .animated-text {
     display: inline-block;
+}
+
+// Lighthouse fix: Ensure all h1 elements have explicit font-size
+// This rule has high specificity and comes last to override other styles
+section h1, article h1, aside h1, nav h1, main h1, h1 {
+    font-size: 2rem !important;
 }
 

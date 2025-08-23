@@ -4,7 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    
+    <!-- Performance optimizations -->
+          <link rel="preconnect" href="https://mc.yandex.ru">
+      <link rel="dns-prefetch" href="https://mc.yandex.ru">
+      <link rel="preload" href="/img/tochka-gg.webp" as="image" type="image/webp">
+      <link rel="prefetch" href="/img/ps5-composition.webp" as="image" type="image/webp">
+      <link rel="prefetch" href="/img/food.webp" as="image" type="image/webp">
+      <link rel="prefetch" href="/img/pc.webp" as="image" type="image/webp">
+      
+      <!-- WebP support detection -->
+      <script>
+        function checkWebPSupport() {
+          const webP = new Image();
+          webP.onload = webP.onerror = function () {
+            const isSupported = webP.height === 2;
+            if (!isSupported) {
+              // Fallback для старых браузеров
+              document.querySelectorAll('img[src*=".webp"]').forEach(img => {
+                const src = img.src;
+                img.src = src.replace('.webp', '.jpg');
+              });
+            }
+          };
+          webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+        }
+        checkWebPSupport();
+      </script>
+    
     <meta name="keywords" content="Компьютерный клуб, игра, киберспорт, гейминг, еда, игровая станция, ps, pc, пк, кунгур, точка gg, гуд гейм, хорошая игра, клуб, компьютер, VIP, LITE">
     <meta name="robots" content="index, follow">
     <meta name="language" content="Russian">
@@ -17,6 +44,7 @@
 
     <!-- Primary Meta Tags -->
     <title>Компьютерный клуб Точка Gg | Кунгур</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:hidden}body{background-color:#000;color:#fff;font-family:"Feature Mono",system-ui,serif;overflow-x:hidden}.container{width:85%;margin:0 auto;position:relative;z-index:1}.main{min-height:100vh;position:relative;display:flex;align-items:stretch;justify-content:center}button{background:none;border:none;color:#fff;cursor:pointer}a{text-decoration:none;color:#fff;cursor:pointer}</style>
     <meta name="title" content="Компьютерный клуб Точка Gg | Кунгур" />
     <meta name="description" content="Точка Gg - премиальный компьютерный клуб в Кунгуре, позволяющий окунуться в атмосферу напряженного киберспорта или уютного домашнего гейминга. Для вас: 6 VIP-пк: RTX 5060 Ti; Intel i5-13400F; 6 LITE: RTX 4060; Intel i5-12400F." />
 
@@ -42,7 +70,14 @@
     <link rel="shortcut icon" href="https://kungur-tochkagg.ru/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="https://kungur-tochkagg.ru/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Tochka Gg" />
-    <link rel="manifest" href="https://kungur-tochkagg.ru/site.webmanifest" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- PWA мета-теги -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#00c2ea">
+    <meta name="msapplication-TileColor" content="#00c2ea">
 
     <!-- Structured Data (Schema.org) -->
     <script type="application/ld+json">
@@ -168,7 +203,7 @@ display: none;">
     </div>
     <nav>
       <ul>
-        <li><a href="#main"><p>Главная</p></a></li>
+        <li><a href="/"><p>Главная</p></a></li>
         <li><a href="#goods"><p>Товары</p></a></li>
         <!-- <li><a href="#events"><p>События</p></a></li> -->
         <li><a href="#price"><p>Прайс</p></a></li>
@@ -497,7 +532,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_pc">
-                                <img src="img/comp-pc-lite.webp" alt="Игровое оборудование LITE" width="300px" height="300px">
+                                <img src="img/comp-pc-lite.webp" alt="Игровое оборудование LITE" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_pc">
                                 RTX 4060 <br>
@@ -518,7 +553,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_pc">
-                                <img src="img/comp-pc-vip.webp" alt="Игровое оборудование VIP" width="300px" height="300px">
+                                <img src="img/comp-pc-vip.webp" alt="Игровое оборудование VIP" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_pc">
                                 RTX 5060 Ti <br>
@@ -538,7 +573,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_display">
-                                <img src="img/comp-display.webp" alt="Игровой монитор LITE" width="300px" height="300px">
+                                <img src="img/comp-display.webp" alt="Игровой монитор LITE" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_display">
                                 Titan Army 24.5 / 20 Гц
@@ -557,7 +592,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_display">
-                                <img src="img/comp-display.webp" alt="Игровой монитор VIP" width="300px" height="300px">
+                                <img src="img/comp-display.webp" alt="Игровой монитор VIP" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_display">
                                 Titan Army 24.5 / 20 Гц
@@ -575,7 +610,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_armchair">
-                                <img src="img/comp-armchair-lite.webp" alt="Игровое кресло LITE" width="300px" height="300px">
+                                <img src="img/comp-armchair-lite.webp" alt="Игровое кресло LITE" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_armchair">
                                 Zombie CAME Penta
@@ -594,7 +629,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_armchair">
-                                <img src="img/comp-armchair-vip.webp" alt="Игровое кресло VIP" width="300px" height="300px">
+                                <img src="img/comp-armchair-vip.webp" alt="Игровое кресло VIP" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_armchair">
                                 ARDOR GAMING Chaos Guard
@@ -612,7 +647,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_headphones">
-                                <img src="img/comp-hear.webp" alt="Игровые наушники LITE" width="300px" height="300px">
+                                <img src="img/comp-hear.webp" alt="Игровые наушники LITE" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_headphones">
                                 ARDOR GAMING H9
@@ -631,7 +666,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_headphones">
-                                <img src="img/comp-hear.webp" alt="Игровые наушники VIP" width="300px" height="300px">
+                                <img src="img/comp-hear.webp" alt="Игровые наушники VIP" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_headphones">
                                 ARDOR GAMING H9
@@ -649,7 +684,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_mouse">
-                                <img src="img/comp-mouse-lite.webp" alt="Игровая мышь LITE" width="300px" height="300px">
+                                <img src="img/comp-mouse-lite.webp" alt="Игровая мышь LITE" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_mouse">
                                 Logitech G102 <br> LIGHTSYNC
@@ -668,7 +703,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_mouse">
-                                <img src="img/comp-mouse-vip.webp" alt="Игровая мышь VIP" width="300px" height="300px">
+                                <img src="img/comp-mouse-vip.webp" alt="Игровая мышь VIP" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_mouse">
                                 ARDOR GAMING Impact PRO
@@ -686,7 +721,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_keyboard">
-                                <img src="img/comp-keyboard.webp" alt="Игровая клавиатура LITE" width="300px" height="300px">
+                                <img src="img/comp-keyboard.webp" alt="Игровая клавиатура LITE" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_keyboard">
                                 ARDOR GAMING <br> Pathfinder
@@ -705,7 +740,7 @@ display: none;">
                         <div class="components__item__block components__item__block-1">
                         <div class="components__item__block__wrapper"></div> 
                         <div class="components__item__block__img components__item__block__img_keyboard">
-                                <img src="img/comp-keyboard.webp" alt="Игровая клавиатура VIP" width="300px" height="300px">
+                                <img src="img/comp-keyboard.webp" alt="Игровая клавиатура VIP" width="300px" height="300px" loading="lazy">
                         </div>
                         <div class="components__item__block__text components__item__block__text_keyboard">
                                 ARDOR GAMING <br> Pathfinder
@@ -897,7 +932,7 @@ display: none;">
             </h3>
             <div class="vr__wrapper">
                 <div class="vr__img">
-                    <img src="img/vr.webp" alt="VR арена Другие миры в компьютерном клубе" width="500px" height="500px">
+                    <img src="img/vr.webp" alt="VR арена Другие миры в компьютерном клубе" width="500px" height="500px" loading="lazy">
                     <button class="vr__registr btn-registr-vr">
                         <span>
                             Записаться

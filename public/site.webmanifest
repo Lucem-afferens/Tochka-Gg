@@ -1,0 +1,81 @@
+{
+  "name": "Точка Gg - Компьютерный клуб",
+  "short_name": "Точка Gg",
+  "description": "Премиальный компьютерный клуб в Кунгуре с мощными игровыми ПК, PS5 и VR-ареной",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00c2ea",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "ru",
+  "categories": ["games", "entertainment", "sports"],
+  "icons": [
+    {
+      "src": "/icons/logo/logo-blue-only.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Забронировать место",
+      "short_name": "Бронирование",
+      "description": "Забронировать место в клубе",
+      "url": "/#contacts",
+      "icons": [
+        {
+          "src": "/icons/phone-call.svg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Цены",
+      "short_name": "Цены",
+      "description": "Посмотреть цены на услуги",
+      "url": "/#price",
+      "icons": [
+        {
+          "src": "/icons/logo/logo-blue-only.svg",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/img-og/tochka-gg.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Главная страница клуба Точка Gg"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

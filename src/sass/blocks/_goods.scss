@@ -83,7 +83,8 @@
                 }
                 &.animate {
                     &::after {
-                        animation: clicker 1s infinite alternate;
+                        will-change: opacity, scale; // Оптимизация только для анимируемых элементов
+                        animation: clicker .8s ease infinite alternate;
                     }
                 }
             }
