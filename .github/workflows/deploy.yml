@@ -28,7 +28,7 @@ jobs:
           mkdir -p dist/offer/assets
 
           cp offer.html dist/offer/index.html
-          cp dist/assets/index-*.js dist/offer/assets/
+          cp dist/assets/main.js dist/offer/assets/
           cp dist/assets/index-*.css dist/offer/assets/
 
           echo "Files prepared for deployment"
