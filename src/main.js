@@ -85,22 +85,24 @@ const initDeferred = () => {
     });
   });
 
-  // Скролл (оптимизированный с requestAnimationFrame)
-  let scrollRAF = null;
+  // УПРОЩЕННЫЙ СКРОЛЛ БЕЗ АНИМАЦИЙ
   let lastScrollY = 0;
+  let scrollTimeout = null;
   
   const handleScroll = () => {
-    if (scrollRAF) return;
-    scrollRAF = requestAnimationFrame(() => {
+    // Throttling для производительности
+    if (scrollTimeout) return;
+    scrollTimeout = setTimeout(() => {
       const scrollY = window.scrollY + offset + 1;
       
       // Избегаем лишних вычислений при малых изменениях
-      if (Math.abs(scrollY - lastScrollY) < 5) {
-        scrollRAF = null;
+      if (Math.abs(scrollY - lastScrollY) < 10) {
+        scrollTimeout = null;
         return;
       }
       lastScrollY = scrollY;
 
+      // Упрощенная логика без сложных вычислений
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
         const top = section.offsetTop;
@@ -112,8 +114,8 @@ const initDeferred = () => {
           break;
         }
       }
-      scrollRAF = null;
-    });
+      scrollTimeout = null;
+    }, 16); // ~60fps
   };
   
   window.addEventListener("scroll", handleScroll, { passive: true });
@@ -346,32 +348,9 @@ const initDeferred = () => {
     });
   }
 
-  // Intersection Observer для анимаций (оптимизированный)
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('animate');
-        // Отключаем наблюдение после анимации для экономии ресурсов
-        if (!entry.target.classList.contains('goods__item__title__click') && 
-            !entry.target.classList.contains('components__center__click')) {
-          observer.unobserve(entry.target);
-          // Отключаем will-change после анимации
-          setTimeout(() => {
-            entry.target.classList.add('animation-complete');
-          }, 1000);
-        }
-      } else {
-        // Убираем класс только для элементов, которые должны повторно анимироваться
-        if (entry.target.classList.contains('goods__item__title__click') || 
-            entry.target.classList.contains('components__center__click')) {
-          entry.target.classList.remove('animate');
-        }
-      }
-    });
-  }, { 
-    threshold: 0.1,
-    rootMargin: '100px' // Увеличиваем для более плавной анимации
-  });
+  // ОТКЛЮЧЕНИЕ ВСЕХ АНИМАЦИЙ ДЛЯ МАКСИМАЛЬНОЙ ПРОИЗВОДИТЕЛЬНОСТИ
+  // Intersection Observer полностью отключен
+  const observer = null;
   
   const animatedElements = [
     '.window',
@@ -388,44 +367,14 @@ const initDeferred = () => {
     '.vr__registr'
   ];
 
-  // Оптимизированная загрузка анимаций
+  // ОТКЛЮЧЕНИЕ ВСЕХ АНИМАЦИЙ - функция не выполняется
   const initAnimations = () => {
-    // Критические анимации загружаем сразу
-    const criticalElements = ['.main__arrow', '.title', '.title_about'];
-    criticalElements.forEach(selector => {
-      document.querySelectorAll(selector).forEach(el => {
-        observer.observe(el);
-      });
-    });
-    
-    // Остальные анимации загружаем с задержкой
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => {
-        const nonCriticalElements = animatedElements.filter(el => !criticalElements.includes(el));
-        nonCriticalElements.forEach(selector => {
-          document.querySelectorAll(selector).forEach(el => {
-            observer.observe(el);
-          });
-        });
-      });
-    } else {
-      setTimeout(() => {
-        const nonCriticalElements = animatedElements.filter(el => !criticalElements.includes(el));
-        nonCriticalElements.forEach(selector => {
-          document.querySelectorAll(selector).forEach(el => {
-            observer.observe(el);
-          });
-        });
-      }, 500);
-    }
+    // Все анимации отключены для максимальной производительности
+    console.log('Анимации отключены для максимальной производительности');
   };
   
-  // Инициализируем анимации после загрузки DOM
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAnimations);
-  } else {
-    initAnimations();
-  }
+  // Анимации не инициализируются
+  // initAnimations(); // Закомментировано
 
   // Регистрация Service Worker для кеширования
   if ('serviceWorker' in navigator && window.location.protocol === 'https:') {

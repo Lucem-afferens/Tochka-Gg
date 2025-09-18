@@ -2,7 +2,18 @@
 // Оптимизации производительности
 // ================================
 
-// Аппаратное ускорение для анимируемых элементов
+// ОТКЛЮЧЕНИЕ ВСЕХ АНИМАЦИЙ ДЛЯ МАКСИМАЛЬНОЙ ПРОИЗВОДИТЕЛЬНОСТИ
+*,
+*::before,
+*::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  transition-delay: 0ms !important;
+}
+
+// Отключение всех анимаций
 .animate,
 .animate *,
 [class*="animate"],
@@ -13,51 +24,77 @@
 .components__item,
 .price__table__logo,
 .vr__registr {
-  will-change: transform, opacity, filter;
-  transform: translateZ(0); // Принудительное аппаратное ускорение
-  backface-visibility: hidden;
-  perspective: 1000px;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
 }
 
-// Оптимизация для элементов с фильтрами
+// ОТКЛЮЧЕНИЕ ВСЕХ ФИЛЬТРОВ И ЭФФЕКТОВ
 [class*="glow"],
 [class*="neon"] {
-  will-change: filter, box-shadow, text-shadow;
-  transform: translate3d(0, 0, 0);
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  will-change: auto !important;
+  transform: none !important;
 }
 
-// Оптимизация для текстовых анимаций
+// Отключение текстовых эффектов
 .main__text,
 .title,
 .title_about {
-  will-change: text-shadow, filter;
-  transform: translate3d(0, 0, 0);
+  text-shadow: none !important;
+  filter: none !important;
+  will-change: auto !important;
+  transform: none !important;
 }
 
 // Оптимизация для изображений
 img {
-  will-change: transform, opacity;
-  transform: translateZ(0);
+  will-change: auto !important;
+  transform: none !important;
+  filter: none !important;
 }
 
-// Оптимизация для кнопок и интерактивных элементов
+// Отключение эффектов для кнопок
 button,
 .btn-registr,
 .components__center {
-  will-change: transform, box-shadow;
-  transform: translateZ(0);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: auto !important;
+  transform: none !important;
+  transition: none !important;
+  box-shadow: none !important;
 }
 
-// Отключение will-change после анимации
+// ОТКЛЮЧЕНИЕ ВСЕХ ТЯЖЕЛЫХ ЭФФЕКТОВ
 .animate.animation-complete {
-  will-change: auto;
+  will-change: auto !important;
+}
+
+// Отключение backdrop-filter
+.menu,
+[class*="backdrop"],
+[class*="blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
 }
 
 // Оптимизация для скролла
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto !important; // Отключаем smooth scroll
   -webkit-overflow-scrolling: touch;
+}
+
+// Отключение всех hover эффектов
+*:hover {
+  transform: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
 }
 
 // Оптимизация для мобильных устройств

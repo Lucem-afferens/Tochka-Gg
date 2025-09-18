@@ -1,0 +1,68 @@
+// ================================
+// Минимальные стили без анимаций
+// ================================
+
+// Отключение всех анимаций глобально
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+// Отключение hover эффектов
+*:hover,
+*:focus,
+*:active {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+// Отключение всех keyframes
+@keyframes * {
+  from, to { opacity: 1; }
+}
+
+// Минимальные стили для основных элементов
+.main__text_big {
+  transform: translate(-50%, -50%) !important;
+}
+
+.main__text-left,
+.main__text-right {
+  transform: none !important;
+}
+
+// Отключение всех эффектов для изображений
+img {
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+// Отключение эффектов для кнопок
+button,
+.btn-registr,
+.components__center {
+  transform: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+// Отключение эффектов для меню
+.menu {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
