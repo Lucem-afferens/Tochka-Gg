@@ -18,6 +18,9 @@ export default defineConfig({
         }
       }
     },
+    // Критическая оптимизация
+    chunkSizeWarningLimit: 1000,
+    assetsInlineLimit: 4096, // Инлайним маленькие ресурсы
     terserOptions: {
       compress: {
         drop_console: true,

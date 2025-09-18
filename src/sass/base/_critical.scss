@@ -1,9 +1,11 @@
+// ================================
 // Критические стили для быстрой загрузки
-// Эти стили должны быть встроены в HTML
+// ================================
 
 // Базовые переменные
 $body-bg: #343534;
 $body-font: "Feature Mono";
+$game-font: "Bebas Neue", system-ui, sans-serif;
 
 // Критические стили
 * {
@@ -70,4 +72,42 @@ a {
   text-decoration: none;
   color: #fff;
   cursor: pointer;
+}
+
+// Оптимизация для быстрой загрузки
+.main__text {
+  font-family: $game-font;
+  font-weight: 400;
+  display: block;
+  position: absolute;
+  font-size: clamp(32px, 8vw, 98px);
+  opacity: .4;
+}
+
+.main__text_big {
+  display: block;
+  position: absolute;
+  top: 25vh;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  font-size: clamp(44px, 8vw, 122px);
+  width: 100%;
+  min-width: 510px;
+  text-align: center;
+  letter-spacing: 20px;
+}
+
+.main__text_big span {
+  font-family: $game-font;
+  font-size: clamp(90px, 20vw, 290px);
+}
+
+.main__text-left {
+  top: 58%;
+  left: -60px;
+}
+
+.main__text-right {
+  top: 9%;
+  right: -140px;
 }

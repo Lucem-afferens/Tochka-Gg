@@ -12,15 +12,16 @@
     <link rel="dns-prefetch" href="https://mc.yandex.ru">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     
-    <!-- Critical images preload -->
+    <!-- Critical images preload (только самые важные) -->
     <link rel="preload" href="/img/tochka-gg.webp" as="image" type="image/webp">
     <link rel="preload" href="/img/first-girl.webp" as="image" type="image/webp">
-    <link rel="preload" href="/img/second-girl.webp" as="image" type="image/webp">
     
-    <!-- Non-critical images prefetch -->
+    <!-- Non-critical images lazy load -->
+    <link rel="prefetch" href="/img/second-girl.webp" as="image" type="image/webp">
     <link rel="prefetch" href="/img/ps5-composition.webp" as="image" type="image/webp">
     <link rel="prefetch" href="/img/food.webp" as="image" type="image/webp">
     <link rel="prefetch" href="/img/pc.webp" as="image" type="image/webp">
+    <link rel="prefetch" href="/img/vr.webp" as="image" type="image/webp">
       
       <!-- WebP support detection -->
       <script>
@@ -64,6 +65,12 @@
       button{background:none;border:none;color:#fff;cursor:pointer}
       a{text-decoration:none;color:#fff;cursor:pointer}
       .hidden{display:none}
+      /* Оптимизация для быстрой загрузки */
+      .main__text{font-family:"Bebas Neue",system-ui,sans-serif;font-weight:400;display:block;position:absolute;font-size:clamp(32px,8vw,98px);opacity:.4}
+      .main__text_big{display:block;position:absolute;top:25vh;left:50%;transform:translate3d(-50%,-50%,0);font-size:clamp(44px,8vw,122px);width:100%;min-width:510px;text-align:center;letter-spacing:20px}
+      .main__text_big span{font-family:"Bebas Neue",system-ui,sans-serif;font-size:clamp(90px,20vw,290px)}
+      .main__text-left{top:58%;left:-60px}
+      .main__text-right{top:9%;right:-140px}
     </style>
     <meta name="title" content="Компьютерный клуб Точка Gg | Кунгур" />
     <meta name="description" content="Точка Gg - премиальный компьютерный клуб в Кунгуре, позволяющий окунуться в атмосферу напряженного киберспорта или уютного домашнего гейминга. Для вас: 6 VIP-пк: RTX 5060 Ti; Intel i5-13400F; 6 LITE: RTX 4060; Intel i5-12400F." />
@@ -263,8 +270,8 @@ display: none;">
         <div class="main__text main__text-left">Good Games</div>
         <div class="main__text main__text-right">Good Games</div>
         <div class="main__images">
-            <img src="img/first-girl.webp" alt="atomic-girl"  class="main__img main__img_left">
-            <img src="img/second-girl.webp" alt="atomic-girl" class="main__img main__img_right">
+            <img src="img/first-girl.webp" alt="atomic-girl"  class="main__img main__img_left" loading="eager">
+            <img src="img/second-girl.webp" alt="atomic-girl" class="main__img main__img_right" loading="lazy">
             <div class="window window_left">
                 Давно мечтал посетить лучший компьютерный клуб в Кунгуре?
             </div>
@@ -296,7 +303,7 @@ display: none;">
                     </div>
                 </div>
                 <div class="about__img">
-                    <img src="img/tochka-gg.webp" alt="Компьютерный клуб Точка Gg в Кунгуре">
+                    <img src="img/tochka-gg.webp" alt="Компьютерный клуб Точка Gg в Кунгуре" loading="lazy">
                 </div>
             </div>
         </div>
@@ -1049,8 +1056,12 @@ display: none;">
           <img src="https://mc.yandex.ru/watch/103132637" style="position:absolute; left:-9999px;" alt="" />
         </div>
     </noscript>
+    <!-- Асинхронная загрузка некритических стилей -->
+    <link rel="preload" href="/src/sass/style.scss" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/src/sass/style.scss"></noscript>
+    
     <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script type="module" src="src/main.js" defer></script>
 </body>
 </html>

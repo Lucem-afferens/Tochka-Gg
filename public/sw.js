@@ -8,10 +8,17 @@ const urlsToCache = [
   '/assets/main.js',
   '/img/tochka-gg.webp',
   '/img/first-girl.webp',
-  '/img/second-girl.webp',
   '/fonts/FeatureMono-Regular.ttf',
   '/fonts/FeatureMono-Medium.ttf',
   '/icons/logo/logo_blue_only.svg'
+];
+
+// Критические ресурсы для мгновенной загрузки
+const criticalResources = [
+  '/',
+  '/index.html',
+  '/img/tochka-gg.webp',
+  '/img/first-girl.webp'
 ];
 
 // Установка Service Worker

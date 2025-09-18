@@ -36,8 +36,9 @@ document.querySelectorAll('.langame-launch').forEach(element => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Инициализация аналитики (оптимизированная)
+// Критическая инициализация (выполняется сразу)
+const initCritical = () => {
+  // Только самое необходимое для первого рендера
   const banner = document.getElementById('cookie-banner');
   const acceptBtn = document.getElementById('accept-cookies');
   const hasConsent = localStorage.getItem('cookie_consent') === 'true';
@@ -63,6 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (banner) banner.style.display = 'none';
     initAnalytics();
   });
+};
+
+// Отложенная инициализация (выполняется после загрузки)
+const initDeferred = () => {
 
   // Навигация
   const navItems = document.querySelectorAll(".menu ul li");
@@ -430,7 +435,20 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-});
+};
+
+// Запуск инициализации
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCritical);
+  window.addEventListener('load', initDeferred);
+} else {
+  initCritical();
+  if (document.readyState === 'complete') {
+    initDeferred();
+  } else {
+    window.addEventListener('load', initDeferred);
+  }
+}
 
 
 
