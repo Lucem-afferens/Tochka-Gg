@@ -341,16 +341,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Intersection Observer для анимаций
+  // Intersection Observer для анимаций (оптимизированный)
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('animate');
         // Отключаем наблюдение после анимации для экономии ресурсов
-        // Но только для элементов, которые не должны повторно анимироваться
         if (!entry.target.classList.contains('goods__item__title__click') && 
             !entry.target.classList.contains('components__center__click')) {
           observer.unobserve(entry.target);
+          // Отключаем will-change после анимации
+          setTimeout(() => {
+            entry.target.classList.add('animation-complete');
+          }, 1000);
         }
       } else {
         // Убираем класс только для элементов, которые должны повторно анимироваться
@@ -362,7 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, { 
     threshold: 0.1,
-    rootMargin: '50px' // Начинаем анимацию немного раньше
+    rootMargin: '100px' // Увеличиваем для более плавной анимации
   });
   
   const animatedElements = [
@@ -380,24 +383,43 @@ document.addEventListener("DOMContentLoaded", () => {
     '.vr__registr'
   ];
 
-  // Используем requestIdleCallback для отложенной загрузки
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(() => {
-      animatedElements.forEach(selector => {
-        document.querySelectorAll(selector).forEach(el => {
-          observer.observe(el);
-        });
+  // Оптимизированная загрузка анимаций
+  const initAnimations = () => {
+    // Критические анимации загружаем сразу
+    const criticalElements = ['.main__arrow', '.title', '.title_about'];
+    criticalElements.forEach(selector => {
+      document.querySelectorAll(selector).forEach(el => {
+        observer.observe(el);
       });
     });
-  } else {
-    // Fallback для старых браузеров
-    setTimeout(() => {
-      animatedElements.forEach(selector => {
-        document.querySelectorAll(selector).forEach(el => {
-          observer.observe(el);
+    
+    // Остальные анимации загружаем с задержкой
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        const nonCriticalElements = animatedElements.filter(el => !criticalElements.includes(el));
+        nonCriticalElements.forEach(selector => {
+          document.querySelectorAll(selector).forEach(el => {
+            observer.observe(el);
+          });
         });
       });
-    }, 100);
+    } else {
+      setTimeout(() => {
+        const nonCriticalElements = animatedElements.filter(el => !criticalElements.includes(el));
+        nonCriticalElements.forEach(selector => {
+          document.querySelectorAll(selector).forEach(el => {
+            observer.observe(el);
+          });
+        });
+      }, 500);
+    }
+  };
+  
+  // Инициализируем анимации после загрузки DOM
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnimations);
+  } else {
+    initAnimations();
   }
 
   // Регистрация Service Worker для кеширования

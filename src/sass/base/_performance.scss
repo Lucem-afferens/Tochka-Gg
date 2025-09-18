@@ -1,0 +1,94 @@
+// ================================
+// Оптимизации производительности
+// ================================
+
+// Аппаратное ускорение для анимируемых элементов
+.animate,
+.animate *,
+[class*="animate"],
+[class*="glow"],
+[class*="neon"],
+.main__text,
+.advantages__item__icon,
+.components__item,
+.price__table__logo,
+.vr__registr {
+  will-change: transform, opacity, filter;
+  transform: translateZ(0); // Принудительное аппаратное ускорение
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+// Оптимизация для элементов с фильтрами
+[class*="glow"],
+[class*="neon"] {
+  will-change: filter, box-shadow, text-shadow;
+  transform: translate3d(0, 0, 0);
+}
+
+// Оптимизация для текстовых анимаций
+.main__text,
+.title,
+.title_about {
+  will-change: text-shadow, filter;
+  transform: translate3d(0, 0, 0);
+}
+
+// Оптимизация для изображений
+img {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+// Оптимизация для кнопок и интерактивных элементов
+button,
+.btn-registr,
+.components__center {
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+// Отключение will-change после анимации
+.animate.animation-complete {
+  will-change: auto;
+}
+
+// Оптимизация для скролла
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+// Оптимизация для мобильных устройств
+@media (max-width: 768px) {
+  // Упрощаем анимации на мобильных
+  [class*="glow"],
+  [class*="neon"] {
+    will-change: auto;
+    filter: none !important;
+    text-shadow: none !important;
+  }
+  
+  // Отключаем сложные анимации на слабых устройствах
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+// Оптимизация для слабых устройств
+@media (max-width: 480px) {
+  .main__text {
+    font-size: clamp(24px, 6vw, 48px) !important;
+  }
+  
+  .main__text_big {
+    font-size: clamp(32px, 8vw, 64px) !important;
+  }
+}
