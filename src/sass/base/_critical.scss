@@ -1,0 +1,73 @@
+// Критические стили для быстрой загрузки
+// Эти стили должны быть встроены в HTML
+
+// Базовые переменные
+$body-bg: #343534;
+$body-font: "Feature Mono";
+
+// Критические стили
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  background-color: $body-bg;
+  color: #fff;
+  font-family: $body-font, system-ui, serif;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.container {
+  width: 85%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+// Критические стили для навигации
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+// Критические стили для главной секции
+.main {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Скрытие неиспользуемых элементов до загрузки JS
+.hidden {
+  display: none;
+}
+
+// Базовые стили для кнопок
+button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+}

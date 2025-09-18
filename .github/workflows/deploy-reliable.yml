@@ -1,4 +1,4 @@
-name: Deploy to Beget Hosting
+name: Deploy to Beget Hosting (Reliable)
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     
     steps:
     - name: Checkout code
@@ -42,7 +43,7 @@ jobs:
         
         echo "✅ Файлы подготовлены"
         
-    - name: Deploy to Beget via FTP
+    - name: Deploy to Beget via FTP (Retry Strategy)
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_HOST }}
@@ -50,10 +51,8 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
         server-dir: ${{ secrets.FTP_PATH }}/
-        # Исправления для ошибки 550
+        # Надежные настройки для решения проблем с таймаутом
         dangerous-clean-slate: false
-        dry-run: false
-        log-level: verbose
         exclude: |
           **/.git*
           **/.git*/**
@@ -65,6 +64,8 @@ jobs:
           **/*.log
           **/data_backups/*
           **/temp_archive/*
+          **/test-*.php
+          **/debug-*.php
           
     - name: Setup .htaccess for hosting
       run: |

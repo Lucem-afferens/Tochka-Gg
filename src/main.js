@@ -80,12 +80,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Скролл (оптимизированный с throttling)
-  let scrollTimer = null;
-  window.addEventListener("scroll", () => {
-    if (scrollTimer) return;
-    scrollTimer = setTimeout(() => {
+  // Скролл (оптимизированный с requestAnimationFrame)
+  let scrollRAF = null;
+  let lastScrollY = 0;
+  
+  const handleScroll = () => {
+    if (scrollRAF) return;
+    scrollRAF = requestAnimationFrame(() => {
       const scrollY = window.scrollY + offset + 1;
+      
+      // Избегаем лишних вычислений при малых изменениях
+      if (Math.abs(scrollY - lastScrollY) < 5) {
+        scrollRAF = null;
+        return;
+      }
+      lastScrollY = scrollY;
 
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
@@ -98,9 +107,11 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
         }
       }
-      scrollTimer = null;
-    }, 16); // ~60fps
-  });
+      scrollRAF = null;
+    });
+  };
+  
+  window.addEventListener("scroll", handleScroll, { passive: true });
 
   // Каталог товаров
   const types = ['ps', 'pc', 'food'];

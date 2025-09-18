@@ -6,12 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <!-- Performance optimizations -->
-          <link rel="preconnect" href="https://mc.yandex.ru">
-      <link rel="dns-prefetch" href="https://mc.yandex.ru">
-      <link rel="preload" href="/img/tochka-gg.webp" as="image" type="image/webp">
-      <link rel="prefetch" href="/img/ps5-composition.webp" as="image" type="image/webp">
-      <link rel="prefetch" href="/img/food.webp" as="image" type="image/webp">
-      <link rel="prefetch" href="/img/pc.webp" as="image" type="image/webp">
+    <link rel="preconnect" href="https://mc.yandex.ru">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://mc.yandex.ru">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- Critical images preload -->
+    <link rel="preload" href="/img/tochka-gg.webp" as="image" type="image/webp">
+    <link rel="preload" href="/img/first-girl.webp" as="image" type="image/webp">
+    <link rel="preload" href="/img/second-girl.webp" as="image" type="image/webp">
+    
+    <!-- Non-critical images prefetch -->
+    <link rel="prefetch" href="/img/ps5-composition.webp" as="image" type="image/webp">
+    <link rel="prefetch" href="/img/food.webp" as="image" type="image/webp">
+    <link rel="prefetch" href="/img/pc.webp" as="image" type="image/webp">
       
       <!-- WebP support detection -->
       <script>
@@ -44,7 +53,18 @@
 
     <!-- Primary Meta Tags -->
     <title>Компьютерный клуб Точка Gg | Кунгур</title>
-    <style>*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:hidden}body{background-color:#000;color:#fff;font-family:"Feature Mono",system-ui,serif;overflow-x:hidden}.container{width:85%;margin:0 auto;position:relative;z-index:1}.main{min-height:100vh;position:relative;display:flex;align-items:stretch;justify-content:center}button{background:none;border:none;color:#fff;cursor:pointer}a{text-decoration:none;color:#fff;cursor:pointer}</style>
+    <style>
+      /* Критические стили для быстрой загрузки */
+      *{margin:0;padding:0;box-sizing:border-box}
+      html{scroll-behavior:smooth;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+      body{background-color:#343534;color:#fff;font-family:"Feature Mono",system-ui,serif;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+      .container{width:85%;margin:0 auto;position:relative;z-index:1}
+      .main{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center}
+      .menu{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.9);backdrop-filter:blur(10px)}
+      button{background:none;border:none;color:#fff;cursor:pointer}
+      a{text-decoration:none;color:#fff;cursor:pointer}
+      .hidden{display:none}
+    </style>
     <meta name="title" content="Компьютерный клуб Точка Gg | Кунгур" />
     <meta name="description" content="Точка Gg - премиальный компьютерный клуб в Кунгуре, позволяющий окунуться в атмосферу напряженного киберспорта или уютного домашнего гейминга. Для вас: 6 VIP-пк: RTX 5060 Ti; Intel i5-13400F; 6 LITE: RTX 4060; Intel i5-12400F." />
 
