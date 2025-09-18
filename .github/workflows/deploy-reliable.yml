@@ -33,6 +33,11 @@ jobs:
       run: |
         npm run build
         
+    - name: Copy configuration files
+      run: |
+        cp .htaccess dist/
+        cp .user.ini dist/
+        
     - name: Prepare dist folder
       run: |
         echo "📦 Подготовка файлов для деплоя..."
