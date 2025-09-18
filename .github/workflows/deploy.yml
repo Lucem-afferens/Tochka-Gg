@@ -54,11 +54,15 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        server-dir: ${{ secrets.FTP_PATH }}/
-        # Исправления для ошибки 550
+        server-dir: ${{ secrets.FTP_PATH }}
+        # Настройки для Beget хостинга
         dangerous-clean-slate: false
         dry-run: false
         log-level: verbose
+        # Исправления для ошибки 550
+        ftp-settings: |
+          PASV
+          TYPE I
         exclude: |
           **/.git*
           **/.git*/**

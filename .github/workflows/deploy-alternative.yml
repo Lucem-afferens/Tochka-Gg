@@ -75,6 +75,10 @@ jobs:
         dangerous-clean-slate: false
         dry-run: false
         log-level: verbose
+        # Исправления для ошибки 550
+        ftp-settings: |
+          PASV
+          TYPE I
         
     - name: Deploy via rsync (if selected)
       if: ${{ github.event.inputs.deploy_method == 'rsync' }}

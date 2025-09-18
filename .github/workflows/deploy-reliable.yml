@@ -55,9 +55,13 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        server-dir: ${{ secrets.FTP_PATH }}/
+        server-dir: ${{ secrets.FTP_PATH }}
         # Надежные настройки для решения проблем с таймаутом
         dangerous-clean-slate: false
+        # Исправления для ошибки 550
+        ftp-settings: |
+          PASV
+          TYPE I
         exclude: |
           **/.git*
           **/.git*/**
