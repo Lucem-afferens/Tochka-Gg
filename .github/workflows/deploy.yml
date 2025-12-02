@@ -37,10 +37,8 @@ jobs:
           username: ${{ secrets.BEGET_FTP_USER }}
           password: ${{ secrets.BEGET_FTP_PASSWORD }}
           # Путь на Beget: от корня FTP подключения до папки темы
-          # Попробуйте сначала этот вариант (если FTP в public_html):
-          server-dir: /wp-content/themes/tochkagg-theme/
-          # Если не работает, попробуйте:
-          # server-dir: /kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/
+          # На Beget FTP обычно подключается к домашней директории домена
+          server-dir: /kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/
           local-dir: ./theme/
           exclude: |
             **/.git*
