@@ -4,12 +4,7 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'theme/**'
-      - 'src/**'
-      - 'vite.config.wordpress.mjs'
-      - 'package.json'
-  workflow_dispatch: # Позволяет запускать вручную и всегда показывать статус
+  workflow_dispatch: # Позволяет запускать вручную
 
 jobs:
   build-and-deploy:
@@ -28,20 +23,45 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2 # Для проверки изменений
+      
+      - name: Check if deployment needed
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "deploy=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Проверяем изменения в нужных файлах
+          changed_files=$(git diff --name-only HEAD~1 HEAD | grep -E '^(theme/|src/|vite.config.wordpress.mjs|package.json|\.github/workflows/deploy\.yml)' || true)
+          
+          if [ -z "$changed_files" ]; then
+            echo "deploy=false" >> $GITHUB_OUTPUT
+            echo "⏭️ No changes in theme or source files, skipping deployment"
+          else
+            echo "deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Changes detected, deployment will proceed"
+          fi
       
       - name: Setup Node.js
+        if: steps.check.outputs.deploy == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm'
       
       - name: Install dependencies
+        if: steps.check.outputs.deploy == 'true'
         run: npm ci
       
       - name: Build assets
+        if: steps.check.outputs.deploy == 'true'
         run: npm run build
       
       - name: Deploy to Beget via FTP
+        if: steps.check.outputs.deploy == 'true'
         id: deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
