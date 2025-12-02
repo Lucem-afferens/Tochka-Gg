@@ -1,93 +1,51 @@
-name: Deploy to Beget Hosting
+name: Deploy to Beget
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - main
+    paths:
+      - 'theme/**'
+      - 'src/**'
+      - 'vite.config.wordpress.mjs'
+      - 'package.json'
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
       
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.1'
-        
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: |
-        npm ci
-        
-    - name: Build project
-      run: |
-        npm run build
-        
-    - name: Copy configuration files
-      run: |
-        cp .htaccess dist/
-        cp .user.ini dist/
-        
-    - name: Prepare dist folder
-      run: |
-        echo "📦 Подготовка файлов для деплоя..."
-        cd ./dist
-        
-        # Создаем временный архив
-        tar -czf ../../deploy-files.tar.gz .
-        
-        echo "✅ Файлы подготовлены"
-        
-    - name: Deploy to Beget via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: ${{ secrets.FTP_HOST }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/
-        server-dir: ${{ secrets.FTP_PATH }}
-        # Настройки для Beget хостинга
-        dangerous-clean-slate: false
-        dry-run: false
-        log-level: verbose
-        # Исправления для ошибки 550
-        ftp-settings: |
-          PASV
-          TYPE I
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/node_modules/**
-          **/.DS_Store
-          **/Thumbs.db
-          **/cache/*
-          **/logs/*
-          **/*.log
-          **/data_backups/*
-          **/temp_archive/*
-          
-    - name: Setup .htaccess for hosting
-      run: |
-        echo "🔄 Настройка .htaccess для хостинга..."
-        echo "✅ Файл .htaccess теперь загружается автоматически"
-        echo "📋 Настройки PHP 8.1 и сессий включены"
-          
-    - name: Cleanup
-      run: |
-        rm -f deploy-files.tar.gz
-        echo "🧹 Очистка завершена"
-        
-    - name: Deployment Status
-      run: |
-        echo "🚀 Деплой завершен успешно!"
-        echo "📅 Время: $(date)"
-        echo "🌐 Сайт: https://kungur-tochkagg.ru/"
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build assets
+        run: npm run build
+      
+      - name: Deploy to Beget via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.BEGET_FTP_HOST }}
+          username: ${{ secrets.BEGET_FTP_USER }}
+          password: ${{ secrets.BEGET_FTP_PASSWORD }}
+          # Путь на Beget: от корня FTP подключения до папки темы
+          # Попробуйте сначала этот вариант (если FTP в public_html):
+          server-dir: /wp-content/themes/tochkagg-theme/
+          # Если не работает, попробуйте:
+          # server-dir: /kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/
+          local-dir: ./theme/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.DS_Store
+            **/Thumbs.db
+          dangerous-clean-slate: false

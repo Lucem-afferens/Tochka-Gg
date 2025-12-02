@@ -1,0 +1,132 @@
+/**
+ * Pricing Table Section Styles
+ */
+
+.tgg-pricing {
+  padding: $spacing-5xl 0;
+  background: $color-bg-primary;
+  
+  &__title {
+    font-family: $font-heading;
+    font-size: $font-size-h1;
+    font-weight: $font-weight-heading-bold;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-md;
+  }
+  
+  &__note {
+    font-family: $font-body;
+    font-size: $font-size-base;
+    color: $color-text-muted;
+    text-align: center;
+    margin-bottom: $spacing-4xl;
+    font-style: italic;
+  }
+  
+  &__tables {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  &__table {
+    background: $color-bg-secondary;
+    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border-radius: $border-radius-lg;
+    padding: $spacing-xl;
+    transition: all $duration-normal $ease-out-cubic;
+    
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+    }
+    
+    &-title {
+      font-family: $font-heading;
+      font-size: $font-size-h4;
+      font-weight: $font-weight-heading-regular;
+      color: $color-text-primary;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-md;
+      border-bottom: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    }
+  }
+}
+
+.tgg-pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  thead {
+    tr {
+      border-bottom: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    }
+    
+    th {
+      font-family: $font-heading;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-heading-regular;
+      color: $color-text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: left;
+      padding: $spacing-md $spacing-sm;
+      
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+  
+  tbody {
+    tr {
+      border-bottom: $border-width-thin solid rgba(59, 130, 246, 0.1);
+      transition: background $duration-normal $ease-out-cubic;
+      
+      &:last-child {
+        border-bottom: none;
+      }
+      
+      &:hover {
+        background: rgba(59, 130, 246, 0.05);
+      }
+    }
+    
+    td {
+      font-family: $font-body;
+      font-size: $font-size-base;
+      color: $color-text-primary;
+      padding: $spacing-md $spacing-sm;
+      
+      &:first-child {
+        font-weight: $font-weight-body-semibold;
+      }
+      
+      &:last-child {
+        text-align: right;
+      }
+      
+      strong {
+        font-weight: $font-weight-body-bold;
+        color: $color-text-primary;
+      }
+    }
+  }
+}
+

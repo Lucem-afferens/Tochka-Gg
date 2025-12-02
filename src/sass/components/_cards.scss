@@ -1,0 +1,37 @@
+/**
+ * Cards
+ * 
+ * Стили карточек
+ */
+
+// Переменные и миксины импортируются в главном файле style.scss
+
+.tgg-card {
+  background: $color-bg-secondary;
+  border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+  border-radius: $border-radius-lg;
+  padding: $spacing-xl;
+  transition: all $duration-normal $ease-out-cubic;
+  
+  box-shadow: $shadow-md;
+  
+  &:hover {
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+    transform: translateY(-4px);
+  }
+}
+
+.tgg-card__image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  filter: contrast(1.1) brightness(0.9);
+  transition: transform $duration-normal $ease-out-cubic;
+  margin-bottom: $spacing-md;
+  
+  .tgg-card:hover & {
+    transform: scale(1.05);
+  }
+}
+

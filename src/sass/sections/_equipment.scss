@@ -1,0 +1,123 @@
+/**
+ * Equipment Preview Section Styles
+ */
+
+.tgg-equipment-preview {
+  padding: $spacing-5xl 0;
+  background: $color-bg-secondary;
+  
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-3xl;
+    align-items: center;
+    
+    @include respond-to(lg) {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-4xl;
+    }
+  }
+  
+  &__content {
+    order: 2;
+    
+    @include respond-to(lg) {
+      order: 1;
+    }
+  }
+  
+  &__title {
+    font-family: $font-heading;
+    font-size: $font-size-h2;
+    font-weight: $font-weight-heading-bold;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-lg;
+  }
+  
+  &__text {
+    font-family: $font-body;
+    font-size: $font-size-lg;
+    line-height: $line-height-relaxed;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-2xl;
+  }
+  
+  &__specs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: $spacing-lg;
+    margin-bottom: $spacing-2xl;
+  }
+  
+  &__spec {
+    background: $color-bg-primary;
+    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border-radius: $border-radius-md;
+    padding: $spacing-lg;
+    text-align: center;
+    transition: all $duration-normal $ease-out-cubic;
+    
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+    }
+  }
+  
+  &__spec-label {
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-body-medium;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  &__spec-value {
+    font-family: $font-heading;
+    font-size: $font-size-h3;
+    font-weight: $font-weight-heading-bold;
+    color: $color-primary;
+    margin-bottom: $spacing-xs;
+  }
+  
+  &__spec-desc {
+    font-family: $font-body;
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    line-height: $line-height-normal;
+  }
+  
+  &__cta {
+    margin-top: $spacing-xl;
+  }
+  
+  &__image {
+    order: 1;
+    position: relative;
+    border-radius: $border-radius-xl;
+    overflow: hidden;
+    
+    @include respond-to(lg) {
+      order: 2;
+    }
+    
+    &-placeholder {
+      aspect-ratio: 16 / 10;
+      background: $color-bg-primary;
+      border: 2px dashed rgba(59, 130, 246, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $color-text-muted;
+      font-size: $font-size-sm;
+      text-align: center;
+      padding: $spacing-lg;
+    }
+  }
+}
+

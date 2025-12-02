@@ -1,0 +1,71 @@
+/**
+ * Typography
+ * 
+ * Типографические стили
+ */
+
+// Переменные импортируются в главном файле style.scss
+
+// ============================================
+// HEADINGS
+// ============================================
+
+.tgg-heading {
+  font-family: $font-heading;
+  font-weight: $font-weight-heading-bold;
+  line-height: $line-height-tight;
+  color: $color-text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tgg-heading--1 {
+  font-size: $font-size-h1;
+}
+
+.tgg-heading--2 {
+  font-size: $font-size-h2;
+}
+
+.tgg-heading--3 {
+  font-size: $font-size-h3;
+}
+
+// ============================================
+// TEXT
+// ============================================
+
+.tgg-text {
+  font-family: $font-body;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+  color: $color-text-primary;
+}
+
+.tgg-text--large {
+  font-size: $font-size-lg;
+}
+
+.tgg-text--small {
+  font-size: $font-size-sm;
+}
+
+.tgg-text--secondary {
+  color: $color-text-secondary;
+}
+
+.tgg-text--muted {
+  color: $color-text-muted;
+}
+
+// ============================================
+// PRICE
+// ============================================
+
+.tgg-price {
+  font-family: $font-mono;
+  font-size: $font-size-price;
+  font-weight: 700;
+  color: $color-primary;
+}
+

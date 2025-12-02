@@ -1,0 +1,85 @@
+/**
+ * Forms Styles
+ * 
+ * Стили для форм
+ */
+
+.tgg-form {
+  background: $color-bg-secondary;
+  border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+  border-radius: $border-radius-lg;
+  padding: $spacing-2xl;
+  
+  &__group {
+    margin-bottom: $spacing-lg;
+  }
+  
+  &__label {
+    display: block;
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-body-medium;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  &__input,
+  &__textarea,
+  &__select {
+    width: 100%;
+    padding: $spacing-md;
+    font-family: $font-body;
+    font-size: $font-size-base;
+    color: $color-text-primary;
+    background: $color-bg-primary;
+    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border-radius: $border-radius-md;
+    transition: all $duration-normal $ease-out-cubic;
+    
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    &.error {
+      border-color: $color-error;
+    }
+    
+    &::placeholder {
+      color: $color-text-muted;
+    }
+  }
+  
+  &__textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  &__submit {
+    @extend .tgg-btn-primary;
+  }
+  
+  &-message {
+    padding: $spacing-md;
+    border-radius: $border-radius-md;
+    margin-bottom: $spacing-lg;
+    font-family: $font-body;
+    font-size: $font-size-base;
+    
+    &--success {
+      background: rgba(16, 185, 129, 0.1);
+      border: $border-width-thin solid rgba(16, 185, 129, 0.3);
+      color: $color-success;
+    }
+    
+    &--error {
+      background: rgba(239, 68, 68, 0.1);
+      border: $border-width-thin solid rgba(239, 68, 68, 0.3);
+      color: $color-error;
+    }
+  }
+}
+

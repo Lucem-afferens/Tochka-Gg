@@ -1,0 +1,449 @@
+---
+rule_type: always
+description: WordPress theme structure and file organization rules
+---
+
+# WordPress Theme Structure Rules
+
+## Структура темы
+
+### Обязательная структура файлов WordPress темы:
+
+```
+tochka-gg-theme/
+├── style.css (заголовок темы)
+├── functions.php (инициализация, хуки, регистрация)
+├── index.php (fallback шаблон)
+├── header.php (шапка сайта)
+├── footer.php (подвал сайта)
+├── sidebar.php (боковая панель, если нужна)
+│
+├── page.php (шаблон страницы)
+├── single.php (шаблон записи)
+├── archive.php (архив записей)
+├── 404.php (страница 404)
+├── search.php (результаты поиска)
+│
+├── template-parts/ (переиспользуемые части)
+│   ├── content/
+│   │   ├── content-none.php
+│   │   ├── content-page.php
+│   │   └── content-single.php
+│   ├── components/
+│   │   ├── hero-section.php
+│   │   ├── about-section.php
+│   │   ├── advantages-section.php
+│   │   ├── services-section.php
+│   │   ├── pricing-table.php
+│   │   ├── equipment-section.php
+│   │   └── contacts-section.php
+│   └── sections/
+│       ├── header-nav.php
+│       └── footer-widgets.php
+│
+├── templates/ (кастомные шаблоны страниц)
+│   ├── template-homepage.php
+│   ├── template-pricing.php
+│   ├── template-equipment.php
+│   └── template-contacts.php
+│
+├── assets/ (компилированные ресурсы из Vite)
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── main.js
+│   ├── images/
+│   └── fonts/
+│
+├── src/ (исходные файлы для сборки)
+│   ├── sass/
+│   │   ├── style.scss
+│   │   ├── base/
+│   │   ├── components/
+│   │   └── sections/
+│   └── js/
+│       ├── main.js
+│       └── modules/
+│
+├── inc/ (вспомогательные PHP файлы)
+│   ├── theme-setup.php (настройка темы)
+│   ├── enqueue-assets.php (подключение ресурсов)
+│   ├── custom-post-types.php (кастомные типы записей)
+│   ├── acf-fields.php (настройка ACF)
+│   ├── theme-functions.php (кастомные функции)
+│   └── security.php (функции безопасности)
+│
+└── languages/ (переводы, если нужны)
+    └── tochka-gg-theme.pot
+```
+
+---
+
+## Ключевые файлы
+
+### style.css
+
+**Обязательный заголовок темы:**
+```css
+/*
+Theme Name: Tochka Gg
+Theme URI: https://kungur-tochkagg.ru
+Author: Николай Д.
+Author URI: https://develonik.ru
+Description: Премиальный компьютерный клуб "Точка Gg" в Кунгуре. Кастомная WordPress тема с полным управлением контентом через ACF.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.4
+Requires PHP: 8.1
+License: Proprietary
+License URI: 
+Text Domain: tochka-gg
+*/
+```
+
+### functions.php
+
+**Структура:**
+```php
+<?php
+/**
+ * Tochka Gg Theme Functions
+ */
+
+// Защита от прямого доступа
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// Константы темы
+define('THEME_VERSION', '1.0.0');
+define('THEME_PATH', get_template_directory());
+define('THEME_URI', get_template_directory_uri());
+
+// Подключение файлов инициализации
+require_once THEME_PATH . '/inc/theme-setup.php';
+require_once THEME_PATH . '/inc/enqueue-assets.php';
+require_once THEME_PATH . '/inc/custom-post-types.php';
+require_once THEME_PATH . '/inc/acf-fields.php';
+require_once THEME_PATH . '/inc/theme-functions.php';
+```
+
+---
+
+## Правила организации файлов
+
+### 1. Разделение ответственности
+
+**inc/theme-setup.php:**
+- Регистрация поддержки функций темы
+- Регистрация меню
+- Регистрация сайдбаров
+- Добавление хуков настройки
+
+**inc/enqueue-assets.php:**
+- Все `wp_enqueue_style()`
+- Все `wp_enqueue_script()`
+- Условная загрузка ресурсов
+- Оптимизация загрузки
+
+**inc/custom-post-types.php:**
+- Регистрация Custom Post Types (tournaments, news)
+- Регистрация таксономий
+- Мета-боксы (если не используется ACF)
+
+**inc/acf-fields.php:**
+- Регистрация групп ACF полей
+- Локализация ACF (если нужно)
+- Поля опций (Options Page)
+
+**inc/theme-functions.php:**
+- Кастомные функции темы
+- Хуки и фильтры
+- Вспомогательные функции
+
+### 2. Template Parts
+
+**Использование:**
+- Для переиспользуемых компонентов
+- Для логической группировки кода
+- Для упрощения поддержки
+
+**Пример:**
+```php
+// В шаблоне страницы
+<?php get_template_part('template-parts/components/hero-section'); ?>
+<?php get_template_part('template-parts/components/about-section'); ?>
+```
+
+**Параметры:**
+```php
+// Передача данных
+<?php 
+$args = array(
+    'title' => get_field('hero_title'),
+    'subtitle' => get_field('hero_subtitle')
+);
+get_template_part('template-parts/components/hero-section', null, $args);
+?>
+```
+
+### 3. Кастомные шаблоны страниц
+
+**Создание:**
+- В начале файла: `<?php /* Template Name: Homepage */ ?>`
+- Использовать для уникальных страниц
+- Настраивать в админке: Страницы → Атрибуты страницы
+
+**Примеры:**
+- `template-homepage.php` - Главная страница
+- `template-pricing.php` - Страница цен
+- `template-equipment.php` - Страница оборудования
+
+---
+
+## Интеграция с Vite
+
+### Структура сборки
+
+**Исходники (src/):**
+```
+src/
+├── sass/
+│   └── style.scss
+└── js/
+    └── main.js
+```
+
+**Результат сборки (assets/):**
+```
+assets/
+├── css/
+│   └── style.css (компилированный и минифицированный)
+└── js/
+    └── main.js (компилированный и минифицированный)
+```
+
+### Настройка Vite для темы
+
+**vite.config.mjs должен:**
+1. Компилировать SASS в CSS
+2. Обрабатывать JavaScript
+3. Выводить файлы в `assets/`
+4. Минифицировать в production
+5. Генерировать source maps (опционально)
+
+### Подключение в WordPress
+
+**В inc/enqueue-assets.php:**
+```php
+// Стили
+wp_enqueue_style(
+    'tochka-gg-style',
+    THEME_URI . '/assets/css/style.css',
+    array(),
+    THEME_VERSION
+);
+
+// Скрипты
+wp_enqueue_script(
+    'tochka-gg-script',
+    THEME_URI . '/assets/js/main.js',
+    array(), // зависимости
+    THEME_VERSION,
+    true // в footer
+);
+```
+
+---
+
+## Правила именования
+
+### Файлы PHP
+
+- **Шаблоны:** `template-{name}.php`
+- **Template parts:** `{component-name}.php`
+- **Функции:** `{theme-name}-{function-name}.php` или `{function-name}.php`
+
+### Классы CSS
+
+- Использовать BEM методологию или похожую
+- Префикс темы: `.tgg-` (Tochka Gg)
+- Пример: `.tgg-hero`, `.tgg-hero__title`, `.tgg-hero--fullscreen`
+
+### JavaScript функции
+
+- Префикс темы: `tgg_` или `tochkaGg`
+- Пример: `tgg_initSlider()`, `tochkaGg.showModal()`
+
+### PHP функции
+
+- Префикс темы: `tochka_gg_` или `tgg_`
+- Пример: `tochka_gg_get_price()`, `tgg_render_component()`
+
+---
+
+## Организация стилей
+
+### Структура SASS
+
+```
+src/sass/
+├── style.scss (главный файл)
+├── base/
+│   ├── _reset.scss
+│   ├── _variables.scss
+│   ├── _typography.scss
+│   └── _mixins.scss
+├── components/
+│   ├── _button.scss
+│   ├── _card.scss
+│   └── _modal.scss
+├── sections/
+│   ├── _header.scss
+│   ├── _hero.scss
+│   ├── _pricing.scss
+│   └── _footer.scss
+└── utilities/
+    ├── _helpers.scss
+    └── _animations.scss
+```
+
+### Импорты в style.scss
+
+```scss
+// Base
+@import 'base/variables';
+@import 'base/mixins';
+@import 'base/reset';
+@import 'base/typography';
+
+// Components
+@import 'components/button';
+@import 'components/card';
+
+// Sections
+@import 'sections/header';
+@import 'sections/hero';
+@import 'sections/pricing';
+
+// Utilities
+@import 'utilities/helpers';
+```
+
+---
+
+## Организация JavaScript
+
+### Модульная структура
+
+```
+src/js/
+├── main.js (главный файл)
+└── modules/
+    ├── navigation.js
+    ├── slider.js
+    ├── modal.js
+    ├── forms.js
+    └── animations.js
+```
+
+### Пример модуля
+
+```javascript
+// modules/navigation.js
+export function initNavigation() {
+    // Логика навигации
+}
+
+// main.js
+import { initNavigation } from './modules/navigation.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    initNavigation();
+});
+```
+
+---
+
+## Важные правила
+
+### 1. Всегда использовать get_template_directory()
+
+**Правильно:**
+```php
+require_once get_template_directory() . '/inc/theme-setup.php';
+```
+
+**Неправильно:**
+```php
+require_once '/inc/theme-setup.php'; // Абсолютный путь
+```
+
+### 2. Использовать константы темы
+
+```php
+define('THEME_URI', get_template_directory_uri());
+define('THEME_PATH', get_template_directory());
+```
+
+###3. Проверка существования файлов
+
+```php
+$file_path = THEME_PATH . '/inc/file.php';
+if (file_exists($file_path)) {
+    require_once $file_path;
+}
+```
+
+### 4. Защита от прямого доступа
+
+**В каждом PHP файле (кроме index.php):**
+```php
+if (!defined('ABSPATH')) {
+    exit;
+}
+```
+
+---
+
+## Контрольный список структуры
+
+При создании темы проверить:
+
+- [ ] Создан style.css с правильным заголовком
+- [ ] Создан functions.php с подключением всех файлов
+- [ ] Созданы header.php и footer.php
+- [ ] Создан index.php как fallback
+- [ ] Созданы шаблоны страниц (page.php, single.php)
+- [ ] Организованы template-parts
+- [ ] Создана папка inc/ с разделением по файлам
+- [ ] Настроена интеграция с Vite
+- [ ] Все пути используют WordPress функции
+- [ ] Все файлы защищены от прямого доступа
+
+---
+
+## Миграция существующего кода
+
+### Процесс:
+
+1. **Создать структуру темы**
+   - Базовые файлы WordPress
+   - Папки для организации
+
+2. **Перенести HTML в шаблоны**
+   - Разбить index.html на header.php, footer.php, template parts
+   - Адаптировать под WordPress структуру
+
+3. **Интегрировать контент**
+   - Заменить статический контент на ACF поля
+   - Использовать WordPress функции для вывода
+
+4. **Настроить сборку**
+   - Адаптировать Vite под структуру темы
+   - Настроить пути для компиляции
+
+5. **Тестирование**
+   - Проверить работу всех шаблонов
+   - Проверить управление контентом
+   - Проверить производительность

@@ -1,10 +1,12 @@
 {
-  "name": "Tochka-Gg",
+  "name": "tochkagg-theme",
   "version": "1.0.0",
+  "description": "WordPress тема для компьютерного клуба 'Точка Gg'",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "vite --config vite.config.wordpress.mjs",
+    "build": "vite build --config vite.config.wordpress.mjs",
+    "build:watch": "vite build --config vite.config.wordpress.mjs --watch",
+    "preview": "vite preview --config vite.config.wordpress.mjs"
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^7.1.0",

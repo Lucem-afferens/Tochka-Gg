@@ -1,0 +1,266 @@
+/**
+ * Archive Pages Styles (Tournaments, News)
+ */
+
+.tgg-archive {
+  padding: $spacing-5xl 0;
+  background: $color-bg-primary;
+  
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-4xl;
+  }
+  
+  &__title {
+    font-family: $font-heading;
+    font-size: $font-size-h1;
+    font-weight: $font-weight-heading-bold;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-lg;
+  }
+  
+  &__description {
+    font-family: $font-body;
+    font-size: $font-size-lg;
+    color: $color-text-secondary;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  &__items {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  &__item {
+    background: $color-bg-secondary;
+    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    transition: all $duration-normal $ease-out-cubic;
+    
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-8px);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+    }
+    
+    &-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform $duration-slow $ease-out-cubic;
+      }
+      
+      .tgg-archive__item:hover & img {
+        transform: scale(1.1);
+      }
+    }
+    
+    &-content {
+      padding: $spacing-xl;
+    }
+    
+    &-meta {
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+      font-family: $font-body;
+      font-size: $font-size-sm;
+      color: $color-text-muted;
+      margin-bottom: $spacing-md;
+    }
+    
+    &-author {
+      &::before {
+        content: '•';
+        margin-right: $spacing-sm;
+      }
+    }
+    
+    &-title {
+      font-family: $font-heading;
+      font-size: $font-size-h4;
+      font-weight: $font-weight-heading-regular;
+      color: $color-text-primary;
+      margin-bottom: $spacing-md;
+      
+      a {
+        color: inherit;
+        text-decoration: none;
+        transition: color $duration-normal $ease-out-cubic;
+        
+        &:hover {
+          color: $color-primary;
+        }
+      }
+    }
+    
+    &-date {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      font-family: $font-body;
+      font-size: $font-size-sm;
+      color: $color-text-secondary;
+      margin-bottom: $spacing-md;
+      
+      svg {
+        width: 16px;
+        height: 16px;
+        color: $color-primary;
+      }
+    }
+    
+    &-prize {
+      display: flex;
+      align-items: baseline;
+      gap: $spacing-sm;
+      font-family: $font-body;
+      font-size: $font-size-sm;
+      color: $color-text-secondary;
+      margin-bottom: $spacing-md;
+      
+      strong {
+        font-family: $font-heading;
+        font-size: $font-size-lg;
+        color: $color-secondary;
+        font-weight: $font-weight-heading-bold;
+      }
+    }
+    
+    &-excerpt {
+      font-family: $font-body;
+      font-size: $font-size-base;
+      line-height: $line-height-normal;
+      color: $color-text-secondary;
+      margin-bottom: $spacing-md;
+    }
+    
+    &-link {
+      display: inline-flex;
+      align-items: center;
+      gap: $spacing-sm;
+      font-family: $font-body;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-body-medium;
+      color: $color-primary;
+      text-decoration: none;
+      transition: all $duration-normal $ease-out-cubic;
+      
+      &:hover {
+        gap: $spacing-md;
+        color: $color-primary-bright;
+      }
+    }
+  }
+  
+  &__empty {
+    text-align: center;
+    padding: $spacing-4xl 0;
+    color: $color-text-secondary;
+    font-size: $font-size-lg;
+  }
+}
+
+// Pagination
+.wp-pagenavi,
+.wp-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $spacing-md;
+  margin-top: $spacing-4xl;
+  flex-wrap: wrap;
+  
+  a, span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 $spacing-md;
+    font-family: $font-body;
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    background: $color-bg-secondary;
+    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border-radius: $border-radius-md;
+    text-decoration: none;
+    transition: all $duration-normal $ease-out-cubic;
+    
+    &:hover {
+      color: $color-primary;
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-2px);
+    }
+  }
+  
+  .current {
+    color: $color-text-primary;
+    background: rgba(59, 130, 246, 0.1);
+    border-color: $color-primary;
+  }
+}
+
+// WordPress default pagination
+.page-numbers {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-4xl;
+  list-style: none;
+  padding: 0;
+  
+  li {
+    display: inline-block;
+  }
+  
+  a, span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 $spacing-md;
+    font-family: $font-body;
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    background: $color-bg-secondary;
+    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border-radius: $border-radius-md;
+    text-decoration: none;
+    transition: all $duration-normal $ease-out-cubic;
+    
+    &:hover {
+      color: $color-primary;
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-2px);
+    }
+  }
+  
+  .current {
+    color: $color-text-primary;
+    background: rgba(59, 130, 246, 0.1);
+    border-color: $color-primary;
+  }
+}
+

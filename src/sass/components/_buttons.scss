@@ -1,0 +1,81 @@
+/**
+ * Buttons
+ * 
+ * Стили кнопок
+ */
+
+// Переменные и миксины импортируются в главном файле style.scss
+
+// ============================================
+// PRIMARY BUTTON
+// ============================================
+
+.tgg-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md $spacing-xl;
+  font-family: $font-heading;
+  font-size: $font-size-base;
+  font-weight: $font-weight-heading-regular;
+  line-height: 1;
+  color: $color-text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: $gradient-primary;
+  border: none;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all $duration-normal $ease-out-cubic;
+  position: relative;
+  overflow: hidden;
+  
+  @include focus-visible;
+  @include neon-glow($color-primary, 0.4);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+    background: linear-gradient(90deg, $color-primary-bright 0%, $color-primary 100%);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ============================================
+// SECONDARY BUTTON
+// ============================================
+
+.tgg-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md $spacing-xl;
+  font-family: $font-heading;
+  font-size: $font-size-base;
+  font-weight: $font-weight-heading-regular;
+  color: $color-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: transparent;
+  border: $border-width-medium solid $color-primary;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all $duration-normal $ease-out-cubic;
+  
+  @include focus-visible;
+  
+  &:hover {
+    background: rgba(59, 130, 246, 0.1);
+    @include neon-glow($color-primary, 0.3);
+    transform: translateY(-2px);
+  }
+}
+

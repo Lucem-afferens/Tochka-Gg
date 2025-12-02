@@ -1,140 +1,67 @@
-@import 'libs/bootstrap-reboot.min';
+/**
+ * Main Stylesheet
+ * 
+ * Главный файл стилей темы
+ * Импортирует все компоненты и секции
+ */
+
+// ============================================
+// BASE
+// ============================================
+
 @import 'base/variables';
+@import 'base/reset';
 @import 'base/mixins';
-@import 'base/performance';
-@import 'base/minimal';
-@import 'blocks/index.scss';
+@import 'base/typography';
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+// ============================================
+// COMPONENTS
+// ============================================
 
-@font-face {
-    font-family: "Feature Mono", system-ui, serif;
-    src: url('fonts/FeatureMono-Regular.ttf')format("truetype");
-    font-weight: 400;
-    font-display: swap;
+@import 'components/buttons';
+@import 'components/cards';
+@import 'components/forms';
+
+// ============================================
+// SECTIONS
+// ============================================
+
+@import 'sections/header';
+@import 'sections/hero';
+@import 'sections/about';
+@import 'sections/advantages';
+@import 'sections/services';
+@import 'sections/equipment';
+@import 'sections/tournaments';
+@import 'sections/footer-cta';
+@import 'sections/pricing';
+@import 'sections/contacts';
+@import 'sections/vr';
+@import 'sections/footer';
+@import 'sections/archive';
+@import 'sections/single';
+@import 'sections/equipment-full';
+@import 'sections/404';
+@import 'sections/search';
+
+// ============================================
+// UTILITIES
+// ============================================
+
+@import 'utilities/helpers';
+@import 'utilities/animations';
+
+// ============================================
+// GLOBAL STYLES
+// ============================================
+
+// Container
+.tgg-container {
+  @include container;
 }
 
-@font-face {
-    font-family: "Feature Mono", system-ui, serif;
-    src: url('fonts/FeatureMono-Medium.ttf')format("truetype");
-    font-weight: 500;
-    font-display: swap;
+// Main content area
+.tgg-main {
+  min-height: 100vh;
+  padding-top: 80px; // Компенсация фиксированного header
 }
-
-@font-face {
-    font-family: "Feature Mono", system-ui, serif;
-    src: url('fonts/FeatureMono-Medium.ttf')format("truetype");
-    font-weight: 600;
-    font-display: swap;
-}
-
-// @import 'swiper/swiper-bundle.css';
-
-
-* {
-    font-family: $body-font;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-    margin: 0;
-    padding: 0;
-}
-
-// Легкие оптимизации для изображений (не влияют на стили)
-img {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-}
-
-html {
-    scroll-behavior: smooth;
-    scrollbar-gutter: stable;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch; // Улучшает скролл на iOS
-    &.none-scroll {
-        overflow: hidden;
-        height: 100%;
-    }
-}
-
-button {
-    background: none;
-    border: none;
-    color: #fff;
-}
-
-body {
-    background-color: $body-bg;
-    color: #fff;
-    position: relative;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch; // Улучшает скролл на iOS
-    &.none-scroll {
-        overflow: hidden;
-        height: 100%;
-    }
-}
-
-// .main, .about {
-//     background: #000;
-// }
-// .main {
-//     mask-image: linear-gradient(transparent 0, #000 10%);
-
-// }
-// .about {
-//     &::after {
-//         content:"";
-//         position: absolute;
-//         width: 100%;
-//         height: 100%;
-//         background: $body-bg;
-//         mask-image: linear-gradient(transparent 90%, #000 100%);
-//     }
-// }
-
-a {
-    text-decoration: none;
-    color: #fff;
-    cursor: pointer;
-    &:hover {
-        color: #fff;
-        text-decoration: none;
-    }
-}
-
-.container {
-    width: 85%;
-    height: 100%;
-    margin: 0 auto;
-    overflow: visible;
-    container-type: inline-size;
-    position: relative;
-    z-index: 1;
-}
-
-h1 {
-    margin-bottom: 0;
-}
-
-/* SEO-friendly text hiding */
-.seo-text {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-}
-
-.animated-text {
-    display: inline-block;
-}
-
-// Lighthouse fix: Ensure all h1 elements have explicit font-size
-// This rule has high specificity and comes last to override other styles
-section h1, article h1, aside h1, nav h1, main h1, h1 {
-    font-size: 2rem !important;
-}
-

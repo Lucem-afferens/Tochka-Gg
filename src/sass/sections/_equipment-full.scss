@@ -1,0 +1,145 @@
+/**
+ * Equipment Full Page Styles
+ */
+
+.tgg-equipment-full {
+  padding: $spacing-5xl 0;
+  background: $color-bg-primary;
+  
+  &__title {
+    font-family: $font-heading;
+    font-size: $font-size-h1;
+    font-weight: $font-weight-heading-bold;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-4xl;
+  }
+  
+  &__category {
+    background: $color-bg-secondary;
+    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border-radius: $border-radius-lg;
+    padding: $spacing-3xl;
+    margin-bottom: $spacing-3xl;
+    transition: all $duration-normal $ease-out-cubic;
+    
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+    }
+  }
+  
+  &__category-title {
+    font-family: $font-heading;
+    font-size: $font-size-h2;
+    font-weight: $font-weight-heading-bold;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-2xl;
+    padding-bottom: $spacing-lg;
+    border-bottom: $border-width-thin solid rgba(59, 130, 246, 0.2);
+  }
+  
+  &__specs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-lg;
+    margin-bottom: $spacing-2xl;
+  }
+  
+  &__spec-item {
+    background: $color-bg-primary;
+    border: $border-width-thin solid rgba(59, 130, 246, 0.1);
+    border-radius: $border-radius-md;
+    padding: $spacing-lg;
+    text-align: center;
+    transition: all $duration-normal $ease-out-cubic;
+    
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.3);
+      transform: translateY(-4px);
+    }
+  }
+  
+  &__spec-label {
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-body-medium;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-sm;
+  }
+  
+  &__spec-value {
+    font-family: $font-heading;
+    font-size: $font-size-h4;
+    font-weight: $font-weight-heading-regular;
+    color: $color-primary;
+    line-height: $line-height-tight;
+  }
+  
+  &__peripherals {
+    margin-top: $spacing-2xl;
+    padding-top: $spacing-2xl;
+    border-top: $border-width-thin solid rgba(59, 130, 246, 0.1);
+  }
+  
+  &__peripherals-title {
+    font-family: $font-heading;
+    font-size: $font-size-h4;
+    font-weight: $font-weight-heading-regular;
+    color: $color-text-primary;
+    margin-bottom: $spacing-lg;
+    text-transform: uppercase;
+  }
+  
+  &__peripherals-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      font-family: $font-body;
+      font-size: $font-size-base;
+      line-height: $line-height-relaxed;
+      color: $color-text-secondary;
+      padding: $spacing-sm 0;
+      padding-left: $spacing-xl;
+      position: relative;
+      
+      &::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: $color-primary;
+        font-size: 1.5em;
+        line-height: 1;
+      }
+      
+      strong {
+        color: $color-text-primary;
+        font-weight: $font-weight-body-semibold;
+      }
+    }
+  }
+  
+  &__description {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-xl;
+    border-top: $border-width-thin solid rgba(59, 130, 246, 0.1);
+    
+    p {
+      font-family: $font-body;
+      font-size: $font-size-base;
+      line-height: $line-height-relaxed;
+      color: $color-text-secondary;
+    }
+  }
+}
+

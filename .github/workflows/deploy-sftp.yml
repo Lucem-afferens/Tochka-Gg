@@ -1,71 +1,43 @@
-name: Deploy to Beget via SFTP (Alternative)
+name: Deploy to Beget (SFTP)
 
 on:
-  workflow_dispatch:
-    inputs:
-      use_sftp:
-        description: 'Использовать SFTP вместо FTP'
-        required: true
-        default: 'true'
-        type: boolean
+  push:
+    branches:
+      - main
+    paths:
+      - 'theme/**'
+      - 'src/**'
+      - 'vite.config.wordpress.mjs'
+      - 'package.json'
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
       
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: |
-        npm ci
-        
-    - name: Build project
-      run: |
-        npm run build
-        
-    - name: Copy configuration files
-      run: |
-        cp .htaccess dist/
-        cp .user.ini dist/
-        
-    - name: Deploy via SFTP
-      if: ${{ github.event.inputs.use_sftp == 'true' }}
-      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-      with:
-        server: ${{ secrets.FTP_HOST }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local_path: './dist/*'
-        remote_path: ${{ secrets.FTP_PATH }}
-        sftp_args: '-o ConnectTimeout=5'
-        
-    - name: Deploy via FTP (fallback)
-      if: ${{ github.event.inputs.use_sftp == 'false' }}
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: ${{ secrets.FTP_HOST }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/
-        server-dir: ${{ secrets.FTP_PATH }}
-        dangerous-clean-slate: false
-        dry-run: false
-        log-level: verbose
-        ftp-settings: |
-          PASV
-          TYPE I
-        
-    - name: Deployment Status
-      run: |
-        echo "🚀 Деплой завершен успешно!"
-        echo "📅 Время: $(date)"
-        echo "🌐 Сайт: https://kungur-tochkagg.ru/"
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build assets
+        run: npm run build
+      
+      - name: Deploy via SFTP
+        uses: easingthemes/ssh-deploy@v4
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.BEGET_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.BEGET_SSH_HOST }}
+          REMOTE_USER: ${{ secrets.BEGET_SSH_USER }}
+          REMOTE_PORT: ${{ secrets.BEGET_SSH_PORT || 22 }}
+          SOURCE: "theme/"
+          TARGET: "/public_html/wp-content/themes/tochkagg-theme/"
+          ARGS: "-rlgoDzvc -i"
+

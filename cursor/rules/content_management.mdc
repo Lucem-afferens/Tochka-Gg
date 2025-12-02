@@ -1,0 +1,372 @@
+---
+rule_type: always
+description: Rules for content management through WordPress CMS
+---
+
+# Content Management Rules
+
+## Принцип разделения контента и кода
+
+**Золотое правило:** Если данные могут измениться, они должны управляться через WordPress Admin Panel, а не быть захардкожены в коде.
+
+---
+
+## Что должно управляться через CMS
+
+### 1. Цены и тарифы ✅
+- Все цены в тарифной сетке
+- Разделение по дням недели (Пн-Чт / Пт-Вс)
+- Разделение по категориям (LITE / VIP)
+- Разные типы пакетов (1 час, СТАРТ, GG, НОЧЬ, ночной час)
+- **Реализация:** ACF Repeater Field или Custom Post Type с мета-полями
+
+### 2. Характеристики оборудования ✅
+- Модели компьютеров (видеокарта, процессор, память)
+- Количество мест каждого типа
+- Характеристики периферии (мониторы, кресла, мыши, клавиатуры)
+- Модели и описания оборудования
+- **Реализация:** ACF Repeater или Custom Post Type "equipment"
+
+### 3. Контактная информация ✅
+- Телефон(ы)
+- Адрес
+- Email
+- Социальные сети (ссылки, иконки)
+- Координаты для карты
+- Время работы
+- **Реализация:** ACF Options Page
+
+### 4. Фотографии и изображения ✅
+- Все изображения на сайте
+- Фото компьютеров
+- Фото клуба
+- Иконки и логотипы
+- Галереи
+- **Реализация:** ACF Image Field, Gallery Field, Media Library
+
+### 5. Текстовый контент ✅
+- Описания разделов
+- О клубе
+- Преимущества
+- Описания услуг
+- SEO мета-теги
+- **Реализация:** ACF WYSIWYG, Textarea, Text Fields
+
+### 6. Новости и события ✅
+- Новости клуба
+- Анонсы турниров
+- События
+- **Реализация:** Custom Post Type "news" или стандартный "posts"
+
+### 7. Турниры ✅
+- Название турнира
+- Дата и время
+- Описание
+- Правила
+- Регистрация
+- Призы
+- **Реализация:** Custom Post Type "tournaments"
+
+### 8. Дополнительные услуги ✅
+- PS5 информация (количество, игры)
+- VR арена детали
+- Еда и напитки (меню, цены)
+- **Реализация:** ACF Fields на страницах или Options
+
+---
+
+## Структура управления контентом
+
+### Главная страница
+
+**ACF Fields:**
+```
+homepage/
+├── hero_section/
+│   ├── title
+│   ├── subtitle
+│   ├── background_image
+│   └── cta_button_text
+├── about_section/
+│   ├── title
+│   ├── description
+│   ├── image
+│   └── features (Repeater)
+│       ├── icon
+│       ├── title
+│       └── description
+├── services_section/
+│   └── services (Repeater)
+│       ├── title
+│       ├── description
+│       ├── image
+│       └── link
+└── cta_section/
+    ├── title
+    ├── description
+    └── button_text
+```
+
+### Страница цен
+
+**ACF Fields:**
+```
+pricing_page/
+└── price_table/
+    └── packages (Repeater)
+        ├── package_name
+        ├── time_period
+        ├── lite_weekday_price
+        ├── lite_weekend_price
+        ├── vip_weekday_price
+        └── vip_weekend_price
+```
+
+**Особые тарифы:**
+```
+pricing_page/
+├── night_hour/
+│   ├── lite_weekday
+│   ├── lite_weekend
+│   ├── vip_weekday
+│   └── vip_weekend
+└── discounts_info (Textarea для информации об акциях)
+```
+
+### Страница оборудования
+
+**ACF Fields:**
+```
+equipment_page/
+├── pc_section/
+│   └── pc_types (Repeater)
+│       ├── category (LITE/VIP)
+│       ├── quantity
+│       ├── video_card
+│       ├── processor
+│       ├── ram
+│       └── image
+├── peripherals/
+│   ├── monitors (Repeater)
+│   ├── chairs (Repeater)
+│   ├── headphones (Repeater)
+│   ├── mice (Repeater)
+│   └── keyboards (Repeater)
+└── ps5_section/
+    ├── quantity
+    ├── controllers_count
+    ├── games_count
+    ├── ps_plus_available (boolean)
+    └── description
+```
+
+### Контакты
+
+**ACF Options Page:**
+```
+theme_options/
+├── contact_info/
+│   ├── phone_main
+│   ├── phone_vr
+│   ├── email
+│   ├── address_full
+│   ├── address_short
+│   ├── map_coordinates/
+│   │   ├── latitude
+│   │   └── longitude
+│   └── working_hours
+├── social_networks/
+│   └── social_links (Repeater)
+│       ├── platform_name
+│       ├── url
+│       └── icon
+└── vr_arena/
+    ├── vk_link
+    ├── phone
+    └── description
+```
+
+### Новости
+
+**Custom Post Type: "news"**
+```
+news/
+├── Standard WP fields (title, content, excerpt, featured_image)
+├── publication_date
+├── author
+└── category (optional)
+```
+
+### Турниры
+
+**Custom Post Type: "tournaments"**
+```
+tournaments/
+├── Standard WP fields
+├── tournament_date
+├── tournament_time
+├── registration_deadline
+├── prize_pool
+├── rules (WYSIWYG)
+├── participants_count
+└── status (upcoming/ongoing/completed)
+```
+
+---
+
+## Правила работы с ACF
+
+### 1. Именование полей
+
+- Использовать snake_case: `lite_weekday_price`
+- Префиксы для группировки: `pc_`, `contact_`, `hero_`
+- Понятные названия: `phone_main` вместо `phone1`
+
+### 2. Типы полей
+
+- **Text** - для коротких текстов
+- **Textarea** - для длинных текстов
+- **WYSIWYG** - для форматированного контента
+- **Number** - для чисел (цены, количество)
+- **Image** - для одиночных изображений
+- **Gallery** - для нескольких изображений
+- **Repeater** - для повторяющихся блоков
+- **Group** - для группировки полей
+- **Select/Radio** - для выбора из вариантов
+- **Date Picker** - для дат
+- **True/False** - для булевых значений
+
+### 3. Валидация
+
+- Указывать обязательные поля в ACF
+- Проверять наличие данных в PHP коде
+- Использовать значения по умолчанию где возможно
+
+### 4. Организация
+
+- Группировать связанные поля в Groups
+- Использовать Tabs для разделения больших форм
+- Логические названия групп полей
+
+---
+
+## Примеры реализации
+
+### Вывод цен в шаблоне
+
+```php
+<?php if( have_rows('price_table_packages') ): ?>
+    <div class="price-table">
+        <?php while( have_rows('price_table_packages') ): the_row(); ?>
+            <div class="price-row">
+                <div class="package-name">
+                    <?php the_sub_field('package_name'); ?>
+                </div>
+                <div class="lite-weekday">
+                    <?php echo esc_html( get_sub_field('lite_weekday_price') ); ?> ₽
+                </div>
+                <!-- остальные колонки -->
+            </div>
+        <?php endwhile; ?>
+    </div>
+<?php endif; ?>
+```
+
+### Вывод характеристик компьютеров
+
+```php
+<?php 
+$pc_types = get_field('pc_section_pc_types');
+if( $pc_types ): 
+    foreach( $pc_types as $pc ): ?>
+        <div class="pc-card">
+            <h3><?php echo esc_html( $pc['category'] ); ?></h3>
+            <p>Количество: <?php echo esc_html( $pc['quantity'] ); ?></p>
+            <ul>
+                <li>Видеокарта: <?php echo esc_html( $pc['video_card'] ); ?></li>
+                <li>Процессор: <?php echo esc_html( $pc['processor'] ); ?></li>
+                <li>Память: <?php echo esc_html( $pc['ram'] ); ?></li>
+            </ul>
+            <?php if( $pc['image'] ): ?>
+                <img src="<?php echo esc_url( $pc['image']['url'] ); ?>" 
+                     alt="<?php echo esc_attr( $pc['image']['alt'] ); ?>">
+            <?php endif; ?>
+        </div>
+    <?php endforeach; 
+endif; ?>
+```
+
+### Вывод контактов из Options
+
+```php
+<?php 
+$phone = get_field('phone_main', 'option');
+$address = get_field('address_full', 'option');
+?>
+<a href="tel:<?php echo esc_attr( $phone ); ?>">
+    <?php echo esc_html( $phone ); ?>
+</a>
+<address><?php echo esc_html( $address ); ?></address>
+```
+
+---
+
+## Миграция существующего контента
+
+### Процесс:
+
+1. **Анализ:** Определить весь статический контент
+2. **Создание ACF полей:** Настроить структуру полей
+3. **Заполнение данных:** Вручную или через импорт
+4. **Обновление шаблонов:** Заменить статический контент на динамический
+5. **Тестирование:** Проверить отображение и возможность редактирования
+
+---
+
+## Документирование для администратора
+
+### Обязательно создать:
+
+1. **Инструкцию по управлению ценами**
+   - Где находятся поля
+   - Как их изменять
+   - Формат данных
+
+2. **Инструкцию по добавлению новостей**
+   - Процесс создания записи
+   - Рекомендуемые размеры изображений
+   - Форматирование текста
+
+3. **Инструкцию по обновлению оборудования**
+   - Где изменять характеристики
+   - Как добавить новое оборудование
+   - Как обновить фотографии
+
+4. **Скриншоты и примеры**
+   - Визуальные инструкции
+   - Примеры правильного заполнения
+
+---
+
+## Контрольный список
+
+При создании любого раздела проверить:
+
+- [ ] Все изменяемые данные вынесены в ACF
+- [ ] Администратор может изменить данные без редактирования кода
+- [ ] Проверка существования данных перед выводом
+- [ ] Правильное экранирование всех данных
+- [ ] Значения по умолчанию для опциональных полей
+- [ ] Логичная группировка полей
+- [ ] Понятные названия полей
+- [ ] Инструкция по использованию создана
+
+---
+
+## Важные напоминания
+
+- **Никогда не хардкодить:** Цены, контакты, описания должны быть в админке
+- **Всегда проверять:** Использовать `if( get_field() )` перед выводом
+- **Безопасность:** Экранировать все данные перед выводом
+- **Удобство:** Делать админ панель понятной для не-разработчиков
+- **Гибкость:** Предусматривать возможность расширения

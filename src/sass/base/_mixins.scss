@@ -1,38 +1,122 @@
-@mixin glow {
-    &:before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 10px;
-        height: 10px;
-        border-radius: 100%;
-        background: #fff;
-        filter: drop-shadow(0 0 0.75rem crimson);
+/**
+ * Mixins
+ * 
+ * Переиспользуемые SASS mixins
+ */
+
+// Переменные импортируются в главном файле style.scss
+
+// ============================================
+// MEDIA QUERIES
+// ============================================
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == xs {
+    @media (min-width: $breakpoint-xs) {
+      @content;
     }
+  }
+  @else if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  }
+  @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  }
+  @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+  @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  }
+  @else if $breakpoint == 2xl {
+    @media (min-width: $breakpoint-2xl) {
+      @content;
+    }
+  }
 }
 
+// ============================================
+// CONTAINER
+// ============================================
 
-
-
-@mixin priceGift {
-    &::before {
-        content: "+ комбо подарок";
-        position: absolute;
-        width: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: -10%;
-        font-size: clamp(10px, 2vw, 20px);
-        // letter-spacing: .1rem;
-        color: rgb(0, 255, 55);
-    }
-    // &::after {
-    //     content: url('../img/price-gift.webp');
-    //     position: absolute;
-    //     width: 100%;
-    //     height: 100%;
-    //     overflow: visible;
-    // }
+@mixin container {
+  width: 100%;
+  max-width: $container-content-width;
+  margin: 0 auto;
+  padding: 0 $container-padding-mobile;
+  
+  @include respond-to(lg) {
+    padding: 0 $container-padding-desktop;
+  }
 }
+
+// ============================================
+// FOCUS STATES
+// ============================================
+
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 4px;
+    border-radius: $border-radius-sm;
+  }
+}
+
+// ============================================
+// TRUNCATE TEXT
+// ============================================
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// ============================================
+// NEON GLOW EFFECT
+// ============================================
+
+@mixin neon-glow($color: $color-primary, $intensity: 0.4) {
+  box-shadow: 0 0 20px rgba($color, $intensity);
+  
+  &:hover {
+    box-shadow: 0 0 30px rgba($color, $intensity * 1.5);
+  }
+}
+
+// ============================================
+// CLEARFIX
+// ============================================
+
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// ============================================
+// VISUALLY HIDDEN (для accessibility)
+// ============================================
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

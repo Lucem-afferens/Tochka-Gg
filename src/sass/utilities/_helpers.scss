@@ -1,0 +1,56 @@
+/**
+ * Helper Utilities
+ * 
+ * Вспомогательные утилиты
+ */
+
+// Переменные импортируются в главном файле style.scss
+
+// ============================================
+// VISIBILITY
+// ============================================
+
+.hidden {
+  display: none !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// ============================================
+// TEXT ALIGNMENT
+// ============================================
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// ============================================
+// SPACING UTILITIES
+// ============================================
+
+.mt-auto {
+  margin-top: auto;
+}
+
+.mb-auto {
+  margin-bottom: auto;
+}
+

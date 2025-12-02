@@ -1,0 +1,95 @@
+/**
+ * Footer CTA Section Styles
+ */
+
+.tgg-footer-cta {
+  padding: $spacing-5xl 0;
+  background: linear-gradient(135deg, $color-bg-secondary 0%, $color-bg-primary 100%);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  
+  &__wrapper {
+    position: relative;
+    z-index: 1;
+  }
+  
+  &__content {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  &__title {
+    font-family: $font-heading;
+    font-size: $font-size-h2;
+    font-weight: $font-weight-heading-bold;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-lg;
+    
+    @include respond-to(md) {
+      font-size: $font-size-h1;
+    }
+  }
+  
+  &__text {
+    font-family: $font-body;
+    font-size: $font-size-lg;
+    line-height: $line-height-relaxed;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-2xl;
+  }
+  
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-lg;
+    
+    @include respond-to(sm) {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+  
+  &__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-family: $font-body;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-body-semibold;
+    color: $color-text-primary;
+    text-decoration: none;
+    padding: $spacing-md $spacing-xl;
+    border: $border-width-medium solid rgba(59, 130, 246, 0.3);
+    border-radius: $border-radius-md;
+    transition: all $duration-normal $ease-out-cubic;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $color-primary;
+    }
+    
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.6);
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+}
+

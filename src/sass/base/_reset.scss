@@ -1,0 +1,130 @@
+/**
+ * Reset & Base Styles
+ * 
+ * Базовые стили и сброс браузерных стилей
+ */
+
+// Переменные импортируются в главном файле style.scss
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  font-family: $font-body;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+  color: $color-text-primary;
+  background-color: $color-bg-primary;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ============================================
+// TYPOGRAPHY
+// ============================================
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-heading;
+  font-weight: $font-weight-heading-bold;
+  line-height: $line-height-tight;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+}
+
+h1 {
+  font-size: $font-size-h1;
+}
+
+h2 {
+  font-size: $font-size-h2;
+}
+
+h3 {
+  font-size: $font-size-h3;
+}
+
+h4 {
+  font-size: $font-size-h4;
+}
+
+h5 {
+  font-size: $font-size-h5;
+}
+
+h6 {
+  font-size: $font-size-h6;
+}
+
+p {
+  margin-bottom: $spacing-md;
+}
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: color $duration-normal $ease-out-cubic;
+  
+  &:hover {
+    color: $color-primary-bright;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// ============================================
+// LISTS
+// ============================================
+
+ul, ol {
+  list-style: none;
+}
+
+// ============================================
+// BUTTONS
+// ============================================
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+// ============================================
+// INPUTS
+// ============================================
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+// ============================================
+// SELECTION
+// ============================================
+
+::selection {
+  background-color: $color-primary;
+  color: $color-text-primary;
+}
+
+::-moz-selection {
+  background-color: $color-primary;
+  color: $color-text-primary;
+}
+
