@@ -1,4 +1,4 @@
-name: Deploy to Beget
+name: 🚀 Deploy to Beget
 
 on:
   push:
@@ -9,10 +9,17 @@ on:
       - 'src/**'
       - 'vite.config.wordpress.mjs'
       - 'package.json'
+  workflow_dispatch: # Позволяет запускать вручную и всегда показывать статус
 
 jobs:
   build-and-deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
+    
+    # Убеждаемся, что статус показывается рядом с коммитом
+    permissions:
+      contents: read
+      deployments: write
     
     steps:
       - name: Checkout code
@@ -31,6 +38,7 @@ jobs:
         run: npm run build
       
       - name: Deploy to Beget via FTP
+        id: deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ${{ secrets.BEGET_FTP_HOST }}
@@ -47,3 +55,13 @@ jobs:
             **/.DS_Store
             **/Thumbs.db
           dangerous-clean-slate: false
+      
+      - name: Deployment summary
+        if: always()
+        run: |
+          if [ "${{ steps.deploy.outcome }}" == "success" ]; then
+            echo "✅ Deployment successful!"
+          else
+            echo "❌ Deployment failed!"
+            exit 1
+          fi
