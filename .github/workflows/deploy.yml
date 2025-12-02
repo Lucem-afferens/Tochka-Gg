@@ -15,11 +15,15 @@ jobs:
   build-and-deploy:
     name: Build & Deploy
     runs-on: ubuntu-latest
+    # Это гарантирует, что статус будет виден рядом с коммитом
+    outputs:
+      status: ${{ job.status }}
     
     # Убеждаемся, что статус показывается рядом с коммитом
     permissions:
       contents: read
       deployments: write
+      statuses: write
     
     steps:
       - name: Checkout code
