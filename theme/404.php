@@ -12,6 +12,7 @@ if (!defined('ABSPATH')) {
 get_header();
 ?>
 
+
 <main class="tgg-main">
     <section class="tgg-404">
         <div class="tgg-container">
