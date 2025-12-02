@@ -69,3 +69,4 @@ function tochkagg_register_sidebars() {
 }
 add_action('widgets_init', 'tochkagg_register_sidebars');
 
+

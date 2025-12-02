@@ -17,3 +17,4 @@ if (!defined('ABSPATH')) {
     <p><?php esc_html_e('Попробуйте поискать что-то другое.', 'tochkagg'); ?></p>
 </div>
 
+

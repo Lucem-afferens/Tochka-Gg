@@ -112,3 +112,4 @@ $tournaments_query = new WP_Query([
     </div>
 </section>
 
+

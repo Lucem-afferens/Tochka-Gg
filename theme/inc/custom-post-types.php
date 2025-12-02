@@ -89,3 +89,4 @@ function tochkagg_register_news_post_type() {
 }
 add_action('init', 'tochkagg_register_news_post_type');
 
+

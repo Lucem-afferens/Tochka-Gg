@@ -66,3 +66,4 @@ server-dir: /home/u1234567/kungur-tochkagg.ru/public_html/wp-content/themes/toch
 
 **Готово! Сделайте push и проверьте!** 🎉
 
+

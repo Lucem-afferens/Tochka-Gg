@@ -23,3 +23,4 @@ require_once TOCHKAGG_THEME_PATH . '/inc/theme-functions.php';
 require_once TOCHKAGG_THEME_PATH . '/inc/theme-security.php';
 require_once TOCHKAGG_THEME_PATH . '/inc/theme-helpers.php';
 
+

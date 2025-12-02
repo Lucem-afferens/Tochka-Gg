@@ -69,3 +69,4 @@ export function initNavigation() {
   sections.forEach(section => observer.observe(section));
 }
 
+

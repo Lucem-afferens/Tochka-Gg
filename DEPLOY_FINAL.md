@@ -84,3 +84,4 @@ server-dir: /kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/  #
 
 **Всё готово! Запустите первый деплой и проверьте!** 🚀
 
+

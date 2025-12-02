@@ -44,3 +44,4 @@ server-dir: /home/u1234567/kungur-tochkagg.ru/public_html/wp-content/themes/toch
 
 **Сейчас установлен путь для варианта 1. Если не работает - попробуйте вариант 2!**
 
+
