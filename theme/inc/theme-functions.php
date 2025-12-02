@@ -36,4 +36,34 @@ function tochkagg_clean_output() {
 }
 add_action('init', 'tochkagg_clean_output');
 
+/**
+ * Отключение принудительного HTTPS
+ * Разрешает работу сайта по HTTP без редиректа
+ */
+add_filter('https_ssl_verify', '__return_false');
+add_filter('https_local_ssl_verify', '__return_false');
+
+// Отключаем принудительное использование HTTPS в админке
+if (!defined('FORCE_SSL_ADMIN')) {
+    define('FORCE_SSL_ADMIN', false);
+}
+
+// Разрешаем использование HTTP для сайта
+add_filter('option_siteurl', function($url) {
+    if (is_string($url) && strpos($url, 'https://') === 0) {
+        return str_replace('https://', 'http://', $url);
+    }
+    return $url;
+}, 10, 1);
+
+add_filter('option_home', function($url) {
+    if (is_string($url) && strpos($url, 'https://') === 0) {
+        return str_replace('https://', 'http://', $url);
+    }
+    return $url;
+}, 10, 1);
+
+// Отключаем принудительные редиректы на HTTPS
+add_filter('wp_is_using_https', '__return_false');
+
 
