@@ -17,6 +17,14 @@
     letter-spacing: 0.05em;
     margin-bottom: $spacing-4xl;
     @include text-neon($color-primary, 0.4);
+    
+    // Добавляем огненный акцент при наведении
+    &:hover {
+      text-shadow: 
+        0 0 10px rgba(59, 130, 246, 0.5),
+        0 0 20px rgba(59, 130, 246, 0.3),
+        0 0 30px rgba(255, 107, 53, 0.3);
+    }
   }
   
   &__items {
@@ -136,17 +144,19 @@
     
     &--food {
       &::before {
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.5), rgba(251, 191, 36, 0.5));
+        background: $gradient-fire;
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
+        animation: fire-gradient 3s ease infinite;
       }
       
       &:hover {
-        border-color: rgba(245, 158, 11, 0.8);
+        border-color: rgba(255, 107, 53, 0.9);
         box-shadow: 
-          0 8px 30px rgba(245, 158, 11, 0.4),
-          0 0 50px rgba(245, 158, 11, 0.2);
+          0 8px 30px rgba(255, 107, 53, 0.5),
+          0 0 50px rgba(247, 44, 37, 0.4),
+          0 0 70px rgba(255, 217, 61, 0.3);
         
         &::before {
           opacity: 1;

@@ -68,10 +68,15 @@
     animation: fade-in-up 0.8s $ease-out-cubic;
     position: relative;
     
-    // Периодическое усиление свечения
+    // Комбинация неона и огня при наведении
     &:hover {
-      @include text-neon($color-primary-bright, 0.8);
+      text-shadow: 
+        0 0 10px rgba(59, 130, 246, 0.8),
+        0 0 20px rgba(59, 130, 246, 0.5),
+        0 0 30px rgba(255, 107, 53, 0.4),
+        0 0 40px rgba(247, 44, 37, 0.3);
       animation: fade-in-up 0.8s $ease-out-cubic, text-glow 3s ease-in-out infinite;
+      color: $color-text-primary;
     }
   }
   

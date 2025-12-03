@@ -132,3 +132,74 @@
   }
 }
 
+// ============================================
+// FIRE BUTTON (Огненная кнопка)
+// ============================================
+
+.tgg-btn-fire {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md $spacing-xl;
+  font-family: $font-heading;
+  font-size: $font-size-base;
+  font-weight: $font-weight-heading-regular;
+  line-height: 1;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: $gradient-fire;
+  background-size: 200% 200%;
+  border: 2px solid rgba(255, 107, 53, 0.8);
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all $duration-normal $ease-out-cubic;
+  position: relative;
+  overflow: hidden;
+  animation: fire-gradient 3s ease infinite;
+  
+  @include focus-visible;
+  
+  // Огненное свечение
+  box-shadow: 
+    0 0 20px rgba(255, 107, 53, 0.6),
+    0 0 40px rgba(247, 44, 37, 0.4);
+  
+  // Блики при наведении
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 217, 61, 1);
+    box-shadow: $shadow-fire-glow;
+    
+    &::before {
+      transform: translateX(100%);
+    }
+  }
+  
+  &:active {
+    transform: translateY(0);
+    filter: brightness(0.9);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: none;
+    animation: none;
+  }
+}
+

@@ -193,6 +193,130 @@
 }
 
 // ============================================
+// KEYFRAMES - Огненные эффекты
+// ============================================
+
+// Пламя (колышущееся пламя)
+@keyframes flame {
+  0%, 100% {
+    transform: scaleY(1) scaleX(1);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  25% {
+    transform: scaleY(1.1) scaleX(0.95);
+    filter: hue-rotate(-5deg) brightness(1.1);
+  }
+  50% {
+    transform: scaleY(0.95) scaleX(1.05);
+    filter: hue-rotate(5deg) brightness(0.9);
+  }
+  75% {
+    transform: scaleY(1.05) scaleX(0.98);
+    filter: hue-rotate(-3deg) brightness(1.05);
+  }
+}
+
+// Искры (летящие частицы огня)
+@keyframes ember {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px) scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-40px) translateX(20px) scale(0.4);
+    opacity: 0;
+  }
+}
+
+// Огненное свечение (пульсирующее)
+@keyframes fire-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(255, 107, 53, 0.6),
+      0 0 40px rgba(247, 44, 37, 0.4),
+      0 0 60px rgba(255, 217, 61, 0.3);
+    filter: brightness(1);
+  }
+  25% {
+    box-shadow: 
+      0 0 30px rgba(255, 107, 53, 0.8),
+      0 0 50px rgba(247, 44, 37, 0.6),
+      0 0 70px rgba(255, 217, 61, 0.4);
+    filter: brightness(1.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 25px rgba(255, 107, 53, 0.7),
+      0 0 45px rgba(247, 44, 37, 0.5),
+      0 0 65px rgba(255, 217, 61, 0.35);
+    filter: brightness(0.95);
+  }
+  75% {
+    box-shadow: 
+      0 0 35px rgba(255, 107, 53, 0.9),
+      0 0 55px rgba(247, 44, 37, 0.7),
+      0 0 75px rgba(255, 217, 61, 0.5);
+    filter: brightness(1.15);
+  }
+}
+
+// Огненный текст (свечение текста)
+@keyframes fire-text {
+  0%, 100% {
+    text-shadow: 
+      0 0 10px rgba(255, 107, 53, 0.8),
+      0 0 20px rgba(247, 44, 37, 0.6),
+      0 0 30px rgba(255, 217, 61, 0.4);
+    filter: brightness(1);
+  }
+  50% {
+    text-shadow: 
+      0 0 15px rgba(255, 107, 53, 1),
+      0 0 30px rgba(247, 44, 37, 0.8),
+      0 0 45px rgba(255, 217, 61, 0.6),
+      0 0 60px rgba(255, 107, 53, 0.4);
+    filter: brightness(1.2);
+  }
+}
+
+// Огненная граница (пульсирующая граница)
+@keyframes fire-border {
+  0%, 100% {
+    border-color: rgba(255, 107, 53, 0.6);
+    box-shadow: 
+      0 0 10px rgba(255, 107, 53, 0.4),
+      inset 0 0 10px rgba(255, 107, 53, 0.2);
+  }
+  50% {
+    border-color: rgba(247, 44, 37, 0.9);
+    box-shadow: 
+      0 0 20px rgba(255, 107, 53, 0.7),
+      0 0 30px rgba(247, 44, 37, 0.5),
+      inset 0 0 15px rgba(255, 217, 61, 0.3);
+  }
+}
+
+// Вращающийся огненный градиент
+@keyframes fire-gradient {
+  0% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(10deg);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+}
+
+// ============================================
 // ANIMATION CLASSES
 // ============================================
 
@@ -242,6 +366,44 @@
   will-change: transform, opacity, filter;
 }
 
+// ============================================
+// ANIMATION CLASSES - Огненные эффекты
+// ============================================
+
+.tgg-animate-flame {
+  animation: flame 2s ease-in-out infinite;
+}
+
+.tgg-animate-ember {
+  animation: ember 1.5s ease-out infinite;
+}
+
+.tgg-animate-fire-glow {
+  animation: fire-glow 2s ease-in-out infinite;
+}
+
+.tgg-animate-fire-text {
+  animation: fire-text 3s ease-in-out infinite;
+}
+
+.tgg-animate-fire-border {
+  animation: fire-border 2s ease-in-out infinite;
+}
+
+.tgg-animate-fire-gradient {
+  animation: fire-gradient 5s ease infinite;
+}
+
+// Оптимизация производительности для огненных анимаций
+.tgg-animate-flame,
+.tgg-animate-ember,
+.tgg-animate-fire-glow,
+.tgg-animate-fire-text,
+.tgg-animate-fire-border,
+.tgg-animate-fire-gradient {
+  will-change: transform, filter, box-shadow, text-shadow, background-position;
+}
+
 // Отключение анимаций для пользователей с prefers-reduced-motion
 @media (prefers-reduced-motion: reduce) {
   .tgg-animate-glow,
@@ -249,7 +411,13 @@
   .tgg-animate-neon-border,
   .tgg-animate-float,
   .tgg-animate-blink,
-  .tgg-animate-glitch {
+  .tgg-animate-glitch,
+  .tgg-animate-flame,
+  .tgg-animate-ember,
+  .tgg-animate-fire-glow,
+  .tgg-animate-fire-text,
+  .tgg-animate-fire-border,
+  .tgg-animate-fire-gradient {
     animation: none;
   }
 }

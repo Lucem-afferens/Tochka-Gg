@@ -20,6 +20,13 @@ $color-primary-bright: #1E90FF;    // Яркий неон-синий для hove
 $color-secondary: #C026D3;         // GG Magenta Pulse - для турниров
 $color-cyan: #22D3EE;              // GG Cyber Cyan - светящиеся линии
 
+// Огненные цвета
+$color-fire-orange: #FF6B35;       // Яркий оранжевый огня
+$color-fire-red: #F72C25;          // Яркий красный огня
+$color-fire-yellow: #FFD93D;       // Желтое пламя
+$color-fire-dark: #C0392B;         // Темно-красный уголь
+$color-fire-bright: #FF8C42;       // Светлый оранжевый
+
 // Текст
 $color-text-primary: #E2E8F0;      // GG Gray Light - основной текст
 $color-text-secondary: #94A3B8;    // GG Gray Medium - вторичный текст
@@ -35,6 +42,8 @@ $color-info: #3B82F6;              // Информация
 $gradient-primary: linear-gradient(90deg, #3B82F6 0%, #1E90FF 100%);
 $gradient-secondary: linear-gradient(135deg, #C026D3 0%, #3B82F6 100%);
 $gradient-cyan: linear-gradient(90deg, #22D3EE 0%, #3B82F6 100%);
+$gradient-fire: linear-gradient(135deg, #FF6B35 0%, #F72C25 50%, #FFD93D 100%);
+$gradient-fire-horizontal: linear-gradient(90deg, #FFD93D 0%, #FF6B35 50%, #F72C25 100%);
 
 // ============================================
 // ТИПОГРАФИКА
@@ -126,6 +135,12 @@ $shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.5);
 $shadow-neon-blue: 0 0 20px rgba(59, 130, 246, 0.4);
 $shadow-neon-magenta: 0 0 20px rgba(192, 38, 211, 0.4);
 $shadow-neon-cyan: 0 0 20px rgba(34, 211, 238, 0.4);
+
+// Огненные тени
+$shadow-fire-orange: 0 0 20px rgba(255, 107, 53, 0.6);
+$shadow-fire-red: 0 0 30px rgba(247, 44, 37, 0.7);
+$shadow-fire-yellow: 0 0 25px rgba(255, 217, 61, 0.5);
+$shadow-fire-glow: 0 0 40px rgba(255, 107, 53, 0.8), 0 0 60px rgba(247, 44, 37, 0.6);
 
 // ============================================
 // ГРАНИЦЫ

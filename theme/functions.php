@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Константы темы
-define('TOCHKAGG_THEME_VERSION', '1.0.4'); // Обновляем версию для принудительного обновления файлов
+define('TOCHKAGG_THEME_VERSION', '1.0.5'); // Добавлены огненные эффекты и анимации
 define('TOCHKAGG_THEME_PATH', get_template_directory());
 define('TOCHKAGG_THEME_URI', get_template_directory_uri());
 
