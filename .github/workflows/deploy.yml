@@ -60,6 +60,22 @@ jobs:
         if: steps.check.outputs.deploy == 'true'
         run: npm run build
       
+      - name: Check files before deploy
+        if: steps.check.outputs.deploy == 'true'
+        run: |
+          echo "📦 Checking files to deploy:"
+          echo "CSS file:"
+          ls -lh theme/assets/css/style.css || echo "❌ CSS file not found!"
+          echo ""
+          echo "JS file:"
+          ls -lh theme/assets/js/main.js || echo "❌ JS file not found!"
+          echo ""
+          echo "CSS file size:"
+          du -h theme/assets/css/style.css
+          echo ""
+          echo "Checking if cyber-effects are in CSS:"
+          grep -c "cyber-effects\|tgg-cyber-bg" theme/assets/css/style.css || echo "⚠️ Cyber effects not found in CSS"
+      
       - name: Deploy to Beget via FTP
         if: steps.check.outputs.deploy == 'true'
         id: deploy
@@ -85,6 +101,8 @@ jobs:
           dangerous-clean-slate: false
           dry-run: false
           log-level: verbose
+          # Включаем синхронизацию для удаления старых файлов
+          sync-dest: true
       
       - name: Deployment summary
         if: always()
