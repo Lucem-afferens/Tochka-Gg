@@ -82,36 +82,16 @@ jobs:
           echo ""
           echo "✅ Ready for deployment"
       
-      - name: Try deployment path 1
+      - name: Deploy to Beget via FTP
         if: steps.check.outputs.deploy == 'true'
-        id: deploy1
+        id: deploy
         continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ${{ secrets.BEGET_FTP_HOST }}
           username: ${{ secrets.BEGET_FTP_USER }}
           password: ${{ secrets.BEGET_FTP_PASSWORD }}
-          server-dir: /public_html/wp-content/themes/tochkagg-theme/
-          local-dir: ./theme/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/.DS_Store
-            **/Thumbs.db
-          dangerous-clean-slate: false
-          dry-run: false
-          log-level: verbose
-      
-      - name: Try deployment path 2 (if path 1 failed)
-        if: steps.check.outputs.deploy == 'true' && steps.deploy1.outcome != 'success'
-        id: deploy2
-        continue-on-error: true
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
-        with:
-          server: ${{ secrets.BEGET_FTP_HOST }}
-          username: ${{ secrets.BEGET_FTP_USER }}
-          password: ${{ secrets.BEGET_FTP_PASSWORD }}
+          # Путь на сервере: kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/
           server-dir: /kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/
           local-dir: ./theme/
           exclude: |
@@ -131,36 +111,33 @@ jobs:
           echo "📊 DEPLOYMENT RESULT"
           echo "=========================================="
           echo ""
-          if [ "${{ steps.deploy1.outcome }}" == "success" ]; then
-            echo "✅ SUCCESS (Path 1): Files deployed!"
-            echo "📁 Path used: /public_html/wp-content/themes/tochkagg-theme/"
-          elif [ "${{ steps.deploy2.outcome }}" == "success" ]; then
-            echo "✅ SUCCESS (Path 2): Files deployed!"
-            echo "📁 Path used: /kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/"
+          if [ "${{ steps.deploy.outcome }}" == "success" ]; then
+            echo "✅ SUCCESS: Files deployed successfully!"
+            echo ""
+            echo "📁 Files deployed to:"
+            echo "   /kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/"
+            echo ""
+            echo "🔍 Verify: http://kungur-tochkagg.ru/wp-content/themes/tochkagg-theme/assets/css/style.css"
           else
-            echo "❌ FAILED: Both paths failed"
+            echo "❌ FAILED: Deployment did not complete successfully"
             echo ""
-            echo "📋 Check logs above for:"
-            echo "   - 'Try deployment path 1'"
-            echo "   - 'Try deployment path 2'"
-            echo ""
-            echo "Common issues:"
+            echo "📋 Common issues:"
             echo "   - FTP connection failed"
             echo "   - Wrong server path"
             echo "   - Permission denied"
+            echo ""
+            echo "🔍 Check step 'Deploy to Beget via FTP' above for details"
           fi
-          echo ""
-          echo "🔍 Verify: http://kungur-tochkagg.ru/wp-content/themes/tochkagg-theme/assets/css/style.css"
           echo "=========================================="
       
       - name: Final status
         if: always()
         run: |
-          if [ "${{ steps.deploy1.outcome }}" == "success" ] || [ "${{ steps.deploy2.outcome }}" == "success" ]; then
+          if [ "${{ steps.deploy.outcome }}" == "success" ]; then
             echo "✅ FINAL STATUS: SUCCESS"
             exit 0
           else
-            echo "❌ FINAL STATUS: FAILED - Both deployment paths failed"
-            echo "Please check the logs above and verify FTP credentials and server path"
+            echo "❌ FINAL STATUS: FAILED"
+            echo "Check logs above for details"
             exit 1
           fi
