@@ -139,4 +139,45 @@ function tochkagg_clean_elementor_meta() {
 // Раскомментируйте следующую строку, чтобы запустить очистку один раз:
 // add_action('admin_init', 'tochkagg_clean_elementor_meta');
 
+/**
+ * Принудительное обновление списка шаблонов страниц
+ * Решает проблему, когда шаблоны не появляются в выпадающем списке
+ */
+function tochkagg_refresh_page_templates() {
+    // Очищаем кеш шаблонов
+    if (function_exists('wp_cache_delete')) {
+        wp_cache_delete('page_templates-' . md5(get_theme_root() . '/' . get_stylesheet()), 'themes');
+    }
+    
+    // Перезагружаем список шаблонов
+    get_page_templates();
+}
+add_action('admin_init', 'tochkagg_refresh_page_templates');
+
+/**
+ * Установка шаблона для страницы "Оборудование" принудительно
+ * Раскомментируйте и укажите ID страницы, если шаблоны не появляются
+ */
+function tochkagg_force_set_equipment_template() {
+    // Замените 0 на реальный ID страницы "Оборудование"
+    // ID можно узнать из URL при редактировании страницы: post.php?post=123&action=edit
+    $page_id = 0; // <-- УКАЖИТЕ ID СТРАНИЦЫ ЗДЕСЬ
+    
+    if ($page_id > 0) {
+        $page = get_post($page_id);
+        if ($page && $page->post_type === 'page') {
+            // Устанавливаем шаблон
+            update_post_meta($page_id, '_wp_page_template', 'template-equipment.php');
+            
+            // Удаляем мета-данные Elementor
+            delete_post_meta($page_id, '_elementor_edit_mode');
+            delete_post_meta($page_id, '_elementor_template_type');
+            delete_post_meta($page_id, '_elementor_data');
+        }
+    }
+}
+
+// Раскомментируйте следующую строку и укажите ID страницы:
+// add_action('admin_init', 'tochkagg_force_set_equipment_template');
+
 
