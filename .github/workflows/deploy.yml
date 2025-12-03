@@ -85,14 +85,13 @@ jobs:
       - name: Deploy to Beget via FTP
         if: steps.check.outputs.deploy == 'true'
         id: deploy
+        continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ${{ secrets.BEGET_FTP_HOST }}
           username: ${{ secrets.BEGET_FTP_USER }}
           password: ${{ secrets.BEGET_FTP_PASSWORD }}
           # Путь на Beget: от корня FTP подключения до папки темы
-          # Попробуем несколько вариантов пути:
-          # Вариант 1: если FTP подключается к корню домена
           server-dir: /public_html/wp-content/themes/tochkagg-theme/
           local-dir: ./theme/
           exclude: |
@@ -105,35 +104,40 @@ jobs:
           dry-run: false
           log-level: verbose
       
-      - name: Deployment summary
-        if: always()
+      - name: Show deployment result
+        if: always() && steps.check.outputs.deploy == 'true'
         run: |
           echo "=========================================="
-          echo "📊 DEPLOYMENT SUMMARY"
+          echo "📊 DEPLOYMENT RESULT"
           echo "=========================================="
-          
+          echo ""
           if [ "${{ steps.deploy.outcome }}" == "success" ]; then
-            echo "✅ Status: SUCCESS"
-            echo "✅ Files deployed successfully!"
-          elif [ "${{ steps.deploy.outcome }}" == "failure" ]; then
-            echo "❌ Status: FAILED"
-            echo "❌ Deployment failed. See step 'Deploy to Beget via FTP' for details."
+            echo "✅ SUCCESS: Files deployed successfully!"
             echo ""
-            echo "Common issues:"
-            echo "  - Check FTP credentials in GitHub Secrets"
-            echo "  - Verify server path is correct"
-            echo "  - Check file permissions on server"
-          elif [ "${{ steps.deploy.outcome }}" == "cancelled" ]; then
-            echo "⚠️  Status: CANCELLED"
-            echo "⚠️  Deployment was cancelled."
+            echo "📁 Files should be at:"
+            echo "   /public_html/wp-content/themes/tochkagg-theme/"
+            echo ""
+            echo "🔍 Check: http://kungur-tochkagg.ru/wp-content/themes/tochkagg-theme/assets/css/style.css"
           else
-            echo "❓ Status: UNKNOWN"
-            echo "❓ Deployment status is unclear."
+            echo "❌ FAILED: Deployment did not complete successfully"
+            echo ""
+            echo "📋 Common issues:"
+            echo "   - FTP connection failed"
+            echo "   - Wrong server path"
+            echo "   - Permission denied"
+            echo ""
+            echo "🔍 See step 'Deploy to Beget via FTP' above for details"
           fi
-          
           echo "=========================================="
-          
-          # Не завершаем с ошибкой, чтобы можно было увидеть все логи
-          if [ "${{ steps.deploy.outcome }}" != "success" ]; then
-            echo "⚠️  Deployment did not succeed, but continuing to show all logs..."
+      
+      - name: Final status
+        if: always()
+        run: |
+          if [ "${{ steps.deploy.outcome }}" == "success" ]; then
+            echo "✅ FINAL STATUS: SUCCESS"
+            exit 0
+          else
+            echo "❌ FINAL STATUS: FAILED"
+            echo "Check logs above for details"
+            exit 1
           fi
