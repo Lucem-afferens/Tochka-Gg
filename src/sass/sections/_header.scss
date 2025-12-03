@@ -314,6 +314,8 @@
   &[data-nav="home"],
   &[href="/"],
   &[href*="/"]:not([href*="оборудование"]):not([href*="equipment"]):not([href*="цены"]):not([href*="pricing"]):not([href*="контакты"]):not([href*="contacts"]):not([href*="vr"]):not([href*="бар"]):not([href*="bar"]):not([href*="клубный"]):not([href*="club"]) {
+    color: rgba(59, 130, 246, 0.8);
+    
     &::before {
       background: linear-gradient(
         135deg,
@@ -328,17 +330,25 @@
       box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
     }
     
-    &:hover .tgg-nav__link-text {
-      text-shadow: 
-        0 0 10px rgba(59, 130, 246, 0.9),
-        0 0 20px rgba(59, 130, 246, 0.6),
-        0 0 30px rgba(30, 144, 255, 0.4);
+    &:hover {
+      color: #3B82F6;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 10px rgba(59, 130, 246, 0.9),
+          0 0 20px rgba(59, 130, 246, 0.6),
+          0 0 30px rgba(30, 144, 255, 0.4);
+      }
     }
     
-    &.active .tgg-nav__link-text {
-      text-shadow: 
-        0 0 8px rgba(59, 130, 246, 0.8),
-        0 0 16px rgba(59, 130, 246, 0.5);
+    &.active {
+      color: #1E90FF;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 8px rgba(59, 130, 246, 0.8),
+          0 0 16px rgba(59, 130, 246, 0.5);
+      }
     }
     
     .tgg-nav__link-indicator {
@@ -353,6 +363,8 @@
   &[href*="оборудование"],
   &[href*="equipment"],
   &[data-nav="equipment"] {
+    color: rgba(34, 211, 238, 0.8);
+    
     &::before {
       background: linear-gradient(
         135deg,
@@ -367,17 +379,25 @@
       box-shadow: 0 0 12px rgba(34, 211, 238, 0.8);
     }
     
-    &:hover .tgg-nav__link-text {
-      text-shadow: 
-        0 0 10px rgba(34, 211, 238, 0.9),
-        0 0 20px rgba(34, 211, 238, 0.6),
-        0 0 30px rgba(59, 130, 246, 0.4);
+    &:hover {
+      color: #22D3EE;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 10px rgba(34, 211, 238, 0.9),
+          0 0 20px rgba(34, 211, 238, 0.6),
+          0 0 30px rgba(59, 130, 246, 0.4);
+      }
     }
     
-    &.active .tgg-nav__link-text {
-      text-shadow: 
-        0 0 8px rgba(34, 211, 238, 0.8),
-        0 0 16px rgba(34, 211, 238, 0.5);
+    &.active {
+      color: #3B82F6;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 8px rgba(34, 211, 238, 0.8),
+          0 0 16px rgba(34, 211, 238, 0.5);
+      }
     }
     
     .tgg-nav__link-indicator {
@@ -392,6 +412,8 @@
   &[href*="цены"],
   &[href*="pricing"],
   &[data-nav="pricing"] {
+    color: rgba(192, 38, 211, 0.8);
+    
     &::before {
       background: linear-gradient(
         135deg,
@@ -406,17 +428,25 @@
       box-shadow: 0 0 12px rgba(192, 38, 211, 0.8);
     }
     
-    &:hover .tgg-nav__link-text {
-      text-shadow: 
-        0 0 10px rgba(192, 38, 211, 0.9),
-        0 0 20px rgba(192, 38, 211, 0.6),
-        0 0 30px rgba(147, 51, 234, 0.4);
+    &:hover {
+      color: #C026D3;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 10px rgba(192, 38, 211, 0.9),
+          0 0 20px rgba(192, 38, 211, 0.6),
+          0 0 30px rgba(147, 51, 234, 0.4);
+      }
     }
     
-    &.active .tgg-nav__link-text {
-      text-shadow: 
-        0 0 8px rgba(192, 38, 211, 0.8),
-        0 0 16px rgba(192, 38, 211, 0.5);
+    &.active {
+      color: #9333EA;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 8px rgba(192, 38, 211, 0.8),
+          0 0 16px rgba(192, 38, 211, 0.5);
+      }
     }
     
     .tgg-nav__link-indicator {
@@ -431,6 +461,8 @@
   &[href*="контакты"],
   &[href*="contacts"],
   &[data-nav="contacts"] {
+    color: rgba(255, 107, 53, 0.8);
+    
     &::before {
       background: linear-gradient(
         135deg,
@@ -447,17 +479,25 @@
         0 0 20px rgba(247, 44, 37, 0.6);
     }
     
-    &:hover .tgg-nav__link-text {
-      text-shadow: 
-        0 0 10px rgba(255, 107, 53, 0.9),
-        0 0 20px rgba(247, 44, 37, 0.7),
-        0 0 30px rgba(255, 217, 61, 0.5);
+    &:hover {
+      color: #FF6B35;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 10px rgba(255, 107, 53, 0.9),
+          0 0 20px rgba(247, 44, 37, 0.7),
+          0 0 30px rgba(255, 217, 61, 0.5);
+      }
     }
     
-    &.active .tgg-nav__link-text {
-      text-shadow: 
-        0 0 8px rgba(255, 107, 53, 0.8),
-        0 0 16px rgba(247, 44, 37, 0.6);
+    &.active {
+      color: #FFD93D;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 8px rgba(255, 107, 53, 0.8),
+          0 0 16px rgba(247, 44, 37, 0.6);
+      }
     }
     
     .tgg-nav__link-indicator {
@@ -472,6 +512,8 @@
   // VR - зеленый неон
   &[href*="vr"],
   &[data-nav="vr"] {
+    color: rgba(16, 185, 129, 0.8);
+    
     &::before {
       background: linear-gradient(
         135deg,
@@ -486,17 +528,25 @@
       box-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
     }
     
-    &:hover .tgg-nav__link-text {
-      text-shadow: 
-        0 0 10px rgba(16, 185, 129, 0.9),
-        0 0 20px rgba(16, 185, 129, 0.6),
-        0 0 30px rgba(34, 211, 238, 0.4);
+    &:hover {
+      color: #10B981;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 10px rgba(16, 185, 129, 0.9),
+          0 0 20px rgba(16, 185, 129, 0.6),
+          0 0 30px rgba(34, 211, 238, 0.4);
+      }
     }
     
-    &.active .tgg-nav__link-text {
-      text-shadow: 
-        0 0 8px rgba(16, 185, 129, 0.8),
-        0 0 16px rgba(16, 185, 129, 0.5);
+    &.active {
+      color: #22D3EE;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 8px rgba(16, 185, 129, 0.8),
+          0 0 16px rgba(16, 185, 129, 0.5);
+      }
     }
     
     .tgg-nav__link-indicator {
@@ -513,6 +563,8 @@
   &[href*="клубный-бар"],
   &[href*="club-bar"],
   &[data-nav="bar"] {
+    color: rgba(255, 217, 61, 0.8);
+    
     &::before {
       background: linear-gradient(
         135deg,
@@ -529,17 +581,25 @@
         0 0 20px rgba(255, 140, 66, 0.6);
     }
     
-    &:hover .tgg-nav__link-text {
-      text-shadow: 
-        0 0 10px rgba(255, 217, 61, 0.9),
-        0 0 20px rgba(255, 140, 66, 0.7),
-        0 0 30px rgba(255, 217, 61, 0.5);
+    &:hover {
+      color: #FFD93D;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 10px rgba(255, 217, 61, 0.9),
+          0 0 20px rgba(255, 140, 66, 0.7),
+          0 0 30px rgba(255, 217, 61, 0.5);
+      }
     }
     
-    &.active .tgg-nav__link-text {
-      text-shadow: 
-        0 0 8px rgba(255, 217, 61, 0.8),
-        0 0 16px rgba(255, 140, 66, 0.6);
+    &.active {
+      color: #FF8C42;
+      
+      .tgg-nav__link-text {
+        text-shadow: 
+          0 0 8px rgba(255, 217, 61, 0.8),
+          0 0 16px rgba(255, 140, 66, 0.6);
+      }
     }
     
     .tgg-nav__link-indicator {
@@ -564,9 +624,8 @@
     }
   }
   
-  // Hover эффекты
+  // Hover эффекты (базовые, переопределяются для каждой кнопки)
   &:hover {
-    color: $color-text-primary;
     transform: translateY(-2px);
     
     &::before {
@@ -588,10 +647,8 @@
     }
   }
   
-  // Активное состояние
+  // Активное состояние (базовое, переопределяется для каждой кнопки)
   &.active {
-    color: $color-text-primary;
-    
     &::before {
       opacity: 1;
       transform: scale(1);
