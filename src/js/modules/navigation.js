@@ -127,6 +127,35 @@ export function initNavigation() {
       activeLine.style.left = `${left}px`;
       activeLine.style.width = `${width}px`;
       activeLine.classList.add('visible');
+      
+      // Обновляем цвет активной линии в зависимости от ссылки
+      const href = activeLink.getAttribute('href') || '';
+      const linkText = activeLink.textContent.trim().toLowerCase();
+      
+      // Удаляем все классы цветов
+      activeLine.className = 'tgg-nav__active-line visible';
+      
+      // Определяем цвет по URL или тексту
+      if (href.includes('оборудование') || href.includes('equipment') || linkText.includes('оборудование')) {
+        activeLine.style.background = 'linear-gradient(90deg, #22D3EE 0%, #3B82F6 100%)';
+        activeLine.style.boxShadow = '0 0 12px rgba(34, 211, 238, 0.8)';
+      } else if (href.includes('цены') || href.includes('pricing') || linkText.includes('цены')) {
+        activeLine.style.background = 'linear-gradient(90deg, #C026D3 0%, #9333EA 100%)';
+        activeLine.style.boxShadow = '0 0 12px rgba(192, 38, 211, 0.8)';
+      } else if (href.includes('контакты') || href.includes('contacts') || linkText.includes('контакты')) {
+        activeLine.style.background = 'linear-gradient(90deg, #FF6B35 0%, #F72C25 50%, #FFD93D 100%)';
+        activeLine.style.boxShadow = '0 0 12px rgba(255, 107, 53, 0.8), 0 0 20px rgba(247, 44, 37, 0.6)';
+      } else if (href.includes('vr') || linkText.includes('vr')) {
+        activeLine.style.background = 'linear-gradient(90deg, #10B981 0%, #22D3EE 100%)';
+        activeLine.style.boxShadow = '0 0 12px rgba(16, 185, 129, 0.8)';
+      } else if (href.includes('бар') || href.includes('bar') || linkText.includes('бар')) {
+        activeLine.style.background = 'linear-gradient(90deg, #FFD93D 0%, #FF8C42 100%)';
+        activeLine.style.boxShadow = '0 0 12px rgba(255, 217, 61, 0.8), 0 0 20px rgba(255, 140, 66, 0.6)';
+      } else {
+        // Главная - синий неон (по умолчанию)
+        activeLine.style.background = 'linear-gradient(90deg, #3B82F6 0%, #1E90FF 100%)';
+        activeLine.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.6)';
+      }
     }
   }
   
@@ -145,89 +174,95 @@ export function initNavigation() {
   }
   
   // ============================================
-  // ACTIVE MENU ITEM ON SCROLL
+  // ACTIVE MENU ITEM DETECTION
   // ============================================
   
   function setActiveMenuItem() {
-    const sections = document.querySelectorAll('section[id], [id]');
-    const scrollPosition = window.pageYOffset + 150;
+    const currentPath = window.location.pathname;
+    const currentHref = window.location.href;
     
-    let currentActive = null;
-    
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute('id');
-      
-      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-        currentActive = sectionId;
-      }
+    // Очищаем все активные классы
+    navLinks.forEach((link) => {
+      link.classList.remove('active');
     });
     
-    // Обновляем активные ссылки
+    // Определяем активную ссылку по текущему URL
     navLinks.forEach((link) => {
       const href = link.getAttribute('href');
+      if (!href) return;
       
-      if (href && href.startsWith('#')) {
-        const targetId = href.substring(1);
-        if (targetId === currentActive) {
-          link.classList.add('active');
-          if (window.innerWidth > 1023 && activeLine) {
-            updateActiveLine(link);
-          }
-        } else {
-          link.classList.remove('active');
+      // Нормализуем URL для сравнения
+      const linkUrl = new URL(href, window.location.origin);
+      const currentUrl = new URL(currentHref);
+      
+      // Проверяем совпадение пути
+      const linkPath = linkUrl.pathname.replace(/\/$/, ''); // Убираем trailing slash
+      const currentPathNormalized = currentPath.replace(/\/$/, '');
+      
+      // Для главной страницы
+      if ((linkPath === '' || linkPath === '/') && (currentPathNormalized === '' || currentPathNormalized === '/')) {
+        link.classList.add('active');
+        if (window.innerWidth > 1023 && activeLine) {
+          updateActiveLine(link);
         }
-      } else if (href === window.location.pathname || href === window.location.href) {
-        // Для страниц без якорей
-        if (!currentActive) {
-          link.classList.add('active');
-          if (window.innerWidth > 1023 && activeLine) {
-            updateActiveLine(link);
+        return;
+      }
+      
+      // Для других страниц - проверяем совпадение пути
+      if (linkPath !== '' && linkPath !== '/' && currentPathNormalized.includes(linkPath)) {
+        link.classList.add('active');
+        if (window.innerWidth > 1023 && activeLine) {
+          updateActiveLine(link);
+        }
+        return;
+      }
+      
+      // Проверка по якорям (для секций на главной странице)
+      if (href.startsWith('#')) {
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          const rect = targetElement.getBoundingClientRect();
+          if (rect.top <= 200 && rect.bottom >= 100) {
+            link.classList.add('active');
+            if (window.innerWidth > 1023 && activeLine) {
+              updateActiveLine(link);
+            }
           }
         }
       }
     });
   }
   
-  // Используем Intersection Observer для более точного определения активной секции
-  const sections = document.querySelectorAll('section[id], main[id], [id]');
-  const observerOptions = {
-    rootMargin: '-20% 0px -70% 0px',
-    threshold: [0, 0.25, 0.5, 0.75, 1]
-  };
+  // Проверка активного элемента при загрузке и изменении URL
+  setActiveMenuItem();
   
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
-        const id = entry.target.getAttribute('id');
-        
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          const href = link.getAttribute('href');
-          
-          if (href && (href === `#${id}` || href.endsWith(`#${id}`))) {
-            link.classList.add('active');
-            if (window.innerWidth > 1023 && activeLine) {
-              updateActiveLine(link);
-            }
-          }
-        });
-      }
-    });
-  }, observerOptions);
+  // Обновляем при изменении истории (навигация назад/вперед)
+  window.addEventListener('popstate', setActiveMenuItem);
   
-  sections.forEach(section => observer.observe(section));
-  
-  // Дополнительная проверка при скролле
+  // Обновляем при скролле (для якорных ссылок)
   let scrollTimeout;
   window.addEventListener('scroll', () => {
     clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(setActiveMenuItem, 100);
+    scrollTimeout = setTimeout(() => {
+      // Проверяем только якорные ссылки при скролле
+      const anchorLinks = Array.from(navLinks).filter(link => {
+        const href = link.getAttribute('href');
+        return href && href.startsWith('#');
+      });
+      
+      if (anchorLinks.length > 0) {
+        setActiveMenuItem();
+      }
+    }, 100);
   }, { passive: true });
   
-  // Проверка активного элемента при загрузке
-  setActiveMenuItem();
+  // Обновляем при клике на ссылку
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      setTimeout(setActiveMenuItem, 100);
+    });
+  });
   
   // ============================================
   // SMOOTH SCROLL FOR ANCHOR LINKS
