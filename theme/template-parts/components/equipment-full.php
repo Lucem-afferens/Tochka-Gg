@@ -18,6 +18,45 @@ if (!defined('ABSPATH')) {
         <div class="tgg-equipment-full__category">
             <h2 class="tgg-equipment-full__category-title">VIP-компьютеры (6 шт.)</h2>
             
+            <?php
+            // Галерея фотографий VIP ПК
+            $vip_gallery = tochkagg_get_field('vip_pc_gallery') ?: [];
+            if (!empty($vip_gallery) || true) { // Показываем всегда для демонстрации
+            ?>
+            <div class="tgg-equipment-full__gallery">
+                <h3 class="tgg-equipment-full__gallery-title">Фотографии</h3>
+                <div class="tgg-equipment-full__gallery-slider" data-gallery="vip-pc">
+                    <div class="tgg-equipment-full__gallery-track">
+                        <?php
+                        // Если есть реальные изображения из ACF
+                        if (!empty($vip_gallery) && is_array($vip_gallery)) {
+                            foreach ($vip_gallery as $image) {
+                                if (is_array($image) && !empty($image['url'])) {
+                                    echo '<div class="tgg-equipment-full__gallery-slide">';
+                                    echo '<img src="' . esc_url($image['url']) . '" alt="' . esc_attr($image['alt'] ?? 'VIP ПК') . '">';
+                                    echo '</div>';
+                                }
+                            }
+                        } else {
+                            // Placeholder изображения
+                            for ($i = 1; $i <= 3; $i++) {
+                                $placeholder = tochkagg_get_placeholder_image(800, 450, "VIP ПК - Фото {$i}", '1a1d29', '3b82f6');
+                                echo '<div class="tgg-equipment-full__gallery-slide">';
+                                echo '<img src="' . esc_url($placeholder) . '" alt="VIP ПК - Фото ' . $i . ' (заглушка)">';
+                                echo '</div>';
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="tgg-equipment-full__gallery-nav">
+                        <button class="tgg-equipment-full__gallery-btn" data-gallery-prev="vip-pc">← Назад</button>
+                        <div class="tgg-equipment-full__gallery-dots" data-gallery-dots="vip-pc"></div>
+                        <button class="tgg-equipment-full__gallery-btn" data-gallery-next="vip-pc">Вперед →</button>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+            
             <div class="tgg-equipment-full__specs">
                 <div class="tgg-equipment-full__spec-item">
                     <div class="tgg-equipment-full__spec-label">Видеокарта</div>
@@ -51,6 +90,45 @@ if (!defined('ABSPATH')) {
         <div class="tgg-equipment-full__category">
             <h2 class="tgg-equipment-full__category-title">LITE-компьютеры (6 шт.)</h2>
             
+            <?php
+            // Галерея фотографий LITE ПК
+            $lite_gallery = tochkagg_get_field('lite_pc_gallery') ?: [];
+            if (!empty($lite_gallery) || true) { // Показываем всегда для демонстрации
+            ?>
+            <div class="tgg-equipment-full__gallery">
+                <h3 class="tgg-equipment-full__gallery-title">Фотографии</h3>
+                <div class="tgg-equipment-full__gallery-slider" data-gallery="lite-pc">
+                    <div class="tgg-equipment-full__gallery-track">
+                        <?php
+                        // Если есть реальные изображения из ACF
+                        if (!empty($lite_gallery) && is_array($lite_gallery)) {
+                            foreach ($lite_gallery as $image) {
+                                if (is_array($image) && !empty($image['url'])) {
+                                    echo '<div class="tgg-equipment-full__gallery-slide">';
+                                    echo '<img src="' . esc_url($image['url']) . '" alt="' . esc_attr($image['alt'] ?? 'LITE ПК') . '">';
+                                    echo '</div>';
+                                }
+                            }
+                        } else {
+                            // Placeholder изображения
+                            for ($i = 1; $i <= 3; $i++) {
+                                $placeholder = tochkagg_get_placeholder_image(800, 450, "LITE ПК - Фото {$i}", '1a1d29', '8b5cf6');
+                                echo '<div class="tgg-equipment-full__gallery-slide">';
+                                echo '<img src="' . esc_url($placeholder) . '" alt="LITE ПК - Фото ' . $i . ' (заглушка)">';
+                                echo '</div>';
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="tgg-equipment-full__gallery-nav">
+                        <button class="tgg-equipment-full__gallery-btn" data-gallery-prev="lite-pc">← Назад</button>
+                        <div class="tgg-equipment-full__gallery-dots" data-gallery-dots="lite-pc"></div>
+                        <button class="tgg-equipment-full__gallery-btn" data-gallery-next="lite-pc">Вперед →</button>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+            
             <div class="tgg-equipment-full__specs">
                 <div class="tgg-equipment-full__spec-item">
                     <div class="tgg-equipment-full__spec-label">Видеокарта</div>
@@ -83,6 +161,45 @@ if (!defined('ABSPATH')) {
         <!-- PS-зона -->
         <div class="tgg-equipment-full__category" id="ps5">
             <h2 class="tgg-equipment-full__category-title">PS-зона</h2>
+            
+            <?php
+            // Галерея фотографий PS-зона
+            $ps5_gallery = tochkagg_get_field('ps5_zone_gallery') ?: [];
+            if (!empty($ps5_gallery) || true) { // Показываем всегда для демонстрации
+            ?>
+            <div class="tgg-equipment-full__gallery">
+                <h3 class="tgg-equipment-full__gallery-title">Фотографии</h3>
+                <div class="tgg-equipment-full__gallery-slider" data-gallery="ps5-zone">
+                    <div class="tgg-equipment-full__gallery-track">
+                        <?php
+                        // Если есть реальные изображения из ACF
+                        if (!empty($ps5_gallery) && is_array($ps5_gallery)) {
+                            foreach ($ps5_gallery as $image) {
+                                if (is_array($image) && !empty($image['url'])) {
+                                    echo '<div class="tgg-equipment-full__gallery-slide">';
+                                    echo '<img src="' . esc_url($image['url']) . '" alt="' . esc_attr($image['alt'] ?? 'PS-зона') . '">';
+                                    echo '</div>';
+                                }
+                            }
+                        } else {
+                            // Placeholder изображения
+                            for ($i = 1; $i <= 3; $i++) {
+                                $placeholder = tochkagg_get_placeholder_image(800, 450, "PS-зона - Фото {$i}", '1a1d29', 'ec4899');
+                                echo '<div class="tgg-equipment-full__gallery-slide">';
+                                echo '<img src="' . esc_url($placeholder) . '" alt="PS-зона - Фото ' . $i . ' (заглушка)">';
+                                echo '</div>';
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="tgg-equipment-full__gallery-nav">
+                        <button class="tgg-equipment-full__gallery-btn" data-gallery-prev="ps5-zone">← Назад</button>
+                        <div class="tgg-equipment-full__gallery-dots" data-gallery-dots="ps5-zone"></div>
+                        <button class="tgg-equipment-full__gallery-btn" data-gallery-next="ps5-zone">Вперед →</button>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
             
             <div class="tgg-equipment-full__specs">
                 <div class="tgg-equipment-full__spec-item">

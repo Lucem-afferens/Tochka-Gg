@@ -14,6 +14,7 @@ import { initScrollAnimations, initParallax } from './modules/animations.js';
 import { initMap } from './modules/map.js';
 import { initForms } from './modules/forms.js';
 import { initSliders } from './modules/slider.js';
+import { initEquipmentGalleries } from './modules/equipment-gallery.js';
 
 // ============================================
 // INITIALIZATION
@@ -37,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Слайдеры (если подключен Swiper)
   initSliders();
+  
+  // Галереи оборудования
+  if (document.querySelector('.tgg-equipment-full__gallery-slider')) {
+    initEquipmentGalleries();
+  }
   
   console.log('✅ Tochka Gg theme initialized');
 });
