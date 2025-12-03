@@ -69,4 +69,12 @@ function tochkagg_register_sidebars() {
 }
 add_action('widgets_init', 'tochkagg_register_sidebars');
 
+/**
+ * Обновление правил перезаписи при активации темы
+ */
+function tochkagg_flush_rewrite_rules() {
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'tochkagg_flush_rewrite_rules');
+
 
