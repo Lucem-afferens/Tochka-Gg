@@ -16,15 +16,23 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-4xl;
+    // Интенсивное свечение с анимацией
     text-shadow: 
-      0 0 10px rgba(59, 130, 246, 0.4),
-      0 0 15px rgba(255, 107, 53, 0.2);
+      0 0 20px rgba(59, 130, 246, 0.9),
+      0 0 35px rgba(59, 130, 246, 0.7),
+      0 0 50px rgba(30, 144, 255, 0.5),
+      0 0 25px rgba(255, 107, 53, 0.5);
+    animation: cyber-fire-glow 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.6));
     
     &:hover {
       text-shadow: 
-        0 0 15px rgba(59, 130, 246, 0.6),
-        0 0 25px rgba(255, 107, 53, 0.4),
-        0 0 35px rgba(247, 44, 37, 0.3);
+        0 0 30px rgba(59, 130, 246, 1),
+        0 0 50px rgba(30, 144, 255, 0.9),
+        0 0 70px rgba(59, 130, 246, 0.7),
+        0 0 40px rgba(255, 107, 53, 0.8);
+      filter: drop-shadow(0 0 40px rgba(59, 130, 246, 1)) brightness(1.1);
+      animation: cyber-fire-glow 1.5s ease-in-out infinite;
     }
   }
   
@@ -63,16 +71,22 @@
     }
     
     &:hover {
-      border-color: rgba(59, 130, 246, 0.5);
-      transform: translateY(-8px);
-      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+      border-color: rgba(59, 130, 246, 0.8);
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 
+        0 12px 40px rgba(59, 130, 246, 0.5),
+        0 0 60px rgba(59, 130, 246, 0.3),
+        0 0 80px rgba(30, 144, 255, 0.2);
       
       &::before {
         transform: scaleX(1);
+        animation: fire-gradient 3s ease infinite;
       }
       
       .tgg-advantages__item-icon-glow {
         opacity: 1;
+        animation: pulse-scale 2s ease-in-out infinite;
+        filter: brightness(1.2);
       }
     }
     

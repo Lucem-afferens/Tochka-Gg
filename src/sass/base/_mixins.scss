@@ -85,19 +85,27 @@
 // ============================================
 
 @mixin neon-glow($color: $color-primary, $intensity: 0.4) {
-  box-shadow: 0 0 20px rgba($color, $intensity);
+  box-shadow: 
+    0 0 20px rgba($color, $intensity),
+    0 0 40px rgba($color, $intensity * 0.6),
+    0 0 60px rgba($color, $intensity * 0.3);
   
   &:hover {
-    box-shadow: 0 0 30px rgba($color, $intensity * 1.5);
+    box-shadow: 
+      0 0 30px rgba($color, $intensity * 1.5),
+      0 0 60px rgba($color, $intensity * 1.2),
+      0 0 90px rgba($color, $intensity * 0.8);
   }
 }
 
-// Неоновое свечение текста
+// Неоновое свечение текста (усиленное)
 @mixin text-neon($color: $color-primary, $intensity: 0.6) {
   text-shadow: 
     0 0 10px rgba($color, $intensity),
-    0 0 20px rgba($color, $intensity * 0.7),
-    0 0 30px rgba($color, $intensity * 0.4);
+    0 0 20px rgba($color, $intensity * 0.8),
+    0 0 30px rgba($color, $intensity * 0.6),
+    0 0 40px rgba($color, $intensity * 0.4),
+    0 0 50px rgba($color, $intensity * 0.2);
 }
 
 // Неоновая граница с свечением
