@@ -39,14 +39,35 @@ if (!defined('ABSPATH')) {
         </div>
 
         <nav class="tgg-header__nav" role="navigation" aria-label="<?php esc_attr_e('Главное меню', 'tochkagg'); ?>">
-            <?php
-            wp_nav_menu([
-                'theme_location' => 'main_menu',
-                'container' => false,
-                'menu_class' => 'tgg-nav__list',
-                'fallback_cb' => false,
-            ]);
-            ?>
+            <div class="tgg-nav__wrapper">
+                <div class="tgg-nav__scan-line"></div>
+                <?php
+                if (has_nav_menu('main_menu')) {
+                    wp_nav_menu([
+                        'theme_location' => 'main_menu',
+                        'container' => false,
+                        'menu_class' => 'tgg-nav__list',
+                        'fallback_cb' => false,
+                        'link_before' => '<span class="tgg-nav__link-text">',
+                        'link_after' => '</span><span class="tgg-nav__link-indicator"></span>',
+                    ]);
+                } else {
+                    // Fallback меню, если WordPress меню не настроено
+                    echo '<ul class="tgg-nav__list">';
+                    echo '<li><a href="' . esc_url(home_url('/')) . '" class="tgg-nav__link"><span class="tgg-nav__link-text">Главная</span><span class="tgg-nav__link-indicator"></span></a></li>';
+                    if (function_exists('tochkagg_get_page_url')) {
+                        $pages = ['equipment' => 'Оборудование', 'pricing' => 'Цены', 'contacts' => 'Контакты'];
+                        foreach ($pages as $slug => $title) {
+                            $url = tochkagg_get_page_url($slug);
+                            if ($url && $url !== '#') {
+                                echo '<li><a href="' . esc_url($url) . '" class="tgg-nav__link"><span class="tgg-nav__link-text">' . esc_html($title) . '</span><span class="tgg-nav__link-indicator"></span></a></li>';
+                            }
+                        }
+                    }
+                    echo '</ul>';
+                }
+                ?>
+            </div>
         </nav>
 
         <button class="tgg-header__burger" aria-label="<?php esc_attr_e('Открыть меню', 'tochkagg'); ?>" aria-expanded="false">
