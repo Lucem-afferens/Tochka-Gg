@@ -11,15 +11,22 @@
     grid-template-columns: 1fr;
     gap: $spacing-3xl;
     align-items: center;
+    width: 100%;
+    max-width: 100%;
     
     @include respond-to(lg) {
       grid-template-columns: 1fr 1fr;
       gap: $spacing-4xl;
+      align-items: start;
     }
   }
   
   &__content {
     order: 2;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0; // Предотвращает переполнение
+    overflow: hidden; // Скрывает переполнение
     
     @include respond-to(lg) {
       order: 1;
@@ -35,6 +42,8 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-lg;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   &__text {
@@ -43,13 +52,29 @@
     line-height: $line-height-relaxed;
     color: $color-text-secondary;
     margin-bottom: $spacing-2xl;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   &__specs {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: 1fr;
     gap: $spacing-lg;
     margin-bottom: $spacing-2xl;
+    width: 100%;
+    max-width: 100%;
+    
+    @include respond-to(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include respond-to(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
   
   &__spec {
@@ -59,6 +84,11 @@
     padding: $spacing-lg;
     text-align: center;
     transition: all $duration-normal $ease-out-cubic;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0; // Предотвращает переполнение
+    overflow: hidden; // Скрывает переполнение
     
     &:hover {
       border-color: rgba(59, 130, 246, 0.5);
@@ -75,6 +105,8 @@
     margin-bottom: $spacing-sm;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   &__spec-value {
@@ -83,6 +115,8 @@
     font-weight: $font-weight-heading-bold;
     color: $color-primary;
     margin-bottom: $spacing-xs;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   &__spec-desc {
@@ -90,6 +124,8 @@
     font-size: $font-size-xs;
     color: $color-text-muted;
     line-height: $line-height-normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   &__cta {
@@ -101,13 +137,25 @@
     position: relative;
     border-radius: $border-radius-xl;
     overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0; // Предотвращает переполнение
     
     @include respond-to(lg) {
       order: 2;
     }
     
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 4 / 3;
+      border-radius: inherit;
+    }
+    
     &-placeholder {
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 4 / 3;
       background: $color-bg-primary;
       border: 2px dashed rgba(59, 130, 246, 0.3);
       display: flex;
@@ -117,6 +165,8 @@
       font-size: $font-size-sm;
       text-align: center;
       padding: $spacing-lg;
+      width: 100%;
+      max-width: 100%;
     }
   }
 }
