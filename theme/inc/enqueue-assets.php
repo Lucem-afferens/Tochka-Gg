@@ -19,7 +19,8 @@ function tochkagg_enqueue_assets() {
     $style_path = TOCHKAGG_THEME_PATH . '/assets/css/style.css';
     if (file_exists($style_path)) {
         // Используем версию темы + время изменения файла для надежного сброса кеша
-        $style_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($style_path);
+        // Добавляем случайное число для принудительного обновления
+        $style_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($style_path) . '.' . rand(1000, 9999);
         wp_enqueue_style(
             'tochkagg-style',
             TOCHKAGG_THEME_URI . '/assets/css/style.css',

@@ -33,7 +33,7 @@ $hero_cta_link = (function_exists('get_field') ? get_field('hero_cta_link') : nu
     
     <div class="tgg-container">
         <div class="tgg-hero__content">
-            <h1 class="tgg-hero__title">
+            <h1 class="tgg-hero__title tgg-animate-text-glow">
                 <?php echo esc_html($hero_title); ?>
             </h1>
             

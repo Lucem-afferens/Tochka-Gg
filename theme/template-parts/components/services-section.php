@@ -73,7 +73,7 @@ $services = get_field('services') ?: [
                     $image = $service['image'] ?? null;
                     $type = $service['type'] ?? '';
                 ?>
-                    <div class="tgg-services__item tgg-services__item--<?php echo esc_attr($type); ?>" data-type="<?php echo esc_attr($type); ?>">
+                    <div class="tgg-services__item tgg-services__item--<?php echo esc_attr($type); ?> <?php echo $type === 'food' ? 'tgg-fire-glow' : ''; ?>" data-type="<?php echo esc_attr($type); ?>">
                         <?php if ($link) : ?>
                             <a href="<?php echo esc_url($link); ?>" class="tgg-services__item-link">
                         <?php endif; ?>
@@ -100,7 +100,7 @@ $services = get_field('services') ?: [
                         </div>
                         
                         <div class="tgg-services__item-content">
-                            <h3 class="tgg-services__item-title">
+                            <h3 class="tgg-services__item-title <?php echo $type === 'food' ? 'tgg-fire-text' : ''; ?>">
                                 <?php echo esc_html($title); ?>
                             </h3>
                             
