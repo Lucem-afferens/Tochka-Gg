@@ -48,19 +48,21 @@ if (!defined('ABSPATH')) {
                 } else {
                     // Fallback меню, если WordPress меню не настроено
                     echo '<ul class="tgg-nav__list">';
-                    echo '<li><a href="' . esc_url(home_url('/')) . '" class="tgg-nav__link"><span class="tgg-nav__link-text">Главная</span></a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/')) . '" class="tgg-nav__link" data-nav="home"><span class="tgg-nav__link-text">Главная</span></a></li>';
                     if (function_exists('tochkagg_get_page_url')) {
                         $pages = [
-                            'equipment' => 'Оборудование',
-                            'pricing' => 'Цены',
-                            'vr' => 'VR арена',
-                            'bar' => 'Клубный бар',
-                            'contacts' => 'Контакты'
+                            'equipment' => ['title' => 'Оборудование', 'nav' => 'equipment'],
+                            'pricing' => ['title' => 'Цены', 'nav' => 'pricing'],
+                            'vr' => ['title' => 'VR арена', 'nav' => 'vr'],
+                            'bar' => ['title' => 'Клубный бар', 'nav' => 'bar'],
+                            'contacts' => ['title' => 'Контакты', 'nav' => 'contacts']
                         ];
-                        foreach ($pages as $slug => $title) {
+                        foreach ($pages as $slug => $page_data) {
                             $url = tochkagg_get_page_url($slug);
                             if ($url && $url !== '#') {
-                                echo '<li><a href="' . esc_url($url) . '" class="tgg-nav__link"><span class="tgg-nav__link-text">' . esc_html($title) . '</span></a></li>';
+                                $title = is_array($page_data) ? $page_data['title'] : $page_data;
+                                $nav_attr = is_array($page_data) && isset($page_data['nav']) ? $page_data['nav'] : $slug;
+                                echo '<li><a href="' . esc_url($url) . '" class="tgg-nav__link" data-nav="' . esc_attr($nav_attr) . '"><span class="tgg-nav__link-text">' . esc_html($title) . '</span></a></li>';
                             }
                         }
                     }

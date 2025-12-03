@@ -77,4 +77,38 @@ function tochkagg_flush_rewrite_rules() {
 }
 add_action('after_switch_theme', 'tochkagg_flush_rewrite_rules');
 
+/**
+ * Добавление data-nav атрибутов к ссылкам меню для стилизации
+ */
+function tochkagg_add_nav_attributes($atts, $item, $args) {
+    // Проверяем, что это главное меню
+    if ($args->theme_location === 'main_menu') {
+        $url = $item->url;
+        $nav_value = null;
+        
+        // Определяем data-nav на основе URL
+        if (empty($url) || $url === home_url('/') || $url === home_url()) {
+            $nav_value = 'home';
+        } elseif (strpos($url, 'equipment') !== false || strpos($url, 'оборудование') !== false) {
+            $nav_value = 'equipment';
+        } elseif (strpos($url, 'pricing') !== false || strpos($url, 'цены') !== false) {
+            $nav_value = 'pricing';
+        } elseif (strpos($url, 'vr') !== false) {
+            $nav_value = 'vr';
+        } elseif (strpos($url, 'bar') !== false || strpos($url, 'бар') !== false) {
+            $nav_value = 'bar';
+        } elseif (strpos($url, 'contacts') !== false || strpos($url, 'контакты') !== false) {
+            $nav_value = 'contacts';
+        }
+        
+        // Добавляем data-nav атрибут, если определен
+        if ($nav_value) {
+            $atts['data-nav'] = $nav_value;
+        }
+    }
+    
+    return $atts;
+}
+add_filter('nav_menu_link_attributes', 'tochkagg_add_nav_attributes', 10, 3);
+
 

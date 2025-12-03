@@ -254,10 +254,8 @@
   }
   
   // Уникальные цвета для каждой кнопки
-  // Главная - синий неон (по умолчанию, если не подходит ни один другой селектор)
-  &[data-nav="home"],
-  &[href="/"],
-  &[href*="/"]:not([href*="оборудование"]):not([href*="equipment"]):not([href*="цены"]):not([href*="pricing"]):not([href*="контакты"]):not([href*="contacts"]):not([href*="vr"]):not([href*="бар"]):not([href*="bar"]):not([href*="клубный"]):not([href*="club"]) {
+  // Главная - синий неон (по умолчанию)
+  &[data-nav="home"] {
     color: rgba(59, 130, 246, 0.8);
     
     &::after {
@@ -282,9 +280,9 @@
   }
   
   // Оборудование - голубой/cyan
+  &[data-nav="equipment"],
   &[href*="оборудование"],
-  &[href*="equipment"],
-  &[data-nav="equipment"] {
+  &[href*="equipment"] {
     color: rgba(34, 211, 238, 0.8);
     
     &::after {
@@ -309,9 +307,9 @@
   }
   
   // Цены - фиолетовый/magenta
+  &[data-nav="pricing"],
   &[href*="цены"],
-  &[href*="pricing"],
-  &[data-nav="pricing"] {
+  &[href*="pricing"] {
     color: rgba(192, 38, 211, 0.8);
     
     &::after {
@@ -336,9 +334,9 @@
   }
   
   // Контакты - огненный оранжевый/красный
+  &[data-nav="contacts"],
   &[href*="контакты"],
-  &[href*="contacts"],
-  &[data-nav="contacts"] {
+  &[href*="contacts"] {
     color: rgba(255, 107, 53, 0.8);
     
     &::after {
@@ -363,8 +361,8 @@
   }
   
   // VR - зеленый неон
-  &[href*="vr"],
-  &[data-nav="vr"] {
+  &[data-nav="vr"],
+  &[href*="vr"] {
     color: rgba(16, 185, 129, 0.8);
     
     &::after {
@@ -389,11 +387,11 @@
   }
   
   // Бар - желтый/золотой
+  &[data-nav="bar"],
   &[href*="бар"],
   &[href*="bar"],
   &[href*="клубный-бар"],
-  &[href*="club-bar"],
-  &[data-nav="bar"] {
+  &[href*="club-bar"] {
     color: rgba(255, 217, 61, 0.8);
     
     &::after {
