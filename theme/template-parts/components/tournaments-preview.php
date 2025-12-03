@@ -26,7 +26,16 @@ $tournaments_bg_image_data = function_exists('tochkagg_get_image_or_placeholder'
         'url' => 'https://placehold.co/1920x1080/1a1d29/3b82f6?text=Tournaments+Background',
         'alt' => 'Tournaments Background (заглушка - загрузите своё изображение)'
     ];
-$tournaments_bg_video_url = $tournaments_bg_video ?: '';
+// Получаем видео URL или placeholder
+$tournaments_bg_video_url = '';
+if ($tournaments_bg_type === 'video') {
+    if ($tournaments_bg_video && filter_var($tournaments_bg_video, FILTER_VALIDATE_URL)) {
+        $tournaments_bg_video_url = $tournaments_bg_video;
+    } else {
+        // Если видео не указано, но тип выбран "video", используем placeholder изображение
+        $tournaments_bg_type = 'image';
+    }
+}
 
 // Получаем последние турниры
 $tournaments_query = new WP_Query([
@@ -89,11 +98,20 @@ $tournaments_query = new WP_Query([
                     $tournament_prize = get_field('tournament_prize');
                 ?>
                     <div class="tgg-tournaments-preview__item">
-                        <?php if (has_post_thumbnail()) : ?>
-                            <div class="tgg-tournaments-preview__item-image">
+                        <div class="tgg-tournaments-preview__item-image">
+                            <?php if (has_post_thumbnail()) : ?>
                                 <?php the_post_thumbnail('medium'); ?>
-                            </div>
-                        <?php endif; ?>
+                            <?php else : ?>
+                                <?php 
+                                $tournament_placeholder = function_exists('tochkagg_get_placeholder_image') 
+                                    ? tochkagg_get_placeholder_image(600, 400, get_the_title() . ' - Турнир', '1a1d29', 'c026d3')
+                                    : 'https://placehold.co/600x400/1a1d29/c026d3?text=' . urlencode(get_the_title() . ' - Турнир');
+                                ?>
+                                <img src="<?php echo esc_url($tournament_placeholder); ?>" 
+                                     alt="<?php echo esc_attr(get_the_title() . ' (заглушка - загрузите изображение)'); ?>"
+                                     loading="lazy">
+                            <?php endif; ?>
+                        </div>
                         
                         <div class="tgg-tournaments-preview__item-content">
                             <h3 class="tgg-tournaments-preview__item-title">

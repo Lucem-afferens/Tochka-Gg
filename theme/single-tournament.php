@@ -23,11 +23,20 @@ get_header();
                 $tournament_registration = get_field('tournament_registration_link');
             ?>
                 <header class="tgg-single-tournament__header">
-                    <?php if (has_post_thumbnail()) : ?>
-                        <div class="tgg-single-tournament__image">
+                    <div class="tgg-single-tournament__image">
+                        <?php if (has_post_thumbnail()) : ?>
                             <?php the_post_thumbnail('large'); ?>
-                        </div>
-                    <?php endif; ?>
+                        <?php else : ?>
+                            <?php 
+                            $tournament_placeholder = function_exists('tochkagg_get_placeholder_image') 
+                                ? tochkagg_get_placeholder_image(1200, 600, get_the_title() . ' - Турнир', '1a1d29', 'c026d3')
+                                : 'https://placehold.co/1200x600/1a1d29/c026d3?text=' . urlencode(get_the_title() . ' - Турнир');
+                            ?>
+                            <img src="<?php echo esc_url($tournament_placeholder); ?>" 
+                                 alt="<?php echo esc_attr(get_the_title() . ' (заглушка - загрузите изображение)'); ?>"
+                                 loading="eager">
+                        <?php endif; ?>
+                    </div>
                     
                     <div class="tgg-single-tournament__meta">
                         <?php if ($tournament_date) : ?>

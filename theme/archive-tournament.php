@@ -32,13 +32,22 @@ get_header();
                         $tournament_prize = get_field('tournament_prize');
                     ?>
                         <article class="tgg-archive__item">
-                            <?php if (has_post_thumbnail()) : ?>
-                                <div class="tgg-archive__item-image">
-                                    <a href="<?php the_permalink(); ?>">
+                            <div class="tgg-archive__item-image">
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php if (has_post_thumbnail()) : ?>
                                         <?php the_post_thumbnail('medium'); ?>
-                                    </a>
-                                </div>
-                            <?php endif; ?>
+                                    <?php else : ?>
+                                        <?php 
+                                        $tournament_placeholder = function_exists('tochkagg_get_placeholder_image') 
+                                            ? tochkagg_get_placeholder_image(600, 400, get_the_title() . ' - Турнир', '1a1d29', 'c026d3')
+                                            : 'https://placehold.co/600x400/1a1d29/c026d3?text=' . urlencode(get_the_title() . ' - Турнир');
+                                        ?>
+                                        <img src="<?php echo esc_url($tournament_placeholder); ?>" 
+                                             alt="<?php echo esc_attr(get_the_title() . ' (заглушка - загрузите изображение)'); ?>"
+                                             loading="lazy">
+                                    <?php endif; ?>
+                                </a>
+                            </div>
                             
                             <div class="tgg-archive__item-content">
                                 <h2 class="tgg-archive__item-title">

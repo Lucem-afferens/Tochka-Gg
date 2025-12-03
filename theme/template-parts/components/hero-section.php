@@ -26,7 +26,17 @@ $hero_image_data = function_exists('tochkagg_get_image_or_placeholder')
         'alt' => 'Hero Background (заглушка - загрузите своё изображение)'
     ];
 
-$hero_video_url = $hero_video ?: '';
+// Получаем видео URL или placeholder
+$hero_video_url = '';
+if ($hero_bg_type === 'video') {
+    if ($hero_video && filter_var($hero_video, FILTER_VALIDATE_URL)) {
+        $hero_video_url = $hero_video;
+    } else {
+        // Если видео не указано, но тип выбран "video", используем placeholder изображение
+        // (так как реального placeholder видео нет, показываем изображение)
+        $hero_bg_type = 'image';
+    }
+}
 ?>
 
 <section class="tgg-hero">

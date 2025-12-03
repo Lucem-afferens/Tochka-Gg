@@ -17,11 +17,20 @@ get_header();
         <div class="tgg-container">
             <?php while (have_posts()) : the_post(); ?>
                 <header class="tgg-single-news__header">
-                    <?php if (has_post_thumbnail()) : ?>
-                        <div class="tgg-single-news__image">
+                    <div class="tgg-single-news__image">
+                        <?php if (has_post_thumbnail()) : ?>
                             <?php the_post_thumbnail('large'); ?>
-                        </div>
-                    <?php endif; ?>
+                        <?php else : ?>
+                            <?php 
+                            $news_placeholder = function_exists('tochkagg_get_placeholder_image') 
+                                ? tochkagg_get_placeholder_image(1200, 600, get_the_title() . ' - Новость', '1a1d29', '3b82f6')
+                                : 'https://placehold.co/1200x600/1a1d29/3b82f6?text=' . urlencode(get_the_title() . ' - Новость');
+                            ?>
+                            <img src="<?php echo esc_url($news_placeholder); ?>" 
+                                 alt="<?php echo esc_attr(get_the_title() . ' (заглушка - загрузите изображение)'); ?>"
+                                 loading="eager">
+                        <?php endif; ?>
+                    </div>
                     
                     <div class="tgg-single-news__meta">
                         <time datetime="<?php echo esc_attr(get_the_date('c')); ?>">
