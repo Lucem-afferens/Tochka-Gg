@@ -9,12 +9,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$hero_title = get_field('hero_title') ?: 'Точка Gg';
-$hero_subtitle = get_field('hero_subtitle') ?: 'Премиальный компьютерный клуб нового поколения';
-$hero_description = get_field('hero_description') ?: 'Стильное и технологичное игровое пространство, где сочетаются мощное железо, комфорт и высокий стандарт сервиса';
-$hero_image = get_field('hero_background_image');
-$hero_cta_text = get_field('hero_cta_text') ?: 'Узнать больше';
-$hero_cta_link = get_field('hero_cta_link') ?: '#about';
+$hero_title = (function_exists('get_field') ? get_field('hero_title') : null) ?: 'Точка Gg';
+$hero_subtitle = (function_exists('get_field') ? get_field('hero_subtitle') : null) ?: 'Премиальный компьютерный клуб нового поколения';
+$hero_description = (function_exists('get_field') ? get_field('hero_description') : null) ?: 'Стильное и технологичное игровое пространство, где сочетаются мощное железо, комфорт и высокий стандарт сервиса';
+$hero_image = function_exists('get_field') ? get_field('hero_background_image') : false;
+$hero_cta_text = (function_exists('get_field') ? get_field('hero_cta_text') : null) ?: 'Узнать больше';
+$hero_cta_link = (function_exists('get_field') ? get_field('hero_cta_link') : null) ?: '#about';
 ?>
 
 <section class="tgg-hero">

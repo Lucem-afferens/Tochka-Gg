@@ -9,17 +9,17 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$phone = get_field('phone_main', 'option');
-$address = get_field('address_full', 'option');
-$social_links = get_field('social_networks', 'option');
+$phone = function_exists('get_field') ? get_field('phone_main', 'option') : false;
+$address = function_exists('get_field') ? get_field('address_full', 'option') : false;
+$social_links = function_exists('get_field') ? get_field('social_networks', 'option') : false;
 ?>
 <footer class="tgg-footer">
     <div class="tgg-container">
         <div class="tgg-footer__content">
             <div class="tgg-footer__logo">
                 <?php
-                $footer_logo = get_field('footer_logo', 'option');
-                if ($footer_logo) :
+                $footer_logo = function_exists('get_field') ? get_field('footer_logo', 'option') : false;
+                if ($footer_logo && is_array($footer_logo) && !empty($footer_logo['url'])) :
                     ?>
                     <img src="<?php echo esc_url($footer_logo['url']); ?>" 
                          alt="<?php echo esc_attr($footer_logo['alt'] ?: get_bloginfo('name')); ?>">
@@ -63,7 +63,10 @@ $social_links = get_field('social_networks', 'option');
 
         <div class="tgg-footer__copyright">
             <p>&copy; <?php echo esc_html(date('Y')); ?> 
-               <?php echo esc_html(get_field('copyright_text', 'option') ?: 'ИП Морозов Алексей Алексеевич'); ?>
+               <?php 
+               $copyright = function_exists('get_field') ? get_field('copyright_text', 'option') : false;
+               echo esc_html($copyright ?: 'ИП Морозов Алексей Алексеевич'); 
+               ?>
             </p>
         </div>
     </div>

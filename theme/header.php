@@ -24,8 +24,8 @@ if (!defined('ABSPATH')) {
     <div class="tgg-container">
         <div class="tgg-header__logo">
             <?php
-            $logo = get_field('logo', 'option');
-            if ($logo) :
+            $logo = function_exists('get_field') ? get_field('logo', 'option') : false;
+            if ($logo && is_array($logo) && !empty($logo['url'])) :
                 ?>
                 <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
                     <img src="<?php echo esc_url($logo['url']); ?>" 
