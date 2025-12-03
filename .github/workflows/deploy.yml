@@ -29,31 +29,25 @@ jobs:
       - name: Check if deployment needed
         id: check
         run: |
-          # Всегда деплоим при workflow_dispatch или push в main
+          # Всегда деплоим при ручном запуске
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "deploy=true" >> $GITHUB_OUTPUT
             echo "✅ Manual deployment triggered"
             exit 0
           fi
           
-          # При push проверяем изменения
-          if [ "${{ github.event_name }}" == "push" ]; then
-            # Проверяем изменения в нужных файлах
-            changed_files=$(git diff --name-only HEAD~1 HEAD | grep -E '^(theme/|src/|vite.config.wordpress.mjs|package.json|\.github/workflows/deploy\.yml)' || true)
-            
-            if [ -z "$changed_files" ]; then
-              echo "deploy=false" >> $GITHUB_OUTPUT
-              echo "⏭️ No changes in theme or source files, skipping deployment"
-            else
-              echo "deploy=true" >> $GITHUB_OUTPUT
-              echo "✅ Changes detected, deployment will proceed"
-              echo "Changed files:"
-              echo "$changed_files"
-            fi
+          # При push - всегда деплоим (можно позже добавить проверку изменений)
+          echo "deploy=true" >> $GITHUB_OUTPUT
+          echo "✅ Deployment will proceed for push to main branch"
+          
+          # Показываем изменения для информации
+          echo "Checking changes..."
+          changed_files=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          if [ -n "$changed_files" ]; then
+            echo "Changed files:"
+            echo "$changed_files"
           else
-            # Для других событий деплоим
-            echo "deploy=true" >> $GITHUB_OUTPUT
-            echo "✅ Deployment will proceed"
+            echo "Note: Could not determine changed files, deploying anyway"
           fi
       
       - name: Setup Node.js
