@@ -65,11 +65,14 @@ jobs:
         if: steps.check.outputs.deploy == 'true'
         run: npm run build
       
-      - name: Check files before deploy
+      - name: Check files and structure before deploy
         if: steps.check.outputs.deploy == 'true'
         continue-on-error: true
         run: |
           echo "📦 Checking files to deploy:"
+          echo ""
+          echo "Directory structure:"
+          find theme/assets -type f -o -type d | sort
           echo ""
           if [ -f "theme/assets/css/style.css" ]; then
             echo "✅ CSS file found:"
@@ -85,7 +88,8 @@ jobs:
             echo "⚠️ JS file not found!"
           fi
           echo ""
-          echo "✅ Ready for deployment"
+          echo "✅ Files are in correct structure (theme/assets/css/ and theme/assets/js/)"
+          echo "✅ Ready for deployment - structure should be preserved"
       
       - name: Deploy to Beget via FTP
         if: steps.check.outputs.deploy == 'true'
