@@ -40,6 +40,7 @@
       0 0 20px rgba(59, 130, 246, 0.8),
       0 0 35px rgba(59, 130, 246, 0.5),
       0 0 25px rgba(255, 107, 53, 0.4);
+    transition: text-shadow 0.3s ease;
     
     @include respond-to(md) {
       font-size: $font-size-h1;
