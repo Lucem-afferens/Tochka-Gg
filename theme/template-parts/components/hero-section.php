@@ -38,7 +38,7 @@ $hero_cta_link = (function_exists('get_field') ? get_field('hero_cta_link') : nu
             </h1>
             
             <?php if ($hero_subtitle) : ?>
-                <p class="tgg-hero__subtitle">
+                <p class="tgg-hero__subtitle tgg-fire-text">
                     <?php echo esc_html($hero_subtitle); ?>
                 </p>
             <?php endif; ?>

@@ -16,6 +16,16 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-4xl;
+    text-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.4),
+      0 0 15px rgba(255, 107, 53, 0.2);
+    
+    &:hover {
+      text-shadow: 
+        0 0 15px rgba(59, 130, 246, 0.6),
+        0 0 25px rgba(255, 107, 53, 0.4),
+        0 0 35px rgba(247, 44, 37, 0.3);
+    }
   }
   
   &__items {
@@ -46,9 +56,11 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: $gradient-primary;
+      background: linear-gradient(90deg, $gradient-primary, $gradient-fire);
+      background-size: 200% 100%;
       transform: scaleX(0);
       transition: transform $duration-normal $ease-out-cubic;
+      animation: fire-gradient 3s ease infinite;
     }
     
     &:hover {

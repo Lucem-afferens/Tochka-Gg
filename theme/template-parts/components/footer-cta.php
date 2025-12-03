@@ -39,9 +39,9 @@ $cta_phone = get_field('phone_main', 'option') ?: '+7 992 222-62-72';
                 
                 <div class="tgg-footer-cta__actions">
                     <?php if ($cta_button_text && $cta_button_link) : ?>
-                        <a href="<?php echo esc_url($cta_button_link); ?>" class="tgg-btn-primary">
-                            <?php echo esc_html($cta_button_text); ?>
-                        </a>
+                    <a href="<?php echo esc_url($cta_button_link); ?>" class="tgg-btn-fire">
+                        <?php echo esc_html($cta_button_text); ?>
+                    </a>
                     <?php endif; ?>
                     
                     <?php if ($cta_phone) : ?>

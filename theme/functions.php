@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Константы темы
-define('TOCHKAGG_THEME_VERSION', '1.0.6'); // Применены огненные эффекты к элементам
+define('TOCHKAGG_THEME_VERSION', '1.0.7'); // Расширены огненные эффекты на все элементы
 define('TOCHKAGG_THEME_PATH', get_template_directory());
 define('TOCHKAGG_THEME_URI', get_template_directory_uri());
 

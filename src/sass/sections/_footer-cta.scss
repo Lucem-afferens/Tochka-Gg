@@ -39,9 +39,20 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-lg;
+    text-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.5),
+      0 0 20px rgba(255, 107, 53, 0.3);
+    animation: fire-text 4s ease-in-out infinite;
     
     @include respond-to(md) {
       font-size: $font-size-h1;
+    }
+    
+    &:hover {
+      text-shadow: 
+        0 0 15px rgba(59, 130, 246, 0.7),
+        0 0 30px rgba(255, 107, 53, 0.5),
+        0 0 45px rgba(247, 44, 37, 0.4);
     }
   }
   
