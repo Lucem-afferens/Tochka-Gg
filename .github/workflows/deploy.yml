@@ -103,8 +103,6 @@ jobs:
           dangerous-clean-slate: false
           dry-run: false
           log-level: verbose
-          # Включаем синхронизацию для удаления старых файлов
-          sync-dest: true
       
       - name: Deployment summary
         if: always()
