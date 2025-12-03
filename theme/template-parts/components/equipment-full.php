@@ -18,8 +18,7 @@ if (!defined('ABSPATH')) {
         <div class="tgg-equipment-full__category">
             <h2 class="tgg-equipment-full__category-title">VIP-компьютеры (6 шт.)</h2>
             
-            <div class="tgg-equipment-full__specs-wrapper">
-                <div class="tgg-equipment-full__specs">
+            <div class="tgg-equipment-full__specs">
                 <div class="tgg-equipment-full__spec-item">
                     <div class="tgg-equipment-full__spec-label">Видеокарта</div>
                     <div class="tgg-equipment-full__spec-value">RTX 5060 Ti</div>
@@ -36,15 +35,55 @@ if (!defined('ABSPATH')) {
                 </div>
             </div>
             
-            <div class="tgg-equipment-full__peripherals">
-                <h3 class="tgg-equipment-full__peripherals-title">Периферия VIP</h3>
-                <ul class="tgg-equipment-full__peripherals-list">
-                    <li><strong>Монитор:</strong> Titan Army 24.5" 240 Гц</li>
-                    <li><strong>Кресло:</strong> ARDOR GAMING Chaos Guard</li>
-                    <li><strong>Наушники:</strong> ARDOR GAMING H9</li>
-                    <li><strong>Мышь:</strong> ARDOR GAMING Impact PRO</li>
-                    <li><strong>Клавиатура:</strong> ARDOR GAMING Pathfinder</li>
-                </ul>
+            <div class="tgg-equipment-full__peripherals-wrapper">
+                <div class="tgg-equipment-full__peripherals">
+                    <h3 class="tgg-equipment-full__peripherals-title">Периферия VIP</h3>
+                    <ul class="tgg-equipment-full__peripherals-list">
+                        <li><strong>Монитор:</strong> Titan Army 24.5" 240 Гц</li>
+                        <li><strong>Кресло:</strong> ARDOR GAMING Chaos Guard</li>
+                        <li><strong>Наушники:</strong> ARDOR GAMING H9</li>
+                        <li><strong>Мышь:</strong> ARDOR GAMING Impact PRO</li>
+                        <li><strong>Клавиатура:</strong> ARDOR GAMING Pathfinder</li>
+                    </ul>
+                </div>
+                
+                <?php
+                // Галерея фотографий VIP ПК
+                $vip_gallery = tochkagg_get_field('vip_pc_gallery') ?: [];
+                if (!empty($vip_gallery) || true) { // Показываем всегда для демонстрации
+                ?>
+                <div class="tgg-equipment-full__gallery">
+                    <div class="tgg-equipment-full__gallery-slider" data-gallery="vip-pc">
+                        <div class="tgg-equipment-full__gallery-track">
+                            <?php
+                            // Если есть реальные изображения из ACF
+                            if (!empty($vip_gallery) && is_array($vip_gallery)) {
+                                foreach ($vip_gallery as $image) {
+                                    if (is_array($image) && !empty($image['url'])) {
+                                        echo '<div class="tgg-equipment-full__gallery-slide">';
+                                        echo '<img src="' . esc_url($image['url']) . '" alt="' . esc_attr($image['alt'] ?? 'VIP ПК') . '">';
+                                        echo '</div>';
+                                    }
+                                }
+                            } else {
+                                // Placeholder изображения
+                                for ($i = 1; $i <= 3; $i++) {
+                                    $placeholder = tochkagg_get_placeholder_image(400, 300, "VIP ПК - Фото {$i}", '1a1d29', '3b82f6');
+                                    echo '<div class="tgg-equipment-full__gallery-slide">';
+                                    echo '<img src="' . esc_url($placeholder) . '" alt="VIP ПК - Фото ' . $i . ' (заглушка)">';
+                                    echo '</div>';
+                                }
+                            }
+                            ?>
+                        </div>
+                        <div class="tgg-equipment-full__gallery-nav">
+                            <button class="tgg-equipment-full__gallery-btn" data-gallery-prev="vip-pc" aria-label="Предыдущее фото">←</button>
+                            <div class="tgg-equipment-full__gallery-dots" data-gallery-dots="vip-pc"></div>
+                            <button class="tgg-equipment-full__gallery-btn" data-gallery-next="vip-pc" aria-label="Следующее фото">→</button>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
             </div>
         </div>
         
@@ -52,8 +91,7 @@ if (!defined('ABSPATH')) {
         <div class="tgg-equipment-full__category">
             <h2 class="tgg-equipment-full__category-title">LITE-компьютеры (6 шт.)</h2>
             
-            <div class="tgg-equipment-full__specs-wrapper">
-                <div class="tgg-equipment-full__specs">
+            <div class="tgg-equipment-full__specs">
                 <div class="tgg-equipment-full__spec-item">
                     <div class="tgg-equipment-full__spec-label">Видеокарта</div>
                     <div class="tgg-equipment-full__spec-value">RTX 4060</div>
@@ -68,6 +106,18 @@ if (!defined('ABSPATH')) {
                     <div class="tgg-equipment-full__spec-label">Оперативная память</div>
                     <div class="tgg-equipment-full__spec-value">ADATA XPG 32 Гб</div>
                 </div>
+            </div>
+            
+            <div class="tgg-equipment-full__peripherals-wrapper">
+                <div class="tgg-equipment-full__peripherals">
+                    <h3 class="tgg-equipment-full__peripherals-title">Периферия LITE</h3>
+                    <ul class="tgg-equipment-full__peripherals-list">
+                        <li><strong>Монитор:</strong> Titan Army 24.5" 240 Гц</li>
+                        <li><strong>Кресло:</strong> Zombie CAME Penta</li>
+                        <li><strong>Наушники:</strong> ARDOR GAMING H9</li>
+                        <li><strong>Мышь:</strong> Logitech G102 LIGHTSYNC</li>
+                        <li><strong>Клавиатура:</strong> ARDOR GAMING Pathfinder</li>
+                    </ul>
                 </div>
                 
                 <?php
@@ -108,25 +158,13 @@ if (!defined('ABSPATH')) {
                 </div>
                 <?php } ?>
             </div>
-            
-            <div class="tgg-equipment-full__peripherals">
-                <h3 class="tgg-equipment-full__peripherals-title">Периферия LITE</h3>
-                <ul class="tgg-equipment-full__peripherals-list">
-                    <li><strong>Монитор:</strong> Titan Army 24.5" 240 Гц</li>
-                    <li><strong>Кресло:</strong> Zombie CAME Penta</li>
-                    <li><strong>Наушники:</strong> ARDOR GAMING H9</li>
-                    <li><strong>Мышь:</strong> Logitech G102 LIGHTSYNC</li>
-                    <li><strong>Клавиатура:</strong> ARDOR GAMING Pathfinder</li>
-                </ul>
-            </div>
         </div>
         
         <!-- PS-зона -->
         <div class="tgg-equipment-full__category" id="ps5">
             <h2 class="tgg-equipment-full__category-title">PS-зона</h2>
             
-            <div class="tgg-equipment-full__specs-wrapper">
-                <div class="tgg-equipment-full__specs">
+            <div class="tgg-equipment-full__specs">
                 <div class="tgg-equipment-full__spec-item">
                     <div class="tgg-equipment-full__spec-label">PlayStation 5</div>
                     <div class="tgg-equipment-full__spec-value">1 приставка</div>
@@ -146,6 +184,20 @@ if (!defined('ABSPATH')) {
                     <div class="tgg-equipment-full__spec-label">Подписка</div>
                     <div class="tgg-equipment-full__spec-value">PS Plus</div>
                 </div>
+            </div>
+            
+            <div class="tgg-equipment-full__games-wrapper">
+                <div class="tgg-equipment-full__games">
+                    <h3 class="tgg-equipment-full__games-title">Игры</h3>
+                    <div class="tgg-equipment-full__games-info">
+                        <p><strong>Более 50 игр</strong> в библиотеке, включая:</p>
+                        <ul class="tgg-equipment-full__games-list">
+                            <li>Эксклюзивы PlayStation</li>
+                            <li>Популярные мультиплеерные игры</li>
+                            <li>Новинки из подписки PS Plus</li>
+                            <li>Гонки с поддержкой игрового руля</li>
+                        </ul>
+                    </div>
                 </div>
                 
                 <?php
@@ -185,19 +237,6 @@ if (!defined('ABSPATH')) {
                     </div>
                 </div>
                 <?php } ?>
-            </div>
-            
-            <div class="tgg-equipment-full__games">
-                <h3 class="tgg-equipment-full__games-title">Игры</h3>
-                <div class="tgg-equipment-full__games-info">
-                    <p><strong>Более 50 игр</strong> в библиотеке, включая:</p>
-                    <ul class="tgg-equipment-full__games-list">
-                        <li>Эксклюзивы PlayStation</li>
-                        <li>Популярные мультиплеерные игры</li>
-                        <li>Новинки из подписки PS Plus</li>
-                        <li>Гонки с поддержкой игрового руля</li>
-                    </ul>
-                </div>
             </div>
             
             <div class="tgg-equipment-full__description">
