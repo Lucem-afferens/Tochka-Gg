@@ -301,10 +301,10 @@
   }
   
   // Уникальные цвета для каждой кнопки
-  // Главная - синий неон
-  &[href*="/"]:not([href*="оборудование"]):not([href*="equipment"]):not([href*="цены"]):not([href*="pricing"]):not([href*="контакты"]):not([href*="contacts"]):not([href*="vr"]):not([href*="бар"]):not([href*="bar"]),
-  &:has-text("Главная"),
-  &[data-nav="home"] {
+  // Главная - синий неон (по умолчанию, если не подходит ни один другой селектор)
+  &[data-nav="home"],
+  &[href="/"],
+  &[href*="/"]:not([href*="оборудование"]):not([href*="equipment"]):not([href*="цены"]):not([href*="pricing"]):not([href*="контакты"]):not([href*="contacts"]):not([href*="vr"]):not([href*="бар"]):not([href*="bar"]):not([href*="клубный"]):not([href*="club"]) {
     &::before {
       background: linear-gradient(
         135deg,
@@ -343,7 +343,6 @@
   // Оборудование - голубой/cyan
   &[href*="оборудование"],
   &[href*="equipment"],
-  &:has-text("Оборудование"),
   &[data-nav="equipment"] {
     &::before {
       background: linear-gradient(
@@ -383,7 +382,6 @@
   // Цены - фиолетовый/magenta
   &[href*="цены"],
   &[href*="pricing"],
-  &:has-text("Цены"),
   &[data-nav="pricing"] {
     &::before {
       background: linear-gradient(
@@ -423,7 +421,6 @@
   // Контакты - огненный оранжевый/красный
   &[href*="контакты"],
   &[href*="contacts"],
-  &:has-text("Контакты"),
   &[data-nav="contacts"] {
     &::before {
       background: linear-gradient(
@@ -465,7 +462,6 @@
   
   // VR - зеленый неон
   &[href*="vr"],
-  &:has-text("VR"),
   &[data-nav="vr"] {
     &::before {
       background: linear-gradient(
@@ -505,7 +501,8 @@
   // Бар - желтый/золотой
   &[href*="бар"],
   &[href*="bar"],
-  &:has-text("Бар"),
+  &[href*="клубный-бар"],
+  &[href*="club-bar"],
   &[data-nav="bar"] {
     &::before {
       background: linear-gradient(
