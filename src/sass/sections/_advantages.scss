@@ -56,11 +56,10 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, $gradient-primary, $gradient-fire);
+      background: linear-gradient(90deg, $color-primary 0%, $color-fire-orange 50%, $color-primary 100%);
       background-size: 200% 100%;
       transform: scaleX(0);
       transition: transform $duration-normal $ease-out-cubic;
-      animation: fire-gradient 3s ease infinite;
     }
     
     &:hover {
