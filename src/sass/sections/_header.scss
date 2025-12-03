@@ -211,6 +211,15 @@
     opacity: 1;
     transform: scaleX(1);
   }
+  
+  // Мгновенное перемещение при клике (без анимации)
+  &.instant {
+    transition: transform 0s,
+                left 0s,
+                width 0s,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+  }
 }
 
 .tgg-nav__list {

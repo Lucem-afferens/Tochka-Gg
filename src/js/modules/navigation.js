@@ -82,9 +82,27 @@ export function initNavigation() {
   
   const navLinks = nav.querySelectorAll('.tgg-nav__link, a');
   
+  // Флаг для отслеживания клика (чтобы не обновлять линию при скролле после клика)
+  let isClickNavigation = false;
+  let clickedLink = null;
+  
   navLinks.forEach((link) => {
     // Эффект при клике
     link.addEventListener('click', (e) => {
+      // Помечаем, что это клик по навигации
+      isClickNavigation = true;
+      clickedLink = link;
+      
+      // Сразу устанавливаем активную линию на кликнутую ссылку (мгновенно)
+      if (window.innerWidth > 1023 && activeLine) {
+        // Убираем класс active со всех ссылок
+        navLinks.forEach(l => l.classList.remove('active'));
+        // Добавляем active на кликнутую ссылку
+        link.classList.add('active');
+        // Сразу обновляем линию с мгновенным перемещением
+        updateActiveLine(link, true);
+      }
+      
       // Плавная анимация клика
       link.style.transform = 'scale(0.95)';
       setTimeout(() => {
@@ -100,12 +118,20 @@ export function initNavigation() {
           document.body.classList.remove('menu-open');
         }, 300);
       }
+      
+      // Сбрасываем флаг через небольшую задержку
+      setTimeout(() => {
+        isClickNavigation = false;
+        clickedLink = null;
+      }, 500);
     });
     
-    // Эффект при наведении (десктоп)
+    // Эффект при наведении (десктоп) - только если не было клика
     if (window.innerWidth > 1023) {
       link.addEventListener('mouseenter', () => {
-        updateActiveLine(link);
+        if (!isClickNavigation) {
+          updateActiveLine(link);
+        }
       });
     }
   });
@@ -114,7 +140,7 @@ export function initNavigation() {
   // ACTIVE LINE ANIMATION (DESKTOP)
   // ============================================
   
-  function updateActiveLine(activeLink) {
+  function updateActiveLine(activeLink, instant = false) {
     if (!activeLine || window.innerWidth <= 1023) return;
     
     const linkRect = activeLink.getBoundingClientRect();
@@ -124,6 +150,11 @@ export function initNavigation() {
       const left = linkRect.left - navRect.left;
       const width = linkRect.width;
       
+      // Если instant, добавляем класс для мгновенного перемещения
+      if (instant) {
+        activeLine.classList.add('instant');
+      }
+      
       activeLine.style.left = `${left}px`;
       activeLine.style.width = `${width}px`;
       activeLine.classList.add('visible');
@@ -131,9 +162,6 @@ export function initNavigation() {
       // Обновляем цвет активной линии в зависимости от ссылки
       const href = activeLink.getAttribute('href') || '';
       const linkText = activeLink.textContent.trim().toLowerCase();
-      
-      // Удаляем все классы цветов
-      activeLine.className = 'tgg-nav__active-line visible';
       
       // Определяем цвет по URL или тексту
       if (href.includes('оборудование') || href.includes('equipment') || linkText.includes('оборудование')) {
@@ -156,20 +184,35 @@ export function initNavigation() {
         activeLine.style.background = 'linear-gradient(90deg, #3B82F6 0%, #1E90FF 100%)';
         activeLine.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.6)';
       }
+      
+      // Убираем класс instant после небольшой задержки, чтобы вернуть плавные переходы
+      if (instant) {
+        setTimeout(() => {
+          activeLine.classList.remove('instant');
+        }, 100);
+      }
     }
   }
   
   // Обновление активной линии при наведении на меню
   if (navList && activeLine && window.innerWidth > 1023) {
     navList.addEventListener('mouseenter', () => {
-      const activeLink = navList.querySelector('.tgg-nav__link.active, a.active');
-      if (activeLink) {
-        updateActiveLine(activeLink);
+      if (!isClickNavigation) {
+        const activeLink = navList.querySelector('.tgg-nav__link.active, a.active');
+        if (activeLink) {
+          updateActiveLine(activeLink);
+        }
       }
     });
     
     navList.addEventListener('mouseleave', () => {
-      activeLine.classList.remove('visible');
+      // Не скрываем линию, если был клик
+      if (!isClickNavigation) {
+        const activeLink = navList.querySelector('.tgg-nav__link.active, a.active');
+        if (activeLink) {
+          updateActiveLine(activeLink);
+        }
+      }
     });
   }
   
@@ -240,9 +283,12 @@ export function initNavigation() {
   // Обновляем при изменении истории (навигация назад/вперед)
   window.addEventListener('popstate', setActiveMenuItem);
   
-  // Обновляем при скролле (для якорных ссылок)
+  // Обновляем при скролле (для якорных ссылок) - только если не было клика
   let scrollTimeout;
   window.addEventListener('scroll', () => {
+    // Не обновляем при скролле, если был клик по ссылке
+    if (isClickNavigation) return;
+    
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       // Проверяем только якорные ссылки при скролле
@@ -256,13 +302,6 @@ export function initNavigation() {
       }
     }, 100);
   }, { passive: true });
-  
-  // Обновляем при клике на ссылку
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      setTimeout(setActiveMenuItem, 100);
-    });
-  });
   
   // ============================================
   // SMOOTH SCROLL FOR ANCHOR LINKS
@@ -279,6 +318,15 @@ export function initNavigation() {
         if (targetElement) {
           e.preventDefault();
           
+          // Устанавливаем активную линию сразу при клике (мгновенно)
+          if (window.innerWidth > 1023 && activeLine) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            updateActiveLine(link, true);
+            isClickNavigation = true;
+            clickedLink = link;
+          }
+          
           const headerHeight = header?.offsetHeight || 0;
           const targetPosition = targetElement.offsetTop - headerHeight - 20;
           
@@ -289,6 +337,12 @@ export function initNavigation() {
           
           // Обновляем URL без перезагрузки
           history.pushState(null, '', href);
+          
+          // Сбрасываем флаг после завершения скролла
+          setTimeout(() => {
+            isClickNavigation = false;
+            clickedLink = null;
+          }, 1000);
         }
       });
     }
