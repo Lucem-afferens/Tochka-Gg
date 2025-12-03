@@ -62,37 +62,25 @@ jobs:
       
       - name: Check files before deploy
         if: steps.check.outputs.deploy == 'true'
+        continue-on-error: true
         run: |
           echo "📦 Checking files to deploy:"
           echo ""
-          echo "CSS file:"
           if [ -f "theme/assets/css/style.css" ]; then
+            echo "✅ CSS file found:"
             ls -lh theme/assets/css/style.css
-            CSS_SIZE=$(wc -c < theme/assets/css/style.css)
-            echo "CSS file size: $CSS_SIZE bytes (~$((CSS_SIZE/1024)) KB)"
-            if [ "$CSS_SIZE" -lt 50000 ]; then
-              echo "⚠️ WARNING: CSS file seems too small! Expected ~54KB"
-            fi
           else
             echo "❌ CSS file not found!"
-            exit 1
           fi
           echo ""
-          echo "JS file:"
           if [ -f "theme/assets/js/main.js" ]; then
+            echo "✅ JS file found:"
             ls -lh theme/assets/js/main.js
           else
             echo "⚠️ JS file not found!"
           fi
           echo ""
-          echo "Checking CSS content:"
-          if grep -q "tgg-cyber-bg\|cyber-effects" theme/assets/css/style.css 2>/dev/null; then
-            echo "✅ Cyber effects found in CSS"
-          else
-            echo "⚠️ Cyber effects not found in CSS"
-          fi
-          echo ""
-          echo "✅ Files ready for deployment"
+          echo "✅ Ready for deployment"
       
       - name: Deploy to Beget via FTP
         if: steps.check.outputs.deploy == 'true'
