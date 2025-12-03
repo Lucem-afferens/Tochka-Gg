@@ -16,25 +16,17 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-md;
-    // Интенсивное свечение с анимацией
+    // Оптимизированное свечение
     text-shadow: 
-      0 0 25px rgba(59, 130, 246, 1),
-      0 0 40px rgba(59, 130, 246, 0.8),
-      0 0 60px rgba(30, 144, 255, 0.6),
-      0 0 30px rgba(255, 107, 53, 0.6),
-      0 0 50px rgba(247, 44, 37, 0.4);
-    animation: cyber-fire-glow 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.8));
+      0 0 25px rgba(59, 130, 246, 0.9),
+      0 0 40px rgba(59, 130, 246, 0.6),
+      0 0 30px rgba(255, 107, 53, 0.5);
     
     &:hover {
       text-shadow: 
         0 0 35px rgba(59, 130, 246, 1),
-        0 0 60px rgba(30, 144, 255, 1),
-        0 0 80px rgba(59, 130, 246, 0.9),
-        0 0 50px rgba(255, 107, 53, 1),
-        0 0 70px rgba(247, 44, 37, 0.8);
-      filter: drop-shadow(0 0 50px rgba(59, 130, 246, 1)) brightness(1.15);
-      animation: cyber-fire-glow 1.5s ease-in-out infinite;
+        0 0 60px rgba(30, 144, 255, 0.8),
+        0 0 50px rgba(255, 107, 53, 0.7);
     }
   }
   

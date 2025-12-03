@@ -351,13 +351,13 @@
   }
 }
 
-// Неоновое дыхание (медленная пульсация)
+// Неоновое дыхание - упрощенная версия (без filter)
 @keyframes neon-breath {
   0%, 100% {
-    filter: brightness(1) drop-shadow(0 0 20px rgba(59, 130, 246, 0.6));
+    opacity: 1;
   }
   50% {
-    filter: brightness(1.15) drop-shadow(0 0 40px rgba(59, 130, 246, 1)) drop-shadow(0 0 60px rgba(30, 144, 255, 0.6));
+    opacity: 0.9;
   }
 }
 
@@ -373,58 +373,42 @@
   }
 }
 
-// Скачок с свечением
+// Скачок - упрощенная версия (без filter)
 @keyframes bounce-glow {
   0%, 100% {
     transform: translateY(0);
-    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
-  }
-  25% {
-    transform: translateY(-8px);
-    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.8));
   }
   50% {
-    transform: translateY(-12px);
-    filter: drop-shadow(0 0 30px rgba(59, 130, 246, 1));
-  }
-  75% {
-    transform: translateY(-8px);
-    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.8));
+    transform: translateY(-10px);
   }
 }
 
-// Дрожание с неоном (для акцентов)
+// Дрожание - упрощенная версия (без filter)
 @keyframes shake-neon {
   0%, 100% {
     transform: translateX(0);
-    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.7));
   }
   10%, 30%, 50%, 70%, 90% {
     transform: translateX(-2px);
-    filter: drop-shadow(-2px 0 20px rgba(59, 130, 246, 0.9));
   }
   20%, 40%, 60%, 80% {
     transform: translateX(2px);
-    filter: drop-shadow(2px 0 20px rgba(59, 130, 246, 0.9));
   }
 }
 
-// Комбинированное свечение (неон + огонь)
+// Комбинированное свечение (неон + огонь) - упрощенная версия
 @keyframes cyber-fire-glow {
   0%, 100% {
     text-shadow: 
-      0 0 10px rgba(59, 130, 246, 0.8),
-      0 0 20px rgba(59, 130, 246, 0.5),
-      0 0 15px rgba(255, 107, 53, 0.4),
-      0 0 25px rgba(247, 44, 37, 0.3);
+      0 0 20px rgba(59, 130, 246, 0.8),
+      0 0 35px rgba(59, 130, 246, 0.5),
+      0 0 25px rgba(255, 107, 53, 0.4);
   }
   50% {
     text-shadow: 
-      0 0 20px rgba(59, 130, 246, 1),
-      0 0 40px rgba(30, 144, 255, 0.8),
-      0 0 30px rgba(255, 107, 53, 0.7),
-      0 0 50px rgba(247, 44, 37, 0.5),
-      0 0 60px rgba(255, 217, 61, 0.3);
+      0 0 30px rgba(59, 130, 246, 1),
+      0 0 50px rgba(30, 144, 255, 0.7),
+      0 0 40px rgba(255, 107, 53, 0.6);
   }
 }
 
@@ -470,17 +454,9 @@
   }
 }
 
-// Оптимизация производительности
-.tgg-animate-glow,
-.tgg-animate-text-glow,
-.tgg-animate-neon-border,
-.tgg-animate-float,
-.tgg-animate-pulse-scale,
-.tgg-animate-neon-breath,
-.tgg-animate-bounce-glow,
-.tgg-animate-shake-neon,
-.tgg-animate-cyber-fire {
-  will-change: transform, opacity, filter, box-shadow, text-shadow;
+// Оптимизация производительности - используем только для элементов в viewport
+.tgg-animate-float {
+  will-change: transform;
 }
 
 // ============================================
@@ -539,15 +515,7 @@
   animation: cyber-fire-glow 3s ease-in-out infinite;
 }
 
-// Оптимизация производительности для огненных анимаций
-.tgg-animate-flame,
-.tgg-animate-ember,
-.tgg-animate-fire-glow,
-.tgg-animate-fire-text,
-.tgg-animate-fire-border,
-.tgg-animate-fire-gradient {
-  will-change: transform, filter, box-shadow, text-shadow, background-position;
-}
+// Оптимизация производительности для огненных анимаций - только при hover
 
 // Отключение анимаций для пользователей с prefers-reduced-motion
 @media (prefers-reduced-motion: reduce) {

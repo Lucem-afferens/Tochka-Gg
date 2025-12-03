@@ -45,21 +45,16 @@
     border-color: rgba(59, 130, 246, 0.8);
     box-shadow: 
       0 12px 40px rgba(59, 130, 246, 0.5),
-      0 0 60px rgba(59, 130, 246, 0.3),
-      0 0 80px rgba(30, 144, 255, 0.2);
-    transform: translateY(-8px) scale(1.02);
+      0 0 60px rgba(59, 130, 246, 0.3);
+    transform: translateY(-4px);
     
     &::before {
       opacity: 1;
-      animation: grid-move 10s linear infinite;
     }
     
     &::after {
       left: 100%;
       transition: left 0.5s ease-out;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 1), rgba(30, 144, 255, 0.8), transparent);
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
     }
   }
 }
