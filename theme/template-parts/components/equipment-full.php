@@ -100,7 +100,7 @@ if (!defined('ABSPATH')) {
         </div>
         
         <!-- PS5 -->
-        <div class="tgg-equipment-full__category">
+        <div class="tgg-equipment-full__category" id="ps5">
             <h2 class="tgg-equipment-full__category-title">PlayStation 5</h2>
             
             <div class="tgg-equipment-full__specs">

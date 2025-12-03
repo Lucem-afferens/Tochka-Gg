@@ -10,12 +10,21 @@ if (!defined('ABSPATH')) {
 }
 
 $services_title = get_field('services_title') ?: 'Выбери свой источник удовольствия!';
+
+// Получаем URL страниц через WordPress функции
+$equipment_url = function_exists('tochkagg_get_page_url') 
+    ? tochkagg_get_page_url('equipment') 
+    : home_url('/equipment/');
+$vr_url = function_exists('tochkagg_get_page_url') 
+    ? tochkagg_get_page_url('vr') 
+    : home_url('/vr/');
+
 $services = get_field('services') ?: [
     [
         'title' => 'Игровые ПК',
         'subtitle' => 'VIP и LITE',
         'description' => '12 мощных игровых компьютеров с RTX видеокартами',
-        'link' => '/equipment',
+        'link' => $equipment_url,
         'image' => null,
         'type' => 'pc'
     ],
@@ -23,7 +32,7 @@ $services = get_field('services') ?: [
         'title' => 'PlayStation 5',
         'subtitle' => '4 джойстика',
         'description' => 'Более 50 игр и подписка PS Plus',
-        'link' => '/equipment#ps5',
+        'link' => $equipment_url . '#ps5',
         'image' => null,
         'type' => 'ps5'
     ],
@@ -31,7 +40,7 @@ $services = get_field('services') ?: [
         'title' => 'VR Арена',
         'subtitle' => 'Другие миры',
         'description' => '840 м² виртуальной реальности, до 10 игроков',
-        'link' => '/vr',
+        'link' => $vr_url,
         'image' => null,
         'type' => 'vr'
     ],

@@ -11,7 +11,12 @@ if (!defined('ABSPATH')) {
 
 $equipment_title = get_field('equipment_preview_title') ?: 'Топовое оборудование';
 $equipment_text = get_field('equipment_preview_text') ?: 'Играй на мощном железе без лагов и очередей';
-$equipment_link = get_field('equipment_preview_link') ?: '/equipment';
+
+// Получаем URL страницы оборудования через WordPress функции
+$equipment_link_default = function_exists('tochkagg_get_page_url') 
+    ? tochkagg_get_page_url('equipment') 
+    : home_url('/equipment/');
+$equipment_link = get_field('equipment_preview_link') ?: $equipment_link_default;
 ?>
 
 <section class="tgg-equipment-preview">

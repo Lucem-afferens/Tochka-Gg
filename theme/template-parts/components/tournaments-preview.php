@@ -11,7 +11,10 @@ if (!defined('ABSPATH')) {
 
 $tournaments_title = get_field('tournaments_preview_title') ?: 'Ближайшие турниры';
 $tournaments_count = get_field('tournaments_preview_count') ?: 3;
-$tournaments_link = get_field('tournaments_preview_link') ?: '/tournaments';
+
+// Получаем URL архива турниров через WordPress функции
+$tournaments_url_default = get_post_type_archive_link('tournament') ?: home_url('/tournament/');
+$tournaments_link = get_field('tournaments_preview_link') ?: $tournaments_url_default;
 
 // Получаем последние турниры
 $tournaments_query = new WP_Query([

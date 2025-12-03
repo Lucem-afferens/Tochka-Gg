@@ -12,7 +12,12 @@ if (!defined('ABSPATH')) {
 $cta_title = get_field('footer_cta_title') ?: 'Готов начать играть?';
 $cta_text = get_field('footer_cta_text') ?: 'Приходи к нам и окунись в атмосферу настоящего гейминга';
 $cta_button_text = get_field('footer_cta_button_text') ?: 'Связаться с нами';
-$cta_button_link = get_field('footer_cta_button_link') ?: '/contacts';
+
+// Получаем URL страницы контактов через WordPress функции
+$contacts_url_default = function_exists('tochkagg_get_page_url') 
+    ? tochkagg_get_page_url('contacts') 
+    : home_url('/contacts/');
+$cta_button_link = get_field('footer_cta_button_link') ?: $contacts_url_default;
 $cta_phone = get_field('phone_main', 'option') ?: '+7 992 222-62-72';
 ?>
 

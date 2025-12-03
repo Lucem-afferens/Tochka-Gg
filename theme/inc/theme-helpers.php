@@ -66,4 +66,22 @@ function tochkagg_echo_html($html) {
     echo wp_kses_post($html);
 }
 
+/**
+ * Получить URL страницы по её slug (постоянной ссылке)
+ * 
+ * @param string $slug Slug страницы (например: 'equipment', 'pricing', 'vr')
+ * @param string $fallback URL по умолчанию, если страница не найдена
+ * @return string URL страницы
+ */
+function tochkagg_get_page_url($slug, $fallback = '#') {
+    $page = get_page_by_path($slug);
+    
+    if ($page && $page->post_status === 'publish') {
+        return get_permalink($page->ID);
+    }
+    
+    // Если страница не найдена, возвращаем fallback или home_url со slug
+    return $fallback !== '#' ? $fallback : home_url('/' . $slug . '/');
+}
+
 
