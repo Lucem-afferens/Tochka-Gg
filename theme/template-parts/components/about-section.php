@@ -29,7 +29,12 @@ $about_image = get_field('about_image');
             
             <div class="tgg-about__image">
                 <?php
-                $about_image_data = tochkagg_get_image_or_placeholder($about_image, 800, 600, 'About Club');
+                $about_image_data = function_exists('tochkagg_get_image_or_placeholder') 
+                    ? tochkagg_get_image_or_placeholder($about_image, 800, 600, 'About Club')
+                    : [
+                        'url' => 'https://placehold.co/800x600/1a1d29/3b82f6?text=About+Club',
+                        'alt' => 'About Club (заглушка - загрузите своё изображение)'
+                    ];
                 ?>
                 <img src="<?php echo esc_url($about_image_data['url']); ?>" 
                      alt="<?php echo esc_attr($about_image_data['alt']); ?>"

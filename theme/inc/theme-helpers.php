@@ -155,7 +155,9 @@ function tochkagg_get_page_url($slug, $fallback = '#') {
  */
 function tochkagg_get_placeholder_image($width = 800, $height = 600, $text = 'Placeholder', $bg_color = '1a1d29', $text_color = '3b82f6') {
     // Используем placehold.co - простой и надежный сервис
+    // Если сервис недоступен, можно использовать альтернативу через picsum.photos
     $text_encoded = urlencode($text);
+    // Используем более простой формат для надежности
     return "https://placehold.co/{$width}x{$height}/{$bg_color}/{$text_color}?text={$text_encoded}";
 }
 
@@ -182,15 +184,19 @@ function tochkagg_get_placeholder_video($label = 'Video') {
  * @return array Массив с URL и alt для изображения
  */
 function tochkagg_get_image_or_placeholder($acf_image, $width = 800, $height = 600, $placeholder_text = 'Изображение') {
-    if ($acf_image && is_array($acf_image) && !empty($acf_image['url'])) {
+    // Проверяем, есть ли реальное изображение из ACF
+    if ($acf_image && is_array($acf_image) && !empty($acf_image['url']) && filter_var($acf_image['url'], FILTER_VALIDATE_URL)) {
         return [
             'url' => $acf_image['url'],
             'alt' => $acf_image['alt'] ?? $placeholder_text
         ];
     }
     
+    // Всегда возвращаем placeholder, если реального изображения нет
+    $placeholder_url = tochkagg_get_placeholder_image($width, $height, $placeholder_text);
+    
     return [
-        'url' => tochkagg_get_placeholder_image($width, $height, $placeholder_text),
+        'url' => $placeholder_url,
         'alt' => $placeholder_text . ' (заглушка - загрузите своё изображение)'
     ];
 }

@@ -18,9 +18,15 @@ $hero_video = function_exists('get_field') ? get_field('hero_background_video') 
 $hero_cta_text = (function_exists('get_field') ? get_field('hero_cta_text') : null) ?: 'Узнать больше';
 $hero_cta_link = (function_exists('get_field') ? get_field('hero_cta_link') : null) ?: '#about';
 
-// Получаем изображение или placeholder
-$hero_image_data = tochkagg_get_image_or_placeholder($hero_image, 1920, 1080, 'Hero Background');
-$hero_video_url = $hero_video ?: (function_exists('tochkagg_get_placeholder_video') ? tochkagg_get_placeholder_video('Hero Video') : '');
+// Получаем изображение или placeholder (всегда должен быть результат)
+$hero_image_data = function_exists('tochkagg_get_image_or_placeholder') 
+    ? tochkagg_get_image_or_placeholder($hero_image, 1920, 1080, 'Hero Background')
+    : [
+        'url' => 'https://placehold.co/1920x1080/1a1d29/3b82f6?text=Hero+Background',
+        'alt' => 'Hero Background (заглушка - загрузите своё изображение)'
+    ];
+
+$hero_video_url = $hero_video ?: '';
 ?>
 
 <section class="tgg-hero">
