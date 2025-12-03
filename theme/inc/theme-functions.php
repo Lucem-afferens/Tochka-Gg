@@ -66,4 +66,17 @@ add_filter('option_home', function($url) {
 // Отключаем принудительные редиректы на HTTPS
 add_filter('wp_is_using_https', '__return_false');
 
+/**
+ * Предотвращение кеширования во время разработки
+ * Добавляет заголовки для предотвращения кеширования HTML
+ */
+function tochkagg_prevent_cache() {
+    if (!is_admin()) {
+        header('Cache-Control: no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+    }
+}
+add_action('init', 'tochkagg_prevent_cache', 1);
+
 
