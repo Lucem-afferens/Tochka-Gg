@@ -131,9 +131,17 @@
     &:hover,
     &.active {
       color: $color-primary;
+      text-shadow: 
+        0 0 10px rgba(59, 130, 246, 0.8),
+        0 0 20px rgba(59, 130, 246, 0.5);
       
       &::after {
         width: 80%;
+        background: $gradient-primary;
+        box-shadow: 
+          0 0 10px rgba(59, 130, 246, 0.8),
+          0 0 20px rgba(59, 130, 246, 0.5);
+        height: 3px;
       }
     }
   }
@@ -182,6 +190,9 @@
   
   &:hover span {
     background: $color-primary;
+    box-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.8),
+      0 0 20px rgba(59, 130, 246, 0.5);
   }
 }
 
