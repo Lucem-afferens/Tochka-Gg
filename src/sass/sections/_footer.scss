@@ -9,8 +9,22 @@
 .tgg-footer {
   background: $color-bg-secondary;
   border-top: $border-width-thin solid rgba(59, 130, 246, 0.1);
+  box-shadow: 0 -2px 20px rgba(239, 68, 68, 0.05);
   padding: $spacing-3xl 0 $spacing-xl;
   margin-top: $spacing-5xl;
+  position: relative;
+  
+  // Красные акценты в футере
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.3) 0%, rgba(239, 68, 68, 0.5) 50%, rgba(59, 130, 246, 0.3) 100%);
+    opacity: 0.5;
+  }
 }
 
 .tgg-footer__content {
@@ -44,6 +58,9 @@
     &:hover {
       transform: translateY(-2px);
       @include neon-glow($color-primary, 0.3);
+      box-shadow: 
+        0 0 15px rgba(59, 130, 246, 0.5),
+        0 0 25px rgba(239, 68, 68, 0.3);
     }
     
     img {
@@ -57,6 +74,7 @@
   text-align: center;
   padding-top: $spacing-xl;
   border-top: $border-width-thin solid rgba(59, 130, 246, 0.1);
+  box-shadow: 0 -1px 0 rgba(239, 68, 68, 0.05);
   color: $color-text-secondary;
   font-size: $font-size-sm;
 }

@@ -16,18 +16,21 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-4xl;
-    // Оптимизированное свечение
+    // Футуристичное свечение: синий + красный неон
     text-shadow: 
       0 0 20px rgba(59, 130, 246, 0.8),
       0 0 35px rgba(59, 130, 246, 0.5),
-      0 0 25px rgba(255, 107, 53, 0.4);
+      0 0 25px rgba(239, 68, 68, 0.6),
+      0 0 40px rgba(239, 68, 68, 0.3);
     transition: text-shadow 0.3s ease;
     
     &:hover {
       text-shadow: 
         0 0 30px rgba(59, 130, 246, 1),
         0 0 50px rgba(30, 144, 255, 0.7),
-        0 0 40px rgba(255, 107, 53, 0.6);
+        0 0 40px rgba(239, 68, 68, 0.8),
+        0 0 60px rgba(239, 68, 68, 0.5),
+        0 0 80px rgba(220, 38, 38, 0.3);
     }
   }
   
@@ -59,7 +62,7 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, $color-primary 0%, $color-fire-orange 50%, $color-primary 100%);
+      background: linear-gradient(90deg, $color-primary 0%, rgba(239, 68, 68, 0.8) 50%, $color-primary 100%);
       background-size: 200% 100%;
       transform: scaleX(0);
       transition: transform $duration-normal $ease-out-cubic;
@@ -70,7 +73,9 @@
       transform: translateY(-8px);
       box-shadow: 
         0 12px 40px rgba(59, 130, 246, 0.5),
-        0 0 60px rgba(59, 130, 246, 0.3);
+        0 0 60px rgba(59, 130, 246, 0.3),
+        0 0 30px rgba(239, 68, 68, 0.3),
+        0 0 50px rgba(239, 68, 68, 0.15);
       
       &::before {
         transform: scaleX(1);

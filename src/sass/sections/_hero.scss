@@ -68,6 +68,27 @@
       rgba(13, 15, 20, 0.5) 50%,
       rgba(13, 15, 20, 0.8) 100%
     );
+    
+    // Красные акценты в overlay
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(
+        circle at 20% 30%,
+        rgba(239, 68, 68, 0.08) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 70%,
+        rgba(59, 130, 246, 0.08) 0%,
+        transparent 50%
+      );
+      pointer-events: none;
+    }
   }
   
   &__content {
@@ -89,21 +110,24 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: $spacing-lg;
-    // Оптимизированное свечение (меньше слоев, без постоянной анимации)
+    // Футуристичное свечение: синий + красный неон
     text-shadow: 
       0 0 20px rgba(59, 130, 246, 0.8),
       0 0 35px rgba(59, 130, 246, 0.5),
-      0 0 25px rgba(255, 107, 53, 0.4);
+      0 0 25px rgba(239, 68, 68, 0.6),
+      0 0 40px rgba(239, 68, 68, 0.3);
     animation: fade-in-up 0.8s $ease-out-cubic;
     position: relative;
     transition: text-shadow 0.3s ease;
     
-    // Плавное изменение при наведении без конфликтов
+    // Плавное изменение при наведении - усиленное красное свечение
     &:hover {
       text-shadow: 
         0 0 30px rgba(59, 130, 246, 1),
         0 0 50px rgba(30, 144, 255, 0.7),
-        0 0 40px rgba(255, 107, 53, 0.6);
+        0 0 35px rgba(239, 68, 68, 0.8),
+        0 0 55px rgba(239, 68, 68, 0.5),
+        0 0 70px rgba(220, 38, 38, 0.3);
     }
   }
   

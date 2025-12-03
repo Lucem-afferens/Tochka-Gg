@@ -53,8 +53,10 @@
     transform: translateY(-2px);
     box-shadow: 
       0 0 30px rgba(59, 130, 246, 0.7),
-      0 0 50px rgba(59, 130, 246, 0.4);
-    background: linear-gradient(90deg, $color-primary-bright 0%, $color-primary 100%);
+      0 0 50px rgba(59, 130, 246, 0.4),
+      0 0 25px rgba(239, 68, 68, 0.4),
+      0 0 40px rgba(239, 68, 68, 0.2);
+    background: linear-gradient(90deg, $color-primary-bright 0%, $color-primary 50%, rgba(239, 68, 68, 0.8) 100%);
     @include text-neon($color-primary-bright, 0.5);
     
     &::before {
