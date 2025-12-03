@@ -18,22 +18,26 @@ function tochkagg_enqueue_assets() {
     // Основной стиль
     $style_path = TOCHKAGG_THEME_PATH . '/assets/css/style.css';
     if (file_exists($style_path)) {
+        // Используем версию темы + время изменения файла для надежного сброса кеша
+        $style_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($style_path);
         wp_enqueue_style(
             'tochkagg-style',
             TOCHKAGG_THEME_URI . '/assets/css/style.css',
             array(),
-            filemtime($style_path)
+            $style_version
         );
     }
 
     // Основной скрипт
     $script_path = TOCHKAGG_THEME_PATH . '/assets/js/main.js';
     if (file_exists($script_path)) {
+        // Используем версию темы + время изменения файла для надежного сброса кеша
+        $script_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($script_path);
         wp_enqueue_script(
             'tochkagg-script',
             TOCHKAGG_THEME_URI . '/assets/js/main.js',
             array(),
-            filemtime($script_path),
+            $script_version,
             true
         );
     }
