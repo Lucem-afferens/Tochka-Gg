@@ -74,37 +74,67 @@ function tochkagg_echo_html($html) {
  * @return string URL страницы
  */
 function tochkagg_get_page_url($slug, $fallback = '#') {
-    // Сначала пытаемся найти по slug
+    // Маппинг английских slug на русские названия и slug
+    $page_map = [
+        'equipment' => [
+            'title' => 'Оборудование',
+            'slug_ru' => 'оборудование',
+        ],
+        'pricing' => [
+            'title' => 'Цены',
+            'slug_ru' => 'цены',
+        ],
+        'contacts' => [
+            'title' => 'Контакты',
+            'slug_ru' => 'контакты',
+        ],
+        'vr' => [
+            'title' => 'VR арена',
+            'slug_ru' => 'vr',
+        ],
+    ];
+    
+    $page = null;
+    
+    // 1. Сначала пытаемся найти по английскому slug
     $page = get_page_by_path($slug);
     
-    // Если не найдено, пытаемся найти по названию (на русском)
-    if (!$page) {
-        $title_map = [
-            'equipment' => 'Оборудование',
-            'pricing' => 'Цены',
-            'contacts' => 'Контакты',
-            'vr' => 'VR арена',
-        ];
+    // 2. Если не найдено и есть маппинг, пытаемся найти по русскому slug
+    if (!$page && isset($page_map[$slug])) {
+        $page = get_page_by_path($page_map[$slug]['slug_ru']);
+    }
+    
+    // 3. Если все еще не найдено, ищем по названию страницы
+    if (!$page && isset($page_map[$slug])) {
+        $pages = get_pages([
+            'post_status' => 'publish',
+            'number' => 50, // Достаточно для поиска
+        ]);
         
-        if (isset($title_map[$slug])) {
-            $pages = get_pages([
-                'post_status' => 'publish',
-                'number' => 1,
-                'title' => $title_map[$slug],
-            ]);
-            
-            if (!empty($pages)) {
-                $page = $pages[0];
+        foreach ($pages as $p) {
+            if (trim($p->post_title) === trim($page_map[$slug]['title'])) {
+                $page = $p;
+                break;
             }
         }
     }
     
+    // 4. Если нашли страницу, возвращаем её URL
     if ($page && $page->post_status === 'publish') {
         return get_permalink($page->ID);
     }
     
-    // Если страница не найдена, возвращаем fallback или home_url со slug
-    return $fallback !== '#' ? $fallback : home_url('/' . $slug . '/');
+    // 5. Если страница не найдена, возвращаем fallback или пробуем русский slug
+    if ($fallback !== '#') {
+        return $fallback;
+    }
+    
+    // Если есть русский slug, пробуем его
+    if (isset($page_map[$slug])) {
+        return home_url('/' . $page_map[$slug]['slug_ru'] . '/');
+    }
+    
+    return home_url('/' . $slug . '/');
 }
 
 
