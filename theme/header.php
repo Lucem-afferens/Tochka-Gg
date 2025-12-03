@@ -35,7 +35,7 @@ if (!defined('ABSPATH')) {
 
         <nav class="tgg-header__nav" role="navigation" aria-label="<?php esc_attr_e('Главное меню', 'tochkagg'); ?>">
             <div class="tgg-nav__wrapper">
-                <div class="tgg-nav__wave-line"></div>
+                <div class="tgg-nav__active-line"></div>
                 <?php
                 if (has_nav_menu('main_menu')) {
                     wp_nav_menu([

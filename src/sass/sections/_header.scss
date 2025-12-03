@@ -1,7 +1,8 @@
 /**
- * Header
+ * Header & Navigation
  * 
- * Стили шапки сайта с уникальной навигацией
+ * Современная навигация с кибер-эстетикой
+ * Минимализм, интерактивность, адаптивность
  */
 
 .tgg-header {
@@ -10,12 +11,12 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(13, 15, 20, 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
-  transition: all $duration-normal $ease-out-cubic;
+  background: rgba(13, 15, 20, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   
-  // Кибер-сетка на фоне header
+  // Тонкая кибер-сетка на фоне
   &::before {
     content: '';
     position: absolute;
@@ -24,12 +25,13 @@
     right: 0;
     bottom: 0;
     background-image: 
-      linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-    background-size: 20px 20px;
-    opacity: 0.3;
+      linear-gradient(rgba(59, 130, 246, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.02) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0;
     pointer-events: none;
     z-index: 0;
+    transition: opacity 0.4s ease;
   }
   
   .tgg-container {
@@ -40,71 +42,76 @@
     justify-content: space-between;
     padding-top: $spacing-md;
     padding-bottom: $spacing-md;
+    max-width: 1400px;
+    margin: 0 auto;
   }
   
+  // Эффект при скролле
   &.scrolled {
     background: rgba(13, 15, 20, 0.95);
     box-shadow: 
-      0 4px 20px rgba(0, 0, 0, 0.6),
-      0 0 40px rgba(59, 130, 246, 0.25),
-      inset 0 -1px 0 rgba(59, 130, 246, 0.3);
-    border-bottom-color: rgba(59, 130, 246, 0.4);
+      0 4px 30px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(59, 130, 246, 0.15);
+    border-bottom-color: rgba(59, 130, 246, 0.2);
     
     &::before {
-      opacity: 0.4;
+      opacity: 0.3;
     }
   }
 }
 
+// ============================================
+// LOGO
+// ============================================
+
 .tgg-header__logo {
   flex-shrink: 0;
   position: relative;
+  z-index: 2;
   
   img {
-    height: 50px;
+    height: 48px;
     width: auto;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3));
   }
   
   a {
     display: inline-block;
-    color: $color-text-primary;
-    font-family: $font-heading;
-    font-size: $font-size-lg;
-    font-weight: $font-weight-heading-bold;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
     position: relative;
+    text-decoration: none;
     
+    // Подсветка при наведении
     &::after {
       content: '';
       position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 80%;
       height: 2px;
       background: $gradient-primary;
-      transition: width 0.4s ease;
-      box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+      border-radius: 2px;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
     }
     
     &:hover {
-      color: $color-primary;
-      text-shadow: 
-        0 0 10px rgba(59, 130, 246, 0.8),
-        0 0 20px rgba(59, 130, 246, 0.5);
-      
       img {
-        transform: scale(1.05);
+        transform: scale(1.05) translateY(-2px);
+        filter: drop-shadow(0 4px 16px rgba(59, 130, 246, 0.5));
       }
       
       &::after {
-        width: 100%;
+        transform: translateX(-50%) scaleX(1);
       }
     }
   }
 }
+
+// ============================================
+// NAVIGATION
+// ============================================
 
 .tgg-header__nav {
   @include respond-to(lg) {
@@ -113,38 +120,53 @@
   
   @media (max-width: 1023px) {
     position: fixed;
-    top: 70px;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background: rgba(13, 15, 20, 0.98);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(30px) saturate(180%);
     transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     overflow-y: auto;
-    padding: $spacing-2xl;
-    border-top: 1px solid rgba(59, 130, 246, 0.2);
+    overflow-x: hidden;
+    padding: $spacing-4xl $spacing-2xl;
+    z-index: 999;
     
+    // Кибер-сетка на фоне мобильного меню
     &::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 100%;
+      bottom: 0;
       background-image: 
         linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-      background-size: 20px 20px;
-      opacity: 0.5;
+      background-size: 25px 25px;
+      opacity: 0.4;
       pointer-events: none;
+      animation: grid-move 20s linear infinite;
+    }
+    
+    // Градиентная граница сверху
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: $gradient-primary;
+      opacity: 0.5;
     }
     
     &.active {
       transform: translateX(0);
       box-shadow: 
-        -10px 0 50px rgba(0, 0, 0, 0.8),
-        inset 0 0 100px rgba(59, 130, 246, 0.05);
+        -20px 0 60px rgba(0, 0, 0, 0.8),
+        inset 0 0 200px rgba(59, 130, 246, 0.03);
     }
   }
 }
@@ -153,191 +175,204 @@
   position: relative;
   display: flex;
   align-items: center;
+  
+  @media (max-width: 1023px) {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding-top: $spacing-3xl;
+  }
 }
 
-// Волновая линия в навигации
-.tgg-nav__wave-line {
+// Активная линия под навигацией (десктоп)
+.tgg-nav__active-line {
   position: absolute;
-  bottom: -2px;
+  bottom: -$spacing-md;
   left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(59, 130, 246, 0.6),
-    rgba(34, 211, 238, 0.8),
-    rgba(59, 130, 246, 0.6),
-    transparent
-  );
+  height: 2px;
+  background: $gradient-primary;
+  border-radius: 2px;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
   opacity: 0;
-  transform: translateX(-100%);
-  transition: opacity 0.3s ease, transform 0.6s ease;
   
   @media (max-width: 1023px) {
     display: none;
   }
-}
-
-.tgg-header__nav:hover .tgg-nav__wave-line {
-  opacity: 1;
-  transform: translateX(0);
-  animation: wave-flow 2s ease-in-out infinite;
+  
+  &.visible {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 .tgg-nav__list {
   display: flex;
   align-items: center;
   gap: $spacing-xs;
+  list-style: none;
+  margin: 0;
+  padding: 0;
   
   @media (max-width: 1023px) {
     flex-direction: column;
-    align-items: stretch;
     gap: $spacing-sm;
     width: 100%;
   }
   
   li {
     position: relative;
-    list-style: none;
     
     @media (max-width: 1023px) {
       width: 100%;
       opacity: 0;
-      transform: translateX(30px);
+      transform: translateX(40px);
       
       .tgg-header__nav.active & {
-        animation: nav-item-slide-in 0.4s ease forwards;
+        animation: nav-item-slide-in 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
         
         @for $i from 1 through 10 {
           &:nth-child(#{$i}) {
-            animation-delay: #{($i - 1) * 0.08}s;
+            animation-delay: #{($i - 1) * 0.06}s;
           }
         }
       }
     }
   }
+}
+
+.tgg-nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-lg;
+  font-family: $font-heading;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-heading-regular;
+  color: $color-text-secondary;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: $border-radius-sm;
+  overflow: visible;
+  z-index: 1;
   
-  a,
-  .tgg-nav__link {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: $spacing-xs;
-    padding: $spacing-sm $spacing-lg;
-    font-family: $font-heading;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-heading-regular;
-    color: $color-text-secondary;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+  // Фоновый градиент при наведении
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.08) 0%,
+      rgba(34, 211, 238, 0.08) 50%,
+      rgba(59, 130, 246, 0.08) 100%
+    );
+    border-radius: inherit;
+    opacity: 0;
+    transform: scale(0.95);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: visible;
-    z-index: 1;
-    
-    // Фоновый градиент при наведении
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(59, 130, 246, 0.1) 0%,
-        rgba(34, 211, 238, 0.1) 50%,
-        rgba(59, 130, 246, 0.1) 100%
-      );
-      opacity: 0;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: -1;
-    }
-    
-    // Верхняя неоновая линия
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: $gradient-cyan;
-      box-shadow: 0 0 10px rgba(34, 211, 238, 0.8);
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    @media (max-width: 1023px) {
-      padding: $spacing-lg $spacing-xl;
-      font-size: $font-size-base;
-      width: 100%;
-      justify-content: space-between;
-      border-radius: $border-radius-md;
-    }
+    z-index: -1;
+  }
+  
+  // Верхняя светящаяся линия
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 60%;
+    height: 2px;
+    background: $gradient-cyan;
+    border-radius: 0 0 2px 2px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.7);
+    z-index: 0;
+  }
+  
+  @media (max-width: 1023px) {
+    padding: $spacing-lg $spacing-xl;
+    font-size: $font-size-base;
+    width: 100%;
+    justify-content: space-between;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    background: rgba(22, 26, 33, 0.5);
     
     &:hover {
-      color: $color-text-primary;
-      transform: translateY(-2px);
-      
-      &::before {
-        opacity: 1;
-        transform: scaleX(1);
-      }
-      
-      &::after {
-        width: 100%;
-      }
-      
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 10px rgba(59, 130, 246, 0.9),
-          0 0 20px rgba(59, 130, 246, 0.6),
-          0 0 30px rgba(34, 211, 238, 0.4);
-        animation: text-scan 0.6s ease;
-      }
-      
-      .tgg-nav__link-indicator {
-        opacity: 1;
-        transform: scale(1) rotate(180deg);
-        
-        &::before {
-          animation: connect-pulse 1.5s ease-in-out infinite;
-        }
-      }
+      border-color: rgba(59, 130, 246, 0.3);
+      background: rgba(22, 26, 33, 0.8);
+    }
+  }
+  
+  // Hover эффекты
+  &:hover {
+    color: $color-text-primary;
+    transform: translateY(-2px);
+    
+    &::before {
+      opacity: 1;
+      transform: scale(1);
     }
     
-    &.active {
-      color: $color-text-primary;
+    &::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+    
+    .tgg-nav__link-text {
+      text-shadow: 
+        0 0 8px rgba(59, 130, 246, 0.7),
+        0 0 16px rgba(59, 130, 246, 0.4);
+    }
+    
+    .tgg-nav__link-indicator {
+      opacity: 1;
+      transform: scale(1) rotate(180deg);
       
       &::before {
-        opacity: 1;
-        transform: scaleX(1);
-        background: linear-gradient(
-          135deg,
-          rgba(59, 130, 246, 0.15) 0%,
-          rgba(34, 211, 238, 0.15) 50%,
-          rgba(59, 130, 246, 0.15) 100%
-        );
+        animation: connect-pulse 1.5s ease-in-out infinite;
       }
-      
-      &::after {
-        width: 100%;
-      }
-      
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 8px rgba(59, 130, 246, 0.8),
-          0 0 16px rgba(59, 130, 246, 0.5);
-      }
-      
-      .tgg-nav__link-indicator {
-        opacity: 1;
-        transform: scale(1);
-        animation: active-pulse 2s ease-in-out infinite;
-      }
+    }
+  }
+  
+  // Активное состояние
+  &.active {
+    color: $color-text-primary;
+    
+    &::before {
+      opacity: 1;
+      transform: scale(1);
+      background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.12) 0%,
+        rgba(34, 211, 238, 0.12) 50%,
+        rgba(59, 130, 246, 0.12) 100%
+      );
+    }
+    
+    &::after {
+      transform: translateX(-50%) scaleX(1);
+      width: 80%;
+    }
+    
+    .tgg-nav__link-text {
+      text-shadow: 
+        0 0 6px rgba(59, 130, 246, 0.6),
+        0 0 12px rgba(59, 130, 246, 0.3);
+    }
+    
+    .tgg-nav__link-indicator {
+      opacity: 1;
+      transform: scale(1);
+      animation: active-pulse 2s ease-in-out infinite;
     }
   }
 }
@@ -346,32 +381,34 @@
   position: relative;
   z-index: 1;
   transition: all 0.3s ease;
+  font-weight: $font-weight-heading-regular;
 }
 
 .tgg-nav__link-indicator {
   position: relative;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: $color-primary;
   opacity: 0;
   transform: scale(0);
   transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   box-shadow: 
-    0 0 10px rgba(59, 130, 246, 0.9),
-    0 0 20px rgba(59, 130, 246, 0.6);
+    0 0 8px rgba(59, 130, 246, 0.8),
+    0 0 16px rgba(59, 130, 246, 0.5);
+  flex-shrink: 0;
   
   @media (max-width: 1023px) {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   
-  // Эффект подключения - пульсирующее кольцо
+  // Пульсирующее кольцо
   &::before {
     content: '';
     position: absolute;
-    inset: -6px;
-    border: 2px solid rgba(59, 130, 246, 0.6);
+    inset: -4px;
+    border: 2px solid rgba(59, 130, 246, 0.5);
     border-radius: 50%;
     opacity: 0;
   }
@@ -393,39 +430,42 @@
   opacity: 1;
 }
 
+// ============================================
+// BURGER MENU
+// ============================================
+
 .tgg-header__burger {
   display: none;
   flex-direction: column;
-  justify-content: space-around;
-  width: 40px;
-  height: 32px;
+  justify-content: space-between;
+  width: 36px;
+  height: 28px;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: $spacing-xs;
+  padding: 0;
   z-index: 1001;
-  transition: all $duration-normal $ease-out-cubic;
   position: relative;
+  transition: all 0.3s ease;
   
   @media (max-width: 1023px) {
     display: flex;
   }
   
-  // Эффект свечения вокруг бургера
+  // Свечение вокруг бургера
   &::before {
     content: '';
     position: absolute;
-    inset: -4px;
-    border-radius: $border-radius-sm;
-    background: linear-gradient(135deg, 
-      rgba(59, 130, 246, 0.2) 0%,
-      rgba(34, 211, 238, 0.2) 50%,
-      rgba(59, 130, 246, 0.2) 100%
+    inset: -8px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(59, 130, 246, 0.15) 0%,
+      transparent 70%
     );
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: -1;
-    border-radius: 50%;
   }
   
   span {
@@ -433,22 +473,19 @@
     height: 3px;
     background: $color-text-secondary;
     border-radius: $border-radius-full;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     transform-origin: center;
-    box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
     position: relative;
     
-    &::before,
-    &::after {
+    &::before {
       content: '';
       position: absolute;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background: $color-primary;
       border-radius: inherit;
       opacity: 0;
       transition: opacity 0.3s ease;
-      box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
     }
   }
   
@@ -460,17 +497,15 @@
     
     span {
       background: $color-primary;
-      box-shadow: 
-        0 0 10px rgba(59, 130, 246, 0.8),
-        0 0 20px rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
       
-      &::before,
-      &::after {
-        opacity: 0.5;
+      &::before {
+        opacity: 0.3;
       }
     }
   }
   
+  // Активное состояние (открыто)
   &.active {
     &::before {
       opacity: 1;
@@ -480,20 +515,20 @@
     span {
       background: $color-primary;
       box-shadow: 
-        0 0 12px rgba(59, 130, 246, 1),
-        0 0 24px rgba(59, 130, 246, 0.7);
+        0 0 10px rgba(59, 130, 246, 0.8),
+        0 0 20px rgba(59, 130, 246, 0.5);
       
       &:nth-child(1) {
-        transform: rotate(45deg) translate(9px, 9px);
+        transform: rotate(45deg) translate(8px, 8px);
       }
       
       &:nth-child(2) {
         opacity: 0;
-        transform: scaleX(0) rotate(180deg);
+        transform: scaleX(0);
       }
       
       &:nth-child(3) {
-        transform: rotate(-45deg) translate(9px, -9px);
+        transform: rotate(-45deg) translate(8px, -8px);
       }
     }
   }
@@ -503,5 +538,31 @@
 body.menu-open {
   @media (max-width: 1023px) {
     overflow: hidden;
+  }
+}
+
+// ============================================
+// RESPONSIVE ADJUSTMENTS
+// ============================================
+
+@media (max-width: 640px) {
+  .tgg-header {
+    .tgg-container {
+      padding-top: $spacing-sm;
+      padding-bottom: $spacing-sm;
+    }
+  }
+  
+  .tgg-header__logo img {
+    height: 40px;
+  }
+  
+  .tgg-header__nav {
+    padding: $spacing-3xl $spacing-lg;
+  }
+  
+  .tgg-nav__link {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-sm;
   }
 }
