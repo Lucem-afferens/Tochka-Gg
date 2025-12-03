@@ -114,8 +114,12 @@
 // ============================================
 
 .tgg-header__nav {
+  display: none;
+  align-items: center;
+  gap: $spacing-xl;
+  
   @include respond-to(lg) {
-    display: block !important;
+    display: flex !important;
   }
   
   @media (max-width: 1023px) {
@@ -124,6 +128,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    flex-direction: column;
     background: rgba(13, 15, 20, 0.98);
     backdrop-filter: blur(30px) saturate(180%);
     transform: translateX(100%);
@@ -175,6 +180,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  flex: 1;
   
   @media (max-width: 1023px) {
     flex-direction: column;
@@ -225,7 +231,7 @@
 .tgg-nav__list {
   display: flex;
   align-items: center;
-  gap: $spacing-md;
+  gap: $spacing-xl;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -234,6 +240,7 @@
     flex-direction: column;
     gap: $spacing-md;
     width: 100%;
+    align-items: stretch;
   }
   
   li {
@@ -259,54 +266,27 @@
 
 .tgg-nav__link {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-sm $spacing-lg;
-  font-family: $font-heading;
+  display: inline-block;
+  padding: $spacing-xs 0;
+  font-family: $font-body;
   font-size: $font-size-sm;
-  font-weight: $font-weight-heading-regular;
+  font-weight: $font-weight-body-medium;
   color: $color-text-secondary;
   text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  text-transform: none;
+  letter-spacing: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: $border-radius-sm;
-  overflow: visible;
-  z-index: 1;
   
-  // Фоновый градиент при наведении (базовый, переопределяется для каждой кнопки)
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(59, 130, 246, 0.08) 0%,
-      rgba(34, 211, 238, 0.08) 50%,
-      rgba(59, 130, 246, 0.08) 100%
-    );
-    border-radius: inherit;
-    opacity: 0;
-    transform: scale(0.95);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: -1;
-  }
-  
-  // Верхняя светящаяся линия (базовая, переопределяется)
+  // Подчеркивание при наведении (базовое, переопределяется)
   &::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: 60%;
+    bottom: 0;
+    left: 0;
+    width: 0;
     height: 2px;
-    background: $gradient-cyan;
-    border-radius: 0 0 2px 2px;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 10px rgba(34, 211, 238, 0.7);
-    z-index: 0;
+    background: $color-primary;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   // Уникальные цвета для каждой кнопки
@@ -316,46 +296,24 @@
   &[href*="/"]:not([href*="оборудование"]):not([href*="equipment"]):not([href*="цены"]):not([href*="pricing"]):not([href*="контакты"]):not([href*="contacts"]):not([href*="vr"]):not([href*="бар"]):not([href*="bar"]):not([href*="клубный"]):not([href*="club"]) {
     color: rgba(59, 130, 246, 0.8);
     
-    &::before {
-      background: linear-gradient(
-        135deg,
-        rgba(59, 130, 246, 0.1) 0%,
-        rgba(30, 144, 255, 0.1) 50%,
-        rgba(59, 130, 246, 0.1) 100%
-      );
-    }
-    
     &::after {
       background: linear-gradient(90deg, #3B82F6 0%, #1E90FF 100%);
-      box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
     }
     
     &:hover {
       color: #3B82F6;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 10px rgba(59, 130, 246, 0.9),
-          0 0 20px rgba(59, 130, 246, 0.6),
-          0 0 30px rgba(30, 144, 255, 0.4);
+      &::after {
+        width: 100%;
       }
     }
     
     &.active {
       color: #1E90FF;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 8px rgba(59, 130, 246, 0.8),
-          0 0 16px rgba(59, 130, 246, 0.5);
+      &::after {
+        width: 100%;
       }
-    }
-    
-    .tgg-nav__link-indicator {
-      background: #3B82F6;
-      box-shadow: 
-        0 0 10px rgba(59, 130, 246, 0.9),
-        0 0 20px rgba(59, 130, 246, 0.6);
     }
   }
   
@@ -365,46 +323,24 @@
   &[data-nav="equipment"] {
     color: rgba(34, 211, 238, 0.8);
     
-    &::before {
-      background: linear-gradient(
-        135deg,
-        rgba(34, 211, 238, 0.1) 0%,
-        rgba(59, 130, 246, 0.1) 50%,
-        rgba(34, 211, 238, 0.1) 100%
-      );
-    }
-    
     &::after {
       background: linear-gradient(90deg, #22D3EE 0%, #3B82F6 100%);
-      box-shadow: 0 0 12px rgba(34, 211, 238, 0.8);
     }
     
     &:hover {
       color: #22D3EE;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 10px rgba(34, 211, 238, 0.9),
-          0 0 20px rgba(34, 211, 238, 0.6),
-          0 0 30px rgba(59, 130, 246, 0.4);
+      &::after {
+        width: 100%;
       }
     }
     
     &.active {
       color: #3B82F6;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 8px rgba(34, 211, 238, 0.8),
-          0 0 16px rgba(34, 211, 238, 0.5);
+      &::after {
+        width: 100%;
       }
-    }
-    
-    .tgg-nav__link-indicator {
-      background: #22D3EE;
-      box-shadow: 
-        0 0 10px rgba(34, 211, 238, 0.9),
-        0 0 20px rgba(34, 211, 238, 0.6);
     }
   }
   
@@ -414,46 +350,24 @@
   &[data-nav="pricing"] {
     color: rgba(192, 38, 211, 0.8);
     
-    &::before {
-      background: linear-gradient(
-        135deg,
-        rgba(192, 38, 211, 0.1) 0%,
-        rgba(147, 51, 234, 0.1) 50%,
-        rgba(192, 38, 211, 0.1) 100%
-      );
-    }
-    
     &::after {
       background: linear-gradient(90deg, #C026D3 0%, #9333EA 100%);
-      box-shadow: 0 0 12px rgba(192, 38, 211, 0.8);
     }
     
     &:hover {
       color: #C026D3;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 10px rgba(192, 38, 211, 0.9),
-          0 0 20px rgba(192, 38, 211, 0.6),
-          0 0 30px rgba(147, 51, 234, 0.4);
+      &::after {
+        width: 100%;
       }
     }
     
     &.active {
       color: #9333EA;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 8px rgba(192, 38, 211, 0.8),
-          0 0 16px rgba(192, 38, 211, 0.5);
+      &::after {
+        width: 100%;
       }
-    }
-    
-    .tgg-nav__link-indicator {
-      background: #C026D3;
-      box-shadow: 
-        0 0 10px rgba(192, 38, 211, 0.9),
-        0 0 20px rgba(192, 38, 211, 0.6);
     }
   }
   
@@ -463,49 +377,24 @@
   &[data-nav="contacts"] {
     color: rgba(255, 107, 53, 0.8);
     
-    &::before {
-      background: linear-gradient(
-        135deg,
-        rgba(255, 107, 53, 0.1) 0%,
-        rgba(247, 44, 37, 0.1) 50%,
-        rgba(255, 217, 61, 0.1) 100%
-      );
-    }
-    
     &::after {
       background: linear-gradient(90deg, #FF6B35 0%, #F72C25 50%, #FFD93D 100%);
-      box-shadow: 
-        0 0 12px rgba(255, 107, 53, 0.8),
-        0 0 20px rgba(247, 44, 37, 0.6);
     }
     
     &:hover {
       color: #FF6B35;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 10px rgba(255, 107, 53, 0.9),
-          0 0 20px rgba(247, 44, 37, 0.7),
-          0 0 30px rgba(255, 217, 61, 0.5);
+      &::after {
+        width: 100%;
       }
     }
     
     &.active {
       color: #FFD93D;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 8px rgba(255, 107, 53, 0.8),
-          0 0 16px rgba(247, 44, 37, 0.6);
+      &::after {
+        width: 100%;
       }
-    }
-    
-    .tgg-nav__link-indicator {
-      background: #FF6B35;
-      box-shadow: 
-        0 0 10px rgba(255, 107, 53, 0.9),
-        0 0 20px rgba(247, 44, 37, 0.7),
-        0 0 30px rgba(255, 217, 61, 0.5);
     }
   }
   
@@ -514,46 +403,24 @@
   &[data-nav="vr"] {
     color: rgba(16, 185, 129, 0.8);
     
-    &::before {
-      background: linear-gradient(
-        135deg,
-        rgba(16, 185, 129, 0.1) 0%,
-        rgba(34, 211, 238, 0.1) 50%,
-        rgba(16, 185, 129, 0.1) 100%
-      );
-    }
-    
     &::after {
       background: linear-gradient(90deg, #10B981 0%, #22D3EE 100%);
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
     }
     
     &:hover {
       color: #10B981;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 10px rgba(16, 185, 129, 0.9),
-          0 0 20px rgba(16, 185, 129, 0.6),
-          0 0 30px rgba(34, 211, 238, 0.4);
+      &::after {
+        width: 100%;
       }
     }
     
     &.active {
       color: #22D3EE;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 8px rgba(16, 185, 129, 0.8),
-          0 0 16px rgba(16, 185, 129, 0.5);
+      &::after {
+        width: 100%;
       }
-    }
-    
-    .tgg-nav__link-indicator {
-      background: #10B981;
-      box-shadow: 
-        0 0 10px rgba(16, 185, 129, 0.9),
-        0 0 20px rgba(16, 185, 129, 0.6);
     }
   }
   
@@ -565,104 +432,57 @@
   &[data-nav="bar"] {
     color: rgba(255, 217, 61, 0.8);
     
-    &::before {
-      background: linear-gradient(
-        135deg,
-        rgba(255, 217, 61, 0.1) 0%,
-        rgba(255, 140, 66, 0.1) 50%,
-        rgba(255, 217, 61, 0.1) 100%
-      );
-    }
-    
     &::after {
       background: linear-gradient(90deg, #FFD93D 0%, #FF8C42 100%);
-      box-shadow: 
-        0 0 12px rgba(255, 217, 61, 0.8),
-        0 0 20px rgba(255, 140, 66, 0.6);
     }
     
     &:hover {
       color: #FFD93D;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 10px rgba(255, 217, 61, 0.9),
-          0 0 20px rgba(255, 140, 66, 0.7),
-          0 0 30px rgba(255, 217, 61, 0.5);
+      &::after {
+        width: 100%;
       }
     }
     
     &.active {
       color: #FF8C42;
       
-      .tgg-nav__link-text {
-        text-shadow: 
-          0 0 8px rgba(255, 217, 61, 0.8),
-          0 0 16px rgba(255, 140, 66, 0.6);
+      &::after {
+        width: 100%;
       }
-    }
-    
-    .tgg-nav__link-indicator {
-      background: #FFD93D;
-      box-shadow: 
-        0 0 10px rgba(255, 217, 61, 0.9),
-        0 0 20px rgba(255, 140, 66, 0.7);
     }
   }
   
   @media (max-width: 1023px) {
-    padding: $spacing-lg $spacing-xl;
+    padding: $spacing-md 0;
     font-size: $font-size-base;
     width: 100%;
-    justify-content: space-between;
-    border: 1px solid rgba(59, 130, 246, 0.1);
-    background: rgba(22, 26, 33, 0.5);
+    text-align: left;
     
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.3);
-      background: rgba(22, 26, 33, 0.8);
+    &::after {
+      display: none;
+    }
+    
+    // Подчеркивание для мобильных
+    border-bottom: 1px solid transparent;
+    
+    &:hover,
+    &.active {
+      border-bottom-color: rgba(59, 130, 246, 0.3);
     }
   }
   
-  // Hover эффекты (базовые, переопределяются для каждой кнопки)
+  // Hover эффекты
   &:hover {
-    transform: translateY(-2px);
-    
-    &::before {
-      opacity: 1;
-      transform: scale(1);
-    }
-    
     &::after {
-      transform: translateX(-50%) scaleX(1);
-    }
-    
-    .tgg-nav__link-indicator {
-      opacity: 1;
-      transform: scale(1) rotate(180deg);
-      
-      &::before {
-        animation: connect-pulse 1.5s ease-in-out infinite;
-      }
+      width: 100%;
     }
   }
   
-  // Активное состояние (базовое, переопределяется для каждой кнопки)
+  // Активное состояние
   &.active {
-    &::before {
-      opacity: 1;
-      transform: scale(1);
-    }
-    
     &::after {
-      transform: translateX(-50%) scaleX(1);
-      width: 80%;
-    }
-    
-    .tgg-nav__link-indicator {
-      opacity: 1;
-      transform: scale(1);
-      animation: active-pulse 2s ease-in-out infinite;
+      width: 100%;
     }
   }
 }
@@ -670,54 +490,6 @@
 .tgg-nav__link-text {
   position: relative;
   z-index: 1;
-  transition: all 0.3s ease;
-  font-weight: $font-weight-heading-regular;
-}
-
-.tgg-nav__link-indicator {
-  position: relative;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: $color-primary;
-  opacity: 0;
-  transform: scale(0);
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  box-shadow: 
-    0 0 8px rgba(59, 130, 246, 0.8),
-    0 0 16px rgba(59, 130, 246, 0.5);
-  flex-shrink: 0;
-  
-  @media (max-width: 1023px) {
-    width: 8px;
-    height: 8px;
-  }
-  
-  // Пульсирующее кольцо
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border: 2px solid rgba(59, 130, 246, 0.5);
-    border-radius: 50%;
-    opacity: 0;
-  }
-  
-  // Внутреннее свечение
-  &::after {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-}
-
-.tgg-nav__link:hover .tgg-nav__link-indicator::after,
-.tgg-nav__link.active .tgg-nav__link-indicator::after {
-  opacity: 1;
 }
 
 // ============================================
@@ -821,6 +593,89 @@
         transform: rotate(-45deg) translate(8px, -8px);
       }
     }
+  }
+}
+
+// ============================================
+// HEADER ACTIONS (BOOKING & PHONE)
+// ============================================
+
+.tgg-header__actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  flex-shrink: 0;
+  
+  @media (max-width: 1023px) {
+    flex-direction: column;
+    gap: $spacing-md;
+    width: 100%;
+    margin-top: $spacing-xl;
+    padding-top: $spacing-xl;
+    border-top: 1px solid rgba(59, 130, 246, 0.1);
+  }
+}
+
+.tgg-header__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-xs $spacing-md;
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-body-medium;
+  color: $color-text-secondary;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-radius: $border-radius-sm;
+  
+  svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+    color: rgba(59, 130, 246, 0.7);
+  }
+  
+  &:hover {
+    color: $color-primary;
+    
+    svg {
+      transform: rotate(15deg);
+      color: $color-primary;
+    }
+  }
+  
+  @media (max-width: 1023px) {
+    justify-content: center;
+    padding: $spacing-md;
+    font-size: $font-size-base;
+    width: 100%;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: $border-radius-md;
+    
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.4);
+      background: rgba(59, 130, 246, 0.05);
+    }
+  }
+}
+
+.tgg-header__phone-text {
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
+.tgg-header__booking {
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-sm;
+  white-space: nowrap;
+  
+  @media (max-width: 1023px) {
+    width: 100%;
+    justify-content: center;
+    padding: $spacing-md $spacing-xl;
+    font-size: $font-size-base;
   }
 }
 
