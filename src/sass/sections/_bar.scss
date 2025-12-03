@@ -1,0 +1,186 @@
+/**
+ * Bar Menu Section Styles
+ * 
+ * Стили для каталога товаров клубного бара
+ */
+
+.tgg-bar {
+  padding: $spacing-5xl 0;
+  background: $color-bg-primary;
+  
+  &__title {
+    font-family: $font-heading;
+    font-size: $font-size-h1;
+    font-weight: $font-weight-heading-bold;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-md;
+    text-shadow: 
+      0 0 25px rgba(59, 130, 246, 0.9),
+      0 0 40px rgba(59, 130, 246, 0.6),
+      0 0 30px rgba(255, 107, 53, 0.5);
+    transition: text-shadow 0.3s ease;
+    
+    &:hover {
+      text-shadow: 
+        0 0 35px rgba(59, 130, 246, 1),
+        0 0 60px rgba(30, 144, 255, 0.8),
+        0 0 50px rgba(255, 107, 53, 0.7);
+    }
+  }
+  
+  &__description {
+    font-family: $font-body;
+    font-size: $font-size-lg;
+    color: $color-text-secondary;
+    text-align: center;
+    margin-bottom: $spacing-4xl;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  &__categories {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4xl;
+  }
+  
+  &__category {
+    &-title {
+      font-family: $font-heading;
+      font-size: $font-size-h2;
+      font-weight: $font-weight-heading-bold;
+      line-height: $line-height-tight;
+      color: $color-text-primary;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: $spacing-2xl;
+      text-shadow: 
+        0 0 20px rgba(59, 130, 246, 0.8),
+        0 0 35px rgba(59, 130, 246, 0.5),
+        0 0 25px rgba(255, 107, 53, 0.4);
+      transition: text-shadow 0.3s ease;
+      padding-bottom: $spacing-md;
+      border-bottom: $border-width-medium solid rgba(59, 130, 246, 0.3);
+      
+      &:hover {
+        text-shadow: 
+          0 0 30px rgba(59, 130, 246, 1),
+          0 0 50px rgba(30, 144, 255, 0.7),
+          0 0 40px rgba(255, 107, 53, 0.6);
+      }
+    }
+  }
+  
+  &__items {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-xl;
+    
+    @include respond-to(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include respond-to(lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  &__item {
+    background: $color-bg-secondary;
+    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    transition: all $duration-normal $ease-out-cubic;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.6);
+      transform: translateY(-4px);
+      box-shadow: 
+        0 8px 30px rgba(59, 130, 246, 0.3),
+        0 0 40px rgba(59, 130, 246, 0.1);
+      
+      .tgg-bar__item-image img {
+        transform: scale(1.1);
+      }
+      
+      .tgg-bar__item-price {
+        color: $color-primary;
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+      }
+    }
+    
+    &-image {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: $color-bg-primary;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform $duration-slow $ease-out-cubic;
+        filter: contrast(1.1) brightness(0.9);
+      }
+    }
+    
+    &-content {
+      padding: $spacing-lg;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    &-name {
+      font-family: $font-heading;
+      font-size: $font-size-h5;
+      font-weight: $font-weight-heading-regular;
+      color: $color-text-primary;
+      margin-bottom: $spacing-sm;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    &-description {
+      font-family: $font-body;
+      font-size: $font-size-sm;
+      line-height: $line-height-normal;
+      color: $color-text-secondary;
+      margin-bottom: $spacing-md;
+      flex: 1;
+    }
+    
+    &-price {
+      font-family: $font-heading;
+      font-size: $font-size-price;
+      font-weight: $font-weight-heading-bold;
+      color: $color-text-primary;
+      transition: all $duration-normal ease;
+      
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 4px;
+        height: 4px;
+        background: $color-primary;
+        border-radius: 50%;
+        margin-right: $spacing-xs;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+

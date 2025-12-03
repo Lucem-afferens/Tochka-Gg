@@ -18,6 +18,9 @@ $equipment_url = function_exists('tochkagg_get_page_url')
 $vr_url = function_exists('tochkagg_get_page_url') 
     ? tochkagg_get_page_url('vr') 
     : home_url('/vr/');
+$bar_url = function_exists('tochkagg_get_page_url') 
+    ? tochkagg_get_page_url('bar') 
+    : home_url('/bar/');
 
 $services = get_field('services') ?: [
     [
@@ -48,7 +51,7 @@ $services = get_field('services') ?: [
         'title' => 'Еда и напитки',
         'subtitle' => 'Кафе в клубе',
         'description' => 'Кофе, бургеры, энергетики и прохладительные напитки',
-        'link' => '#food',
+        'link' => $bar_url,
         'image' => null,
         'type' => 'food'
     ]
@@ -73,7 +76,7 @@ $services = get_field('services') ?: [
                     $image = $service['image'] ?? null;
                     $type = $service['type'] ?? '';
                 ?>
-                    <div class="tgg-services__item tgg-services__item--<?php echo esc_attr($type); ?> <?php echo $type === 'food' ? 'tgg-fire-glow' : ''; ?>" data-type="<?php echo esc_attr($type); ?>">
+                    <div class="tgg-services__item tgg-services__item--<?php echo esc_attr($type); ?>" data-type="<?php echo esc_attr($type); ?>">
                         <?php if ($link) : ?>
                             <a href="<?php echo esc_url($link); ?>" class="tgg-services__item-link">
                         <?php endif; ?>
@@ -100,7 +103,7 @@ $services = get_field('services') ?: [
                         </div>
                         
                         <div class="tgg-services__item-content">
-                            <h3 class="tgg-services__item-title <?php echo $type === 'food' ? 'tgg-fire-text' : ''; ?>">
+                            <h3 class="tgg-services__item-title">
                                 <?php echo esc_html($title); ?>
                             </h3>
                             

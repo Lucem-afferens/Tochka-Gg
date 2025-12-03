@@ -262,40 +262,20 @@
     }
     
     &--food {
-      // Уникальный огненный стиль для еды
-      border-color: rgba(255, 107, 53, 0.6);
+      // Уникальный стиль для еды (единый дизайн)
+      border-color: rgba(255, 107, 53, 0.4);
       background: linear-gradient(135deg, $color-bg-secondary 0%, rgba(255, 107, 53, 0.05) 100%);
-      box-shadow: 
-        0 4px 15px rgba(255, 107, 53, 0.3),
-        inset 0 0 20px rgba(255, 217, 61, 0.1);
       
       &::before {
-        background: linear-gradient(135deg, rgba(255, 107, 53, 0.8), rgba(247, 44, 37, 0.7), rgba(255, 217, 61, 0.6));
-        background-size: 200% 200%;
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.6), rgba(255, 217, 61, 0.5));
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
-        opacity: 0.8;
-      }
-      
-      // Добавляем дополнительные огненные эффекты
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: $gradient-fire;
-        background-size: 200% 100%;
-        opacity: 0.8;
       }
       
       .tgg-services__item-title {
         color: rgba(255, 107, 53, 1);
-        text-shadow: 
-          0 0 15px rgba(255, 107, 53, 0.8),
-          0 0 25px rgba(247, 44, 37, 0.5);
+        text-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
       }
       
       .tgg-services__item-subtitle {
@@ -303,7 +283,7 @@
       }
       
       .tgg-services__item-image-placeholder {
-        background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(247, 44, 37, 0.05));
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 217, 61, 0.05));
       }
       
       @include respond-to(lg) {
@@ -312,19 +292,16 @@
           transform: translateY(-12px) rotateY(-8deg) rotateX(3deg);
           transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
           box-shadow: 
-            0 12px 40px rgba(255, 107, 53, 0.7),
-            0 0 60px rgba(247, 44, 37, 0.5),
-            0 0 80px rgba(255, 217, 61, 0.4);
+            0 12px 40px rgba(255, 107, 53, 0.6),
+            0 0 60px rgba(255, 107, 53, 0.4),
+            0 0 80px rgba(255, 217, 61, 0.2);
           
           &::before {
             opacity: 1;
           }
           
           .tgg-services__item-title {
-            text-shadow: 
-              0 0 20px rgba(255, 107, 53, 1),
-              0 0 35px rgba(247, 44, 37, 0.8),
-              0 0 50px rgba(255, 217, 61, 0.6);
+            text-shadow: 0 0 20px rgba(255, 107, 53, 1), 0 0 30px rgba(255, 217, 61, 0.8);
           }
           
           .tgg-services__item-image img {
