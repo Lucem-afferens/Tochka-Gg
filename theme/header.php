@@ -25,17 +25,12 @@ if (!defined('ABSPATH')) {
         <div class="tgg-header__logo">
             <?php
             $logo = function_exists('get_field') ? get_field('logo', 'option') : false;
-            if ($logo && is_array($logo) && !empty($logo['url'])) :
-                ?>
-                <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
-                    <img src="<?php echo esc_url($logo['url']); ?>" 
-                         alt="<?php echo esc_attr($logo['alt'] ?: get_bloginfo('name')); ?>">
-                </a>
-            <?php else : ?>
-                <a href="<?php echo esc_url(home_url('/')); ?>">
-                    <?php echo esc_html(get_bloginfo('name')); ?>
-                </a>
-            <?php endif; ?>
+            $logo_data = tochkagg_get_image_or_placeholder($logo, 200, 60, 'Logo');
+            ?>
+            <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                <img src="<?php echo esc_url($logo_data['url']); ?>" 
+                     alt="<?php echo esc_attr($logo_data['alt']); ?>">
+            </a>
         </div>
 
         <nav class="tgg-header__nav" role="navigation" aria-label="<?php esc_attr_e('Главное меню', 'tochkagg'); ?>">

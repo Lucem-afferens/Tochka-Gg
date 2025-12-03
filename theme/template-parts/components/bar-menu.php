@@ -103,13 +103,14 @@ $categories = get_field('bar_categories') ?: [
                                     $item_image = $item['image'] ?? null;
                                 ?>
                                     <div class="tgg-bar__item">
-                                        <?php if ($item_image) : ?>
-                                            <div class="tgg-bar__item-image">
-                                                <img src="<?php echo esc_url($item_image['url']); ?>" 
-                                                     alt="<?php echo esc_attr($item_image['alt'] ?: $item_name); ?>"
-                                                     loading="lazy">
-                                            </div>
-                                        <?php endif; ?>
+                                        <div class="tgg-bar__item-image">
+                                            <?php
+                                            $product_image_data = tochkagg_get_image_or_placeholder($item_image, 300, 300, $item_name);
+                                            ?>
+                                            <img src="<?php echo esc_url($product_image_data['url']); ?>" 
+                                                 alt="<?php echo esc_attr($product_image_data['alt']); ?>"
+                                                 loading="lazy">
+                                        </div>
                                         
                                         <div class="tgg-bar__item-content">
                                             <h3 class="tgg-bar__item-name">

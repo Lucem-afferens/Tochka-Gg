@@ -69,16 +69,12 @@ $vr_phone = get_field('vr_phone') ?: '+7 912 068-34-17';
             </div>
             
             <div class="tgg-vr__image">
-                <?php if ($vr_image) : ?>
-                    <img src="<?php echo esc_url($vr_image['url']); ?>" 
-                         alt="<?php echo esc_attr($vr_image['alt'] ?: 'VR Арена Другие миры'); ?>"
-                         loading="lazy">
-                <?php else : ?>
-                    <!-- Заглушка для изображения -->
-                    <div class="tgg-vr__image-placeholder">
-                        <span>Здесь будет фото VR арены</span>
-                    </div>
-                <?php endif; ?>
+                <?php
+                $vr_image_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
+                ?>
+                <img src="<?php echo esc_url($vr_image_data['url']); ?>" 
+                     alt="<?php echo esc_attr($vr_image_data['alt']); ?>"
+                     loading="lazy">
             </div>
         </div>
     </div>

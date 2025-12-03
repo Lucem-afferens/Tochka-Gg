@@ -28,16 +28,12 @@ $about_image = get_field('about_image');
             </div>
             
             <div class="tgg-about__image">
-                <?php if ($about_image) : ?>
-                    <img src="<?php echo esc_url($about_image['url']); ?>" 
-                         alt="<?php echo esc_attr($about_image['alt'] ?: 'Компьютерный клуб Точка Gg'); ?>"
-                         loading="lazy">
-                <?php else : ?>
-                    <!-- Заглушка для изображения -->
-                    <div class="tgg-about__image-placeholder">
-                        <span>Здесь будет фото клуба</span>
-                    </div>
-                <?php endif; ?>
+                <?php
+                $about_image_data = tochkagg_get_image_or_placeholder($about_image, 800, 600, 'About Club');
+                ?>
+                <img src="<?php echo esc_url($about_image_data['url']); ?>" 
+                     alt="<?php echo esc_attr($about_image_data['alt']); ?>"
+                     loading="lazy">
             </div>
         </div>
     </div>

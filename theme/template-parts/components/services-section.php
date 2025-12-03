@@ -82,24 +82,23 @@ $services = get_field('services') ?: [
                         <?php endif; ?>
                         
                         <div class="tgg-services__item-image">
-                            <?php if ($image) : ?>
-                                <img src="<?php echo esc_url($image['url']); ?>" 
-                                     alt="<?php echo esc_attr($image['alt'] ?: $title); ?>"
-                                     loading="lazy">
-                            <?php else : ?>
-                                <!-- Заглушка для изображения -->
-                                <div class="tgg-services__item-image-placeholder">
-                                    <?php if ($type === 'pc') : ?>
-                                        <span>🖥️</span>
-                                    <?php elseif ($type === 'ps5') : ?>
-                                        <span>🎮</span>
-                                    <?php elseif ($type === 'vr') : ?>
-                                        <span>🥽</span>
-                                    <?php else : ?>
-                                        <span>🍔</span>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endif; ?>
+                            <?php
+                            // Определяем текст для placeholder в зависимости от типа услуги
+                            $placeholder_text = 'Service Image';
+                            if ($type === 'pc') {
+                                $placeholder_text = 'Gaming PCs';
+                            } elseif ($type === 'ps5') {
+                                $placeholder_text = 'PlayStation 5';
+                            } elseif ($type === 'vr') {
+                                $placeholder_text = 'VR Arena';
+                            } else {
+                                $placeholder_text = 'Food & Drinks';
+                            }
+                            $service_image_data = tochkagg_get_image_or_placeholder($image, 600, 400, $placeholder_text);
+                            ?>
+                            <img src="<?php echo esc_url($service_image_data['url']); ?>" 
+                                 alt="<?php echo esc_attr($service_image_data['alt']); ?>"
+                                 loading="lazy">
                         </div>
                         
                         <div class="tgg-services__item-content">

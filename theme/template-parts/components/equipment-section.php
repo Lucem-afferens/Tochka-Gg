@@ -65,10 +65,13 @@ $equipment_link = get_field('equipment_preview_link') ?: $equipment_link_default
             </div>
             
             <div class="tgg-equipment-preview__image">
-                <!-- Заглушка для изображения -->
-                <div class="tgg-equipment-preview__image-placeholder">
-                    <span>Здесь будет фото оборудования</span>
-                </div>
+                <?php
+                $equipment_image = get_field('equipment_preview_image');
+                $equipment_image_data = tochkagg_get_image_or_placeholder($equipment_image, 800, 600, 'Equipment');
+                ?>
+                <img src="<?php echo esc_url($equipment_image_data['url']); ?>" 
+                     alt="<?php echo esc_attr($equipment_image_data['alt']); ?>"
+                     loading="lazy">
             </div>
         </div>
     </div>

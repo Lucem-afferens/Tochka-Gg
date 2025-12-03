@@ -141,4 +141,58 @@ function tochkagg_get_page_url($slug, $fallback = '#') {
     return home_url('/' . $slug . '/');
 }
 
+/**
+ * Получить URL placeholder изображения
+ * 
+ * Используется для визуальной индикации мест, где нужно загрузить медиа-файлы
+ * 
+ * @param int $width Ширина изображения
+ * @param int $height Высота изображения
+ * @param string $text Текст на placeholder (будет закодирован в URL)
+ * @param string $bg_color Цвет фона (hex без #)
+ * @param string $text_color Цвет текста (hex без #)
+ * @return string URL placeholder изображения
+ */
+function tochkagg_get_placeholder_image($width = 800, $height = 600, $text = 'Placeholder', $bg_color = '1a1d29', $text_color = '3b82f6') {
+    // Используем placehold.co - простой и надежный сервис
+    $text_encoded = urlencode($text);
+    return "https://placehold.co/{$width}x{$height}/{$bg_color}/{$text_color}?text={$text_encoded}";
+}
+
+/**
+ * Получить placeholder видео URL (для демонстрации)
+ * 
+ * @param string $label Метка для понимания назначения видео
+ * @return string URL placeholder видео
+ */
+function tochkagg_get_placeholder_video($label = 'Video') {
+    // Используем простое placeholder видео (можно заменить на реальное демо-видео)
+    // Для демонстрации используем простой URL, который можно будет заменить
+    // В реальности это должен быть URL на ваше демо-видео или просто инструкция
+    return home_url('/wp-content/themes/tochkagg-theme/assets/videos/placeholder-video.mp4');
+}
+
+/**
+ * Получить placeholder изображение или реальное ACF изображение
+ * 
+ * @param mixed $acf_image ACF изображение (array или false)
+ * @param int $width Ширина placeholder
+ * @param int $height Высота placeholder
+ * @param string $placeholder_text Текст для placeholder
+ * @return array Массив с URL и alt для изображения
+ */
+function tochkagg_get_image_or_placeholder($acf_image, $width = 800, $height = 600, $placeholder_text = 'Изображение') {
+    if ($acf_image && is_array($acf_image) && !empty($acf_image['url'])) {
+        return [
+            'url' => $acf_image['url'],
+            'alt' => $acf_image['alt'] ?? $placeholder_text
+        ];
+    }
+    
+    return [
+        'url' => tochkagg_get_placeholder_image($width, $height, $placeholder_text),
+        'alt' => $placeholder_text . ' (заглушка - загрузите своё изображение)'
+    ];
+}
+
 

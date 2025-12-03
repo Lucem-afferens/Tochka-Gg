@@ -19,13 +19,10 @@ $social_links = function_exists('get_field') ? get_field('social_networks', 'opt
             <div class="tgg-footer__logo">
                 <?php
                 $footer_logo = function_exists('get_field') ? get_field('footer_logo', 'option') : false;
-                if ($footer_logo && is_array($footer_logo) && !empty($footer_logo['url'])) :
-                    ?>
-                    <img src="<?php echo esc_url($footer_logo['url']); ?>" 
-                         alt="<?php echo esc_attr($footer_logo['alt'] ?: get_bloginfo('name')); ?>">
-                <?php else : ?>
-                    <span><?php echo esc_html(get_bloginfo('name')); ?></span>
-                <?php endif; ?>
+                $footer_logo_data = tochkagg_get_image_or_placeholder($footer_logo, 200, 60, 'Footer Logo');
+                ?>
+                <img src="<?php echo esc_url($footer_logo_data['url']); ?>" 
+                     alt="<?php echo esc_attr($footer_logo_data['alt']); ?>">
             </div>
 
             <?php if ($phone) : ?>

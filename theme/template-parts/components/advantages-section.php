@@ -48,15 +48,11 @@ $advantages = get_field('advantages') ?: [
                     <div class="tgg-advantages__item" data-index="<?php echo esc_attr($index); ?>">
                         <div class="tgg-advantages__item-icon">
                             <div class="tgg-advantages__item-icon-glow"></div>
-                            <?php if ($icon_image) : ?>
-                                <img src="<?php echo esc_url($icon_image['url']); ?>" 
-                                     alt="<?php echo esc_attr($icon_image['alt'] ?: $title); ?>">
-                            <?php else : ?>
-                                <!-- Заглушка для иконки -->
-                                <div class="tgg-advantages__item-icon-placeholder">
-                                    <?php echo esc_html($icon ?: 'icon'); ?>
-                                </div>
-                            <?php endif; ?>
+                            <?php
+                            $advantage_icon_data = tochkagg_get_image_or_placeholder($icon_image, 100, 100, $title . ' Icon');
+                            ?>
+                            <img src="<?php echo esc_url($advantage_icon_data['url']); ?>" 
+                                 alt="<?php echo esc_attr($advantage_icon_data['alt']); ?>">
                         </div>
                         
                         <h3 class="tgg-advantages__item-title">

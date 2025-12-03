@@ -85,12 +85,12 @@ $social_links = get_field('social_networks', 'option');
                                        rel="noopener noreferrer"
                                        class="tgg-contacts__social-link"
                                        aria-label="<?php echo esc_attr($social['platform_name'] ?? 'Социальная сеть'); ?>">
-                                        <?php if (!empty($social['icon'])) : ?>
-                                            <img src="<?php echo esc_url($social['icon']['url']); ?>" 
-                                                 alt="<?php echo esc_attr($social['icon']['alt'] ?? ''); ?>">
-                                        <?php else : ?>
-                                            <span><?php echo esc_html($social['platform_name'] ?? ''); ?></span>
-                                        <?php endif; ?>
+                                        <?php
+                                        $social_icon = !empty($social['icon']) && is_array($social['icon']) ? $social['icon'] : null;
+                                        $social_icon_data = tochkagg_get_image_or_placeholder($social_icon, 40, 40, ($social['platform_name'] ?? 'Social') . ' Icon');
+                                        ?>
+                                        <img src="<?php echo esc_url($social_icon_data['url']); ?>" 
+                                             alt="<?php echo esc_attr($social_icon_data['alt']); ?>">
                                     </a>
                                 <?php endif; ?>
                             <?php endforeach; ?>
