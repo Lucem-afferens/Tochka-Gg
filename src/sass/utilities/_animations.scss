@@ -276,6 +276,103 @@
 }
 
 // ============================================
+// KEYFRAMES - Навигация
+// ============================================
+
+// Волновое течение в навигации
+@keyframes wave-flow {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+// Появление пунктов меню (мобильная версия)
+@keyframes nav-item-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Сканирование текста
+@keyframes text-scan {
+  0%, 100% {
+    clip-path: inset(0 0 0 0);
+  }
+  50% {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+// Пульсация подключения
+@keyframes connect-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+// Пульсация активного элемента
+@keyframes active-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.9),
+      0 0 20px rgba(59, 130, 246, 0.6);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 
+      0 0 15px rgba(59, 130, 246, 1),
+      0 0 30px rgba(59, 130, 246, 0.8),
+      0 0 40px rgba(34, 211, 238, 0.5);
+    transform: scale(1.1);
+  }
+}
+
+// Свечение бургера
+@keyframes burger-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 15px rgba(59, 130, 246, 0.6),
+      0 0 25px rgba(34, 211, 238, 0.4);
+  }
+}
+
+// Активное свечение бургера
+@keyframes burger-glow-active {
+  0%, 100% {
+    box-shadow: 
+      0 0 15px rgba(59, 130, 246, 0.8),
+      0 0 30px rgba(34, 211, 238, 0.5);
+  }
+  50% {
+    box-shadow: 
+      0 0 20px rgba(59, 130, 246, 1),
+      0 0 40px rgba(34, 211, 238, 0.7),
+      0 0 60px rgba(147, 51, 234, 0.4);
+  }
+}
+
+// ============================================
 // KEYFRAMES - Огненные эффекты
 // ============================================
 

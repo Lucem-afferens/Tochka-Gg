@@ -36,13 +36,36 @@ export function initNavigation() {
   
   // Close menu on link click
   const navLinks = nav.querySelectorAll('a');
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('active');
-      burger.classList.remove('active');
-      burger.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
+  navLinks.forEach((link, index) => {
+    // Добавляем эффект волны при клике
+    link.addEventListener('click', (e) => {
+      // Анимация клика
+      link.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        link.style.transform = '';
+      }, 150);
+      
+      // Закрываем мобильное меню
+      if (window.innerWidth <= 1023) {
+        setTimeout(() => {
+          nav.classList.remove('active');
+          burger.classList.remove('active');
+          burger.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('menu-open');
+        }, 200);
+      }
     });
+    
+    // Эффект при наведении для десктопа
+    if (window.innerWidth > 1023) {
+      link.addEventListener('mouseenter', () => {
+        link.classList.add('hover-active');
+      });
+      
+      link.addEventListener('mouseleave', () => {
+        link.classList.remove('hover-active');
+      });
+    }
   });
   
   // Active menu item on scroll
