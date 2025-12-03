@@ -81,7 +81,7 @@
 }
 
 // ============================================
-// NEON GLOW EFFECT
+// NEON GLOW EFFECTS
 // ============================================
 
 @mixin neon-glow($color: $color-primary, $intensity: 0.4) {
@@ -89,6 +89,94 @@
   
   &:hover {
     box-shadow: 0 0 30px rgba($color, $intensity * 1.5);
+  }
+}
+
+// Неоновое свечение текста
+@mixin text-neon($color: $color-primary, $intensity: 0.6) {
+  text-shadow: 
+    0 0 10px rgba($color, $intensity),
+    0 0 20px rgba($color, $intensity * 0.7),
+    0 0 30px rgba($color, $intensity * 0.4);
+}
+
+// Неоновая граница с свечением
+@mixin neon-border($color: $color-primary, $width: 2px, $intensity: 0.6) {
+  border: $width solid rgba($color, $intensity);
+  box-shadow: 
+    0 0 10px rgba($color, $intensity * 0.5),
+    inset 0 0 10px rgba($color, $intensity * 0.2);
+}
+
+// Градиентная граница (кибер-эффект)
+@mixin gradient-border($gradient: $gradient-primary, $width: 2px) {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -$width;
+    border-radius: inherit;
+    padding: $width;
+    background: $gradient;
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+  }
+}
+
+// Анимированный фон с градиентом
+@mixin animated-gradient($gradient: $gradient-primary, $size: 200%) {
+  background: $gradient;
+  background-size: $size $size;
+  animation: rotate-gradient 5s ease infinite;
+}
+
+// Кибер-сетка на фоне
+@mixin cyber-grid($color: rgba(59, 130, 246, 0.1)) {
+  background-image: 
+    linear-gradient($color 1px, transparent 1px),
+    linear-gradient(90deg, $color 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+// Сканирующая линия
+@mixin scan-line($color: rgba(34, 211, 238, 0.5)) {
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, $color, transparent);
+    animation: scan-line 3s linear infinite;
+    pointer-events: none;
+  }
+}
+
+// Оптимизированный hover эффект (использует transform)
+@mixin hover-lift {
+  transition: transform $duration-normal $ease-out-cubic;
+  
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+// Комбинированный неоновый эффект
+@mixin cyber-glow($color: $color-primary) {
+  @include neon-glow($color, 0.5);
+  @include text-neon($color, 0.6);
+  
+  &:hover {
+    filter: brightness(1.2) drop-shadow(0 0 20px rgba($color, 0.8));
   }
 }
 

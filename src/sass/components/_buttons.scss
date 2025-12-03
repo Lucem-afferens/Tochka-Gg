@@ -32,20 +32,47 @@
   
   @include focus-visible;
   @include neon-glow($color-primary, 0.4);
+  @include text-neon($color-primary, 0.3);
+  
+  // Кибер-эффект: светящийся контур
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity $duration-normal;
+  }
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+    filter: brightness(1.1) drop-shadow(0 0 20px rgba(59, 130, 246, 0.7));
+    box-shadow: 
+      0 0 30px rgba(59, 130, 246, 0.6),
+      0 0 50px rgba(59, 130, 246, 0.3);
     background: linear-gradient(90deg, $color-primary-bright 0%, $color-primary 100%);
+    @include text-neon($color-primary-bright, 0.5);
+    
+    &::before {
+      opacity: 1;
+      animation: rotate-gradient 2s linear infinite;
+    }
   }
   
   &:active {
     transform: translateY(0);
+    filter: brightness(0.9);
   }
   
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    filter: none;
   }
 }
 
@@ -69,13 +96,39 @@
   border-radius: $border-radius-md;
   cursor: pointer;
   transition: all $duration-normal $ease-out-cubic;
+  position: relative;
+  overflow: hidden;
   
   @include focus-visible;
+  @include neon-border($color-primary, 2px, 0.5);
+  
+  // Анимированная граница
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: $gradient-primary;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity $duration-normal;
+  }
   
   &:hover {
     background: rgba(59, 130, 246, 0.1);
-    @include neon-glow($color-primary, 0.3);
+    @include neon-glow($color-primary, 0.5);
     transform: translateY(-2px);
+    border-color: $color-primary-bright;
+    box-shadow: 
+      0 0 20px rgba(59, 130, 246, 0.5),
+      0 0 40px rgba(59, 130, 246, 0.2);
+    
+    &::after {
+      opacity: 1;
+    }
   }
 }
 

@@ -1,23 +1,24 @@
 /**
  * Animations
  * 
- * Анимации и keyframes
+ * Анимации и keyframes с кибер-эстетикой
+ * Оптимизировано для производительности (используются transform и opacity)
  */
 
 // Переменные импортируются в главном файле style.scss
 
 // ============================================
-// KEYFRAMES
+// KEYFRAMES - Базовые
 // ============================================
 
 @keyframes glow-pulse {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));
   }
   50% {
     opacity: 0.8;
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.7));
   }
 }
 
@@ -42,6 +43,156 @@
 }
 
 // ============================================
+// KEYFRAMES - Кибер-эффекты
+// ============================================
+
+// Глитч эффект (быстрый, редкий)
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0);
+    filter: hue-rotate(0deg);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    filter: hue-rotate(90deg);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+    filter: hue-rotate(180deg);
+  }
+  60% {
+    transform: translate(2px, 2px);
+    filter: hue-rotate(270deg);
+  }
+  80% {
+    transform: translate(2px, -2px);
+    filter: hue-rotate(360deg);
+  }
+}
+
+// Сканирующая линия
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+// Неоновое свечение текста
+@keyframes text-glow {
+  0%, 100% {
+    text-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.5),
+      0 0 20px rgba(59, 130, 246, 0.3),
+      0 0 30px rgba(59, 130, 246, 0.2);
+  }
+  50% {
+    text-shadow: 
+      0 0 20px rgba(59, 130, 246, 0.8),
+      0 0 30px rgba(59, 130, 246, 0.5),
+      0 0 40px rgba(59, 130, 246, 0.3),
+      0 0 50px rgba(59, 130, 246, 0.1);
+  }
+}
+
+// Анимированная неоновая граница
+@keyframes neon-border {
+  0%, 100% {
+    box-shadow: 
+      0 0 5px rgba(59, 130, 246, 0.5),
+      0 0 10px rgba(59, 130, 246, 0.3),
+      inset 0 0 5px rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.8),
+      0 0 20px rgba(59, 130, 246, 0.5),
+      0 0 30px rgba(59, 130, 246, 0.3),
+      inset 0 0 10px rgba(59, 130, 246, 0.3);
+    border-color: rgba(59, 130, 246, 0.9);
+  }
+}
+
+// Плавающий эффект
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+// Вращающийся градиент
+@keyframes rotate-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+// Мигание (для важных элементов)
+@keyframes blink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0.3;
+  }
+}
+
+// Свечение при наведении
+@keyframes hover-glow {
+  0% {
+    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));
+  }
+  100% {
+    filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.8));
+  }
+}
+
+// Частицы (для фона)
+@keyframes particle {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0);
+    opacity: 0;
+  }
+}
+
+// Сетка (кибер-сетка на фоне)
+@keyframes grid-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+// ============================================
 // ANIMATION CLASSES
 // ============================================
 
@@ -55,5 +206,51 @@
 
 .tgg-animate-glow {
   animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.tgg-animate-text-glow {
+  animation: text-glow 3s ease-in-out infinite;
+}
+
+.tgg-animate-neon-border {
+  animation: neon-border 2s ease-in-out infinite;
+}
+
+.tgg-animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.tgg-animate-blink {
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+// Глитч эффект (используйте осторожно, может быть навязчивым)
+.tgg-animate-glitch {
+  animation: glitch 0.3s ease-in-out infinite;
+  
+  // Активируется только при наведении для экономии ресурсов
+  &:hover {
+    animation-duration: 0.1s;
+  }
+}
+
+// Оптимизация производительности
+.tgg-animate-glow,
+.tgg-animate-text-glow,
+.tgg-animate-neon-border,
+.tgg-animate-float {
+  will-change: transform, opacity, filter;
+}
+
+// Отключение анимаций для пользователей с prefers-reduced-motion
+@media (prefers-reduced-motion: reduce) {
+  .tgg-animate-glow,
+  .tgg-animate-text-glow,
+  .tgg-animate-neon-border,
+  .tgg-animate-float,
+  .tgg-animate-blink,
+  .tgg-animate-glitch {
+    animation: none;
+  }
 }
 
