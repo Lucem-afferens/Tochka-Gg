@@ -92,7 +92,7 @@ jobs:
           username: ${{ secrets.BEGET_FTP_USER }}
           password: ${{ secrets.BEGET_FTP_PASSWORD }}
           # Путь на Beget: от корня FTP подключения до папки темы
-          server-dir: /public_html/wp-content/themes/tochkagg-theme/
+          server-dir: /kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/
           local-dir: ./theme/
           exclude: |
             **/.git*
