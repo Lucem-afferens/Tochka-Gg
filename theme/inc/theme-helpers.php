@@ -12,6 +12,28 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Безопасная функция для получения поля ACF
+ * Работает даже если ACF не установлен
+ */
+function tochkagg_get_field($selector, $post_id = false, $format_value = true) {
+    if (function_exists('get_field')) {
+        return get_field($selector, $post_id, $format_value);
+    }
+    return false;
+}
+
+/**
+ * Безопасная функция для проверки существования поля ACF
+ */
+function tochkagg_has_field($selector, $post_id = false) {
+    if (function_exists('get_field')) {
+        $value = get_field($selector, $post_id);
+        return $value !== false && $value !== null && $value !== '';
+    }
+    return false;
+}
+
+/**
  * Получить ACF поле с проверкой существования
  *
  * @param string $field_name Имя поля
