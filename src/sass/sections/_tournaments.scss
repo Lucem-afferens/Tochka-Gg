@@ -3,8 +3,59 @@
  */
 
 .tgg-tournaments-preview {
+  position: relative;
   padding: $spacing-5xl 0;
-  background: $color-bg-primary;
+  overflow: hidden;
+  
+  &__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+    
+    img,
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.3) contrast(1.1);
+    }
+    
+    &-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.3) contrast(1.1);
+      
+      // Улучшенная производительность
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+  }
+  
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(13, 15, 20, 0.9) 0%,
+      rgba(13, 15, 20, 0.8) 50%,
+      rgba(13, 15, 20, 0.9) 100%
+    );
+  }
+  
+  .tgg-container {
+    position: relative;
+    z-index: 2;
+  }
   
   &__title {
     font-family: $font-heading;
@@ -46,16 +97,21 @@
   }
   
   &__item {
-    background: $color-bg-secondary;
+    background: rgba(22, 26, 33, 0.95);
+    backdrop-filter: blur(10px);
     border: $border-width-thin solid rgba(192, 38, 211, 0.2);
     border-radius: $border-radius-lg;
     overflow: hidden;
     transition: all $duration-normal $ease-out-cubic;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     
     &:hover {
+      background: rgba(22, 26, 33, 0.98);
       border-color: rgba(192, 38, 211, 0.5);
       transform: translateY(-8px);
-      box-shadow: 0 8px 30px rgba(192, 38, 211, 0.3);
+      box-shadow: 
+        0 8px 30px rgba(192, 38, 211, 0.4),
+        0 0 40px rgba(192, 38, 211, 0.2);
     }
     
     &-image {

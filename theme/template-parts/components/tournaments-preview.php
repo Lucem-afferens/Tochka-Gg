@@ -11,10 +11,22 @@ if (!defined('ABSPATH')) {
 
 $tournaments_title = get_field('tournaments_preview_title') ?: 'Ближайшие турниры';
 $tournaments_count = get_field('tournaments_preview_count') ?: 3;
+$tournaments_bg_type = function_exists('get_field') ? get_field('tournaments_preview_bg_type') : 'image'; // 'image' или 'video'
+$tournaments_bg_image = function_exists('get_field') ? get_field('tournaments_preview_bg_image') : false;
+$tournaments_bg_video = function_exists('get_field') ? get_field('tournaments_preview_bg_video') : false; // URL видео
 
 // Получаем URL архива турниров через WordPress функции
 $tournaments_url_default = get_post_type_archive_link('tournament') ?: home_url('/tournament/');
 $tournaments_link = get_field('tournaments_preview_link') ?: $tournaments_url_default;
+
+// Получаем изображение или placeholder для фона
+$tournaments_bg_image_data = function_exists('tochkagg_get_image_or_placeholder') 
+    ? tochkagg_get_image_or_placeholder($tournaments_bg_image, 1920, 1080, 'Tournaments Background')
+    : [
+        'url' => 'https://placehold.co/1920x1080/1a1d29/3b82f6?text=Tournaments+Background',
+        'alt' => 'Tournaments Background (заглушка - загрузите своё изображение)'
+    ];
+$tournaments_bg_video_url = $tournaments_bg_video ?: '';
 
 // Получаем последние турниры
 $tournaments_query = new WP_Query([
@@ -36,6 +48,32 @@ $tournaments_query = new WP_Query([
 ?>
 
 <section class="tgg-tournaments-preview">
+    <div class="tgg-tournaments-preview__bg">
+        <?php if ($tournaments_bg_type === 'video' && $tournaments_bg_video_url) : ?>
+            <!-- Фоновое видео -->
+            <video class="tgg-tournaments-preview__bg-video" 
+                   autoplay 
+                   muted 
+                   loop 
+                   playsinline 
+                   aria-hidden="true"
+                   poster="<?php echo esc_url($tournaments_bg_image_data['url']); ?>">
+                <source src="<?php echo esc_url($tournaments_bg_video_url); ?>" type="video/mp4">
+                <!-- Fallback на изображение, если видео не поддерживается -->
+                <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>" 
+                     alt="<?php echo esc_attr($tournaments_bg_image_data['alt']); ?>"
+                     loading="lazy">
+            </video>
+        <?php else : ?>
+            <!-- Фоновое изображение (или placeholder) -->
+            <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>" 
+                 alt="<?php echo esc_attr($tournaments_bg_image_data['alt']); ?>"
+                 loading="lazy">
+        <?php endif; ?>
+    </div>
+    
+    <div class="tgg-tournaments-preview__overlay"></div>
+    
     <div class="tgg-container">
         <?php if ($tournaments_title) : ?>
             <h2 class="tgg-tournaments-preview__title">

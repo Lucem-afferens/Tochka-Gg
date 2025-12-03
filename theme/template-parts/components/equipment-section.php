@@ -49,9 +49,9 @@ $equipment_link = get_field('equipment_preview_link') ?: $equipment_link_default
                     </div>
                     
                     <div class="tgg-equipment-preview__spec">
-                        <div class="tgg-equipment-preview__spec-label">Мониторы</div>
-                        <div class="tgg-equipment-preview__spec-value">240 Гц</div>
-                        <div class="tgg-equipment-preview__spec-desc">Titan Army 24.5"</div>
+                        <div class="tgg-equipment-preview__spec-label">PS-зона</div>
+                        <div class="tgg-equipment-preview__spec-value">1 приставка</div>
+                        <div class="tgg-equipment-preview__spec-desc">PS5, 4 джойстика, руль</div>
                     </div>
                 </div>
                 

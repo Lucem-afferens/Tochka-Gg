@@ -137,6 +137,53 @@
 - **Field Type:** `True / False`
 - **Default Value:** `1`
 
+#### Секция "Ближайшие турниры"
+- **Field Label:** `Заголовок секции`
+- **Field Name:** `tournaments_preview_title`
+- **Field Type:** `Text`
+- **Default Value:** `Ближайшие турниры`
+
+- **Field Label:** `Количество турниров`
+- **Field Name:** `tournaments_preview_count`
+- **Field Type:** `Number`
+- **Default Value:** `3`
+- **Min:** `1`
+- **Max:** `6`
+
+- **Field Label:** `Тип фона`
+- **Field Name:** `tournaments_preview_bg_type`
+- **Field Type:** `Select`
+- **Choices:**
+  - `image` → `Изображение`
+  - `video` → `Видео`
+- **Default Value:** `image`
+- **Required:** `Yes`
+
+- **Field Label:** `Фоновое изображение`
+- **Field Name:** `tournaments_preview_bg_image`
+- **Field Type:** `Image`
+- **Return Format:** `Image Array`
+- **Conditional Logic:** Показывать если `tournaments_preview_bg_type` равно `image`
+
+- **Field Label:** `Фоновое видео`
+- **Field Name:** `tournaments_preview_bg_video`
+- **Field Type:** `File`
+- **Return Format:** `File URL`
+- **Library:** `all`
+- **Mime Types:** `mp4, webm, ogv`
+- **Conditional Logic:** Показывать если `tournaments_preview_bg_type` равно `video`
+- **Instructions:** Загрузите видео в формате MP4. Фон будет затемнен для удобства чтения текста.
+
+- **Field Label:** `Ссылка "Все турниры"`
+- **Field Name:** `tournaments_preview_link`
+- **Field Type:** `Text`
+- **Instructions:** Оставьте пустым для автоматического определения ссылки на архив турниров.
+
+- **Field Label:** `Показать секцию "Ближайшие турниры"`
+- **Field Name:** `tournaments_preview_enabled`
+- **Field Type:** `True / False`
+- **Default Value:** `1`
+
 *(И так далее для каждой секции)*
 
 ---
