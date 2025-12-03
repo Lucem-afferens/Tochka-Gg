@@ -261,19 +261,12 @@
     text-align: left;
     
     &::after {
-      display: none;
+      display: block;
     }
-    
-    // Подчеркивание для мобильных - красно-синий градиент
-    border-bottom: 2px solid transparent;
-    background-image: linear-gradient(white, white), linear-gradient(90deg, #EF4444 0%, #DC2626 50%, #3B82F6 100%);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     
     &:hover,
     &.active {
-      border-bottom-color: transparent;
-      background-image: linear-gradient(white, white), linear-gradient(90deg, #EF4444 0%, #DC2626 50%, #3B82F6 100%);
+      border-bottom: none;
     }
   }
   
