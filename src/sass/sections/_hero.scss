@@ -64,18 +64,23 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: $spacing-lg;
-    @include text-neon($color-primary, 0.6);
-    animation: fade-in-up 0.8s $ease-out-cubic;
+    // Видимое свечение сразу (не только при hover)
+    text-shadow: 
+      0 0 15px rgba(59, 130, 246, 0.7),
+      0 0 25px rgba(59, 130, 246, 0.4),
+      0 0 20px rgba(255, 107, 53, 0.3),
+      0 0 30px rgba(247, 44, 37, 0.2);
+    animation: fade-in-up 0.8s $ease-out-cubic, text-glow 3s ease-in-out infinite;
     position: relative;
     
-    // Комбинация неона и огня при наведении
+    // Усиление при наведении
     &:hover {
       text-shadow: 
-        0 0 10px rgba(59, 130, 246, 0.8),
-        0 0 20px rgba(59, 130, 246, 0.5),
-        0 0 30px rgba(255, 107, 53, 0.4),
-        0 0 40px rgba(247, 44, 37, 0.3);
-      animation: fade-in-up 0.8s $ease-out-cubic, text-glow 3s ease-in-out infinite;
+        0 0 20px rgba(59, 130, 246, 0.9),
+        0 0 35px rgba(59, 130, 246, 0.6),
+        0 0 40px rgba(255, 107, 53, 0.5),
+        0 0 50px rgba(247, 44, 37, 0.4);
+      animation: fade-in-up 0.8s $ease-out-cubic, fire-text 3s ease-in-out infinite;
       color: $color-text-primary;
     }
   }
