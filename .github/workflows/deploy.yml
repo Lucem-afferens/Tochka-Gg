@@ -115,7 +115,7 @@ jobs:
             echo "✅ SUCCESS: Files deployed successfully!"
             echo ""
             echo "📁 Files should be at:"
-            echo "   /public_html/wp-content/themes/tochkagg-theme/"
+            echo "   /kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/"
             echo ""
             echo "🔍 Check: http://kungur-tochkagg.ru/wp-content/themes/tochkagg-theme/assets/css/style.css"
           else
