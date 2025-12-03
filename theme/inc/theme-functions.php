@@ -79,4 +79,18 @@ function tochkagg_prevent_cache() {
 }
 add_action('init', 'tochkagg_prevent_cache', 1);
 
+/**
+ * Обновление правил перезаписи (flush rewrite rules)
+ * Используется после изменения структуры ссылок
+ */
+function tochkagg_flush_rewrite_on_init() {
+    // Проверяем, нужно ли обновить правила (только один раз)
+    $should_flush = get_option('tochkagg_should_flush_rewrite');
+    if ($should_flush) {
+        flush_rewrite_rules();
+        delete_option('tochkagg_should_flush_rewrite');
+    }
+}
+add_action('init', 'tochkagg_flush_rewrite_on_init');
+
 
