@@ -35,7 +35,6 @@ if (!defined('ABSPATH')) {
 
         <nav class="tgg-header__nav" role="navigation" aria-label="<?php esc_attr_e('Главное меню', 'tochkagg'); ?>">
             <div class="tgg-nav__wrapper">
-                <div class="tgg-nav__active-line"></div>
                 <?php
                 if (has_nav_menu('main_menu')) {
                     wp_nav_menu([
@@ -51,7 +50,13 @@ if (!defined('ABSPATH')) {
                     echo '<ul class="tgg-nav__list">';
                     echo '<li><a href="' . esc_url(home_url('/')) . '" class="tgg-nav__link"><span class="tgg-nav__link-text">Главная</span></a></li>';
                     if (function_exists('tochkagg_get_page_url')) {
-                        $pages = ['equipment' => 'Оборудование', 'pricing' => 'Цены', 'contacts' => 'Контакты'];
+                        $pages = [
+                            'equipment' => 'Оборудование',
+                            'pricing' => 'Цены',
+                            'vr' => 'VR арена',
+                            'bar' => 'Клубный бар',
+                            'contacts' => 'Контакты'
+                        ];
                         foreach ($pages as $slug => $title) {
                             $url = tochkagg_get_page_url($slug);
                             if ($url && $url !== '#') {

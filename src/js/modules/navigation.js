@@ -10,7 +10,6 @@ export function initNavigation() {
   const nav = document.querySelector('.tgg-header__nav');
   const header = document.querySelector('.tgg-header');
   const navList = document.querySelector('.tgg-nav__list');
-  const activeLine = document.querySelector('.tgg-nav__active-line');
   
   if (!burger || !nav) return;
   
@@ -82,27 +81,9 @@ export function initNavigation() {
   
   const navLinks = nav.querySelectorAll('.tgg-nav__link, a');
   
-  // Флаг для отслеживания клика (чтобы не обновлять линию при скролле после клика)
-  let isClickNavigation = false;
-  let clickedLink = null;
-  
   navLinks.forEach((link) => {
     // Эффект при клике
     link.addEventListener('click', (e) => {
-      // Помечаем, что это клик по навигации
-      isClickNavigation = true;
-      clickedLink = link;
-      
-      // Сразу устанавливаем активную линию на кликнутую ссылку (мгновенно)
-      if (window.innerWidth > 1023 && activeLine) {
-        // Убираем класс active со всех ссылок
-        navLinks.forEach(l => l.classList.remove('active'));
-        // Добавляем active на кликнутую ссылку
-        link.classList.add('active');
-        // Сразу обновляем линию с мгновенным перемещением
-        updateActiveLine(link, true);
-      }
-      
       // Плавная анимация клика
       link.style.transform = 'scale(0.95)';
       setTimeout(() => {
@@ -118,103 +99,8 @@ export function initNavigation() {
           document.body.classList.remove('menu-open');
         }, 300);
       }
-      
-      // Сбрасываем флаг через небольшую задержку
-      setTimeout(() => {
-        isClickNavigation = false;
-        clickedLink = null;
-      }, 500);
     });
-    
-    // Эффект при наведении (десктоп) - только если не было клика
-    if (window.innerWidth > 1023) {
-      link.addEventListener('mouseenter', () => {
-        if (!isClickNavigation) {
-          updateActiveLine(link);
-        }
-      });
-    }
   });
-  
-  // ============================================
-  // ACTIVE LINE ANIMATION (DESKTOP)
-  // ============================================
-  
-  function updateActiveLine(activeLink, instant = false) {
-    if (!activeLine || window.innerWidth <= 1023) return;
-    
-    const linkRect = activeLink.getBoundingClientRect();
-    const navRect = navList?.getBoundingClientRect();
-    
-    if (navRect && linkRect) {
-      const left = linkRect.left - navRect.left;
-      const width = linkRect.width;
-      
-      // Если instant, добавляем класс для мгновенного перемещения
-      if (instant) {
-        activeLine.classList.add('instant');
-      }
-      
-      activeLine.style.left = `${left}px`;
-      activeLine.style.width = `${width}px`;
-      activeLine.classList.add('visible');
-      
-      // Обновляем цвет активной линии в зависимости от ссылки
-      const href = activeLink.getAttribute('href') || '';
-      const linkText = activeLink.textContent.trim().toLowerCase();
-      
-      // Определяем цвет по URL или тексту
-      if (href.includes('оборудование') || href.includes('equipment') || linkText.includes('оборудование')) {
-        activeLine.style.background = 'linear-gradient(90deg, #22D3EE 0%, #3B82F6 100%)';
-        activeLine.style.boxShadow = '0 0 12px rgba(34, 211, 238, 0.8)';
-      } else if (href.includes('цены') || href.includes('pricing') || linkText.includes('цены')) {
-        activeLine.style.background = 'linear-gradient(90deg, #C026D3 0%, #9333EA 100%)';
-        activeLine.style.boxShadow = '0 0 12px rgba(192, 38, 211, 0.8)';
-      } else if (href.includes('контакты') || href.includes('contacts') || linkText.includes('контакты')) {
-        activeLine.style.background = 'linear-gradient(90deg, #FF6B35 0%, #F72C25 50%, #FFD93D 100%)';
-        activeLine.style.boxShadow = '0 0 12px rgba(255, 107, 53, 0.8), 0 0 20px rgba(247, 44, 37, 0.6)';
-      } else if (href.includes('vr') || linkText.includes('vr')) {
-        activeLine.style.background = 'linear-gradient(90deg, #10B981 0%, #22D3EE 100%)';
-        activeLine.style.boxShadow = '0 0 12px rgba(16, 185, 129, 0.8)';
-      } else if (href.includes('бар') || href.includes('bar') || linkText.includes('бар')) {
-        activeLine.style.background = 'linear-gradient(90deg, #FFD93D 0%, #FF8C42 100%)';
-        activeLine.style.boxShadow = '0 0 12px rgba(255, 217, 61, 0.8), 0 0 20px rgba(255, 140, 66, 0.6)';
-      } else {
-        // Главная - синий неон (по умолчанию)
-        activeLine.style.background = 'linear-gradient(90deg, #3B82F6 0%, #1E90FF 100%)';
-        activeLine.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.6)';
-      }
-      
-      // Убираем класс instant после небольшой задержки, чтобы вернуть плавные переходы
-      if (instant) {
-        setTimeout(() => {
-          activeLine.classList.remove('instant');
-        }, 100);
-      }
-    }
-  }
-  
-  // Обновление активной линии при наведении на меню
-  if (navList && activeLine && window.innerWidth > 1023) {
-    navList.addEventListener('mouseenter', () => {
-      if (!isClickNavigation) {
-        const activeLink = navList.querySelector('.tgg-nav__link.active, a.active');
-        if (activeLink) {
-          updateActiveLine(activeLink);
-        }
-      }
-    });
-    
-    navList.addEventListener('mouseleave', () => {
-      // Не скрываем линию, если был клик
-      if (!isClickNavigation) {
-        const activeLink = navList.querySelector('.tgg-nav__link.active, a.active');
-        if (activeLink) {
-          updateActiveLine(activeLink);
-        }
-      }
-    });
-  }
   
   // ============================================
   // ACTIVE MENU ITEM DETECTION
@@ -245,18 +131,12 @@ export function initNavigation() {
       // Для главной страницы
       if ((linkPath === '' || linkPath === '/') && (currentPathNormalized === '' || currentPathNormalized === '/')) {
         link.classList.add('active');
-        if (window.innerWidth > 1023 && activeLine) {
-          updateActiveLine(link);
-        }
         return;
       }
       
       // Для других страниц - проверяем совпадение пути
       if (linkPath !== '' && linkPath !== '/' && currentPathNormalized.includes(linkPath)) {
         link.classList.add('active');
-        if (window.innerWidth > 1023 && activeLine) {
-          updateActiveLine(link);
-        }
         return;
       }
       
@@ -268,9 +148,6 @@ export function initNavigation() {
           const rect = targetElement.getBoundingClientRect();
           if (rect.top <= 200 && rect.bottom >= 100) {
             link.classList.add('active');
-            if (window.innerWidth > 1023 && activeLine) {
-              updateActiveLine(link);
-            }
           }
         }
       }
@@ -283,12 +160,9 @@ export function initNavigation() {
   // Обновляем при изменении истории (навигация назад/вперед)
   window.addEventListener('popstate', setActiveMenuItem);
   
-  // Обновляем при скролле (для якорных ссылок) - только если не было клика
+  // Обновляем при скролле (для якорных ссылок)
   let scrollTimeout;
   window.addEventListener('scroll', () => {
-    // Не обновляем при скролле, если был клик по ссылке
-    if (isClickNavigation) return;
-    
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       // Проверяем только якорные ссылки при скролле
@@ -318,14 +192,8 @@ export function initNavigation() {
         if (targetElement) {
           e.preventDefault();
           
-          // Устанавливаем активную линию сразу при клике (мгновенно)
-          if (window.innerWidth > 1023 && activeLine) {
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-            updateActiveLine(link, true);
-            isClickNavigation = true;
-            clickedLink = link;
-          }
+          navLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
           
           const headerHeight = header?.offsetHeight || 0;
           const targetPosition = targetElement.offsetTop - headerHeight - 20;
@@ -337,12 +205,6 @@ export function initNavigation() {
           
           // Обновляем URL без перезагрузки
           history.pushState(null, '', href);
-          
-          // Сбрасываем флаг после завершения скролла
-          setTimeout(() => {
-            isClickNavigation = false;
-            clickedLink = null;
-          }, 1000);
         }
       });
     }
@@ -362,14 +224,6 @@ export function initNavigation() {
         burger.classList.remove('active');
         burger.setAttribute('aria-expanded', 'false');
         document.body.classList.remove('menu-open');
-      }
-      
-      // Обновляем активную линию
-      if (window.innerWidth > 1023 && activeLine) {
-        const activeLink = navList?.querySelector('.tgg-nav__link.active, a.active');
-        if (activeLink) {
-          updateActiveLine(activeLink);
-        }
       }
     }, 250);
   });

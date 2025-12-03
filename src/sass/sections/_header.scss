@@ -192,42 +192,6 @@
   }
 }
 
-// Активная линия под навигацией (десктоп)
-.tgg-nav__active-line {
-  position: absolute;
-  bottom: -$spacing-md;
-  left: 0;
-  height: 2px;
-  background: $gradient-primary;
-  border-radius: 2px;
-  transform-origin: left;
-  transform: scaleX(0);
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              background 0.3s ease;
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
-  opacity: 0;
-  
-  @media (max-width: 1023px) {
-    display: none;
-  }
-  
-  &.visible {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-  
-  // Мгновенное перемещение при клике (без анимации)
-  &.instant {
-    transition: transform 0s,
-                left 0s,
-                width 0s,
-                background 0.2s ease,
-                box-shadow 0.2s ease;
-  }
-}
-
 .tgg-nav__list {
   display: flex;
   align-items: center;
