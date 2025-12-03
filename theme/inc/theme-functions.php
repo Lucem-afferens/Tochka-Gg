@@ -93,4 +93,12 @@ function tochkagg_flush_rewrite_on_init() {
 }
 add_action('init', 'tochkagg_flush_rewrite_on_init');
 
+/**
+ * Автоматическое обновление правил перезаписи при активации темы
+ */
+function tochkagg_flush_rewrite_rules_on_activation() {
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'tochkagg_flush_rewrite_rules_on_activation');
+
 

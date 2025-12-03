@@ -67,14 +67,37 @@ function tochkagg_echo_html($html) {
 }
 
 /**
- * Получить URL страницы по её slug (постоянной ссылке)
+ * Получить URL страницы по её slug (постоянной ссылке) или названию
  * 
  * @param string $slug Slug страницы (например: 'equipment', 'pricing', 'vr')
  * @param string $fallback URL по умолчанию, если страница не найдена
  * @return string URL страницы
  */
 function tochkagg_get_page_url($slug, $fallback = '#') {
+    // Сначала пытаемся найти по slug
     $page = get_page_by_path($slug);
+    
+    // Если не найдено, пытаемся найти по названию (на русском)
+    if (!$page) {
+        $title_map = [
+            'equipment' => 'Оборудование',
+            'pricing' => 'Цены',
+            'contacts' => 'Контакты',
+            'vr' => 'VR арена',
+        ];
+        
+        if (isset($title_map[$slug])) {
+            $pages = get_pages([
+                'post_status' => 'publish',
+                'number' => 1,
+                'title' => $title_map[$slug],
+            ]);
+            
+            if (!empty($pages)) {
+                $page = $pages[0];
+            }
+        }
+    }
     
     if ($page && $page->post_status === 'publish') {
         return get_permalink($page->ID);
