@@ -50,29 +50,25 @@ export function initEquipmentGalleries() {
         }
       });
       
-      // Обновляем состояние кнопок
+      // Кнопки всегда активны при цикличной карусели
       if (prevBtn) {
-        prevBtn.disabled = currentSlide === 0;
+        prevBtn.disabled = false;
       }
       if (nextBtn) {
-        nextBtn.disabled = currentSlide === totalSlides - 1;
+        nextBtn.disabled = false;
       }
     }
     
-    // Переход к следующему слайду
+    // Переход к следующему слайду (цикличный)
     function nextSlide() {
-      if (currentSlide < totalSlides - 1) {
-        currentSlide++;
-        updateSlider();
-      }
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlider();
     }
     
-    // Переход к предыдущему слайду
+    // Переход к предыдущему слайду (цикличный)
     function prevSlide() {
-      if (currentSlide > 0) {
-        currentSlide--;
-        updateSlider();
-      }
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSlider();
     }
     
     // Переход к конкретному слайду
@@ -112,12 +108,7 @@ export function initEquipmentGalleries() {
     function startAutoplay() {
       if (totalSlides <= 1) return;
       autoplayInterval = setInterval(() => {
-        if (currentSlide === totalSlides - 1) {
-          currentSlide = 0;
-        } else {
-          currentSlide++;
-        }
-        updateSlider();
+        nextSlide(); // Используем функцию nextSlide для цикличности
       }, 5000); // 5 секунд
     }
     
