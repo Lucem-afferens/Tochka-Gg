@@ -12,22 +12,48 @@ if (!defined('ABSPATH')) {
 $hero_title = (function_exists('get_field') ? get_field('hero_title') : null) ?: 'Точка Gg';
 $hero_subtitle = (function_exists('get_field') ? get_field('hero_subtitle') : null) ?: 'Премиальный компьютерный клуб нового поколения';
 $hero_description = (function_exists('get_field') ? get_field('hero_description') : null) ?: 'Стильное и технологичное игровое пространство, где сочетаются мощное железо, комфорт и высокий стандарт сервиса';
+$hero_bg_type = function_exists('get_field') ? get_field('hero_background_type') : 'image'; // 'image' или 'video'
 $hero_image = function_exists('get_field') ? get_field('hero_background_image') : false;
+$hero_video = function_exists('get_field') ? get_field('hero_background_video') : false; // URL видео
 $hero_cta_text = (function_exists('get_field') ? get_field('hero_cta_text') : null) ?: 'Узнать больше';
 $hero_cta_link = (function_exists('get_field') ? get_field('hero_cta_link') : null) ?: '#about';
 ?>
 
 <section class="tgg-hero">
-    <?php if ($hero_image) : ?>
-        <div class="tgg-hero__bg">
+    <div class="tgg-hero__bg">
+        <?php if ($hero_bg_type === 'video' && $hero_video) : ?>
+            <!-- Фоновое видео -->
+            <video class="tgg-hero__bg-video" 
+                   autoplay 
+                   muted 
+                   loop 
+                   playsinline 
+                   aria-hidden="true"
+                   poster="<?php echo $hero_image ? esc_url($hero_image['url']) : ''; ?>">
+                <source src="<?php echo esc_url($hero_video); ?>" type="video/mp4">
+                <?php 
+                // Fallback на изображение, если видео не поддерживается
+                if ($hero_image) : ?>
+                    <img src="<?php echo esc_url($hero_image['url']); ?>" 
+                         alt="<?php echo esc_attr($hero_image['alt']); ?>"
+                         loading="eager">
+                <?php endif; ?>
+            </video>
+        <?php elseif ($hero_bg_type === 'video' && !$hero_video && $hero_image) : ?>
+            <!-- Fallback: видео выбрано, но файл не загружен - показываем изображение -->
             <img src="<?php echo esc_url($hero_image['url']); ?>" 
                  alt="<?php echo esc_attr($hero_image['alt']); ?>"
                  loading="eager">
-        </div>
-    <?php else : ?>
-        <!-- Заглушка для фона -->
-        <div class="tgg-hero__bg tgg-hero__bg-placeholder"></div>
-    <?php endif; ?>
+        <?php elseif ($hero_image) : ?>
+            <!-- Фоновое изображение -->
+            <img src="<?php echo esc_url($hero_image['url']); ?>" 
+                 alt="<?php echo esc_attr($hero_image['alt']); ?>"
+                 loading="eager">
+        <?php else : ?>
+            <!-- Заглушка для фона -->
+            <div class="tgg-hero__bg-placeholder"></div>
+        <?php endif; ?>
+    </div>
     
     <div class="tgg-hero__overlay"></div>
     

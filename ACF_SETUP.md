@@ -92,10 +92,29 @@
 - **Field Type:** `Textarea`
 - **Default Value:** `Стильное и технологичное игровое пространство, где сочетаются мощное железо, комфорт и высокий стандарт сервиса`
 
+- **Field Label:** `Тип фона`
+- **Field Name:** `hero_background_type`
+- **Field Type:** `Select`
+- **Choices:**
+  - `image` → `Изображение`
+  - `video` → `Видео`
+- **Default Value:** `image`
+- **Required:** `Yes`
+
 - **Field Label:** `Фоновое изображение`
 - **Field Name:** `hero_background_image`
 - **Field Type:** `Image`
 - **Return Format:** `Image Array`
+- **Conditional Logic:** Показывать если `hero_background_type` равно `image`
+
+- **Field Label:** `Фоновое видео`
+- **Field Name:** `hero_background_video`
+- **Field Type:** `File`
+- **Return Format:** `File URL`
+- **Library:** `all`
+- **Mime Types:** `mp4, webm, ogv`
+- **Conditional Logic:** Показывать если `hero_background_type` равно `video`
+- **Instructions:** Загрузите видео в формате MP4. Рекомендуется использовать сжатое видео для быстрой загрузки. Если видео не загрузится, будет показано фоновое изображение (если оно указано).
 
 - **Field Label:** `Текст кнопки`
 - **Field Name:** `hero_cta_text`
