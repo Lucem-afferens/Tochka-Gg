@@ -29,20 +29,31 @@ jobs:
       - name: Check if deployment needed
         id: check
         run: |
+          # Всегда деплоим при workflow_dispatch или push в main
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Manual deployment triggered"
             exit 0
           fi
           
-          # Проверяем изменения в нужных файлах
-          changed_files=$(git diff --name-only HEAD~1 HEAD | grep -E '^(theme/|src/|vite.config.wordpress.mjs|package.json|\.github/workflows/deploy\.yml)' || true)
-          
-          if [ -z "$changed_files" ]; then
-            echo "deploy=false" >> $GITHUB_OUTPUT
-            echo "⏭️ No changes in theme or source files, skipping deployment"
+          # При push проверяем изменения
+          if [ "${{ github.event_name }}" == "push" ]; then
+            # Проверяем изменения в нужных файлах
+            changed_files=$(git diff --name-only HEAD~1 HEAD | grep -E '^(theme/|src/|vite.config.wordpress.mjs|package.json|\.github/workflows/deploy\.yml)' || true)
+            
+            if [ -z "$changed_files" ]; then
+              echo "deploy=false" >> $GITHUB_OUTPUT
+              echo "⏭️ No changes in theme or source files, skipping deployment"
+            else
+              echo "deploy=true" >> $GITHUB_OUTPUT
+              echo "✅ Changes detected, deployment will proceed"
+              echo "Changed files:"
+              echo "$changed_files"
+            fi
           else
+            # Для других событий деплоим
             echo "deploy=true" >> $GITHUB_OUTPUT
-            echo "✅ Changes detected, deployment will proceed"
+            echo "✅ Deployment will proceed"
           fi
       
       - name: Setup Node.js
@@ -134,11 +145,28 @@ jobs:
       - name: Final status
         if: always()
         run: |
-          if [ "${{ steps.deploy.outcome }}" == "success" ]; then
+          echo "=========================================="
+          echo "📊 FINAL DEPLOYMENT STATUS"
+          echo "=========================================="
+          echo ""
+          echo "Deployment step outcome: ${{ steps.deploy.outcome }}"
+          echo "Deployment check result: ${{ steps.check.outputs.deploy }}"
+          echo ""
+          
+          if [ "${{ steps.check.outputs.deploy }}" == "false" ]; then
+            echo "⏭️  STATUS: SKIPPED - No changes detected"
+            echo "Deployment was skipped because no relevant files changed."
+            exit 0
+          elif [ "${{ steps.deploy.outcome }}" == "success" ]; then
             echo "✅ FINAL STATUS: SUCCESS"
+            exit 0
+          elif [ "${{ steps.deploy.outcome }}" == "skipped" ]; then
+            echo "⏭️  STATUS: SKIPPED"
+            echo "Deployment step was skipped (likely no changes detected)."
             exit 0
           else
             echo "❌ FINAL STATUS: FAILED"
-            echo "Check logs above for details"
+            echo "Deployment did not complete successfully."
+            echo "Check step 'Deploy to Beget via FTP' above for details."
             exit 1
           fi
