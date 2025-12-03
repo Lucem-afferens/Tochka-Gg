@@ -92,6 +92,10 @@ function tochkagg_get_page_url($slug, $fallback = '#') {
             'title' => 'VR арена',
             'slug_ru' => 'vr',
         ],
+        'bar' => [
+            'title' => 'Клубный бар',
+            'slug_ru' => 'bar',
+        ],
     ];
     
     $page = null;

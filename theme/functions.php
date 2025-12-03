@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Константы темы
-define('TOCHKAGG_THEME_VERSION', '2.0.1'); // Оптимизация производительности: упрощенные анимации
+define('TOCHKAGG_THEME_VERSION', '2.1.0'); // Убрано огненное свечение, добавлена страница клубного бара
 define('TOCHKAGG_THEME_PATH', get_template_directory());
 define('TOCHKAGG_THEME_URI', get_template_directory_uri());
 
