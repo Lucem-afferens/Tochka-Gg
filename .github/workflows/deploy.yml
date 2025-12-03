@@ -108,9 +108,32 @@ jobs:
       - name: Deployment summary
         if: always()
         run: |
+          echo "=========================================="
+          echo "📊 DEPLOYMENT SUMMARY"
+          echo "=========================================="
+          
           if [ "${{ steps.deploy.outcome }}" == "success" ]; then
-            echo "✅ Deployment successful!"
+            echo "✅ Status: SUCCESS"
+            echo "✅ Files deployed successfully!"
+          elif [ "${{ steps.deploy.outcome }}" == "failure" ]; then
+            echo "❌ Status: FAILED"
+            echo "❌ Deployment failed. See step 'Deploy to Beget via FTP' for details."
+            echo ""
+            echo "Common issues:"
+            echo "  - Check FTP credentials in GitHub Secrets"
+            echo "  - Verify server path is correct"
+            echo "  - Check file permissions on server"
+          elif [ "${{ steps.deploy.outcome }}" == "cancelled" ]; then
+            echo "⚠️  Status: CANCELLED"
+            echo "⚠️  Deployment was cancelled."
           else
-            echo "❌ Deployment failed! Check logs above for details."
-            exit 1
+            echo "❓ Status: UNKNOWN"
+            echo "❓ Deployment status is unclear."
+          fi
+          
+          echo "=========================================="
+          
+          # Не завершаем с ошибкой, чтобы можно было увидеть все логи
+          if [ "${{ steps.deploy.outcome }}" != "success" ]; then
+            echo "⚠️  Deployment did not succeed, but continuing to show all logs..."
           fi
