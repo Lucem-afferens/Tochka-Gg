@@ -231,6 +231,21 @@
 - **Field Type:** `Textarea`
 - **Default Value:** `Выберите удобный способ бронирования`
 
+- **Field Label:** `Изображение для карточки "По телефону"`
+- **Field Name:** `booking_phone_image`
+- **Field Type:** `Image`
+- **Instructions:** Загрузите изображение для карточки бронирования по телефону (рекомендуемый размер: 400x300px)
+
+- **Field Label:** `Изображение для карточки "ВКонтакте"`
+- **Field Name:** `booking_vk_image`
+- **Field Type:** `Image`
+- **Instructions:** Загрузите изображение для карточки бронирования через ВКонтакте (рекомендуемый размер: 400x300px)
+
+- **Field Label:** `Изображение для карточки "Langame"`
+- **Field Name:** `booking_langame_image`
+- **Field Type:** `Image`
+- **Instructions:** Загрузите изображение для карточки бронирования через приложение Langame (рекомендуемый размер: 400x300px)
+
 #### Поля в Options Page (уже должны быть добавлены выше):
 
 - `vk_link` - Ссылка ВКонтакте

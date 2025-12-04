@@ -64,56 +64,106 @@
   }
   
   &__option {
-    @include glassmorphism-accent($color-primary);
+    background: rgba(18, 13, 26, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(59, 130, 246, 0.2);
     border-radius: $border-radius-xl;
-    padding: $spacing-3xl $spacing-2xl;
+    padding: 0;
     text-align: center;
     transition: all $duration-normal $ease-out-cubic;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     width: 100%;
     max-width: 100%;
+    height: 100%;
+    min-height: 600px; // Одинаковая минимальная высота для симметрии
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.37),
+      0 0 20px rgba(59, 130, 246, 0.1),
+      inset 0 0 0 1px rgba(59, 130, 246, 0.05);
     
     &:hover {
       transform: translateY(-8px);
+      background: rgba(18, 13, 26, 0.85);
+      border-color: rgba(59, 130, 246, 0.4);
       box-shadow: 
         0 12px 40px rgba(59, 130, 246, 0.5),
         0 0 60px rgba(59, 130, 246, 0.3),
         0 0 30px rgba(239, 68, 68, 0.3),
-        0 0 50px rgba(239, 68, 68, 0.15);
+        0 0 50px rgba(239, 68, 68, 0.15),
+        inset 0 0 0 1px rgba(59, 130, 246, 0.1);
     }
     
     &--langame {
       // Специальный стиль для Langame опции
-      @include glassmorphism-accent($color-fire-orange);
+      border-color: rgba(255, 107, 53, 0.2);
+      box-shadow: 
+        0 8px 32px 0 rgba(0, 0, 0, 0.37),
+        0 0 20px rgba(255, 107, 53, 0.1),
+        inset 0 0 0 1px rgba(255, 107, 53, 0.05);
       
       &:hover {
+        background: rgba(18, 13, 26, 0.85);
+        border-color: rgba(255, 107, 53, 0.4);
         box-shadow: 
           0 12px 40px rgba(255, 107, 53, 0.5),
           0 0 60px rgba(255, 107, 53, 0.3),
           0 0 30px rgba(247, 44, 37, 0.3),
-          0 0 50px rgba(247, 44, 37, 0.15);
+          0 0 50px rgba(247, 44, 37, 0.15),
+          inset 0 0 0 1px rgba(255, 107, 53, 0.1);
       }
     }
   }
   
+  &__option-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    border-radius: $border-radius-xl $border-radius-xl 0 0;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.7) contrast(1.1);
+      transition: transform $duration-slow $ease-out-cubic, filter $duration-normal ease;
+    }
+    
+    .tgg-booking__option:hover & img {
+      transform: scale(1.05);
+      filter: brightness(0.8) contrast(1.2);
+    }
+  }
+  
+  &__option-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: $spacing-2xl $spacing-xl;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
   &__option-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto $spacing-xl;
+    width: 64px;
+    height: 64px;
+    margin-bottom: $spacing-lg;
     display: flex;
     align-items: center;
     justify-content: center;
     color: $color-primary;
     position: relative;
+    flex-shrink: 0;
     
     svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
+      filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.5));
       transition: filter $duration-normal ease;
     }
     
@@ -121,15 +171,15 @@
       color: $color-fire-orange;
       
       svg {
-        filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.5));
+        filter: drop-shadow(0 0 12px rgba(255, 107, 53, 0.5));
       }
     }
     
     .tgg-booking__option:hover & svg {
-      filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.8));
+      filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.8));
       
       .tgg-booking__option--langame & {
-        filter: drop-shadow(0 0 25px rgba(255, 107, 53, 0.8));
+        filter: drop-shadow(0 0 20px rgba(255, 107, 53, 0.8));
       }
     }
   }
@@ -146,6 +196,11 @@
     overflow-wrap: break-word;
     width: 100%;
     max-width: 100%;
+    min-height: 3em; // Фиксированная высота для симметрии (2 строки)
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
   
   &__option-description {
@@ -159,12 +214,18 @@
     overflow-wrap: break-word;
     width: 100%;
     max-width: 100%;
+    min-height: 4.5em; // Фиксированная минимальная высота для симметрии (3 строки)
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
   
   &__option-button {
     width: 100%;
     max-width: 280px;
     margin-bottom: $spacing-lg;
+    flex-shrink: 0;
   }
   
   &__option-links {
