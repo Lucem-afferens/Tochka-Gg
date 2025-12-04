@@ -86,7 +86,7 @@ if ($hero_bg_type === 'video') {
             
             <?php if ($hero_cta_text && $hero_cta_link) : ?>
                 <div class="tgg-hero__cta">
-                    <a href="<?php echo esc_url($hero_cta_link); ?>" class="tgg-btn-primary">
+                    <a href="<?php echo esc_url($hero_cta_link); ?>" class="tgg-btn-fire">
                         <?php echo esc_html($hero_cta_text); ?>
                     </a>
                 </div>

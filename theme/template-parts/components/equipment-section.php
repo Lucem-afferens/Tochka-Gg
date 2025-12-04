@@ -57,7 +57,7 @@ $equipment_link = get_field('equipment_preview_link') ?: $equipment_link_default
                 
                 <?php if ($equipment_link) : ?>
                     <div class="tgg-equipment-preview__cta">
-                        <a href="<?php echo esc_url($equipment_link); ?>" class="tgg-btn-primary">
+                        <a href="<?php echo esc_url($equipment_link); ?>" class="tgg-btn-fire">
                             Подробнее об оборудовании
                         </a>
                     </div>

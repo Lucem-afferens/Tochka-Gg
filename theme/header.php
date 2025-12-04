@@ -102,7 +102,7 @@ if (!defined('ABSPATH')) {
                     }
                 }
                 ?>
-                <a href="<?php echo esc_url($booking_link); ?>" class="tgg-header__booking tgg-btn-primary">
+                <a href="<?php echo esc_url($booking_link); ?>" class="tgg-header__booking tgg-btn-fire">
                     <?php echo esc_html($booking_text ?: 'Забронировать место'); ?>
                 </a>
             </div>
