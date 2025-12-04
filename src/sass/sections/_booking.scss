@@ -5,7 +5,8 @@
  * Современные карточки бронирования с красивыми анимациями
  * и топовым дизайном для удобства и эстетики
  * 
- * Использует Flexbox для гибкой раскладки с центрированием последней карточки
+ * Использует CSS Grid: на десктопе первая строка - Langame на всю ширину,
+ * вторая строка - Phone и VK по бокам
  */
 
 .tgg-booking {
@@ -57,32 +58,39 @@
     margin: 0 auto;
   }
   
-  // Контейнер карточек - Flexbox с центрированием
+  // Контейнер карточек - CSS Grid
   &__options {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: $spacing-2xl;
     max-width: 1400px;
     margin: 0 auto;
-    justify-content: center;
-    align-items: stretch;
     
-    // Мобилки: порядок остается как в HTML (Langame, ВК, Телефон)
     // Планшеты: две колонки
     @include respond-to(md) {
-      flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
+      grid-template-columns: repeat(2, 1fr);
       gap: $spacing-3xl;
     }
     
-    // Десктоп: три карточки в ряд, Langame по центру
+    // Десктоп: первая строка - Langame на всю ширину, вторая строка - Phone и VK
     @include respond-to(lg) {
-      flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
+      grid-template-columns: repeat(4, 1fr);
       gap: $spacing-4xl;
+      
+      // Langame карточка на всю ширину первой строки
+      .tgg-booking__option--langame {
+        grid-column: 1 / -1; // Занимает все колонки
+      }
+      
+      // VK карточка во второй строке слева (колонки 1-2)
+      .tgg-booking__option--vk {
+        grid-column: 1 / 3;
+      }
+      
+      // Phone карточка во второй строке справа (колонки 3-4)
+      .tgg-booking__option--phone {
+        grid-column: 3 / -1;
+      }
     }
   }
   
@@ -104,8 +112,6 @@
       inset 0 0 0 1px rgba(59, 130, 246, 0.05);
     animation: fade-in-up 0.6s $ease-out-cubic;
     width: 100%;
-    max-width: 500px;
-    min-width: 280px;
     
     // Задержка анимации для каждой карточки
     &:nth-child(1) {
@@ -123,23 +129,15 @@
       animation-fill-mode: both;
     }
     
-    // Размеры карточек для адаптивности
+    // Размеры карточек для адаптивности (Grid управляет размерами)
     @include respond-to(md) {
-      flex: 0 1 calc(50% - #{$spacing-3xl} / 2);
-      max-width: 500px;
-      min-width: 280px;
-      
-      // Центрирование последней карточки если остается одна в ряду
-      &:last-child:nth-child(odd) {
-        margin-left: auto;
-        margin-right: auto;
-      }
+      max-width: 100%;
+      min-width: 0;
     }
     
     @include respond-to(lg) {
-      flex: 0 1 calc(33.333% - #{$spacing-4xl} * 2 / 3);
-      max-width: 420px;
-      min-width: 320px;
+      max-width: 100%;
+      min-width: 0;
     }
     
     // Эффект при наведении
@@ -191,11 +189,6 @@
     &--phone {
       border-color: rgba(59, 130, 246, 0.25);
       
-      // Для десктопа: Телефон справа (order: 3)
-      @include respond-to(lg) {
-        order: 3;
-      }
-      
       &:hover {
         border-color: rgba(59, 130, 246, 0.5);
         box-shadow: 
@@ -214,11 +207,6 @@
     &--vk {
       border-color: rgba(139, 92, 246, 0.25);
       
-      // Для десктопа: ВК слева (order: 1)
-      @include respond-to(lg) {
-        order: 1;
-      }
-      
       &:hover {
         border-color: rgba(139, 92, 246, 0.5);
         box-shadow: 
@@ -236,11 +224,6 @@
     
     &--langame {
       border-color: rgba(255, 107, 53, 0.25);
-      
-      // Для десктопа: Langame по центру (order: 2)
-      @include respond-to(lg) {
-        order: 2;
-      }
       
       &:hover {
         border-color: rgba(255, 107, 53, 0.5);
