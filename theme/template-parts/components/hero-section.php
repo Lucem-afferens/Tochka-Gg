@@ -93,11 +93,4 @@ if ($hero_bg_type === 'video') {
             <?php endif; ?>
         </div>
     </div>
-    
-    <div class="tgg-hero__scroll">
-        <span>Прокрутите вниз</span>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-    </div>
 </section>
