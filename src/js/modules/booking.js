@@ -39,58 +39,77 @@ export function initLangameBooking() {
  * Обработка открытия приложения на iOS
  */
 function handleIOSApp(deepLink, fallbackUrl) {
-  // Пытаемся открыть приложение
+  let appOpened = false;
   const startTime = Date.now();
-  const timeout = 2500; // Таймаут для проверки
+  const timeout = 2500;
 
-  // Создаем скрытый iframe для проверки установки
-  const iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  iframe.src = deepLink;
-  document.body.appendChild(iframe);
+  // Отслеживаем фокус страницы - если страница теряет фокус, значит приложение открылось
+  const handleBlur = () => {
+    appOpened = true;
+    window.removeEventListener('blur', handleBlur);
+    window.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
 
-  // Если через 2.5 секунды страница все еще видна, приложение не установлено
+  const handleVisibilityChange = () => {
+    if (document.hidden) {
+      appOpened = true;
+      window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+    }
+  };
+
+  window.addEventListener('blur', handleBlur);
+  window.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // Пытаемся открыть приложение
+  window.location.href = deepLink;
+
+  // Если через timeout приложение не открылось, перенаправляем в App Store
   setTimeout(() => {
-    document.body.removeChild(iframe);
-    
-    // Проверяем, прошло ли время (пользователь мог уйти в приложение)
-    const elapsedTime = Date.now() - startTime;
-    
-    if (elapsedTime < timeout + 100) {
+    window.removeEventListener('blur', handleBlur);
+    window.removeEventListener('visibilitychange', handleVisibilityChange);
+
+    if (!appOpened && !document.hidden) {
       // Приложение не открылось - перенаправляем в App Store
       window.location.href = fallbackUrl;
     }
   }, timeout);
-
-  // Дополнительная проверка через window.location
-  setTimeout(() => {
-    try {
-      window.location = deepLink;
-    } catch (e) {
-      // Если не получилось, открываем App Store
-      window.location.href = fallbackUrl;
-    }
-  }, 100);
 }
 
 /**
  * Обработка открытия приложения на Android
  */
 function handleAndroidApp(deepLink, fallbackUrl) {
-  // Пытаемся открыть приложение
-  const startTime = Date.now();
-  const timeout = 2000; // Таймаут для Android чуть короче
+  let appOpened = false;
+  const timeout = 2000;
 
-  // Прямая попытка открыть deep link
+  // Отслеживаем фокус и видимость страницы
+  const handleBlur = () => {
+    appOpened = true;
+    window.removeEventListener('blur', handleBlur);
+    window.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
+
+  const handleVisibilityChange = () => {
+    if (document.hidden) {
+      appOpened = true;
+      window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+    }
+  };
+
+  window.addEventListener('blur', handleBlur);
+  window.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // Пытаемся открыть приложение
   window.location.href = deepLink;
 
-  // Если через 2 секунды страница все еще видна, приложение не установлено
+  // Если через timeout приложение не открылось, перенаправляем в Google Play
   setTimeout(() => {
-    const elapsedTime = Date.now() - startTime;
-    
-    // Проверяем, не перешли ли мы в приложение
-    // Если document.hidden или elapsedTime большой, значит приложение открылось
-    if (elapsedTime < timeout + 100 && !document.hidden) {
+    window.removeEventListener('blur', handleBlur);
+    window.removeEventListener('visibilitychange', handleVisibilityChange);
+
+    if (!appOpened && !document.hidden) {
       // Приложение не открылось - перенаправляем в Google Play
       window.location.href = fallbackUrl;
     }
@@ -101,19 +120,9 @@ function handleAndroidApp(deepLink, fallbackUrl) {
  * Показать ссылки на магазины для Desktop
  */
 function showStoreLinks(iosUrl, androidUrl) {
-  const message = `
-    Выберите платформу для установки приложения:
-    \niOS: ${iosUrl}
-    \nAndroid: ${androidUrl}
-  `;
-  
-  // Можно показать модальное окно или просто открыть ссылки
-  const userChoice = confirm(message);
-  
-  if (userChoice) {
-    // Открываем обе ссылки (пользователь выберет нужную)
-    window.open(iosUrl, '_blank');
-    window.open(androidUrl, '_blank');
-  }
+  // На десктопе просто открываем обе ссылки в новых вкладках
+  // Пользователь выберет нужную платформу
+  window.open(iosUrl, '_blank');
+  window.open(androidUrl, '_blank');
 }
 
