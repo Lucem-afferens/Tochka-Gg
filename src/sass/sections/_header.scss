@@ -252,7 +252,7 @@
   letter-spacing: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
-  // Подчеркивание при наведении - синий
+  // Подчеркивание при наведении - оранжевый
   &::after {
     content: '';
     position: absolute;
@@ -260,9 +260,9 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: #3B82F6;
+    background: #FF6B35;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 8px rgba(255, 107, 53, 0.6);
   }
   
   @media (max-width: 1023px) {
@@ -281,18 +281,18 @@
     }
   }
   
-  // Hover эффекты - синий цвет
+  // Hover эффекты - оранжевый цвет
   &:hover {
-    color: #3B82F6;
+    color: #FF6B35;
     
     &::after {
       width: 100%;
     }
   }
   
-  // Активное состояние - синий цвет
+  // Активное состояние - оранжевый цвет
   &.active {
-    color: #3B82F6;
+    color: #FF6B35;
     
     &::after {
       width: 100%;

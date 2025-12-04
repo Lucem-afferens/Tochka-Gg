@@ -55,8 +55,9 @@ $vr_phone = get_field('vr_phone') ?: '+7 912 068-34-17';
                 
                 <div class="tgg-vr__contacts">
                     <?php if ($vr_phone) : ?>
-                        <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $vr_phone)); ?>" class="tgg-btn-primary">
-                            Позвонить: <?php echo esc_html($vr_phone); ?>
+                        <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $vr_phone)); ?>" class="tgg-btn-primary tgg-vr__phone-btn">
+                            <span class="tgg-vr__phone-label">Позвонить</span>
+                            <span class="tgg-vr__phone-number"><?php echo esc_html($vr_phone); ?></span>
                         </a>
                     <?php endif; ?>
                     

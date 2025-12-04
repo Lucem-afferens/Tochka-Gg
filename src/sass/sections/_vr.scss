@@ -123,6 +123,27 @@
     }
   }
   
+  &__phone-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-xs;
+    text-align: center;
+  }
+  
+  &__phone-label {
+    display: block;
+    font-size: $font-size-sm;
+    line-height: 1.2;
+  }
+  
+  &__phone-number {
+    display: block;
+    font-size: $font-size-base;
+    font-weight: $font-weight-body-semibold;
+    line-height: 1.2;
+  }
+  
   &__image {
     order: 1;
     position: relative;
