@@ -127,7 +127,16 @@ $booking_description = $booking_description ?: 'Выберите удобный 
                 </div>
                 
                 <div class="tgg-booking__option-content">
-                    <div class="tgg-booking__option-badge">24/7</div>
+                    <div class="tgg-booking__option-badges">
+                        <div class="tgg-booking__option-badge">Быстро</div>
+                        <div class="tgg-booking__option-badge">Удобно</div>
+                        <div class="tgg-booking__option-badge">24/7</div>
+                    </div>
+                    
+                    <div class="tgg-booking__option-popular">
+                        <span class="tgg-booking__option-popular-icon">⭐</span>
+                        <span class="tgg-booking__option-popular-text">Выбор большинства пользователей</span>
+                    </div>
                     
                     <h2 class="tgg-booking__option-title">Через приложение Langame</h2>
                     
