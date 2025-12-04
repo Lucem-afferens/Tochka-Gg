@@ -7,15 +7,14 @@
 // Переменные и миксины импортируются в главном файле style.scss
 
 .tgg-card {
-  background: $color-bg-secondary;
-  border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+  // Глоссморфизм для базовых карточек
+  @include glassmorphism-light(0.15, 12px);
+  border: $border-width-thin solid rgba(59, 130, 246, 0.25);
   border-radius: $border-radius-lg;
   padding: $spacing-xl;
   transition: all $duration-normal $ease-out-cubic;
   position: relative;
   overflow: hidden;
-  
-  box-shadow: $shadow-md;
   
   // Кибер-сетка на фоне карточки
   &::before {

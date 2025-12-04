@@ -99,6 +99,13 @@
     width: 100%;
     margin: 0 auto;
     padding: $spacing-3xl $spacing-lg;
+    // Глоссморфизм - стеклянная панель
+    @include glassmorphism-accent($color-primary, 0.15, 0.2, 25px);
+    border-radius: $border-radius-xl;
+    
+    @include respond-to(sm) {
+      padding: $spacing-4xl $spacing-2xl;
+    }
   }
   
   &__title {

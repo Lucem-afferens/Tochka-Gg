@@ -100,23 +100,24 @@
   }
   
   &__item {
-    background: rgba(22, 26, 33, 0.95);
-    backdrop-filter: blur(10px);
-    border: $border-width-thin solid rgba(192, 38, 211, 0.2);
+    // Усиленный глоссморфизм для карточек турниров
+    @include glassmorphism-accent(rgba(192, 38, 211, 1), 0.15, 0.2, 20px);
+    border: $border-width-thin solid rgba(192, 38, 211, 0.3);
     border-radius: $border-radius-lg;
     overflow: hidden;
     transition: all $duration-normal $ease-out-cubic;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     
     &:hover {
-      background: rgba(22, 26, 33, 0.98);
-      border-color: rgba(192, 38, 211, 0.5);
+      background: rgba(22, 26, 33, 0.25);
+      backdrop-filter: blur(25px) saturate(200%);
+      border-color: rgba(192, 38, 211, 0.6);
       transform: translateY(-8px);
       box-shadow: 
         0 8px 30px rgba(192, 38, 211, 0.4),
         0 0 40px rgba(192, 38, 211, 0.2),
         0 0 25px rgba(239, 68, 68, 0.3),
-        0 0 45px rgba(239, 68, 68, 0.15);
+        0 0 45px rgba(239, 68, 68, 0.15),
+        0 12px 40px rgba(0, 0, 0, 0.5);
     }
     
     &-image {

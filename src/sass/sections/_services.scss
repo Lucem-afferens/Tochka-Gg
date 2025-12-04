@@ -85,9 +85,9 @@
     }
     
     &--pc {
-      // Уникальный синий стиль для ПК
+      // Уникальный синий стиль для ПК с глоссморфизмом
+      @include glassmorphism-accent(rgba(59, 130, 246, 1), 0.12, 0.18, 15px);
       border-color: rgba(59, 130, 246, 0.4);
-      background: linear-gradient(135deg, $color-bg-secondary 0%, rgba(59, 130, 246, 0.05) 100%);
       
       &::before {
         background: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(30, 144, 255, 0.6));
@@ -145,9 +145,9 @@
     }
     
     &--ps5 {
-      // Уникальный фиолетово-пурпурный стиль для PS5
+      // Уникальный фиолетово-пурпурный стиль для PS5 с глоссморфизмом
+      @include glassmorphism-accent(rgba(192, 38, 211, 1), 0.12, 0.18, 15px);
       border-color: rgba(192, 38, 211, 0.4);
-      background: linear-gradient(135deg, $color-bg-secondary 0%, rgba(192, 38, 211, 0.05) 100%);
       
       &::before {
         background: linear-gradient(135deg, rgba(192, 38, 211, 0.7), rgba(139, 92, 246, 0.6));
@@ -205,9 +205,9 @@
     }
     
     &--vr {
-      // Уникальный циановый стиль для VR
+      // Уникальный циановый стиль для VR с глоссморфизмом
+      @include glassmorphism-accent(rgba(34, 211, 238, 1), 0.12, 0.18, 15px);
       border-color: rgba(34, 211, 238, 0.4);
-      background: linear-gradient(135deg, $color-bg-secondary 0%, rgba(34, 211, 238, 0.05) 100%);
       
       &::before {
         background: linear-gradient(135deg, rgba(34, 211, 238, 0.7), rgba(14, 165, 233, 0.6));
@@ -265,9 +265,9 @@
     }
     
     &--food {
-      // Уникальный стиль для еды (единый дизайн)
+      // Уникальный стиль для еды с глоссморфизмом
+      @include glassmorphism-accent(rgba(255, 107, 53, 1), 0.12, 0.18, 15px);
       border-color: rgba(255, 107, 53, 0.4);
-      background: linear-gradient(135deg, $color-bg-secondary 0%, rgba(255, 107, 53, 0.05) 100%);
       
       &::before {
         background: linear-gradient(135deg, rgba(255, 107, 53, 0.6), rgba(255, 217, 61, 0.5));

@@ -47,8 +47,8 @@
   
   &__item {
     position: relative;
-    background: $color-bg-primary;
-    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    // Глоссморфизм для карточек преимуществ
+    @include glassmorphism-accent($color-primary, 0.1, 0.15, 15px);
     border-radius: $border-radius-lg;
     padding: $spacing-2xl;
     text-align: center;

@@ -30,6 +30,14 @@
     max-width: 700px;
     margin: 0 auto;
     text-align: center;
+    // Глоссморфизм для контента CTA
+    @include glassmorphism-accent($color-primary, 0.12, 0.18, 20px);
+    border-radius: $border-radius-xl;
+    padding: $spacing-4xl $spacing-2xl;
+    
+    @include respond-to(sm) {
+      padding: $spacing-5xl $spacing-3xl;
+    }
   }
   
   &__title {
