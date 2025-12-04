@@ -45,6 +45,8 @@ h1, h2, h3, h4, h5, h6 {
   line-height: $line-height-tight;
   color: $color-text-primary;
   margin-bottom: $spacing-md;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 h1 {
@@ -73,6 +75,8 @@ h6 {
 
 p {
   margin-bottom: $spacing-md;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 a {

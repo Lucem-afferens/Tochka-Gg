@@ -78,6 +78,10 @@
     color: $color-text-primary;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
   }
   
   &__content {
@@ -87,9 +91,15 @@
     color: $color-text-primary;
     max-width: 800px;
     margin: 0 auto;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     
     p {
       margin-bottom: $spacing-lg;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
     }
     
     h2, h3, h4 {
@@ -97,21 +107,28 @@
       color: $color-text-primary;
       margin-top: $spacing-2xl;
       margin-bottom: $spacing-lg;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
     
     ul, ol {
       margin-bottom: $spacing-lg;
       padding-left: $spacing-xl;
+      word-wrap: break-word;
       
       li {
         margin-bottom: $spacing-sm;
         color: $color-text-secondary;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
     }
     
     a {
       color: $color-primary;
       text-decoration: underline;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
       
       &:hover {
         color: $color-primary-bright;

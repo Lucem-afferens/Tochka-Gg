@@ -15,6 +15,10 @@
   transition: all $duration-normal $ease-out-cubic;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   
   // Кибер-сетка на фоне карточки
   &::before {

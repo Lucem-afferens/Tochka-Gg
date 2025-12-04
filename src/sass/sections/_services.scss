@@ -60,6 +60,8 @@
     grid-template-columns: 1fr;
     gap: $spacing-xl;
     perspective: 1000px; // Добавляем перспективу для 3D эффекта
+    width: 100%;
+    max-width: 100%;
     
     @include respond-to(md) {
       grid-template-columns: repeat(2, 1fr);
@@ -81,6 +83,10 @@
     display: flex;
     flex-direction: column;
     transform-style: preserve-3d;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0; // Предотвращает переполнение в grid
+    box-sizing: border-box;
     
     &-link {
       display: flex;
@@ -375,6 +381,10 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
     }
     
     &-title {
@@ -385,6 +395,11 @@
       margin-bottom: $spacing-sm;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      width: 100%;
+      max-width: 100%;
     }
     
     &-subtitle {
@@ -393,6 +408,10 @@
       font-weight: $font-weight-body-medium;
       color: $color-primary;
       margin-bottom: $spacing-md;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      width: 100%;
+      max-width: 100%;
     }
     
     &-description {
@@ -401,6 +420,12 @@
       line-height: $line-height-normal;
       color: $color-text-secondary;
       flex: 1;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
     }
   }
 }

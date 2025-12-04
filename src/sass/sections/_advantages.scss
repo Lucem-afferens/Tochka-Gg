@@ -58,6 +58,8 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: $spacing-2xl;
+    width: 100%;
+    max-width: 100%;
     
     @include respond-to(md) {
       grid-template-columns: repeat(3, 1fr);
@@ -73,7 +75,14 @@
     padding: $spacing-2xl;
     text-align: center;
     transition: all $duration-normal $ease-out-cubic;
-    overflow: hidden;
+    overflow: visible; // Изменено на visible, чтобы текст не обрезался
+    width: 100%;
+    max-width: 100%;
+    min-width: 0; // Предотвращает переполнение в grid
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     
     &::before {
       content: '';
@@ -158,6 +167,11 @@
       margin-bottom: $spacing-md;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      width: 100%;
+      max-width: 100%;
     }
     
     &-divider {
@@ -166,13 +180,20 @@
       background: $gradient-primary;
       margin: 0 auto $spacing-md;
       border-radius: $border-radius-full;
+      flex-shrink: 0;
     }
     
     &-content {
       font-family: $font-body;
       font-size: $font-size-base;
-      line-height: $line-height-normal;
+      line-height: $line-height-relaxed;
       color: $color-text-secondary;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
     }
   }
 }
