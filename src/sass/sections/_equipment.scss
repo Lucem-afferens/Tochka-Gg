@@ -95,7 +95,8 @@
     max-width: 100%;
     box-sizing: border-box;
     min-width: 0; // Предотвращает переполнение
-    overflow: hidden; // Скрывает переполнение
+    overflow: visible; // Разрешаем видимость текста
+    min-height: 140px; // Минимальная высота для вмещения контента
     
     &:hover {
       border-color: rgba(59, 130, 246, 0.5);
@@ -106,24 +107,34 @@
   
   &__spec-label {
     font-family: $font-body;
-    font-size: $font-size-sm;
+    font-size: clamp(0.75rem, 1.5vw, $font-size-sm);
     font-weight: $font-weight-body-medium;
     color: $color-text-secondary;
     margin-bottom: $spacing-sm;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    
-    
+    width: 100%;
+    max-width: 100%;
+    word-break: normal;
+    overflow-wrap: normal;
   }
   
   &__spec-value {
     font-family: $font-heading;
-    font-size: $font-size-h3;
+    font-size: clamp(0.875rem, 2vw, $font-size-h4);
     font-weight: $font-weight-heading-bold;
     color: $color-primary;
     margin-bottom: $spacing-xs;
-    
-    
+    width: 100%;
+    max-width: 100%;
+    min-height: 2.5em; // Минимальная высота для 2 строк
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.3;
+    word-break: normal;
+    overflow-wrap: normal;
   }
   
   &__spec-desc {

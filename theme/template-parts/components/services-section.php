@@ -32,8 +32,8 @@ $services = get_field('services') ?: [
         'type' => 'pc'
     ],
     [
-        'title' => 'PlayStation 5',
-        'subtitle' => '4 джойстика',
+        'title' => 'Игровые станции',
+        'subtitle' => '4 джойстика, 2 PS5',
         'description' => 'Более 50 игр и подписка PS Plus',
         'link' => $equipment_url . '#ps5',
         'image' => null,
@@ -88,7 +88,7 @@ $services = get_field('services') ?: [
                             if ($type === 'pc') {
                                 $placeholder_text = 'Gaming PCs';
                             } elseif ($type === 'ps5') {
-                                $placeholder_text = 'PlayStation 5';
+                                $placeholder_text = 'Игровые станции';
                             } elseif ($type === 'vr') {
                                 $placeholder_text = 'VR Arena';
                             } else {
