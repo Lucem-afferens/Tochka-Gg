@@ -14,7 +14,8 @@ if (!defined('ABSPATH')) {
 // Получаем данные из ACF
 $booking_title = function_exists('get_field') ? get_field('booking_title') : null;
 $booking_description = function_exists('get_field') ? get_field('booking_description') : null;
-$phone = function_exists('get_field') ? get_field('phone_main', 'option') : '+7 992 222-62-72';
+$phone_raw = function_exists('get_field') ? get_field('phone_main', 'option') : null;
+$phone = $phone_raw ?: '+7 992 222-62-72';
 $phone_clean = preg_replace('/[^0-9+]/', '', $phone);
 $vk_link = function_exists('get_field') ? get_field('vk_link', 'option') : '#';
 $langame_app_id_ios = function_exists('get_field') ? get_field('langame_app_id_ios', 'option') : null;
@@ -169,7 +170,7 @@ $booking_description = $booking_description ?: 'Выберите удобный 
                     </p>
                     
                     <a href="tel:<?php echo esc_attr($phone_clean); ?>" class="tgg-booking__option-button tgg-btn-fire">
-                        <?php echo esc_html($phone); ?>
+                        <?php echo esc_html($phone ?: '+7 992 222-62-72'); ?>
                     </a>
                 </div>
             </div>
