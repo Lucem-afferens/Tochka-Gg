@@ -375,7 +375,7 @@
     
     &-title {
       font-family: $font-heading;
-      font-size: clamp(0.875rem, 2vw, $font-size-h4);
+      font-size: clamp(0.875rem, 2vw, 1.75rem);
       font-weight: $font-weight-heading-regular;
       color: $color-text-primary;
       margin-bottom: $spacing-sm;
