@@ -58,6 +58,28 @@
   - `url` (URL) - Ссылка
   - `icon` (Image) - Иконка
 
+#### Бронирование
+- **Field Label:** `Ссылка ВКонтакте`
+- **Field Name:** `vk_link`
+- **Field Type:** `URL`
+- **Instructions:** Ссылка на сообщения сообщества ВКонтакте для бронирования
+
+- **Field Label:** `ID приложения Langame iOS`
+- **Field Name:** `langame_app_id_ios`
+- **Field Type:** `Text`
+- **Instructions:** ID приложения Langame в App Store (только цифры, например: 1234567890)
+
+- **Field Label:** `ID приложения Langame Android`
+- **Field Name:** `langame_app_id_android`
+- **Field Type:** `Text`
+- **Instructions:** Package ID приложения Langame в Google Play (например: ru.langame.app)
+
+- **Field Label:** `Deep Link для Langame`
+- **Field Name:** `langame_deep_link`
+- **Field Type:** `Text`
+- **Default Value:** `langame://booking`
+- **Instructions:** Deep link для открытия страницы бронирования в приложении Langame
+
 #### Копирайт
 - **Field Label:** `Текст копирайта`
 - **Field Name:** `copyright_text`
@@ -185,6 +207,36 @@
 - **Default Value:** `1`
 
 *(И так далее для каждой секции)*
+
+---
+
+### Страница бронирования (template-booking.php)
+
+**Создайте группу полей для страницы бронирования:**
+
+1. **Custom Fields → Field Groups → Add New**
+2. **Group Title:** `Страница бронирования`
+3. **Location Rules:**
+   - Show this field group if: `Page Template` → `is equal to` → `Страница бронирования`
+
+#### Поля страницы бронирования
+
+- **Field Label:** `Заголовок страницы`
+- **Field Name:** `booking_title`
+- **Field Type:** `Text`
+- **Default Value:** `Забронировать место`
+
+- **Field Label:** `Описание`
+- **Field Name:** `booking_description`
+- **Field Type:** `Textarea`
+- **Default Value:** `Выберите удобный способ бронирования`
+
+#### Поля в Options Page (уже должны быть добавлены выше):
+
+- `vk_link` - Ссылка ВКонтакте
+- `langame_app_id_ios` - ID приложения Langame iOS
+- `langame_app_id_android` - ID приложения Langame Android
+- `langame_deep_link` - Deep Link для Langame (по умолчанию: `langame://booking`)
 
 ---
 
