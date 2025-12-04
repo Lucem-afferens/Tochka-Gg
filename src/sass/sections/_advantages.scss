@@ -75,7 +75,8 @@
     padding: $spacing-2xl;
     text-align: center;
     transition: all $duration-normal $ease-out-cubic;
-    overflow: visible; // Изменено на visible, чтобы текст не обрезался
+    overflow-x: visible; // Разрешаем видимость по горизонтали
+    overflow-y: visible; // Разрешаем видимость по вертикали
     width: 100%;
     max-width: 100%;
     min-width: 0; // Предотвращает переполнение в grid

@@ -83,6 +83,10 @@
     padding: $spacing-lg;
     text-align: center;
     transition: all $duration-normal $ease-out-cubic;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     
     &:hover {
       border-color: rgba(59, 130, 246, 0.3);
@@ -98,6 +102,10 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-sm;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
   }
   
   &__spec-value {
@@ -106,6 +114,10 @@
     font-weight: $font-weight-heading-regular;
     color: $color-primary;
     line-height: $line-height-tight;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
   }
   
   
@@ -122,6 +134,8 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
+    max-width: 100%;
     
     li {
       font-family: $font-body;
@@ -131,6 +145,10 @@
       padding: $spacing-sm 0;
       padding-left: $spacing-xl;
       position: relative;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      width: 100%;
+      max-width: 100%;
       
       &::before {
         content: '•';
@@ -139,11 +157,14 @@
         color: $color-primary;
         font-size: 1.5em;
         line-height: 1;
+        flex-shrink: 0;
       }
       
       strong {
         color: $color-text-primary;
         font-weight: $font-weight-body-semibold;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
     }
   }
@@ -177,6 +198,8 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
+    max-width: 100%;
     
     li {
       font-family: $font-body;
@@ -186,6 +209,10 @@
       padding: $spacing-sm 0;
       padding-left: $spacing-xl;
       position: relative;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      width: 100%;
+      max-width: 100%;
       
       &::before {
         content: '•';
@@ -194,6 +221,7 @@
         color: $color-primary;
         font-size: 1.5em;
         line-height: 1;
+        flex-shrink: 0;
       }
     }
   }
