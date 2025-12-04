@@ -91,11 +91,33 @@ jobs:
           echo "✅ Files are in correct structure (theme/assets/css/ and theme/assets/js/)"
           echo "✅ Ready for deployment - structure should be preserved"
       
+      - name: Verify FTP credentials (without exposing them)
+        if: steps.check.outputs.deploy == 'true'
+        continue-on-error: true
+        run: |
+          echo "🔐 Checking FTP configuration..."
+          if [ -z "${{ secrets.BEGET_FTP_HOST }}" ]; then
+            echo "❌ ERROR: BEGET_FTP_HOST secret is not set!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.BEGET_FTP_USER }}" ]; then
+            echo "❌ ERROR: BEGET_FTP_USER secret is not set!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.BEGET_FTP_PASSWORD }}" ]; then
+            echo "❌ ERROR: BEGET_FTP_PASSWORD secret is not set!"
+            exit 1
+          fi
+          echo "✅ FTP credentials are configured"
+          echo "📍 Server: ${{ secrets.BEGET_FTP_HOST }}"
+          echo "👤 User: ${{ secrets.BEGET_FTP_USER }}"
+          echo "📁 Target directory: kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/"
+      
       - name: Deploy to Beget via FTP
         if: steps.check.outputs.deploy == 'true'
         id: deploy
         continue-on-error: true
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        uses: SamKirkland/FTP-Deploy-Action@4.3.4
         with:
           server: ${{ secrets.BEGET_FTP_HOST }}
           username: ${{ secrets.BEGET_FTP_USER }}
@@ -110,6 +132,13 @@ jobs:
             **/node_modules/**
             **/.DS_Store
             **/Thumbs.db
+            **/*.md
+            **/*.json
+            **/.editorconfig
+            **/.eslintrc*
+            **/.prettierrc*
+            **/vite.config.*
+            **/package*.json
           dangerous-clean-slate: false
           dry-run: false
           log-level: verbose
@@ -123,6 +152,9 @@ jobs:
           echo "📊 DEPLOYMENT RESULT"
           echo "=========================================="
           echo ""
+          echo "Deploy step outcome: ${{ steps.deploy.outcome }}"
+          echo "Deploy step conclusion: ${{ steps.deploy.conclusion }}"
+          echo ""
           if [ "${{ steps.deploy.outcome }}" == "success" ]; then
             echo "✅ SUCCESS: Files deployed successfully!"
             echo ""
@@ -134,11 +166,18 @@ jobs:
             echo "❌ FAILED: Deployment did not complete successfully"
             echo ""
             echo "📋 Common issues:"
-            echo "   - FTP connection failed"
-            echo "   - Wrong server path"
+            echo "   - FTP connection failed (check BEGET_FTP_HOST, BEGET_FTP_USER, BEGET_FTP_PASSWORD secrets)"
+            echo "   - Wrong server path (currently: kungur-tochkagg.ru/public_html/wp-content/themes/tochkagg-theme/)"
             echo "   - Permission denied"
+            echo "   - Server directory doesn't exist"
             echo ""
-            echo "🔍 Check step 'Deploy to Beget via FTP' above for details"
+            echo "🔍 Check step 'Deploy to Beget via FTP' above for detailed error logs"
+            echo ""
+            echo "💡 Troubleshooting tips:"
+            echo "   1. Verify FTP credentials in GitHub Secrets"
+            echo "   2. Check if the server path is correct"
+            echo "   3. Ensure the directory exists on the server"
+            echo "   4. Try connecting manually via FTP client to verify access"
           fi
           echo "=========================================="
       
