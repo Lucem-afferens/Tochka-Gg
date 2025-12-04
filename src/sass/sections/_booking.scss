@@ -1,11 +1,16 @@
 /**
  * Booking Section Styles
+ * 
+ * Интерактивные карточки бронирования:
+ * - Десктоп: треугольное расположение с 3D вращением
+ * - Мобильные: компактные карточки
  */
 
 .tgg-booking {
   padding: $spacing-5xl 0;
   background: transparent;
   position: relative;
+  min-height: 600px;
   
   &__header {
     text-align: center;
@@ -50,25 +55,61 @@
     margin: 0 auto;
   }
   
+  // Контейнер для 3D расположения (десктоп)
   &__options {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: $spacing-3xl;
+    position: relative;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2xl;
+    align-items: center;
+    justify-content: center;
     
-    @include respond-to(md) {
-      grid-template-columns: repeat(3, 1fr);
-      gap: $spacing-2xl;
+    @include respond-to(lg) {
+      min-height: 700px;
+      // 3D контейнер для треугольного расположения
+      perspective: 1500px;
+      perspective-origin: center center;
+    }
+  }
+  
+  // Обертка для треугольника (десктоп)
+  &__triangle-wrapper {
+    display: none;
+    
+    @include respond-to(lg) {
+      display: block;
+      position: relative;
+      width: 600px;
+      height: 520px;
+      margin: 0 auto;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+  
+  // Мобильный вариант - компактные карточки
+  &__options-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    width: 100%;
+    max-width: 400px;
+    
+    @include respond-to(lg) {
+      display: none;
     }
   }
   
   &__option {
-    background: rgba(18, 13, 26, 0.7);
+    background: rgba(18, 13, 26, 0.75);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    border-radius: $border-radius-xl;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: $border-radius-lg;
     padding: 0;
     text-align: center;
     transition: all $duration-normal $ease-out-cubic;
@@ -79,162 +120,222 @@
     overflow: hidden;
     width: 100%;
     max-width: 100%;
-    height: 100%;
-    min-height: 600px; // Одинаковая минимальная высота для симметрии
     box-shadow: 
-      0 8px 32px 0 rgba(0, 0, 0, 0.37),
-      0 0 20px rgba(59, 130, 246, 0.1),
-      inset 0 0 0 1px rgba(59, 130, 246, 0.05);
+      0 8px 32px 0 rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(59, 130, 246, 0.15),
+      inset 0 0 0 1px rgba(59, 130, 246, 0.1);
     
-    &:hover {
-      transform: translateY(-8px);
-      background: rgba(18, 13, 26, 0.85);
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 
-        0 12px 40px rgba(59, 130, 246, 0.5),
-        0 0 60px rgba(59, 130, 246, 0.3),
-        0 0 30px rgba(239, 68, 68, 0.3),
-        0 0 50px rgba(239, 68, 68, 0.15),
-        inset 0 0 0 1px rgba(59, 130, 246, 0.1);
+    // Мобильный вариант - компактный
+    .tgg-booking__options-list & {
+      min-height: auto;
+      max-width: 100%;
+      
+      &:hover {
+        transform: translateY(-4px);
+        border-color: rgba(59, 130, 246, 0.4);
+        box-shadow: 
+          0 8px 24px rgba(59, 130, 246, 0.4),
+          0 0 40px rgba(59, 130, 246, 0.2),
+          0 0 20px rgba(239, 68, 68, 0.2);
+      }
+    }
+    
+    // Десктоп вариант - в треугольнике
+    .tgg-booking__triangle-wrapper & {
+      position: absolute;
+      width: 280px;
+      min-height: 360px;
+      max-height: 400px;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      
+      // Первая карточка - сверху
+      &:nth-child(1) {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%) translateZ(0);
+        z-index: 3;
+      }
+      
+      // Вторая карточка - снизу слева
+      &:nth-child(2) {
+        bottom: 0;
+        left: 0;
+        transform: translateZ(0) rotateY(-15deg);
+        z-index: 2;
+      }
+      
+      // Третья карточка - снизу справа
+      &:nth-child(3) {
+        bottom: 0;
+        right: 0;
+        transform: translateZ(0) rotateY(15deg);
+        z-index: 2;
+      }
+      
+      // Эффект при наведении
+      &:hover {
+        transform: translateZ(50px) scale(1.05) !important;
+        z-index: 10;
+        border-color: rgba(59, 130, 246, 0.5);
+        box-shadow: 
+          0 20px 60px rgba(59, 130, 246, 0.5),
+          0 0 80px rgba(59, 130, 246, 0.3),
+          0 0 40px rgba(239, 68, 68, 0.3),
+          inset 0 0 0 1px rgba(59, 130, 246, 0.2);
+      }
+      
+      // Активная карточка
+      &.active {
+        transform: translateZ(30px) scale(1.03) !important;
+        z-index: 5;
+      }
     }
     
     &--langame {
-      // Специальный стиль для Langame опции
-      border-color: rgba(255, 107, 53, 0.2);
+      border-color: rgba(255, 107, 53, 0.25);
       box-shadow: 
-        0 8px 32px 0 rgba(0, 0, 0, 0.37),
-        0 0 20px rgba(255, 107, 53, 0.1),
-        inset 0 0 0 1px rgba(255, 107, 53, 0.05);
+        0 8px 32px 0 rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 107, 53, 0.15),
+        inset 0 0 0 1px rgba(255, 107, 53, 0.1);
       
-      &:hover {
-        background: rgba(18, 13, 26, 0.85);
-        border-color: rgba(255, 107, 53, 0.4);
-        box-shadow: 
-          0 12px 40px rgba(255, 107, 53, 0.5),
-          0 0 60px rgba(255, 107, 53, 0.3),
-          0 0 30px rgba(247, 44, 37, 0.3),
-          0 0 50px rgba(247, 44, 37, 0.15),
-          inset 0 0 0 1px rgba(255, 107, 53, 0.1);
+      .tgg-booking__options-list & {
+        &:hover {
+          border-color: rgba(255, 107, 53, 0.4);
+          box-shadow: 
+            0 8px 24px rgba(255, 107, 53, 0.4),
+            0 0 40px rgba(255, 107, 53, 0.2),
+            0 0 20px rgba(247, 44, 37, 0.2);
+        }
+      }
+      
+      .tgg-booking__triangle-wrapper & {
+        &:hover {
+          border-color: rgba(255, 107, 53, 0.5);
+          box-shadow: 
+            0 20px 60px rgba(255, 107, 53, 0.5),
+            0 0 80px rgba(255, 107, 53, 0.3),
+            0 0 40px rgba(247, 44, 37, 0.3),
+            inset 0 0 0 1px rgba(255, 107, 53, 0.2);
+        }
       }
     }
   }
   
+  // Компактное изображение
   &__option-image {
     width: 100%;
-    height: 200px;
+    height: 160px;
     overflow: hidden;
     position: relative;
-    border-radius: $border-radius-xl $border-radius-xl 0 0;
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+    flex-shrink: 0;
+    
+    .tgg-booking__triangle-wrapper & {
+      height: 140px;
+    }
     
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: brightness(0.7) contrast(1.1);
+      filter: brightness(0.75) contrast(1.1);
       transition: transform $duration-slow $ease-out-cubic, filter $duration-normal ease;
     }
     
     .tgg-booking__option:hover & img {
-      transform: scale(1.05);
-      filter: brightness(0.8) contrast(1.2);
+      transform: scale(1.1);
+      filter: brightness(0.85) contrast(1.2);
     }
   }
   
+  // Компактный контент
   &__option-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: $spacing-2xl $spacing-xl;
+    padding: $spacing-xl $spacing-lg;
     align-items: center;
     justify-content: space-between;
+    min-height: 180px;
+    
+    .tgg-booking__triangle-wrapper & {
+      padding: $spacing-lg $spacing-md;
+      min-height: 220px;
+    }
   }
   
+  // Убраны иконки - не показываем их
   &__option-icon {
-    width: 64px;
-    height: 64px;
-    margin-bottom: $spacing-lg;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: $color-primary;
-    position: relative;
-    flex-shrink: 0;
-    
-    svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.5));
-      transition: filter $duration-normal ease;
-    }
-    
-    .tgg-booking__option--langame & {
-      color: $color-fire-orange;
-      
-      svg {
-        filter: drop-shadow(0 0 12px rgba(255, 107, 53, 0.5));
-      }
-    }
-    
-    .tgg-booking__option:hover & svg {
-      filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.8));
-      
-      .tgg-booking__option--langame & {
-        filter: drop-shadow(0 0 20px rgba(255, 107, 53, 0.8));
-      }
-    }
+    display: none;
   }
   
   &__option-title {
     font-family: $font-heading;
-    font-size: $font-size-h3;
-    font-weight: $font-weight-heading-regular;
+    font-size: $font-size-h4;
+    font-weight: $font-weight-heading-bold;
     color: $color-text-primary;
-    margin-bottom: $spacing-md;
+    margin-bottom: $spacing-sm;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     word-wrap: break-word;
     overflow-wrap: break-word;
     width: 100%;
-    max-width: 100%;
-    min-height: 3em; // Фиксированная высота для симметрии (2 строки)
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-align: center;
+    line-height: 1.3;
+    
+    .tgg-booking__triangle-wrapper & {
+      font-size: $font-size-base;
+      margin-bottom: $spacing-xs;
+    }
   }
   
   &__option-description {
     font-family: $font-body;
-    font-size: $font-size-base;
-    line-height: $line-height-relaxed;
+    font-size: $font-size-sm;
+    line-height: $line-height-normal;
     color: $color-text-secondary;
-    margin-bottom: $spacing-2xl;
-    flex: 1;
+    margin-bottom: $spacing-lg;
     word-wrap: break-word;
     overflow-wrap: break-word;
     width: 100%;
-    max-width: 100%;
-    min-height: 4.5em; // Фиксированная минимальная высота для симметрии (3 строки)
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-align: center;
+    flex: 1;
+    
+    .tgg-booking__triangle-wrapper & {
+      font-size: $font-size-xs;
+      margin-bottom: $spacing-md;
+      line-height: 1.5;
+    }
   }
   
   &__option-button {
     width: 100%;
-    max-width: 280px;
-    margin-bottom: $spacing-lg;
+    max-width: 240px;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
     flex-shrink: 0;
+    
+    .tgg-booking__triangle-wrapper & {
+      max-width: 200px;
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-xs;
+    }
   }
   
   &__option-links {
     display: flex;
     flex-direction: column;
-    gap: $spacing-sm;
+    gap: $spacing-xs;
     width: 100%;
-    max-width: 280px;
-    margin-top: $spacing-md;
+    max-width: 240px;
+    margin-top: $spacing-sm;
+    
+    .tgg-booking__triangle-wrapper & {
+      max-width: 200px;
+      gap: 2px;
+      margin-top: $spacing-xs;
+    }
     
     @include respond-to(sm) {
       flex-direction: row;
@@ -244,7 +345,7 @@
   
   &__option-link {
     font-family: $font-body;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     color: $color-text-secondary;
     text-decoration: none;
     transition: color $duration-normal ease;
@@ -254,6 +355,29 @@
       color: $color-primary;
       text-decoration: underline;
     }
+    
+    .tgg-booking__triangle-wrapper & {
+      font-size: 10px;
+    }
   }
 }
 
+// Анимация вращения треугольника
+@keyframes triangle-rotate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+// Автоматическое вращение (опционально, можно включить через JS)
+.tgg-booking__triangle-wrapper.auto-rotate {
+  animation: triangle-rotate 20s linear infinite;
+}
+
+// Пауза при наведении
+.tgg-booking__triangle-wrapper:hover.auto-rotate {
+  animation-play-state: paused;
+}

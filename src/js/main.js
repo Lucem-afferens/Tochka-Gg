@@ -16,6 +16,7 @@ import { initForms } from './modules/forms.js';
 import { initSliders } from './modules/slider.js';
 import { initEquipmentGalleries } from './modules/equipment-gallery.js';
 import { initLangameBooking } from './modules/booking.js';
+import { initBookingTriangle } from './modules/booking-triangle.js';
 
 // ============================================
 // INITIALIZATION
@@ -46,8 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   // Бронирование через Langame
-  if (document.getElementById('langame-booking-btn')) {
+  if (document.getElementById('langame-booking-btn') || document.getElementById('langame-booking-btn-mobile')) {
     initLangameBooking();
+  }
+  
+  // Интерактивное треугольное расположение карточек бронирования
+  if (document.getElementById('booking-triangle')) {
+    initBookingTriangle();
   }
   
   console.log('✅ Tochka Gg theme initialized');

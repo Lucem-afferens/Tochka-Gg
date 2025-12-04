@@ -12,26 +12,35 @@
  * @param {string} androidUrl - URL в Google Play
  */
 export function initLangameBooking() {
-  const langameBtn = document.getElementById('langame-booking-btn');
-  if (!langameBtn) return;
+  // Обрабатываем обе кнопки (десктопную и мобильную)
+  const langameBtns = [
+    document.getElementById('langame-booking-btn'),
+    document.getElementById('langame-booking-btn-mobile')
+  ].filter(btn => btn !== null);
 
-  const deepLink = langameBtn.dataset.langameDeepLink || 'langame://booking';
-  const iosUrl = langameBtn.dataset.langameIos || 'https://apps.apple.com/ru/app/langame';
-  const androidUrl = langameBtn.dataset.langameAndroid || 'https://play.google.com/store/apps/details?id=ru.langame.app';
+  if (langameBtns.length === 0) return;
 
-  langameBtn.addEventListener('click', () => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-    const isAndroid = /android/i.test(userAgent);
+  langameBtns.forEach(langameBtn => {
+    const deepLink = langameBtn.dataset.langameDeepLink || 'langame://booking';
+    const iosUrl = langameBtn.dataset.langameIos || 'https://apps.apple.com/ru/app/langame';
+    const androidUrl = langameBtn.dataset.langameAndroid || 'https://play.google.com/store/apps/details?id=ru.langame.app';
 
-    if (isIOS) {
-      handleIOSApp(deepLink, iosUrl);
-    } else if (isAndroid) {
-      handleAndroidApp(deepLink, androidUrl);
-    } else {
-      // Desktop - показываем выбор
-      showStoreLinks(iosUrl, androidUrl);
-    }
+    langameBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+      const isAndroid = /android/i.test(userAgent);
+
+      if (isIOS) {
+        handleIOSApp(deepLink, iosUrl);
+      } else if (isAndroid) {
+        handleAndroidApp(deepLink, androidUrl);
+      } else {
+        // Desktop - показываем выбор
+        showStoreLinks(iosUrl, androidUrl);
+      }
+    });
   });
 }
 

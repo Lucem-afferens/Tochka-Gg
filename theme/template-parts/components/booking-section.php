@@ -44,29 +44,138 @@ $booking_description = $booking_description ?: 'Выберите удобный 
             <?php endif; ?>
         </div>
         
-        <div class="tgg-booking__options">
+        <!-- Десктоп: треугольное расположение -->
+        <div class="tgg-booking__triangle-wrapper" id="booking-triangle">
             <!-- Вариант 1: По телефону -->
             <?php
             $phone_image = function_exists('get_field') ? get_field('booking_phone_image') : null;
             $phone_image_data = function_exists('tochkagg_get_image_or_placeholder') 
-                ? tochkagg_get_image_or_placeholder($phone_image, 400, 300, 'Бронирование по телефону')
+                ? tochkagg_get_image_or_placeholder($phone_image, 280, 200, 'Телефон')
                 : [
-                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 300, 'Бронирование по телефону', '1a1d29', '3b82f6') : 'https://placehold.co/400x300/1a1d29/3b82f6?text=Бронирование+по+телефону',
-                    'alt' => 'Бронирование по телефону (заглушка - загрузите своё изображение)'
+                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(280, 200, 'Телефон', '1a1d29', '3b82f6') : 'https://placehold.co/280x200/1a1d29/3b82f6?text=Телефон',
+                    'alt' => 'Бронирование по телефону (заглушка)'
                 ];
             ?>
-            <div class="tgg-booking__option">
+            <div class="tgg-booking__option" data-booking-option="phone">
                 <div class="tgg-booking__option-image">
                     <img src="<?php echo esc_url($phone_image_data['url']); ?>" alt="<?php echo esc_attr($phone_image_data['alt']); ?>" loading="lazy">
                 </div>
                 
                 <div class="tgg-booking__option-content">
-                    <div class="tgg-booking__option-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
-                        </svg>
-                    </div>
+                    <h2 class="tgg-booking__option-title">По телефону</h2>
                     
+                    <p class="tgg-booking__option-description">
+                        Позвоните нам для бронирования
+                    </p>
+                    
+                    <a href="tel:<?php echo esc_attr($phone_clean); ?>" class="tgg-booking__option-button tgg-btn-primary">
+                        <?php echo esc_html($phone); ?>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Вариант 2: ВКонтакте -->
+            <?php
+            $vk_image = function_exists('get_field') ? get_field('booking_vk_image') : null;
+            $vk_image_data = function_exists('tochkagg_get_image_or_placeholder') 
+                ? tochkagg_get_image_or_placeholder($vk_image, 280, 200, 'ВКонтакте')
+                : [
+                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(280, 200, 'ВКонтакте', '1a1d29', '8b5cf6') : 'https://placehold.co/280x200/1a1d29/8b5cf6?text=ВКонтакте',
+                    'alt' => 'Бронирование ВКонтакте (заглушка)'
+                ];
+            ?>
+            <div class="tgg-booking__option" data-booking-option="vk">
+                <div class="tgg-booking__option-image">
+                    <img src="<?php echo esc_url($vk_image_data['url']); ?>" alt="<?php echo esc_attr($vk_image_data['alt']); ?>" loading="lazy">
+                </div>
+                
+                <div class="tgg-booking__option-content">
+                    <h2 class="tgg-booking__option-title">ВКонтакте</h2>
+                    
+                    <p class="tgg-booking__option-description">
+                        Напишите нам в сообщениях
+                    </p>
+                    
+                    <a href="<?php echo esc_url($vk_link ?: '#'); ?>" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="tgg-booking__option-button tgg-btn-secondary">
+                        Написать в ВК
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Вариант 3: Langame приложение -->
+            <?php
+            $langame_image = function_exists('get_field') ? get_field('booking_langame_image') : null;
+            $langame_image_data = function_exists('tochkagg_get_image_or_placeholder') 
+                ? tochkagg_get_image_or_placeholder($langame_image, 280, 200, 'Langame')
+                : [
+                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(280, 200, 'Langame', '1a1d29', 'ff6b35') : 'https://placehold.co/280x200/1a1d29/ff6b35?text=Langame',
+                    'alt' => 'Бронирование через Langame (заглушка)'
+                ];
+            ?>
+            <div class="tgg-booking__option tgg-booking__option--langame" data-booking-option="langame">
+                <div class="tgg-booking__option-image">
+                    <img src="<?php echo esc_url($langame_image_data['url']); ?>" alt="<?php echo esc_attr($langame_image_data['alt']); ?>" loading="lazy">
+                </div>
+                
+                <div class="tgg-booking__option-content">
+                    <h2 class="tgg-booking__option-title">Через Langame</h2>
+                    
+                    <p class="tgg-booking__option-description">
+                        Забронируйте через приложение
+                    </p>
+                    
+                    <button class="tgg-booking__option-button tgg-btn-primary" 
+                            data-langame-deep-link="<?php echo esc_attr($langame_deep_link); ?>"
+                            data-langame-ios="<?php echo esc_attr($langame_ios_url); ?>"
+                            data-langame-android="<?php echo esc_attr($langame_android_url); ?>"
+                            id="langame-booking-btn">
+                        Открыть приложение
+                    </button>
+                    
+                    <div class="tgg-booking__option-links">
+                        <?php if ($langame_ios_url) : ?>
+                            <a href="<?php echo esc_url($langame_ios_url); ?>" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               class="tgg-booking__option-link">
+                                iOS
+                            </a>
+                        <?php endif; ?>
+                        
+                        <?php if ($langame_android_url) : ?>
+                            <a href="<?php echo esc_url($langame_android_url); ?>" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               class="tgg-booking__option-link">
+                                Android
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Мобильные: компактные карточки -->
+        <div class="tgg-booking__options-list">
+            <!-- Вариант 1: По телефону -->
+            <?php
+            $phone_image_mobile = function_exists('get_field') ? get_field('booking_phone_image') : null;
+            $phone_image_data_mobile = function_exists('tochkagg_get_image_or_placeholder') 
+                ? tochkagg_get_image_or_placeholder($phone_image_mobile, 400, 200, 'Телефон')
+                : [
+                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 200, 'Телефон', '1a1d29', '3b82f6') : 'https://placehold.co/400x200/1a1d29/3b82f6?text=Телефон',
+                    'alt' => 'Бронирование по телефону (заглушка)'
+                ];
+            ?>
+            <div class="tgg-booking__option">
+                <div class="tgg-booking__option-image">
+                    <img src="<?php echo esc_url($phone_image_data_mobile['url']); ?>" alt="<?php echo esc_attr($phone_image_data_mobile['alt']); ?>" loading="lazy">
+                </div>
+                
+                <div class="tgg-booking__option-content">
                     <h2 class="tgg-booking__option-title">По телефону</h2>
                     
                     <p class="tgg-booking__option-description">
@@ -81,26 +190,20 @@ $booking_description = $booking_description ?: 'Выберите удобный 
             
             <!-- Вариант 2: ВКонтакте -->
             <?php
-            $vk_image = function_exists('get_field') ? get_field('booking_vk_image') : null;
-            $vk_image_data = function_exists('tochkagg_get_image_or_placeholder') 
-                ? tochkagg_get_image_or_placeholder($vk_image, 400, 300, 'Бронирование ВКонтакте')
+            $vk_image_mobile = function_exists('get_field') ? get_field('booking_vk_image') : null;
+            $vk_image_data_mobile = function_exists('tochkagg_get_image_or_placeholder') 
+                ? tochkagg_get_image_or_placeholder($vk_image_mobile, 400, 200, 'ВКонтакте')
                 : [
-                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 300, 'Бронирование ВКонтакте', '1a1d29', '8b5cf6') : 'https://placehold.co/400x300/1a1d29/8b5cf6?text=Бронирование+ВКонтакте',
-                    'alt' => 'Бронирование ВКонтакте (заглушка - загрузите своё изображение)'
+                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 200, 'ВКонтакте', '1a1d29', '8b5cf6') : 'https://placehold.co/400x200/1a1d29/8b5cf6?text=ВКонтакте',
+                    'alt' => 'Бронирование ВКонтакте (заглушка)'
                 ];
             ?>
             <div class="tgg-booking__option">
                 <div class="tgg-booking__option-image">
-                    <img src="<?php echo esc_url($vk_image_data['url']); ?>" alt="<?php echo esc_attr($vk_image_data['alt']); ?>" loading="lazy">
+                    <img src="<?php echo esc_url($vk_image_data_mobile['url']); ?>" alt="<?php echo esc_attr($vk_image_data_mobile['alt']); ?>" loading="lazy">
                 </div>
                 
                 <div class="tgg-booking__option-content">
-                    <div class="tgg-booking__option-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12.785 16.241s.287-.03.435-.183c.135-.138.131-.395.131-.395s-.02-1.23.553-1.412c.564-.179 1.289.896 2.058 1.292.568.293 1 .229 1 .229l2.046-.03s1.069-.067.561-.915c-.042-.067-.298-.636-1.538-1.797-1.301-1.218-1.124-.509.439-1.56 1.001-.686 1.403-1.104 1.275-1.283-.119-.164-.855-.12-1.175-.07-.253.038-.437-.072-.437-.072s-.785-.501-1.75-.501c-1.852 0-2.448.969-2.553 1.366 0 0-.209.662.484 1.068.467.276 1.096.426 1.643.683.688.326.945.536.945.915 0 .326-.239.642-.522.766-.625.276-1.635.719-2.688 1.006-.96.259-1.459.206-1.459.206s-1.099-.068-.807-1.012c.053-.171.173-.354.36-.552.616-.651 1.588-1.551 1.588-1.551s.18-.144.044-.334c-.134-.19-.24-.138-.24-.138l-1.597.019s-.357.011-.488.223c-.117.194-.01.602-.01.602s1.255 2.953 1.693 3.943c.429.958.898 1.14.898 1.14z"/>
-                        </svg>
-                    </div>
-                    
                     <h2 class="tgg-booking__option-title">ВКонтакте</h2>
                     
                     <p class="tgg-booking__option-description">
@@ -118,27 +221,20 @@ $booking_description = $booking_description ?: 'Выберите удобный 
             
             <!-- Вариант 3: Langame приложение -->
             <?php
-            $langame_image = function_exists('get_field') ? get_field('booking_langame_image') : null;
-            $langame_image_data = function_exists('tochkagg_get_image_or_placeholder') 
-                ? tochkagg_get_image_or_placeholder($langame_image, 400, 300, 'Бронирование через Langame')
+            $langame_image_mobile = function_exists('get_field') ? get_field('booking_langame_image') : null;
+            $langame_image_data_mobile = function_exists('tochkagg_get_image_or_placeholder') 
+                ? tochkagg_get_image_or_placeholder($langame_image_mobile, 400, 200, 'Langame')
                 : [
-                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 300, 'Бронирование через Langame', '1a1d29', 'ff6b35') : 'https://placehold.co/400x300/1a1d29/ff6b35?text=Бронирование+через+Langame',
-                    'alt' => 'Бронирование через Langame (заглушка - загрузите своё изображение)'
+                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 200, 'Langame', '1a1d29', 'ff6b35') : 'https://placehold.co/400x200/1a1d29/ff6b35?text=Langame',
+                    'alt' => 'Бронирование через Langame (заглушка)'
                 ];
             ?>
             <div class="tgg-booking__option tgg-booking__option--langame">
                 <div class="tgg-booking__option-image">
-                    <img src="<?php echo esc_url($langame_image_data['url']); ?>" alt="<?php echo esc_attr($langame_image_data['alt']); ?>" loading="lazy">
+                    <img src="<?php echo esc_url($langame_image_data_mobile['url']); ?>" alt="<?php echo esc_attr($langame_image_data_mobile['alt']); ?>" loading="lazy">
                 </div>
                 
                 <div class="tgg-booking__option-content">
-                    <div class="tgg-booking__option-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-                            <line x1="12" y1="18" x2="12.01" y2="18"/>
-                        </svg>
-                    </div>
-                    
                     <h2 class="tgg-booking__option-title">Через приложение Langame</h2>
                     
                     <p class="tgg-booking__option-description">
@@ -149,7 +245,7 @@ $booking_description = $booking_description ?: 'Выберите удобный 
                             data-langame-deep-link="<?php echo esc_attr($langame_deep_link); ?>"
                             data-langame-ios="<?php echo esc_attr($langame_ios_url); ?>"
                             data-langame-android="<?php echo esc_attr($langame_android_url); ?>"
-                            id="langame-booking-btn">
+                            id="langame-booking-btn-mobile">
                         Открыть приложение
                     </button>
                     
