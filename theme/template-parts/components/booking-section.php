@@ -45,72 +45,7 @@ $booking_description = $booking_description ?: 'Выберите удобный 
         </div>
         
         <div class="tgg-booking__options">
-            <!-- Вариант 1: По телефону -->
-            <?php
-            $phone_image = function_exists('get_field') ? get_field('booking_phone_image') : null;
-            $phone_image_data = function_exists('tochkagg_get_image_or_placeholder') 
-                ? tochkagg_get_image_or_placeholder($phone_image, 400, 300, 'Бронирование по телефону')
-                : [
-                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 300, 'Телефон', '1a1d29', '3b82f6') : 'https://placehold.co/400x300/1a1d29/3b82f6?text=Телефон',
-                    'alt' => 'Бронирование по телефону (заглушка)'
-                ];
-            ?>
-            <div class="tgg-booking__option tgg-booking__option--phone">
-                <div class="tgg-booking__option-image">
-                    <div class="tgg-booking__option-overlay"></div>
-                    <img src="<?php echo esc_url($phone_image_data['url']); ?>" alt="<?php echo esc_attr($phone_image_data['alt']); ?>" loading="lazy">
-                </div>
-                
-                <div class="tgg-booking__option-content">
-                    <div class="tgg-booking__option-badge">Быстро</div>
-                    
-                    <h2 class="tgg-booking__option-title">По телефону</h2>
-                    
-                    <p class="tgg-booking__option-description">
-                        Позвоните нам, и мы поможем выбрать удобное время для посещения клуба
-                    </p>
-                    
-                    <a href="tel:<?php echo esc_attr($phone_clean); ?>" class="tgg-booking__option-button tgg-btn-primary">
-                        <?php echo esc_html($phone); ?>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Вариант 2: ВКонтакте -->
-            <?php
-            $vk_image = function_exists('get_field') ? get_field('booking_vk_image') : null;
-            $vk_image_data = function_exists('tochkagg_get_image_or_placeholder') 
-                ? tochkagg_get_image_or_placeholder($vk_image, 400, 300, 'Бронирование ВКонтакте')
-                : [
-                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 300, 'ВКонтакте', '1a1d29', '8b5cf6') : 'https://placehold.co/400x300/1a1d29/8b5cf6?text=ВКонтакте',
-                    'alt' => 'Бронирование ВКонтакте (заглушка)'
-                ];
-            ?>
-            <div class="tgg-booking__option tgg-booking__option--vk">
-                <div class="tgg-booking__option-image">
-                    <div class="tgg-booking__option-overlay"></div>
-                    <img src="<?php echo esc_url($vk_image_data['url']); ?>" alt="<?php echo esc_attr($vk_image_data['alt']); ?>" loading="lazy">
-                </div>
-                
-                <div class="tgg-booking__option-content">
-                    <div class="tgg-booking__option-badge">Удобно</div>
-                    
-                    <h2 class="tgg-booking__option-title">ВКонтакте</h2>
-                    
-                    <p class="tgg-booking__option-description">
-                        Напишите нам в сообщениях сообщества ВКонтакте для бронирования места
-                    </p>
-                    
-                    <a href="<?php echo esc_url($vk_link ?: '#'); ?>" 
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       class="tgg-booking__option-button tgg-btn-secondary">
-                        Написать в ВК
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Вариант 3: Langame приложение -->
+            <!-- Вариант 1: Langame приложение (первым - приоритетный) -->
             <?php
             $langame_image = function_exists('get_field') ? get_field('booking_langame_image') : null;
             $langame_image_data = function_exists('tochkagg_get_image_or_placeholder') 
@@ -144,7 +79,7 @@ $booking_description = $booking_description ?: 'Выберите удобный 
                         Забронируйте место через мобильное приложение Langame на вашем устройстве в любое время
                     </p>
                     
-                    <button class="tgg-booking__option-button tgg-btn-primary" 
+                    <button class="tgg-booking__option-button tgg-btn-fire" 
                             data-langame-deep-link="<?php echo esc_attr($langame_deep_link); ?>"
                             data-langame-ios="<?php echo esc_attr($langame_ios_url); ?>"
                             data-langame-android="<?php echo esc_attr($langame_android_url); ?>"
@@ -171,6 +106,74 @@ $booking_description = $booking_description ?: 'Выберите удобный 
                             </a>
                         <?php endif; ?>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Вариант 2: ВКонтакте -->
+            <?php
+            $vk_image = function_exists('get_field') ? get_field('booking_vk_image') : null;
+            $vk_image_data = function_exists('tochkagg_get_image_or_placeholder') 
+                ? tochkagg_get_image_or_placeholder($vk_image, 400, 300, 'Бронирование ВКонтакте')
+                : [
+                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 300, 'ВКонтакте', '1a1d29', '8b5cf6') : 'https://placehold.co/400x300/1a1d29/8b5cf6?text=ВКонтакте',
+                    'alt' => 'Бронирование ВКонтакте (заглушка)'
+                ];
+            ?>
+            <div class="tgg-booking__option tgg-booking__option--vk">
+                <div class="tgg-booking__option-image">
+                    <div class="tgg-booking__option-overlay"></div>
+                    <img src="<?php echo esc_url($vk_image_data['url']); ?>" alt="<?php echo esc_attr($vk_image_data['alt']); ?>" loading="lazy">
+                </div>
+                
+                <div class="tgg-booking__option-content">
+                    <div class="tgg-booking__option-badge">Удобно</div>
+                    
+                    <h2 class="tgg-booking__option-title">ВКонтакте</h2>
+                    
+                    <p class="tgg-booking__option-description">
+                        Напишите нам в сообщениях сообщества ВКонтакте для бронирования места
+                    </p>
+                    
+                    <a href="<?php echo esc_url($vk_link ?: '#'); ?>" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="tgg-booking__option-button tgg-btn-fire">
+                        Написать в ВК
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Вариант 3: По телефону -->
+            <?php
+            $phone_image = function_exists('get_field') ? get_field('booking_phone_image') : null;
+            $phone_image_data = function_exists('tochkagg_get_image_or_placeholder') 
+                ? tochkagg_get_image_or_placeholder($phone_image, 400, 300, 'Бронирование по телефону')
+                : [
+                    'url' => function_exists('tochkagg_get_placeholder_image') ? tochkagg_get_placeholder_image(400, 300, 'Телефон', '1a1d29', '3b82f6') : 'https://placehold.co/400x300/1a1d29/3b82f6?text=Телефон',
+                    'alt' => 'Бронирование по телефону (заглушка)'
+                ];
+            ?>
+            <div class="tgg-booking__option tgg-booking__option--phone">
+                <div class="tgg-booking__option-image">
+                    <div class="tgg-booking__option-overlay"></div>
+                    <img src="<?php echo esc_url($phone_image_data['url']); ?>" alt="<?php echo esc_attr($phone_image_data['alt']); ?>" loading="lazy">
+                </div>
+                
+                <div class="tgg-booking__option-content">
+                    <div class="tgg-booking__option-badge">Быстро</div>
+                    
+                    <h2 class="tgg-booking__option-title">По телефону</h2>
+                    
+                    <p class="tgg-booking__option-description">
+                        Позвоните нам, и мы поможем выбрать удобное время для посещения клуба
+                    </p>
+                    
+                    <a href="tel:<?php echo esc_attr($phone_clean); ?>" class="tgg-booking__option-button tgg-btn-fire">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                        </svg>
+                        <?php echo esc_html($phone); ?>
+                    </a>
                 </div>
             </div>
         </div>
