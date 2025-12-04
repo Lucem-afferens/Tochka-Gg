@@ -2,6 +2,7 @@
  * Reset & Base Styles
  * 
  * Базовые стили и сброс браузерных стилей
+ * Текст может переноситься, но слова не разбиваются
  */
 
 // Переменные импортируются в главном файле style.scss
@@ -37,10 +38,14 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  // Слова не разбиваются, но текст может переноситься
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 // ============================================
-// TYPOGRAPHY
+// TYPOGRAPHY - СЛОВА НЕ РАЗБИВАЮТСЯ
 // ============================================
 
 h1, h2, h3, h4, h5, h6 {
@@ -49,8 +54,10 @@ h1, h2, h3, h4, h5, h6 {
   line-height: $line-height-tight;
   color: $color-text-primary;
   margin-bottom: $spacing-md;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  // Слова не разбиваются
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 h1 {
@@ -79,14 +86,18 @@ h6 {
 
 p {
   margin-bottom: $spacing-md;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  // Слова не разбиваются, но текст может переноситься
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 a {
   color: $color-primary;
   text-decoration: none;
   transition: color $duration-normal $ease-out-cubic;
+  word-break: normal;
+  overflow-wrap: normal;
   
   &:hover {
     color: $color-primary-bright;
@@ -116,6 +127,8 @@ button {
   cursor: pointer;
   border: none;
   background: none;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 // ============================================
@@ -125,6 +138,8 @@ button {
 input, textarea, select {
   font-family: inherit;
   font-size: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 // ============================================
@@ -140,4 +155,3 @@ input, textarea, select {
   background-color: $color-primary;
   color: $color-text-primary;
 }
-

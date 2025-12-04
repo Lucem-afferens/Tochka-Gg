@@ -98,7 +98,7 @@
       color: $color-text-muted;
       margin-bottom: $spacing-md;
       flex-wrap: wrap;
-      word-wrap: break-word;
+      
     }
     
     &-author {
@@ -114,8 +114,8 @@
       font-weight: $font-weight-heading-regular;
       color: $color-text-primary;
       margin-bottom: $spacing-md;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      
+      
       width: 100%;
       max-width: 100%;
       
@@ -123,8 +123,8 @@
         color: inherit;
         text-decoration: none;
         transition: color $duration-normal $ease-out-cubic;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+        
+        
         
         &:hover {
           color: $color-primary;
@@ -159,15 +159,15 @@
       color: $color-text-secondary;
       margin-bottom: $spacing-md;
       flex-wrap: wrap;
-      word-wrap: break-word;
+      
       
       strong {
         font-family: $font-heading;
         font-size: $font-size-lg;
         color: $color-secondary;
         font-weight: $font-weight-heading-bold;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+        
+        
       }
     }
     
@@ -177,9 +177,9 @@
       line-height: $line-height-normal;
       color: $color-text-secondary;
       margin-bottom: $spacing-md;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      hyphens: auto;
+      
+      
+      
       width: 100%;
       max-width: 100%;
     }
@@ -194,8 +194,8 @@
       color: $color-primary;
       text-decoration: none;
       transition: all $duration-normal $ease-out-cubic;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      
+      
       
       &:hover {
         gap: $spacing-md;

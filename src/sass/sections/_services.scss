@@ -381,9 +381,9 @@
       margin-bottom: $spacing-sm;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      hyphens: auto;
+      
+      
+      
       width: 100%;
       max-width: 100%;
     }
@@ -394,8 +394,8 @@
       font-weight: $font-weight-body-medium;
       color: $color-primary;
       margin-bottom: $spacing-md;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      
+      
       width: 100%;
       max-width: 100%;
     }
@@ -406,9 +406,9 @@
       line-height: $line-height-normal;
       color: $color-text-secondary;
       flex: 1;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      hyphens: auto;
+      
+      
+      
       width: 100%;
       max-width: 100%;
       min-width: 0;

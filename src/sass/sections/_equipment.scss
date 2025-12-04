@@ -48,8 +48,8 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-lg;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    
+    
   }
   
   &__text {
@@ -58,8 +58,8 @@
     line-height: $line-height-relaxed;
     color: $color-text-secondary;
     margin-bottom: $spacing-2xl;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    
+    
   }
   
   &__specs {
@@ -112,8 +112,8 @@
     margin-bottom: $spacing-sm;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    
+    
   }
   
   &__spec-value {
@@ -122,8 +122,8 @@
     font-weight: $font-weight-heading-bold;
     color: $color-primary;
     margin-bottom: $spacing-xs;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    
+    
   }
   
   &__spec-desc {
@@ -131,8 +131,8 @@
     font-size: $font-size-xs;
     color: $color-text-muted;
     line-height: $line-height-normal;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    
+    
   }
   
   &__cta {

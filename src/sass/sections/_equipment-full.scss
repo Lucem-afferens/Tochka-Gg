@@ -102,8 +102,8 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-sm;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    
+    
     width: 100%;
     max-width: 100%;
   }
@@ -114,8 +114,8 @@
     font-weight: $font-weight-heading-regular;
     color: $color-primary;
     line-height: $line-height-tight;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    
+    
     width: 100%;
     max-width: 100%;
   }
@@ -145,8 +145,8 @@
       padding: $spacing-sm 0;
       padding-left: $spacing-xl;
       position: relative;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      
+      
       width: 100%;
       max-width: 100%;
       
@@ -163,8 +163,8 @@
       strong {
         color: $color-text-primary;
         font-weight: $font-weight-body-semibold;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+        
+        
       }
     }
   }
@@ -209,8 +209,8 @@
       padding: $spacing-sm 0;
       padding-left: $spacing-xl;
       position: relative;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      
+      
       width: 100%;
       max-width: 100%;
       
