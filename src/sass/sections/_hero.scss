@@ -96,28 +96,6 @@
       );
       pointer-events: none;
     }
-    
-    // Плавное затухание в нижней части секции для аккуратного перетекания
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 300px;
-      background: linear-gradient(
-        180deg,
-        transparent 0%,
-        rgba(18, 13, 26, 0.2) 20%,
-        rgba(18, 13, 26, 0.5) 50%,
-        rgba(18, 13, 26, 0.8) 80%,
-        rgba(18, 13, 26, 1) 100%
-      );
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      pointer-events: none;
-      z-index: 2; // Поверх медиа, но под контентом
-    }
   }
   
   &__content {
