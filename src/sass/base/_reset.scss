@@ -49,11 +49,13 @@ body {
     z-index: -1;
     pointer-events: none;
     background: 
-      radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.12) 0%, transparent 60%),
-      radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.1) 0%, transparent 70%);
+      radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.12) 0%, transparent 60%),
+      radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.1) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.08) 0%, transparent 70%);
     background-attachment: fixed;
-    animation: cyber-gradient-move 20s ease-in-out infinite;
+    background-size: 400% 400%;
+    animation: cyber-gradient-smooth 60s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    opacity: 1;
   }
 }
 
@@ -173,35 +175,17 @@ input, textarea, select {
 // АНИМАЦИЯ КИБЕР ГРАДИЕНТА
 // ============================================
 
-@keyframes cyber-gradient-move {
+@keyframes cyber-gradient-smooth {
   0% {
-    background: 
-      radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.12) 0%, transparent 60%),
-      radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.1) 0%, transparent 70%);
+    background-position: 0% 0%;
   }
-  25% {
-    background: 
-      radial-gradient(circle at 30% 40%, rgba(59, 130, 246, 0.18) 0%, transparent 60%),
-      radial-gradient(circle at 70% 60%, rgba(192, 38, 211, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 60% 40%, rgba(34, 211, 238, 0.12) 0%, transparent 70%);
+  33.33% {
+    background-position: 100% 33%;
   }
-  50% {
-    background: 
-      radial-gradient(circle at 80% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 20% 50%, rgba(192, 38, 211, 0.12) 0%, transparent 60%),
-      radial-gradient(circle at 50% 70%, rgba(34, 211, 238, 0.1) 0%, transparent 70%);
-  }
-  75% {
-    background: 
-      radial-gradient(circle at 40% 70%, rgba(59, 130, 246, 0.18) 0%, transparent 60%),
-      radial-gradient(circle at 60% 30%, rgba(192, 38, 211, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 30% 50%, rgba(34, 211, 238, 0.12) 0%, transparent 70%);
+  66.66% {
+    background-position: 33% 100%;
   }
   100% {
-    background: 
-      radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.12) 0%, transparent 60%),
-      radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.1) 0%, transparent 70%);
+    background-position: 0% 0%;
   }
 }
