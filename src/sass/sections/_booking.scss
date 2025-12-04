@@ -66,16 +66,10 @@
     max-width: 1400px;
     margin: 0 auto;
     
-    // Планшеты: две колонки
+    // От 768px: кастомная раскладка - первая строка Langame на всю ширину, вторая строка Phone и VK
     @include respond-to(md) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: $spacing-3xl;
-    }
-    
-    // Десктоп: первая строка - Langame на всю ширину, вторая строка - Phone и VK
-    @include respond-to(lg) {
       grid-template-columns: repeat(4, 1fr);
-      gap: $spacing-4xl;
+      gap: $spacing-3xl;
       
       // Langame карточка на всю ширину первой строки
       .tgg-booking__option--langame {
