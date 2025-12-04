@@ -54,18 +54,18 @@ $vr_phone = get_field('vr_phone') ?: '+7 912 068-34-17';
                 </div>
                 
                 <div class="tgg-vr__contacts">
+                    <?php if ($vr_link) : ?>
+                        <a href="<?php echo esc_url($vr_link); ?>" target="_blank" rel="noopener noreferrer" class="tgg-btn-fire">
+                            ВКонтакте арены
+                        </a>
+                    <?php endif; ?>
+                    
                     <?php if ($vr_phone) : ?>
                         <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $vr_phone)); ?>" class="tgg-footer-cta__phone">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2"/>
                             </svg>
                             <?php echo esc_html($vr_phone); ?>
-                        </a>
-                    <?php endif; ?>
-                    
-                    <?php if ($vr_link) : ?>
-                        <a href="<?php echo esc_url($vr_link); ?>" target="_blank" rel="noopener noreferrer" class="tgg-btn-fire">
-                            ВКонтакте арены
                         </a>
                     <?php endif; ?>
                 </div>

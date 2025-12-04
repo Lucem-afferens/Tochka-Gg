@@ -94,12 +94,15 @@
   &__phone {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: $spacing-sm;
     font-family: $font-body;
     font-size: $font-size-lg;
     font-weight: $font-weight-body-semibold;
     color: $color-text-primary;
     text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
     padding: $spacing-md $spacing-xl;
     border: $border-width-medium solid rgba(59, 130, 246, 0.3);
     border-radius: $border-radius-md;
