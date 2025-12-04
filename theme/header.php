@@ -90,10 +90,19 @@ if (!defined('ABSPATH')) {
                 
                 <?php
                 // Кнопка бронирования
-                $booking_link = function_exists('get_field') ? get_field('booking_link', 'option') : '#booking';
                 $booking_text = function_exists('get_field') ? get_field('booking_button_text', 'option') : 'Забронировать место';
+                $booking_link = function_exists('get_field') ? get_field('booking_link', 'option') : null;
+                
+                // Если ссылка не задана в ACF, используем автоматический поиск страницы бронирования
+                if (!$booking_link || $booking_link === '#booking') {
+                    if (function_exists('tochkagg_get_page_url')) {
+                        $booking_link = tochkagg_get_page_url('booking', home_url('/бронирование/'));
+                    } else {
+                        $booking_link = home_url('/бронирование/');
+                    }
+                }
                 ?>
-                <a href="<?php echo esc_url($booking_link ?: '#booking'); ?>" class="tgg-header__booking tgg-btn-primary">
+                <a href="<?php echo esc_url($booking_link); ?>" class="tgg-header__booking tgg-btn-primary">
                     <?php echo esc_html($booking_text ?: 'Забронировать место'); ?>
                 </a>
             </div>

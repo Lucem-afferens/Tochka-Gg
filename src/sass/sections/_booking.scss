@@ -1,0 +1,198 @@
+/**
+ * Booking Section Styles
+ */
+
+.tgg-booking {
+  padding: $spacing-5xl 0;
+  background: transparent;
+  position: relative;
+  
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-5xl;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  &__title {
+    font-family: $font-heading;
+    font-size: $font-size-h1;
+    font-weight: $font-weight-heading-bold;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-lg;
+    text-shadow: 
+      0 0 25px rgba(59, 130, 246, 0.9),
+      0 0 40px rgba(59, 130, 246, 0.6),
+      0 0 30px rgba(239, 68, 68, 0.6),
+      0 0 45px rgba(239, 68, 68, 0.3);
+    transition: text-shadow 0.3s ease;
+    
+    &:hover {
+      text-shadow: 
+        0 0 35px rgba(59, 130, 246, 1),
+        0 0 60px rgba(30, 144, 255, 0.8),
+        0 0 40px rgba(239, 68, 68, 0.8),
+        0 0 60px rgba(239, 68, 68, 0.5),
+        0 0 80px rgba(220, 38, 38, 0.3);
+    }
+  }
+  
+  &__description {
+    font-family: $font-body;
+    font-size: $font-size-lg;
+    line-height: $line-height-relaxed;
+    color: $color-text-secondary;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  &__options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-3xl;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: $spacing-2xl;
+    }
+  }
+  
+  &__option {
+    @include glassmorphism-accent($color-primary);
+    border-radius: $border-radius-xl;
+    padding: $spacing-3xl $spacing-2xl;
+    text-align: center;
+    transition: all $duration-normal $ease-out-cubic;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: visible;
+    width: 100%;
+    max-width: 100%;
+    
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 
+        0 12px 40px rgba(59, 130, 246, 0.5),
+        0 0 60px rgba(59, 130, 246, 0.3),
+        0 0 30px rgba(239, 68, 68, 0.3),
+        0 0 50px rgba(239, 68, 68, 0.15);
+    }
+    
+    &--langame {
+      // Специальный стиль для Langame опции
+      @include glassmorphism-accent($color-fire-orange);
+      
+      &:hover {
+        box-shadow: 
+          0 12px 40px rgba(255, 107, 53, 0.5),
+          0 0 60px rgba(255, 107, 53, 0.3),
+          0 0 30px rgba(247, 44, 37, 0.3),
+          0 0 50px rgba(247, 44, 37, 0.15);
+      }
+    }
+  }
+  
+  &__option-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto $spacing-xl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-primary;
+    position: relative;
+    
+    svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
+      transition: filter $duration-normal ease;
+    }
+    
+    .tgg-booking__option--langame & {
+      color: $color-fire-orange;
+      
+      svg {
+        filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.5));
+      }
+    }
+    
+    .tgg-booking__option:hover & svg {
+      filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.8));
+      
+      .tgg-booking__option--langame & {
+        filter: drop-shadow(0 0 25px rgba(255, 107, 53, 0.8));
+      }
+    }
+  }
+  
+  &__option-title {
+    font-family: $font-heading;
+    font-size: $font-size-h3;
+    font-weight: $font-weight-heading-regular;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  &__option-description {
+    font-family: $font-body;
+    font-size: $font-size-base;
+    line-height: $line-height-relaxed;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-2xl;
+    flex: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  &__option-button {
+    width: 100%;
+    max-width: 280px;
+    margin-bottom: $spacing-lg;
+  }
+  
+  &__option-links {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    width: 100%;
+    max-width: 280px;
+    margin-top: $spacing-md;
+    
+    @include respond-to(sm) {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+  
+  &__option-link {
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    text-decoration: none;
+    transition: color $duration-normal ease;
+    word-wrap: break-word;
+    
+    &:hover {
+      color: $color-primary;
+      text-decoration: underline;
+    }
+  }
+}
+

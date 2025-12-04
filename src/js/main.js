@@ -15,6 +15,7 @@ import { initMap } from './modules/map.js';
 import { initForms } from './modules/forms.js';
 import { initSliders } from './modules/slider.js';
 import { initEquipmentGalleries } from './modules/equipment-gallery.js';
+import { initLangameBooking } from './modules/booking.js';
 
 // ============================================
 // INITIALIZATION
@@ -42,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Галереи оборудования
   if (document.querySelector('.tgg-equipment-full__gallery-slider')) {
     initEquipmentGalleries();
+  }
+  
+  // Бронирование через Langame
+  if (document.getElementById('langame-booking-btn')) {
+    initLangameBooking();
   }
   
   console.log('✅ Tochka Gg theme initialized');
