@@ -7,7 +7,9 @@
 // Переменные и миксины импортируются в главном файле style.scss
 
 .tgg-footer {
-  background: $color-bg-secondary;
+  background: rgba(26, 21, 36, 0.7); // Полупрозрачный фон для визуального разделения
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-top: $border-width-thin solid rgba(59, 130, 246, 0.1);
   box-shadow: 0 -2px 20px rgba(239, 68, 68, 0.05);
   padding: $spacing-3xl 0 $spacing-xl;

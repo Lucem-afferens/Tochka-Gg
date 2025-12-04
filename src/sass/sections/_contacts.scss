@@ -4,7 +4,7 @@
 
 .tgg-contacts {
   padding: $spacing-5xl 0;
-  background: $color-bg-secondary;
+  background: transparent; // Прозрачный фон, чтобы был виден фон body
   
   &__wrapper {
     display: grid;

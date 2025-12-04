@@ -4,22 +4,8 @@
 
 .tgg-advantages {
   padding: $spacing-5xl 0;
-  background: $color-bg-secondary;
+  background: transparent; // Прозрачный фон, чтобы был виден фон body
   position: relative;
-  
-  // Легкий красно-фиолетовый оттенок
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      radial-gradient(circle at 100% 50%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
   
   &__items {
     position: relative;

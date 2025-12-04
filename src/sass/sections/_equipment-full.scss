@@ -4,7 +4,7 @@
 
 .tgg-equipment-full {
   padding: $spacing-5xl 0;
-  background: $color-bg-primary;
+  background: transparent; // Прозрачный фон, чтобы был виден фон body
   
   &__title {
     font-family: $font-heading;
