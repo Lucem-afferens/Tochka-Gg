@@ -64,53 +64,86 @@ $footer_services = [
     ['title' => 'Бронирование', 'url' => function_exists('tochkagg_get_page_url') ? tochkagg_get_page_url('booking') : '#'],
 ];
 
-// Информационные ссылки
+// Информационные ссылки - ищем страницы по шаблонам или slug
 $footer_info_links = [];
-if (function_exists('tochkagg_get_page_url')) {
-    // Пытаемся найти страницы по slug
-    $pages_slugs = [
-        'privacy' => 'Политика конфиденциальности',
-        'terms' => 'Пользовательское соглашение',
-        'rules' => 'Правила клуба',
-        'faq' => 'FAQ',
-        'политика-конфиденциальности' => 'Политика конфиденциальности',
-        'пользовательское-соглашение' => 'Пользовательское соглашение',
-        'правила-клуба' => 'Правила клуба',
-    ];
-    
-    foreach ($pages_slugs as $slug => $title) {
+
+// Функция для поиска страницы по шаблону
+function tochkagg_find_page_by_template($template_name) {
+    $pages = get_pages([
+        'meta_key' => '_wp_page_template',
+        'meta_value' => $template_name,
+        'post_status' => 'publish',
+        'number' => 1,
+    ]);
+    return !empty($pages) ? $pages[0] : null;
+}
+
+// Функция для поиска страницы по slug или названию
+function tochkagg_find_page_by_slugs($slugs, $title) {
+    foreach ($slugs as $slug) {
         $page = get_page_by_path($slug);
         if ($page && $page->post_status === 'publish') {
-            $footer_info_links[] = [
-                'title' => $title,
-                'url' => get_permalink($page->ID),
-            ];
-            // Удаляем из массива, чтобы не дублировать
-            if ($title === 'Правила клуба') break;
+            return $page;
         }
     }
     
-    // Если страницы не найдены, используем заглушки с якорями
-    if (empty($footer_info_links)) {
-        $footer_info_links = [
-            ['title' => 'Политика конфиденциальности', 'url' => '#privacy'],
-            ['title' => 'Пользовательское соглашение', 'url' => '#terms'],
-            ['title' => 'Правила клуба', 'url' => '#rules'],
-            ['title' => 'FAQ', 'url' => '#faq'],
-        ];
-    } else {
-        // Добавляем FAQ отдельно
-        $faq_page = get_page_by_path('faq') ?: get_page_by_path('частые-вопросы') ?: get_page_by_path('вопросы');
-        if ($faq_page && $faq_page->post_status === 'publish') {
-            $footer_info_links[] = [
-                'title' => 'FAQ',
-                'url' => get_permalink($faq_page->ID),
-            ];
-        } else {
-            $footer_info_links[] = ['title' => 'FAQ', 'url' => '#faq'];
+    // Поиск по названию
+    $pages = get_pages([
+        'post_status' => 'publish',
+        'number' => 50,
+    ]);
+    
+    foreach ($pages as $page) {
+        if (trim($page->post_title) === trim($title)) {
+            return $page;
         }
     }
-} else {
+    
+    return null;
+}
+
+// Политика конфиденциальности
+$privacy_page = tochkagg_find_page_by_template('template-privacy.php') 
+    ?: tochkagg_find_page_by_slugs(['privacy', 'политика-конфиденциальности', 'политика'], 'Политика конфиденциальности');
+if ($privacy_page) {
+    $footer_info_links[] = [
+        'title' => 'Политика конфиденциальности',
+        'url' => get_permalink($privacy_page->ID),
+    ];
+}
+
+// Пользовательское соглашение
+$terms_page = tochkagg_find_page_by_template('template-terms.php')
+    ?: tochkagg_find_page_by_slugs(['terms', 'пользовательское-соглашение', 'соглашение'], 'Пользовательское соглашение');
+if ($terms_page) {
+    $footer_info_links[] = [
+        'title' => 'Пользовательское соглашение',
+        'url' => get_permalink($terms_page->ID),
+    ];
+}
+
+// Правила клуба
+$rules_page = tochkagg_find_page_by_template('template-rules.php')
+    ?: tochkagg_find_page_by_slugs(['rules', 'правила-клуба', 'правила'], 'Правила клуба');
+if ($rules_page) {
+    $footer_info_links[] = [
+        'title' => 'Правила клуба',
+        'url' => get_permalink($rules_page->ID),
+    ];
+}
+
+// FAQ
+$faq_page = tochkagg_find_page_by_template('template-faq.php')
+    ?: tochkagg_find_page_by_slugs(['faq', 'частые-вопросы', 'вопросы', 'часто-задаваемые-вопросы'], 'FAQ');
+if ($faq_page) {
+    $footer_info_links[] = [
+        'title' => 'FAQ',
+        'url' => get_permalink($faq_page->ID),
+    ];
+}
+
+// Если страницы не найдены, используем заглушки
+if (empty($footer_info_links)) {
     $footer_info_links = [
         ['title' => 'Политика конфиденциальности', 'url' => '#privacy'],
         ['title' => 'Пользовательское соглашение', 'url' => '#terms'],
