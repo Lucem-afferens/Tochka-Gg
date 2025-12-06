@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 
 $phone = get_field('phone_main', 'option') ?: '8 (992) 222-62-72';
 $email = get_field('email_main', 'option') ?: 'vr.kungur@mail.ru';
-$telegram = get_field('telegram_username', 'option') ?: '@TochkaGg_Kungur';
+$telegram = get_field('telegram_username', 'option') ?: '@tochaGgKungur';
 $address = get_field('address_full', 'option') ?: 'Пермский край, г. Кунгур, ул. Голованова, 43, вход с торца здания, цокольный этаж';
 $working_hours = get_field('working_hours', 'option') ?: 'Круглосуточно, без выходных';
 $map_lat = get_field('map_latitude', 'option') ?: '57.424953';
