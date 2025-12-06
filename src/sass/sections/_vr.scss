@@ -149,6 +149,7 @@
       }
       
       &:hover {
+        color: $color-primary;
         border-color: rgba(59, 130, 246, 1);
         background: rgba(59, 130, 246, 0.2);
         transform: translateY(-4px);
@@ -158,6 +159,7 @@
           0 0 25px rgba(239, 68, 68, 0.4),
           0 0 45px rgba(239, 68, 68, 0.2);
         filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.8));
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
       }
     }
   }
