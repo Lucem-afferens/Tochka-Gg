@@ -75,10 +75,21 @@
     grid-template-columns: repeat(2, 1fr);
     gap: $spacing-xl $spacing-2xl;
     text-align: left; // На таблетках выравниваем по левому краю
+    
+    // На планшетах информационные ссылки и контакты в одной колонке
+    .tgg-footer__col--info {
+      grid-column: 2;
+      grid-row: 1 / 3;
+    }
+    
+    .tgg-footer__col--contacts {
+      grid-column: 2;
+      grid-row: 2 / 3;
+    }
   }
   
   @include respond-to(md) {
-    grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+    grid-template-columns: 2fr 1fr 1.5fr;
     gap: $spacing-3xl;
     text-align: left;
   }

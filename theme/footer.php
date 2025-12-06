@@ -217,41 +217,7 @@ if (empty($footer_info_links)) {
                 <?php endif; ?>
             </div>
             
-            <!-- Колонка 2: Навигация -->
-            <?php if (!empty($footer_menu_items)) : ?>
-                <div class="tgg-footer__col tgg-footer__col--nav">
-                    <h3 class="tgg-footer__col-title">Навигация</h3>
-                    <nav class="tgg-footer__nav" role="navigation" aria-label="<?php esc_attr_e('Футер меню', 'tochkagg'); ?>">
-                        <ul class="tgg-footer__nav-list">
-                            <?php foreach ($footer_menu_items as $item) : ?>
-                                <li>
-                                    <a href="<?php echo esc_url($item['url']); ?>" class="tgg-footer__nav-link">
-                                        <?php echo esc_html($item['title']); ?>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </nav>
-                </div>
-            <?php endif; ?>
-            
-            <!-- Колонка 3: Услуги -->
-            <div class="tgg-footer__col tgg-footer__col--services">
-                <h3 class="tgg-footer__col-title">Наши услуги</h3>
-                <ul class="tgg-footer__nav-list">
-                    <?php foreach ($footer_services as $service) : ?>
-                        <?php if (!empty($service['url']) && $service['url'] !== '#') : ?>
-                            <li>
-                                <a href="<?php echo esc_url($service['url']); ?>" class="tgg-footer__nav-link">
-                                    <?php echo esc_html($service['title']); ?>
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            
-            <!-- Колонка 4: Информация -->
+            <!-- Колонка 2: Информация -->
             <div class="tgg-footer__col tgg-footer__col--info">
                 <h3 class="tgg-footer__col-title">Информация</h3>
                 <ul class="tgg-footer__nav-list">
@@ -265,7 +231,7 @@ if (empty($footer_info_links)) {
                 </ul>
             </div>
             
-            <!-- Колонка 5: Контакты -->
+            <!-- Колонка 3: Контакты -->
             <div class="tgg-footer__col tgg-footer__col--contacts">
                 <h3 class="tgg-footer__col-title">Контакты</h3>
                 <div class="tgg-footer__contacts">
