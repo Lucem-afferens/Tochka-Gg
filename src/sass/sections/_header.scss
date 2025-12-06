@@ -790,9 +790,61 @@
   
   @media (max-width: 1023px) {
     justify-content: center;
-    padding: $spacing-md;
+    padding: $spacing-md $spacing-lg;
     font-size: $font-size-base;
     width: 100%;
+    border-radius: $border-radius-md;
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    
+    // Анимированный фон при hover
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(59, 130, 246, 0.1) 0%,
+        rgba(34, 211, 238, 0.1) 50%,
+        rgba(59, 130, 246, 0.1) 100%
+      );
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 0;
+    }
+    
+    svg {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .tgg-header__phone-text {
+      position: relative;
+      z-index: 1;
+    }
+    
+    &:hover {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 
+        0 4px 20px rgba(59, 130, 246, 0.4),
+        0 0 30px rgba(34, 211, 238, 0.3);
+      
+      &::before {
+        opacity: 1;
+        animation: phone-bg-shine 2s ease-in-out infinite;
+      }
+      
+      svg {
+        filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.8));
+        animation: phone-icon-pulse 1.5s ease-in-out infinite;
+      }
+    }
     
     @include max-width(xs) {
       padding: $spacing-sm $spacing-md;
@@ -803,14 +855,28 @@
         height: 16px;
       }
     }
-    width: 100%;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    border-radius: $border-radius-md;
-    
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.4);
-      background: rgba(59, 130, 246, 0.05);
-    }
+  }
+}
+
+// Анимация фона телефона
+@keyframes phone-bg-shine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Пульсация иконки телефона
+@keyframes phone-icon-pulse {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.8));
+  }
+  50% {
+    transform: rotate(5deg) scale(1.1);
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 1));
   }
 }
 
@@ -830,6 +896,45 @@
     justify-content: center;
     padding: $spacing-md $spacing-xl;
     font-size: $font-size-base;
+    position: relative;
+    overflow: hidden;
+    
+    // Дополнительное свечение для кнопки в меню
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 107, 53, 0.3) 0%,
+        rgba(247, 44, 37, 0.3) 50%,
+        rgba(255, 107, 53, 0.3) 100%
+      );
+      background-size: 200% 200%;
+      border-radius: inherit;
+      opacity: 0;
+      z-index: -1;
+      animation: booking-glow-border 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    
+    &:hover {
+      &::before {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+// Свечение границы кнопки бронирования
+@keyframes booking-glow-border {
+  0%, 100% {
+    opacity: 0;
+    background-position: 0% 50%;
+  }
+  50% {
+    opacity: 0.8;
+    background-position: 100% 50%;
   }
 }
 
