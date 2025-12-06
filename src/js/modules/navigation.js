@@ -23,6 +23,21 @@ export function initNavigation() {
   // Сохраняем позицию скролла перед блокировкой
   let scrollPosition = 0;
   
+  // Функция закрытия меню
+  function closeMenu() {
+    nav.classList.remove('active');
+    burger.classList.remove('active');
+    burger.setAttribute('aria-expanded', 'false');
+    
+    // Разблокируем скролл
+    if (window.innerWidth <= 1023) {
+      document.body.classList.remove('menu-open');
+      document.documentElement.classList.remove('menu-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollPosition);
+    }
+  }
+  
   burger.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -79,21 +94,6 @@ export function initNavigation() {
       }
     }
   });
-  
-  // Функция закрытия меню
-  function closeMenu() {
-    nav.classList.remove('active');
-    burger.classList.remove('active');
-    burger.setAttribute('aria-expanded', 'false');
-    
-    // Разблокируем скролл
-    if (window.innerWidth <= 1023) {
-      document.body.classList.remove('menu-open');
-      document.documentElement.classList.remove('menu-open');
-      document.body.style.top = '';
-      window.scrollTo(0, scrollPosition);
-    }
-  }
   
   // Закрытие меню при нажатии Escape
   document.addEventListener('keydown', (e) => {
