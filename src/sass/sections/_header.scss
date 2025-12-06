@@ -455,30 +455,29 @@
     box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
   }
   
-  // Кибер-эффект: светящаяся линия слева при hover с фиолетово-красными акцентами
+  // Кибер-эффект: горизонтальная линия снизу при hover/active
   &::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%) scaleY(0);
-    width: 3px;
-    height: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 0;
+    height: 2px;
     background: linear-gradient(
-      180deg,
+      90deg,
       rgba(59, 130, 246, 1) 0%,
       rgba(192, 38, 211, 1) 50%,
       rgba(239, 68, 68, 1) 100%
     );
-    background-size: 100% 200%;
+    background-size: 200% 100%;
     border-radius: $border-radius-full;
     box-shadow: 
-      0 0 10px rgba(59, 130, 246, 0.8),
-      0 0 15px rgba(192, 38, 211, 0.6),
-      0 0 20px rgba(239, 68, 68, 0.4);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      0 0 8px rgba(59, 130, 246, 0.6),
+      0 0 12px rgba(192, 38, 211, 0.5),
+      0 0 16px rgba(239, 68, 68, 0.4);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
-    animation: line-gradient-shift 3s ease-in-out infinite;
   }
   
   @media (max-width: 1023px) {
@@ -491,13 +490,11 @@
     position: relative;
     
     &::after {
-      display: none; // Убираем нижнее подчеркивание на мобильных
+      display: none; // Убираем нижнее подчеркивание на мобильных (старое)
     }
     
     &::before {
-      display: block; // Показываем линию на мобильных
-      left: 50%; // Центрируем линию
-      transform: translateX(-50%) translateY(-50%) scaleY(0); // Центрирование по X и Y
+      display: block; // Показываем горизонтальную линию на мобильных
     }
     
     // Кибер-фон при hover с фиолетово-красными акцентами
@@ -563,15 +560,15 @@
         0 0 6px rgba(192, 38, 211, 0.2);
       
       &::before {
-        transform: translateX(-50%) translateY(-50%) scaleY(1); // Центрированная линия
-        height: 70%;
-        width: 2px; // Тоньше линия
-        opacity: 0.6; // Мягче видимость
+        // Горизонтальная анимированная линия под текстом
+        transform: translateX(-50%) scaleX(1);
+        width: 70%; // Ширина линии
+        opacity: 0.7; // Мягкая видимость
         box-shadow: 
-          0 0 8px rgba(59, 130, 246, 0.5),
-          0 0 12px rgba(192, 38, 211, 0.4),
-          0 0 16px rgba(239, 68, 68, 0.3);
-        animation: line-pulse-active-soft 3s ease-in-out infinite;
+          0 0 6px rgba(59, 130, 246, 0.5),
+          0 0 10px rgba(192, 38, 211, 0.4),
+          0 0 14px rgba(239, 68, 68, 0.3);
+        animation: underline-expand 0.5s ease-out, underline-pulse-soft 3s ease-in-out infinite 0.5s, underline-shine 3s ease-in-out infinite;
       }
     }
   }
