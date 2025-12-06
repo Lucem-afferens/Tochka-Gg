@@ -181,6 +181,16 @@
   }
 }
 
+// Блеск градиента для полосы
+@keyframes gradient-shine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 // Мигание (для важных элементов)
 @keyframes blink {
   0%, 50%, 100% {

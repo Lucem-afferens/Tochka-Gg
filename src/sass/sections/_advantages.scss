@@ -76,12 +76,13 @@
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
+      width: 0;
       height: 3px;
       background: linear-gradient(90deg, $color-primary 0%, rgba(239, 68, 68, 0.8) 50%, $color-primary 100%);
       background-size: 200% 100%;
-      transform: scaleX(0);
-      transition: transform $duration-normal $ease-out-cubic;
+      border-radius: $border-radius-lg $border-radius-lg 0 0;
+      transition: width $duration-normal $ease-out-cubic;
+      z-index: 1;
     }
     
     &:hover {
@@ -94,7 +95,8 @@
         0 0 50px rgba(239, 68, 68, 0.15);
       
       &::before {
-        transform: scaleX(1);
+        width: 100%;
+        animation: gradient-shine 2s ease-in-out infinite;
       }
       
       .tgg-advantages__item-icon-glow {
