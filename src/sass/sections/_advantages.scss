@@ -61,7 +61,7 @@
     padding: $spacing-2xl;
     text-align: center;
     transition: all $duration-normal $ease-out-cubic;
-    overflow: visible; // Разрешаем видимость
+    overflow: hidden; // Нужен для радужного перелива
     width: 100%;
     max-width: 100%;
     min-width: 0; // Предотвращает переполнение в grid
@@ -71,17 +71,31 @@
     align-items: center;
     min-height: 320px; // Минимальная высота для вмещения всего контента
     
+    // Радужный перелив при hover
     &::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 3px;
-      background: linear-gradient(90deg, $color-primary 0%, rgba(239, 68, 68, 0.8) 50%, $color-primary 100%);
-      background-size: 200% 100%;
-      border-radius: $border-radius-lg $border-radius-lg 0 0;
-      transition: width $duration-normal $ease-out-cubic;
+      inset: -2px;
+      background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.4) 0%,
+        rgba(192, 38, 211, 0.4) 25%,
+        rgba(239, 68, 68, 0.4) 50%,
+        rgba(34, 211, 238, 0.4) 75%,
+        rgba(59, 130, 246, 0.4) 100%
+      );
+      background-size: 300% 300%;
+      border-radius: $border-radius-lg;
+      opacity: 0;
+      transition: opacity $duration-normal $ease-out-cubic;
+      z-index: 0;
+      animation: rainbow-shine 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    
+    // Контент должен быть выше радужного фона
+    > * {
+      position: relative;
       z-index: 1;
     }
     
@@ -95,12 +109,24 @@
         0 0 50px rgba(239, 68, 68, 0.15);
       
       &::before {
-        width: 100%;
-        animation: gradient-shine 2s ease-in-out infinite;
+        opacity: 1;
       }
       
       .tgg-advantages__item-icon-glow {
         opacity: 1;
+      }
+    }
+    
+    // Порядок карточек для десктопа: Поддержка, Высокая производительность, Комфорт
+    @include respond-to(md) {
+      &[data-index="0"] {
+        order: 1; // Высокая производительность - в середину
+      }
+      &[data-index="1"] {
+        order: 0; // Поддержка - первая
+      }
+      &[data-index="2"] {
+        order: 2; // Комфорт - последняя
       }
     }
     

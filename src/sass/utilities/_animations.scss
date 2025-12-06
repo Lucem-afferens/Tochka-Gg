@@ -191,6 +191,19 @@
   }
 }
 
+// Радужный перелив для карточек
+@keyframes rainbow-shine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 // Мигание (для важных элементов)
 @keyframes blink {
   0%, 50%, 100% {
