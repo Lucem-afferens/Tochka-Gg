@@ -177,29 +177,7 @@
       padding: $spacing-3xl $spacing-md;
     }
     
-    // Кибер-сетка на фоне мобильного меню с фиолетово-красными акцентами
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: 
-        linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px),
-        linear-gradient(rgba(192, 38, 211, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(192, 38, 211, 0.06) 1px, transparent 1px),
-        linear-gradient(rgba(239, 68, 68, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(239, 68, 68, 0.04) 1px, transparent 1px),
-        linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
-      background-size: 25px 25px, 25px 25px, 30px 30px, 30px 30px, 40px 40px, 40px 40px, 50px 50px, 50px 50px;
-      opacity: 0.4;
-      pointer-events: none;
-      animation: grid-move 20s linear infinite, grid-pulse 3s ease-in-out infinite;
-      z-index: 0;
-    }
+    // Сетка убрана по запросу
     
     // Градиентная граница сверху с фиолетово-красными акцентами
     &::after {
@@ -258,11 +236,7 @@
         inset 0 0 300px rgba(192, 38, 211, 0.08),
         inset 0 0 400px rgba(239, 68, 68, 0.05);
       
-      // Яркая анимированная сетка
-      &::before {
-        opacity: 0.8;
-        animation: grid-move 15s linear infinite, grid-pulse 2s ease-in-out infinite, grid-glow 4s ease-in-out infinite;
-      }
+      // Сетка убрана по запросу
       
       // Яркая анимированная граница с фиолетово-красными акцентами
       &::after {
@@ -745,53 +719,89 @@
     }
   }
   
-  // Активное состояние (открыто) - КРАСИВЫЙ КРЕСТИК
+  // Активное состояние (открыто) - НОВЫЙ ДИЗАЙН КРЕСТИКА
   &.active {
-    border-color: rgba(192, 38, 211, 0.8);
-    background: rgba(26, 21, 36, 0.9);
+    border-color: rgba(239, 68, 68, 0.8);
+    background: linear-gradient(
+      135deg,
+      rgba(26, 21, 36, 0.95) 0%,
+      rgba(30, 15, 25, 0.95) 100%
+    );
     box-shadow: 
-      0 0 25px rgba(59, 130, 246, 0.6),
-      0 0 40px rgba(192, 38, 211, 0.5),
-      0 0 60px rgba(239, 68, 68, 0.3);
+      0 0 30px rgba(239, 68, 68, 0.7),
+      0 0 50px rgba(192, 38, 211, 0.5),
+      0 0 70px rgba(239, 68, 68, 0.3),
+      inset 0 0 20px rgba(239, 68, 68, 0.1);
     
     &::before {
       opacity: 1;
-      animation: burger-outline-glow-active 2s ease-in-out infinite;
+      background: linear-gradient(
+        135deg,
+        rgba(239, 68, 68, 0.4) 0%,
+        rgba(192, 38, 211, 0.4) 50%,
+        rgba(239, 68, 68, 0.4) 100%
+      );
+      background-size: 200% 200%;
+      animation: burger-close-outline-glow 2s ease-in-out infinite;
+      filter: blur(10px);
     }
     
     &::after {
       opacity: 1;
-      animation: burger-inner-glow 2s ease-in-out infinite;
+      background: radial-gradient(
+        circle at center,
+        rgba(239, 68, 68, 0.2) 0%,
+        rgba(192, 38, 211, 0.15) 50%,
+        transparent 100%
+      );
+      animation: burger-close-inner-glow 2s ease-in-out infinite;
     }
     
     span {
       background: linear-gradient(
-        135deg,
-        rgba(59, 130, 246, 1) 0%,
+        90deg,
+        rgba(239, 68, 68, 1) 0%,
+        rgba(239, 68, 68, 1) 30%,
         rgba(192, 38, 211, 1) 50%,
+        rgba(239, 68, 68, 1) 70%,
         rgba(239, 68, 68, 1) 100%
       );
-      box-shadow: 
-        0 0 15px rgba(59, 130, 246, 1),
-        0 0 25px rgba(192, 38, 211, 0.8),
-        0 0 35px rgba(239, 68, 68, 0.6);
-      width: 22px; // Немного уже для крестика
+      background-size: 200% 100%;
+      width: 24px;
+      height: 3px;
+      margin: 0;
+      position: absolute;
+      animation: close-line-shine 1.5s ease-in-out infinite;
       
-      // Крестик - правильная форма
+      // Крестик - новый дизайн (X)
       &:nth-child(1) {
-        transform: rotate(45deg) translate(0, 8px);
-        margin-bottom: 0;
+        transform: rotate(45deg);
+        top: 50%;
+        left: 50%;
+        margin-left: -12px;
+        margin-top: -1.5px;
+        box-shadow: 
+          0 0 10px rgba(239, 68, 68, 1),
+          0 0 20px rgba(192, 38, 211, 0.8),
+          0 0 30px rgba(239, 68, 68, 0.6);
       }
       
       &:nth-child(2) {
         opacity: 0;
-        transform: scaleX(0);
-        margin-bottom: 0;
+        transform: scale(0);
+        width: 0;
       }
       
       &:nth-child(3) {
-        transform: rotate(-45deg) translate(0, -8px);
-        margin-bottom: 0;
+        transform: rotate(-45deg);
+        top: 50%;
+        left: 50%;
+        margin-left: -12px;
+        margin-top: -1.5px;
+        box-shadow: 
+          0 0 10px rgba(239, 68, 68, 1),
+          0 0 20px rgba(192, 38, 211, 0.8),
+          0 0 30px rgba(239, 68, 68, 0.6);
       }
     }
   }
