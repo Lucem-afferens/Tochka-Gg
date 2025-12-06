@@ -177,7 +177,7 @@
       padding: $spacing-3xl $spacing-md;
     }
     
-    // Кибер-сетка на фоне мобильного меню (улучшенная)
+    // Кибер-сетка на фоне мобильного меню с фиолетово-красными акцентами
     &::before {
       content: '';
       position: absolute;
@@ -188,16 +188,20 @@
       background-image: 
         linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
         linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(192, 38, 211, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(192, 38, 211, 0.06) 1px, transparent 1px),
+        linear-gradient(rgba(239, 68, 68, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(239, 68, 68, 0.04) 1px, transparent 1px),
         linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
-      background-size: 25px 25px, 25px 25px, 50px 50px, 50px 50px;
+      background-size: 25px 25px, 25px 25px, 30px 30px, 30px 30px, 40px 40px, 40px 40px, 50px 50px, 50px 50px;
       opacity: 0.4;
       pointer-events: none;
       animation: grid-move 20s linear infinite, grid-pulse 3s ease-in-out infinite;
       z-index: 0;
     }
     
-    // Градиентная граница сверху (улучшенная)
+    // Градиентная граница сверху с фиолетово-красными акцентами
     &::after {
       content: '';
       position: absolute;
@@ -208,14 +212,20 @@
       background: linear-gradient(
         90deg,
         rgba(59, 130, 246, 0) 0%,
-        rgba(59, 130, 246, 0.8) 20%,
-        rgba(34, 211, 238, 0.9) 50%,
-        rgba(59, 130, 246, 0.8) 80%,
+        rgba(59, 130, 246, 0.8) 15%,
+        rgba(192, 38, 211, 0.9) 35%,
+        rgba(239, 68, 68, 0.9) 50%,
+        rgba(192, 38, 211, 0.9) 65%,
+        rgba(59, 130, 246, 0.8) 85%,
         rgba(59, 130, 246, 0) 100%
       );
+      background-size: 200% 100%;
       opacity: 0.5;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-      animation: border-scan 2s linear infinite;
+      box-shadow: 
+        0 0 20px rgba(59, 130, 246, 0.5),
+        0 0 30px rgba(192, 38, 211, 0.4),
+        0 0 40px rgba(239, 68, 68, 0.3);
+      animation: border-scan 2s linear infinite, border-pulse-color 3s ease-in-out infinite;
       z-index: 1;
     }
     
@@ -231,7 +241,9 @@
       background: linear-gradient(
         135deg,
         rgba(13, 15, 20, 0.98) 0%,
-        rgba(18, 13, 26, 0.98) 50%,
+        rgba(18, 13, 26, 0.98) 30%,
+        rgba(20, 10, 25, 0.98) 50%,
+        rgba(18, 13, 26, 0.98) 70%,
         rgba(13, 15, 20, 0.98) 100%
       );
       background-size: 200% 200%;
@@ -240,8 +252,11 @@
         -20px 0 60px rgba(0, 0, 0, 0.8),
         inset 0 0 200px rgba(59, 130, 246, 0.1),
         0 0 100px rgba(59, 130, 246, 0.2),
+        0 0 120px rgba(192, 38, 211, 0.2),
+        0 0 140px rgba(239, 68, 68, 0.15),
         0 0 150px rgba(34, 211, 238, 0.15),
-        inset 0 0 300px rgba(192, 38, 211, 0.05);
+        inset 0 0 300px rgba(192, 38, 211, 0.08),
+        inset 0 0 400px rgba(239, 68, 68, 0.05);
       
       // Яркая анимированная сетка
       &::before {
@@ -249,15 +264,17 @@
         animation: grid-move 15s linear infinite, grid-pulse 2s ease-in-out infinite, grid-glow 4s ease-in-out infinite;
       }
       
-      // Яркая анимированная граница
+      // Яркая анимированная граница с фиолетово-красными акцентами
       &::after {
         opacity: 1;
         height: 4px;
         box-shadow: 
           0 0 20px rgba(59, 130, 246, 1),
+          0 0 35px rgba(192, 38, 211, 0.9),
+          0 0 50px rgba(239, 68, 68, 0.8),
           0 0 40px rgba(34, 211, 238, 0.8),
           0 0 60px rgba(59, 130, 246, 0.6);
-        animation: border-scan 2s linear infinite, border-pulse 3s ease-in-out infinite;
+        animation: border-scan 2s linear infinite, border-pulse 3s ease-in-out infinite, border-pulse-color 4s ease-in-out infinite;
       }
       
       // Дополнительный слой свечения по краям
@@ -441,7 +458,7 @@
     box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
   }
   
-  // Кибер-эффект: светящаяся линия слева при hover (для мобильного меню)
+  // Кибер-эффект: светящаяся линия слева при hover с фиолетово-красными акцентами
   &::before {
     content: '';
     position: absolute;
@@ -450,11 +467,21 @@
     transform: translateY(-50%) scaleY(0);
     width: 3px;
     height: 0;
-    background: $gradient-primary;
+    background: linear-gradient(
+      180deg,
+      rgba(59, 130, 246, 1) 0%,
+      rgba(192, 38, 211, 1) 50%,
+      rgba(239, 68, 68, 1) 100%
+    );
+    background-size: 100% 200%;
     border-radius: $border-radius-full;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+    box-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.8),
+      0 0 15px rgba(192, 38, 211, 0.6),
+      0 0 20px rgba(239, 68, 68, 0.4);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
+    animation: line-gradient-shift 3s ease-in-out infinite;
   }
   
   @media (max-width: 1023px) {
@@ -473,12 +500,14 @@
       display: block; // Показываем левую линию на мобильных
     }
     
-    // Кибер-фон при hover - ЯРКИЙ ЭФФЕКТ
+    // Кибер-фон при hover с фиолетово-красными акцентами
     &:hover {
       background: linear-gradient(
         90deg,
         rgba(59, 130, 246, 0.15) 0%,
-        rgba(34, 211, 238, 0.12) 50%,
+        rgba(192, 38, 211, 0.12) 30%,
+        rgba(239, 68, 68, 0.1) 50%,
+        rgba(192, 38, 211, 0.12) 70%,
         rgba(59, 130, 246, 0.15) 100%
       );
       background-size: 200% 100%;
@@ -486,11 +515,15 @@
       transform: translateX(8px) scale(1.02);
       box-shadow: 
         0 4px 20px rgba(59, 130, 246, 0.3),
+        0 4px 25px rgba(192, 38, 211, 0.25),
+        0 4px 30px rgba(239, 68, 68, 0.2),
         0 0 30px rgba(34, 211, 238, 0.2),
-        inset 0 0 20px rgba(59, 130, 246, 0.1);
+        inset 0 0 20px rgba(192, 38, 211, 0.08);
       color: $color-primary-bright;
       text-shadow: 
         0 0 10px rgba(59, 130, 246, 0.8),
+        0 0 15px rgba(192, 38, 211, 0.6),
+        0 0 20px rgba(239, 68, 68, 0.4),
         0 0 20px rgba(34, 211, 238, 0.6);
       
       &::before {
@@ -499,8 +532,10 @@
         opacity: 1;
         box-shadow: 
           0 0 15px rgba(59, 130, 246, 1),
+          0 0 20px rgba(192, 38, 211, 0.9),
+          0 0 25px rgba(239, 68, 68, 0.7),
           0 0 25px rgba(34, 211, 238, 0.8);
-        animation: line-pulse 1.5s ease-in-out infinite;
+        animation: line-pulse 1.5s ease-in-out infinite, line-gradient-shift 2s ease-in-out infinite;
       }
     }
     
@@ -509,17 +544,22 @@
       background: linear-gradient(
         90deg,
         rgba(59, 130, 246, 0.2) 0%,
-        rgba(34, 211, 238, 0.18) 50%,
+        rgba(192, 38, 211, 0.18) 30%,
+        rgba(239, 68, 68, 0.15) 50%,
+        rgba(192, 38, 211, 0.18) 70%,
         rgba(59, 130, 246, 0.2) 100%
       );
       background-size: 200% 100%;
       animation: link-active-shine 2s ease-in-out infinite;
       box-shadow: 
         0 4px 25px rgba(59, 130, 246, 0.4),
+        0 4px 30px rgba(192, 38, 211, 0.35),
+        0 4px 35px rgba(239, 68, 68, 0.3),
         0 0 35px rgba(34, 211, 238, 0.3),
-        inset 0 0 25px rgba(59, 130, 246, 0.15);
+        inset 0 0 25px rgba(192, 38, 211, 0.12);
       text-shadow: 
         0 0 8px rgba(59, 130, 246, 0.6),
+        0 0 12px rgba(192, 38, 211, 0.5),
         0 0 15px rgba(34, 211, 238, 0.4);
       
       &::before {
@@ -528,9 +568,11 @@
         opacity: 1;
         box-shadow: 
           0 0 20px rgba(59, 130, 246, 1),
+          0 0 25px rgba(192, 38, 211, 1),
+          0 0 30px rgba(239, 68, 68, 0.8),
           0 0 30px rgba(34, 211, 238, 0.9),
           0 0 40px rgba(59, 130, 246, 0.6);
-        animation: line-pulse-active 2s ease-in-out infinite;
+        animation: line-pulse-active 2s ease-in-out infinite, line-gradient-shift 2.5s ease-in-out infinite;
       }
     }
   }
@@ -568,99 +610,188 @@
 .tgg-header__burger {
   display: none;
   flex-direction: column;
-  justify-content: space-between;
-  width: 36px;
-  height: 28px;
-  background: transparent;
-  border: none;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(26, 21, 36, 0.6);
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  border-radius: $border-radius-md;
   cursor: pointer;
-  padding: 0;
+  padding: 8px;
   z-index: 10000; // Поверх меню
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   @media (max-width: 1023px) {
     display: flex;
     position: relative;
   }
   
-  // Свечение вокруг бургера
+  // Внешнее свечение вокруг бургера (синий + фиолетовый + красный)
   &::before {
     content: '';
     position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      rgba(59, 130, 246, 0.15) 0%,
-      transparent 70%
+    inset: -4px;
+    border-radius: $border-radius-md;
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.3) 0%,
+      rgba(192, 38, 211, 0.3) 50%,
+      rgba(239, 68, 68, 0.3) 100%
     );
+    background-size: 200% 200%;
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: -1;
+    animation: burger-outline-glow 3s ease-in-out infinite;
+    filter: blur(8px);
+  }
+  
+  // Внутреннее свечение
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: $border-radius-sm;
+    background: radial-gradient(
+      circle at center,
+      rgba(59, 130, 246, 0.1) 0%,
+      rgba(192, 38, 211, 0.05) 50%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
   }
   
   span {
-    width: 100%;
-    height: 3px;
-    background: $color-text-secondary;
+    width: 24px;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      rgba(59, 130, 246, 1) 0%,
+      rgba(192, 38, 211, 1) 50%,
+      rgba(239, 68, 68, 1) 100%
+    );
+    background-size: 200% 100%;
     border-radius: $border-radius-full;
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     transform-origin: center;
     position: relative;
+    z-index: 1;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    animation: burger-line-shine 2s ease-in-out infinite;
     
+    // Свечение для каждой линии
     &::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: $color-primary;
+      inset: -2px;
+      background: linear-gradient(
+        90deg,
+        rgba(59, 130, 246, 0.8) 0%,
+        rgba(192, 38, 211, 0.8) 50%,
+        rgba(239, 68, 68, 0.8) 100%
+      );
       border-radius: inherit;
       opacity: 0;
       transition: opacity 0.3s ease;
-      box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+      filter: blur(4px);
+      z-index: -1;
+    }
+    
+    // Первая и вторая линия
+    &:nth-child(1) {
+      margin-bottom: 6px;
+    }
+    
+    &:nth-child(2) {
+      margin-bottom: 6px;
+    }
+    
+    // Третья линия без отступа
+    &:nth-child(3) {
+      margin-bottom: 0;
     }
   }
   
   &:hover {
+    border-color: rgba(192, 38, 211, 0.6);
+    background: rgba(26, 21, 36, 0.8);
+    transform: scale(1.05);
+    box-shadow: 
+      0 0 20px rgba(59, 130, 246, 0.4),
+      0 0 30px rgba(192, 38, 211, 0.3),
+      0 0 40px rgba(239, 68, 68, 0.2);
+    
     &::before {
+      opacity: 0.8;
+    }
+    
+    &::after {
       opacity: 1;
-      animation: burger-glow 1.5s ease-in-out infinite;
     }
     
     span {
-      background: $color-primary;
-      box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+      box-shadow: 
+        0 0 12px rgba(59, 130, 246, 0.8),
+        0 0 20px rgba(192, 38, 211, 0.6),
+        0 0 30px rgba(239, 68, 68, 0.4);
       
       &::before {
-        opacity: 0.3;
+        opacity: 1;
       }
     }
   }
   
-  // Активное состояние (открыто)
+  // Активное состояние (открыто) - КРАСИВЫЙ КРЕСТИК
   &.active {
+    border-color: rgba(192, 38, 211, 0.8);
+    background: rgba(26, 21, 36, 0.9);
+    box-shadow: 
+      0 0 25px rgba(59, 130, 246, 0.6),
+      0 0 40px rgba(192, 38, 211, 0.5),
+      0 0 60px rgba(239, 68, 68, 0.3);
+    
     &::before {
       opacity: 1;
-      animation: burger-glow-active 1s ease-in-out infinite;
+      animation: burger-outline-glow-active 2s ease-in-out infinite;
+    }
+    
+    &::after {
+      opacity: 1;
+      animation: burger-inner-glow 2s ease-in-out infinite;
     }
     
     span {
-      background: $color-primary;
+      background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 1) 0%,
+        rgba(192, 38, 211, 1) 50%,
+        rgba(239, 68, 68, 1) 100%
+      );
       box-shadow: 
-        0 0 10px rgba(59, 130, 246, 0.8),
-        0 0 20px rgba(59, 130, 246, 0.5);
+        0 0 15px rgba(59, 130, 246, 1),
+        0 0 25px rgba(192, 38, 211, 0.8),
+        0 0 35px rgba(239, 68, 68, 0.6);
+      width: 22px; // Немного уже для крестика
       
+      // Крестик - правильная форма
       &:nth-child(1) {
-        transform: rotate(45deg) translate(8px, 8px);
+        transform: rotate(45deg) translate(0, 8px);
+        margin-bottom: 0;
       }
       
       &:nth-child(2) {
         opacity: 0;
         transform: scaleX(0);
+        margin-bottom: 0;
       }
       
       &:nth-child(3) {
-        transform: rotate(-45deg) translate(8px, -8px);
+        transform: rotate(-45deg) translate(0, -8px);
+        margin-bottom: 0;
       }
     }
   }
@@ -668,6 +799,58 @@
   // Улучшенная анимация при нажатии
   &:active {
     transform: scale(0.95);
+  }
+}
+
+// Анимация свечения линий бургера
+@keyframes burger-line-shine {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+// Свечение внешнего контура бургера
+@keyframes burger-outline-glow {
+  0%, 100% {
+    opacity: 0;
+    background-position: 0% 50%;
+  }
+  50% {
+    opacity: 0.6;
+    background-position: 100% 50%;
+  }
+}
+
+// Активное свечение контура
+@keyframes burger-outline-glow-active {
+  0%, 100% {
+    opacity: 1;
+    background-position: 0% 50%;
+    box-shadow: 
+      0 0 20px rgba(59, 130, 246, 0.6),
+      0 0 30px rgba(192, 38, 211, 0.5),
+      0 0 40px rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    opacity: 1.2;
+    background-position: 100% 50%;
+    box-shadow: 
+      0 0 30px rgba(59, 130, 246, 0.8),
+      0 0 50px rgba(192, 38, 211, 0.7),
+      0 0 70px rgba(239, 68, 68, 0.6);
+  }
+}
+
+// Внутреннее свечение бургера
+@keyframes burger-inner-glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
@@ -694,7 +877,7 @@
     opacity: 1;
     visibility: visible;
     
-    // Яркий кибер-эффект для разделителя
+    // Яркий кибер-эффект для разделителя с фиолетово-красными акцентами
     &::before {
       content: '';
       position: absolute;
@@ -706,16 +889,21 @@
       background: linear-gradient(
         90deg,
         rgba(59, 130, 246, 0) 0%,
-        rgba(59, 130, 246, 0.8) 25%,
-        rgba(34, 211, 238, 1) 50%,
-        rgba(59, 130, 246, 0.8) 75%,
+        rgba(59, 130, 246, 0.8) 20%,
+        rgba(192, 38, 211, 0.9) 35%,
+        rgba(239, 68, 68, 0.9) 50%,
+        rgba(192, 38, 211, 0.9) 65%,
+        rgba(34, 211, 238, 1) 80%,
+        rgba(59, 130, 246, 0.8) 90%,
         rgba(59, 130, 246, 0) 100%
       );
       background-size: 200% 100%;
       box-shadow: 
         0 0 15px rgba(59, 130, 246, 0.8),
+        0 0 20px rgba(192, 38, 211, 0.7),
+        0 0 25px rgba(239, 68, 68, 0.6),
         0 0 25px rgba(34, 211, 238, 0.6);
-      animation: divider-scan 3s linear infinite;
+      animation: divider-scan 3s linear infinite, divider-color-pulse 4s ease-in-out infinite;
     }
     
     // Дополнительное свечение для действий
@@ -756,6 +944,16 @@
   }
   50% {
     opacity: 0.8;
+  }
+}
+
+// Пульсация цвета разделителя
+@keyframes divider-color-pulse {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 
