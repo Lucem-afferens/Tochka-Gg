@@ -177,7 +177,7 @@
       padding: $spacing-3xl $spacing-md;
     }
     
-    // Кибер-сетка на фоне мобильного меню
+    // Кибер-сетка на фоне мобильного меню (улучшенная)
     &::before {
       content: '';
       position: absolute;
@@ -186,27 +186,40 @@
       right: 0;
       bottom: 0;
       background-image: 
-        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-      background-size: 25px 25px;
+        linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+      background-size: 25px 25px, 25px 25px, 50px 50px, 50px 50px;
       opacity: 0.4;
       pointer-events: none;
-      animation: grid-move 20s linear infinite;
+      animation: grid-move 20s linear infinite, grid-pulse 3s ease-in-out infinite;
+      z-index: 0;
     }
     
-    // Градиентная граница сверху
+    // Градиентная граница сверху (улучшенная)
     &::after {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 2px;
-      background: $gradient-primary;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        rgba(59, 130, 246, 0) 0%,
+        rgba(59, 130, 246, 0.8) 20%,
+        rgba(34, 211, 238, 0.9) 50%,
+        rgba(59, 130, 246, 0.8) 80%,
+        rgba(59, 130, 246, 0) 100%
+      );
       opacity: 0.5;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+      animation: border-scan 2s linear infinite;
+      z-index: 1;
     }
     
-    // Активное состояние (открыто)
+    // Активное состояние (открыто) - ЯРКОЕ И АНИМИРОВАННОЕ
     &.active {
       transform: translateX(0);
       visibility: visible;
@@ -215,27 +228,48 @@
       transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), 
                   opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1),
                   visibility 0s;
+      background: linear-gradient(
+        135deg,
+        rgba(13, 15, 20, 0.98) 0%,
+        rgba(18, 13, 26, 0.98) 50%,
+        rgba(13, 15, 20, 0.98) 100%
+      );
+      background-size: 200% 200%;
+      animation: menu-bg-shift 8s ease infinite;
       box-shadow: 
         -20px 0 60px rgba(0, 0, 0, 0.8),
-        inset 0 0 200px rgba(59, 130, 246, 0.03),
-        0 0 100px rgba(59, 130, 246, 0.1);
+        inset 0 0 200px rgba(59, 130, 246, 0.1),
+        0 0 100px rgba(59, 130, 246, 0.2),
+        0 0 150px rgba(34, 211, 238, 0.15),
+        inset 0 0 300px rgba(192, 38, 211, 0.05);
       
-      // Улучшаем видимость сетки при открытии
+      // Яркая анимированная сетка
       &::before {
-        opacity: 0.6;
+        opacity: 0.8;
+        animation: grid-move 15s linear infinite, grid-pulse 2s ease-in-out infinite, grid-glow 4s ease-in-out infinite;
       }
       
-      // Ярче градиентная граница
+      // Яркая анимированная граница
       &::after {
         opacity: 1;
-        height: 3px;
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+        height: 4px;
+        box-shadow: 
+          0 0 20px rgba(59, 130, 246, 1),
+          0 0 40px rgba(34, 211, 238, 0.8),
+          0 0 60px rgba(59, 130, 246, 0.6);
+        animation: border-scan 2s linear infinite, border-pulse 3s ease-in-out infinite;
+      }
+      
+      // Дополнительный слой свечения по краям
+      &::before {
+        // Добавляем еще один слой для яркости
       }
       
       // Убеждаемся, что контент виден
       .tgg-nav__wrapper {
         opacity: 1;
         visibility: visible;
+        animation: content-fade-in 0.6s ease-out;
       }
       
       .tgg-nav__list {
@@ -246,6 +280,7 @@
       .tgg-header__actions {
         opacity: 1;
         visibility: visible;
+        animation: content-fade-in 0.8s ease-out;
       }
     }
   }
@@ -267,6 +302,40 @@
     padding-top: $spacing-3xl;
     opacity: 1;
     visibility: visible;
+    
+    // Дополнительное свечение для wrapper при открытом меню
+    .tgg-header__nav.active & {
+      &::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        right: -20px;
+        bottom: -20px;
+        background: radial-gradient(
+          circle at center,
+          rgba(59, 130, 246, 0.1) 0%,
+          rgba(34, 211, 238, 0.05) 30%,
+          transparent 70%
+        );
+        opacity: 0;
+        animation: wrapper-glow 4s ease-in-out infinite;
+        pointer-events: none;
+        z-index: -1;
+      }
+    }
+  }
+}
+
+// Свечение wrapper
+@keyframes wrapper-glow {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
   }
 }
 
@@ -303,20 +372,42 @@
         visibility: hidden;
       }
       
-      // Показываем элементы при открытом меню
+      // Показываем элементы при открытом меню - ЯРКАЯ АНИМАЦИЯ
       .tgg-header__nav.active & {
         visibility: visible !important;
         opacity: 1 !important;
         transform: translateX(0) !important;
         display: block !important;
-        animation: nav-item-slide-in 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        
-        // Fallback на случай, если анимация не работает
+        animation: nav-item-slide-in 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards,
+                   nav-item-glow 2s ease-in-out infinite 0.5s;
         animation-fill-mode: forwards;
+        
+        // Неоновое свечение вокруг каждого элемента
+        &::after {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: $border-radius-md;
+          background: linear-gradient(
+            135deg,
+            rgba(59, 130, 246, 0.2) 0%,
+            rgba(34, 211, 238, 0.2) 50%,
+            rgba(59, 130, 246, 0.2) 100%
+          );
+          background-size: 200% 200%;
+          opacity: 0;
+          z-index: -1;
+          animation: item-glow-border 3s ease-in-out infinite;
+          pointer-events: none;
+        }
         
         @for $i from 1 through 10 {
           &:nth-child(#{$i}) {
-            animation-delay: #{($i - 1) * 0.06}s;
+            animation-delay: #{($i - 1) * 0.08}s;
+            
+            &::after {
+              animation-delay: #{($i - 1) * 0.08 + 0.5}s;
+            }
           }
         }
       }
@@ -382,26 +473,64 @@
       display: block; // Показываем левую линию на мобильных
     }
     
-    // Кибер-фон при hover
+    // Кибер-фон при hover - ЯРКИЙ ЭФФЕКТ
     &:hover {
-      background: rgba(59, 130, 246, 0.1);
-      transform: translateX(5px);
+      background: linear-gradient(
+        90deg,
+        rgba(59, 130, 246, 0.15) 0%,
+        rgba(34, 211, 238, 0.12) 50%,
+        rgba(59, 130, 246, 0.15) 100%
+      );
+      background-size: 200% 100%;
+      animation: link-hover-shine 1.5s ease-in-out infinite;
+      transform: translateX(8px) scale(1.02);
+      box-shadow: 
+        0 4px 20px rgba(59, 130, 246, 0.3),
+        0 0 30px rgba(34, 211, 238, 0.2),
+        inset 0 0 20px rgba(59, 130, 246, 0.1);
+      color: $color-primary-bright;
+      text-shadow: 
+        0 0 10px rgba(59, 130, 246, 0.8),
+        0 0 20px rgba(34, 211, 238, 0.6);
       
       &::before {
         transform: translateY(-50%) scaleY(1);
-        height: 60%;
+        height: 80%;
         opacity: 1;
+        box-shadow: 
+          0 0 15px rgba(59, 130, 246, 1),
+          0 0 25px rgba(34, 211, 238, 0.8);
+        animation: line-pulse 1.5s ease-in-out infinite;
       }
     }
     
     &.active {
       color: $color-primary;
-      background: rgba(59, 130, 246, 0.15);
+      background: linear-gradient(
+        90deg,
+        rgba(59, 130, 246, 0.2) 0%,
+        rgba(34, 211, 238, 0.18) 50%,
+        rgba(59, 130, 246, 0.2) 100%
+      );
+      background-size: 200% 100%;
+      animation: link-active-shine 2s ease-in-out infinite;
+      box-shadow: 
+        0 4px 25px rgba(59, 130, 246, 0.4),
+        0 0 35px rgba(34, 211, 238, 0.3),
+        inset 0 0 25px rgba(59, 130, 246, 0.15);
+      text-shadow: 
+        0 0 8px rgba(59, 130, 246, 0.6),
+        0 0 15px rgba(34, 211, 238, 0.4);
       
       &::before {
         transform: translateY(-50%) scaleY(1);
-        height: 70%;
+        height: 85%;
         opacity: 1;
+        box-shadow: 
+          0 0 20px rgba(59, 130, 246, 1),
+          0 0 30px rgba(34, 211, 238, 0.9),
+          0 0 40px rgba(59, 130, 246, 0.6);
+        animation: line-pulse-active 2s ease-in-out infinite;
       }
     }
   }
@@ -565,18 +694,68 @@
     opacity: 1;
     visibility: visible;
     
-    // Кибер-эффект для разделителя
+    // Яркий кибер-эффект для разделителя
     &::before {
       content: '';
       position: absolute;
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 100px;
-      height: 1px;
-      background: $gradient-primary;
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+      width: 200px;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        rgba(59, 130, 246, 0) 0%,
+        rgba(59, 130, 246, 0.8) 25%,
+        rgba(34, 211, 238, 1) 50%,
+        rgba(59, 130, 246, 0.8) 75%,
+        rgba(59, 130, 246, 0) 100%
+      );
+      background-size: 200% 100%;
+      box-shadow: 
+        0 0 15px rgba(59, 130, 246, 0.8),
+        0 0 25px rgba(34, 211, 238, 0.6);
+      animation: divider-scan 3s linear infinite;
     }
+    
+    // Дополнительное свечение для действий
+    .tgg-header__nav.active & {
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(59, 130, 246, 0.3) 50%,
+          transparent 100%
+        );
+        animation: divider-glow 2s ease-in-out infinite;
+      }
+    }
+  }
+}
+
+// Анимация сканирования разделителя
+@keyframes divider-scan {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Свечение разделителя
+@keyframes divider-glow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
   }
 }
 
