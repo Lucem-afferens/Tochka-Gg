@@ -66,18 +66,21 @@
   z-index: 1;
   
   @include max-width(xs) {
-    gap: $spacing-2xl;
+    gap: $spacing-xl;
     margin-bottom: $spacing-2xl;
+    text-align: center; // Центрируем контент на мобильных
   }
   
   @include respond-to(sm) {
     grid-template-columns: repeat(2, 1fr);
-    gap: $spacing-2xl;
+    gap: $spacing-xl $spacing-2xl;
+    text-align: left; // На таблетках выравниваем по левому краю
   }
   
   @include respond-to(md) {
     grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
     gap: $spacing-3xl;
+    text-align: left;
   }
 }
 
@@ -90,6 +93,17 @@
   flex-direction: column;
   gap: $spacing-lg;
   min-width: 0; // Предотвращает переполнение
+  
+  @include max-width(xs) {
+    align-items: center; // Центрируем содержимое колонок на мобильных
+    text-align: center;
+    gap: $spacing-md;
+  }
+  
+  @include respond-to(sm) {
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 
 .tgg-footer__col-title {
@@ -103,6 +117,12 @@
   position: relative;
   padding-bottom: $spacing-sm;
   
+  @include max-width(xs) {
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-sm;
+    padding-bottom: $spacing-xs;
+  }
+  
   // Подчеркивание заголовка
   &::after {
     content: '';
@@ -114,6 +134,16 @@
     background: $gradient-primary;
     border-radius: $border-radius-full;
     box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    
+    @include max-width(xs) {
+      left: 50%;
+      transform: translateX(-50%); // Центрируем подчеркивание на мобильных
+    }
+    
+    @include respond-to(sm) {
+      left: 0;
+      transform: none;
+    }
   }
 }
 
@@ -122,8 +152,13 @@
 // ============================================
 
 .tgg-footer__col--about {
+  @include max-width(xs) {
+    order: -1; // Колонка "О компании" первой на мобильных
+  }
+  
   @include respond-to(md) {
     max-width: 350px;
+    order: 0;
   }
 }
 
