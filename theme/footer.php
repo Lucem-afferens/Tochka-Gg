@@ -9,12 +9,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Получаем данные из ACF
-$phone = function_exists('get_field') ? get_field('phone_main', 'option') : '8 (992) 222-62-72';
-$email = function_exists('get_field') ? get_field('email_main', 'option') : 'vr.kungur@mail.ru';
-$telegram = function_exists('get_field') ? get_field('telegram_username', 'option') : '@tochaGgKungur';
-$address = function_exists('get_field') ? get_field('address_full', 'option') : false;
-$working_hours = function_exists('get_field') ? get_field('working_hours', 'option') : 'Круглосуточно, без выходных';
+// Получаем данные из ACF с значениями по умолчанию
+$phone = (function_exists('get_field') ? get_field('phone_main', 'option') : null) ?: '8 (992) 222-62-72';
+$email = (function_exists('get_field') ? get_field('email_main', 'option') : null) ?: 'vr.kungur@mail.ru';
+$telegram = (function_exists('get_field') ? get_field('telegram_username', 'option') : null) ?: '@tochaGgKungur';
+$address = (function_exists('get_field') ? get_field('address_full', 'option') : null) ?: 'Пермский край, г. Кунгур, ул. Голованова, 43, вход с торца здания, цокольный этаж';
+$working_hours = (function_exists('get_field') ? get_field('working_hours', 'option') : null) ?: 'Круглосуточно, без выходных';
 $social_links = function_exists('get_field') ? get_field('social_networks', 'option') : false;
 $footer_logo = function_exists('get_field') ? get_field('footer_logo', 'option') : false;
 $copyright = function_exists('get_field') ? get_field('copyright_text', 'option') : false;
