@@ -117,7 +117,7 @@ jobs:
         if: steps.check.outputs.deploy == 'true'
         id: deploy
         continue-on-error: true
-        uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ${{ secrets.BEGET_FTP_HOST }}
           username: ${{ secrets.BEGET_FTP_USER }}
