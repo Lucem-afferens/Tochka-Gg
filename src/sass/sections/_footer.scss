@@ -1,20 +1,21 @@
 /**
- * Footer
+ * Footer - Максимально полная версия
  * 
- * Стили подвала сайта - полная версия с навигацией и контактами
+ * Стили подвала сайта с полной структурой
  */
 
 // Переменные и миксины импортируются в главном файле style.scss
 
 .tgg-footer {
-  background: rgba(26, 21, 36, 0.85);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-top: $border-width-thin solid rgba(59, 130, 246, 0.2);
+  background: rgba(18, 13, 26, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: $border-width-medium solid rgba(59, 130, 246, 0.2);
   box-shadow: 
-    0 -2px 20px rgba(239, 68, 68, 0.1),
-    0 -4px 40px rgba(0, 0, 0, 0.3);
-  padding: $spacing-4xl 0 $spacing-xl;
+    0 -4px 30px rgba(239, 68, 68, 0.15),
+    0 -8px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: $spacing-5xl 0 $spacing-xl;
   position: relative;
   margin-top: $spacing-5xl;
   
@@ -25,9 +26,16 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.4) 0%, rgba(239, 68, 68, 0.6) 50%, rgba(59, 130, 246, 0.4) 100%);
-    opacity: 0.8;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      rgba(59, 130, 246, 0.5) 0%,
+      rgba(192, 38, 211, 0.6) 25%,
+      rgba(239, 68, 68, 0.7) 50%,
+      rgba(192, 38, 211, 0.6) 75%,
+      rgba(59, 130, 246, 0.5) 100%
+    );
+    opacity: 0.9;
   }
   
   // Тонкая кибер-сетка на фоне
@@ -35,7 +43,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    opacity: 0.03;
+    opacity: 0.04;
     background-image: 
       linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
       linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
@@ -48,13 +56,18 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: $spacing-3xl;
-  margin-bottom: $spacing-3xl;
+  margin-bottom: $spacing-4xl;
   position: relative;
   z-index: 1;
   
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-2xl;
+  }
+  
   @include respond-to(md) {
-    grid-template-columns: 2fr 1fr 1.5fr;
-    gap: $spacing-4xl;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+    gap: $spacing-3xl;
   }
 }
 
@@ -66,15 +79,16 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
+  min-width: 0; // Предотвращает переполнение
 }
 
 .tgg-footer__col-title {
   font-family: $font-heading;
-  font-size: $font-size-lg;
+  font-size: $font-size-base;
   font-weight: $font-weight-heading-bold;
   color: $color-text-primary;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   margin: 0 0 $spacing-md 0;
   position: relative;
   padding-bottom: $spacing-sm;
@@ -85,10 +99,11 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 40px;
+    width: 50px;
     height: 2px;
     background: $gradient-primary;
     border-radius: $border-radius-full;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
   }
 }
 
@@ -98,20 +113,21 @@
 
 .tgg-footer__col--about {
   @include respond-to(md) {
-    max-width: 400px;
+    max-width: 350px;
   }
 }
 
 .tgg-footer__logo {
   margin-bottom: $spacing-md;
+}
+
+.tgg-footer__logo-link {
+  display: inline-block;
+  transition: transform $duration-normal $ease-out-cubic;
+  text-decoration: none;
   
-  a {
-    display: inline-block;
-    transition: transform $duration-normal $ease-out-cubic;
-    
-    &:hover {
-      transform: scale(1.05);
-    }
+  &:hover {
+    transform: scale(1.05);
   }
   
   img {
@@ -119,27 +135,24 @@
     width: auto;
     filter: brightness(1.1);
     transition: filter $duration-normal;
-    
-    .tgg-footer__logo a:hover & {
-      filter: brightness(1.2) drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
-    }
+  }
+  
+  &:hover img {
+    filter: brightness(1.2) drop-shadow(0 0 12px rgba(59, 130, 246, 0.6));
   }
   
   // Если логотипа нет - показываем текст
-  a {
-    &:not(:has(img)) {
-      font-family: $font-heading;
-      font-size: $font-size-h5;
-      font-weight: $font-weight-heading-bold;
-      color: $color-text-primary;
-      text-decoration: none;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      @include text-neon($color-primary, 0.3);
-      
-      &:hover {
-        @include text-neon($color-primary-bright, 0.5);
-      }
+  &:not(:has(img)) {
+    font-family: $font-heading;
+    font-size: $font-size-h5;
+    font-weight: $font-weight-heading-bold;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    @include text-neon($color-primary, 0.3);
+    
+    &:hover {
+      @include text-neon($color-primary-bright, 0.5);
     }
   }
 }
@@ -159,20 +172,35 @@
 
 .tgg-footer__social {
   display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-top: $spacing-xs;
+}
+
+.tgg-footer__social-label {
+  font-family: $font-body;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: $font-weight-body-medium;
+}
+
+.tgg-footer__social-links {
+  display: flex;
   flex-wrap: wrap;
   gap: $spacing-sm;
-  margin-top: $spacing-sm;
 }
 
 .tgg-footer__social-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: rgba(26, 21, 36, 0.6);
-  border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+  background: rgba(26, 21, 36, 0.8);
+  border: $border-width-thin solid rgba(59, 130, 246, 0.25);
   transition: all $duration-normal $ease-out-cubic;
   text-decoration: none;
   position: relative;
@@ -185,10 +213,10 @@
     inset: -2px;
     background: linear-gradient(
       135deg,
-      rgba(59, 130, 246, 0.4),
-      rgba(192, 38, 211, 0.4),
-      rgba(239, 68, 68, 0.4),
-      rgba(34, 211, 238, 0.4)
+      rgba(59, 130, 246, 0.5),
+      rgba(192, 38, 211, 0.5),
+      rgba(239, 68, 68, 0.5),
+      rgba(34, 211, 238, 0.5)
     );
     background-size: 300% 300%;
     border-radius: 50%;
@@ -204,8 +232,8 @@
   }
   
   img {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
     filter: brightness(1.2);
   }
@@ -217,11 +245,12 @@
   }
   
   &:hover {
-    transform: translateY(-3px);
-    border-color: rgba(59, 130, 246, 0.6);
+    transform: translateY(-3px) scale(1.1);
+    border-color: rgba(59, 130, 246, 0.7);
     box-shadow: 
-      0 4px 20px rgba(59, 130, 246, 0.4),
-      0 0 30px rgba(59, 130, 246, 0.2);
+      0 6px 25px rgba(59, 130, 246, 0.5),
+      0 0 40px rgba(59, 130, 246, 0.3),
+      inset 0 0 20px rgba(59, 130, 246, 0.1);
     
     &::before {
       opacity: 1;
@@ -229,11 +258,11 @@
     }
     
     img, span {
-      transform: scale(1.1);
+      transform: scale(1.15);
     }
     
     img {
-      filter: brightness(1.5);
+      filter: brightness(1.6);
     }
     
     span {
@@ -251,30 +280,25 @@
 // НАВИГАЦИЯ
 // ============================================
 
-.tgg-footer__col--nav {
-  @include respond-to(sm) {
-    margin-top: 0;
-  }
-}
-
 .tgg-footer__nav-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: $spacing-sm;
+  gap: $spacing-xs;
 }
 
 .tgg-footer__nav-link {
   font-family: $font-body;
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
   color: $color-text-secondary;
   text-decoration: none;
   transition: all $duration-normal $ease-out-cubic;
   display: inline-block;
   position: relative;
   padding-left: $spacing-md;
+  line-height: 1.6;
   
   // Индикатор перед ссылкой
   &::before {
@@ -284,17 +308,18 @@
     color: rgba(59, 130, 246, 0.5);
     transition: all $duration-normal $ease-out-cubic;
     font-weight: $font-weight-body-bold;
+    font-size: $font-size-xs;
   }
   
   &:hover {
     color: $color-primary;
     transform: translateX(4px);
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    text-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
     
     &::before {
       color: $color-primary;
-      transform: translateX(-2px);
-      text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+      transform: translateX(-3px);
+      text-shadow: 0 0 12px rgba(59, 130, 246, 0.9);
     }
   }
   
@@ -309,30 +334,29 @@
 // КОНТАКТЫ
 // ============================================
 
-.tgg-footer__col--contacts {
-  @include respond-to(sm) {
-    margin-top: 0;
-  }
-}
-
 .tgg-footer__contacts {
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
+  gap: $spacing-md;
 }
 
 .tgg-footer__contact-item {
   display: flex;
   align-items: flex-start;
   gap: $spacing-sm;
+  transition: transform $duration-normal $ease-out-cubic;
+  
+  &:hover {
+    transform: translateX(3px);
+  }
 }
 
 .tgg-footer__contact-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   color: $color-primary;
   flex-shrink: 0;
   margin-top: 2px;
@@ -340,7 +364,12 @@
   svg {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
+    filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.6));
+    transition: filter $duration-normal;
+  }
+  
+  .tgg-footer__contact-item:hover & svg {
+    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.9));
   }
 }
 
@@ -352,11 +381,11 @@
   text-decoration: none;
   transition: all $duration-normal $ease-out-cubic;
   display: inline-block;
+  word-break: break-word;
   
   &:hover {
     color: $color-primary;
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-    transform: translateX(2px);
+    text-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
   }
   
   &:focus-visible {
@@ -367,19 +396,36 @@
 }
 
 // ============================================
-// НИЖНЯЯ ЧАСТЬ (КОПИРАЙТ)
+// НИЖНЯЯ ЧАСТЬ (КОПИРАЙТ И ДОПОЛНИТЕЛЬНО)
 // ============================================
 
 .tgg-footer__bottom {
   position: relative;
   z-index: 1;
   padding-top: $spacing-xl;
-  border-top: $border-width-thin solid rgba(59, 130, 246, 0.15);
+  border-top: $border-width-thin solid rgba(59, 130, 246, 0.2);
   margin-top: $spacing-2xl;
+}
+
+.tgg-footer__bottom-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-lg;
+  
+  @include respond-to(md) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .tgg-footer__copyright {
   text-align: center;
+  
+  @include respond-to(md) {
+    text-align: left;
+  }
   
   p {
     margin: 0;
@@ -388,10 +434,10 @@
     color: $color-text-secondary;
     line-height: $line-height-normal;
     
-    &:first-child {
+    &.tgg-footer__copyright-main {
       margin-bottom: $spacing-xs;
       color: $color-text-primary;
-      font-weight: $font-weight-body-medium;
+      font-weight: $font-weight-body-semibold;
     }
   }
 }
@@ -402,21 +448,81 @@
   opacity: 0.8;
 }
 
+// Способы оплаты
+.tgg-footer__payment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+}
+
+.tgg-footer__payment-label {
+  font-family: $font-body;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: $font-weight-body-medium;
+}
+
+.tgg-footer__payment-methods {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+}
+
+.tgg-footer__payment-method {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  background: rgba(26, 21, 36, 0.6);
+  border: $border-width-thin solid rgba(59, 130, 246, 0.15);
+  border-radius: $border-radius-sm;
+  transition: all $duration-normal $ease-out-cubic;
+  cursor: default;
+  
+  &:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    background: rgba(59, 130, 246, 0.1);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+  }
+}
+
 // ============================================
 // АДАПТИВНОСТЬ
 // ============================================
 
 @media (max-width: 767px) {
   .tgg-footer {
-    padding: $spacing-3xl 0 $spacing-lg;
+    padding: $spacing-4xl 0 $spacing-lg;
+    margin-top: $spacing-4xl;
     
     &__content {
       gap: $spacing-2xl;
-      margin-bottom: $spacing-2xl;
+      margin-bottom: $spacing-3xl;
+    }
+    
+    &__col {
+      gap: $spacing-md;
     }
     
     &__col-title {
-      font-size: $font-size-base;
+      font-size: $font-size-sm;
+      margin-bottom: $spacing-sm;
+      
+      &::after {
+        width: 35px;
+      }
     }
     
     &__logo img {
@@ -426,5 +532,53 @@
     &__description {
       font-size: $font-size-xs;
     }
+    
+    &__social-label {
+      font-size: 10px;
+    }
+    
+    &__social-link {
+      width: 38px;
+      height: 38px;
+      
+      img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
+    &__nav-link {
+      font-size: $font-size-xs;
+      padding-left: $spacing-sm;
+      
+      &::before {
+        font-size: 10px;
+      }
+    }
+    
+    &__contact-link {
+      font-size: $font-size-xs;
+    }
+    
+    &__contact-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+@media (max-width: 479px) {
+  .tgg-footer__content {
+    grid-template-columns: 1fr;
+    gap: $spacing-xl;
+  }
+  
+  .tgg-footer__bottom-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .tgg-footer__copyright {
+    text-align: center !important;
   }
 }
