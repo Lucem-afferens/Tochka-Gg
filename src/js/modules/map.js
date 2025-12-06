@@ -123,37 +123,40 @@ export function initMap() {
       customStyles: darkTheme
     });
 
-    // Кастомный маркер в неоновом стиле
+    // Кастомный маркер - классическая иконка локации в кибер-стиле
     const placemarkLayout = ymaps.templateLayoutFactory.createClass(
       '<div class="tgg-map-marker">' +
-        '<div class="tgg-map-marker__ring tgg-map-marker__ring--outer"></div>' +
-        '<div class="tgg-map-marker__ring tgg-map-marker__ring--middle"></div>' +
-        '<div class="tgg-map-marker__ring tgg-map-marker__ring--inner"></div>' +
-        '<div class="tgg-map-marker__glow"></div>' +
+        '<div class="tgg-map-marker__pulse-ring"></div>' +
         '<div class="tgg-map-marker__icon-wrapper">' +
-          '<svg class="tgg-map-marker__icon" width="56" height="56" viewBox="0 0 56 56">' +
+          '<svg class="tgg-map-marker__icon" width="48" height="64" viewBox="0 0 48 64">' +
             '<defs>' +
-              '<linearGradient id="markerGradient" x1="0%" y1="0%" x2="100%" y2="100%">' +
+              '<linearGradient id="pinGradient" x1="0%" y1="0%" x2="0%" y2="100%">' +
                 '<stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />' +
-                '<stop offset="50%" style="stop-color:#60a5fa;stop-opacity:1" />' +
-                '<stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />' +
+                '<stop offset="50%" style="stop-color:#2563eb;stop-opacity:1" />' +
+                '<stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />' +
               '</linearGradient>' +
-              '<filter id="glow">' +
-                '<feGaussianBlur stdDeviation="3" result="coloredBlur"/>' +
+              '<filter id="pinGlow">' +
+                '<feGaussianBlur stdDeviation="4" result="coloredBlur"/>' +
                 '<feMerge>' +
                   '<feMergeNode in="coloredBlur"/>' +
                   '<feMergeNode in="SourceGraphic"/>' +
                 '</feMerge>' +
               '</filter>' +
             '</defs>' +
-            '<circle cx="28" cy="28" r="24" fill="rgba(59, 130, 246, 0.15)" stroke="url(#markerGradient)" stroke-width="2"/>' +
-            '<circle cx="28" cy="28" r="18" fill="rgba(59, 130, 246, 0.25)" stroke="url(#markerGradient)" stroke-width="1.5"/>' +
-            '<circle cx="28" cy="28" r="12" fill="url(#markerGradient)" filter="url(#glow)"/>' +
-            '<circle cx="28" cy="28" r="6" fill="#ffffff"/>' +
-            '<circle cx="28" cy="28" r="3" fill="#3b82f6"/>' +
+            '<!-- Тень маркера -->' +
+            '<ellipse cx="24" cy="58" rx="12" ry="4" fill="rgba(0, 0, 0, 0.3)" opacity="0.5"/>' +
+            '<!-- Капля маркера -->' +
+            '<path d="M24 4 C29 4 33 6 36 9 C39 12 44 18 44 26 C44 34 36 50 24 60 C12 50 4 34 4 26 C4 18 9 12 12 9 C15 6 19 4 24 4 Z" ' +
+                  'fill="url(#pinGradient)" ' +
+                  'stroke="#ffffff" ' +
+                  'stroke-width="2" ' +
+                  'filter="url(#pinGlow)"/>' +
+            '<!-- Внутренний круг (точка) -->' +
+            '<circle cx="24" cy="20" r="8" fill="rgba(255, 255, 255, 0.9)"/>' +
+            '<circle cx="24" cy="20" r="5" fill="#3b82f6"/>' +
+            '<circle cx="24" cy="20" r="2.5" fill="#ffffff"/>' +
           '</svg>' +
         '</div>' +
-        '<div class="tgg-map-marker__pulse"></div>' +
       '</div>',
       {
         build: function () {
@@ -166,7 +169,7 @@ export function initMap() {
     const placemark = new ymaps.Placemark([lat, lng], {
       balloonContent: '<div class="tgg-map-balloon">' +
                       '<div class="tgg-map-balloon__header">' +
-                      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="margin-right: 8px;">' +
+                      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="margin-right: 8px;">' +
                       '<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#3b82f6"/>' +
                       '</svg>' +
                       '<strong>Точка Gg</strong>' +
@@ -178,9 +181,9 @@ export function initMap() {
       iconShape: {
         type: 'Circle',
         coordinates: [0, 0],
-        radius: 28
+        radius: 24
       },
-      iconOffset: [-28, -28]
+      iconOffset: [-24, -64]
     });
 
     map.geoObjects.add(placemark);
