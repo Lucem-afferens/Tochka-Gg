@@ -160,18 +160,24 @@ if (empty($footer_info_links)) {
             <!-- Колонка 1: О компании -->
             <div class="tgg-footer__col tgg-footer__col--about">
                 <div class="tgg-footer__logo">
-                    <?php if ($footer_logo) : 
+                    <?php 
+                    // Всегда показываем логотип (из ACF или placeholder)
+                    if ($footer_logo) {
                         $footer_logo_data = tochkagg_get_image_or_placeholder($footer_logo, 200, 60, 'Footer Logo');
+                    } else {
+                        // Создаем placeholder логотипа, если нет загруженного
+                        $footer_logo_data = function_exists('tochkagg_get_placeholder_image') 
+                            ? ['url' => tochkagg_get_placeholder_image(200, 60, 'Логотип', '1a1d29', '3b82f6'), 'alt' => 'Логотип Точка Gg']
+                            : ['url' => 'https://placehold.co/200x60/1a1d29/3b82f6?text=Логотип', 'alt' => 'Логотип Точка Gg'];
+                    }
                     ?>
-                        <a href="<?php echo esc_url(home_url('/')); ?>" class="tgg-footer__logo-link">
-                            <img src="<?php echo esc_url($footer_logo_data['url']); ?>" 
-                                 alt="<?php echo esc_attr($footer_logo_data['alt']); ?>">
-                        </a>
-                    <?php else : ?>
-                        <a href="<?php echo esc_url(home_url('/')); ?>" class="tgg-footer__logo-link">
-                            <?php echo esc_html(get_bloginfo('name')); ?>
-                        </a>
-                    <?php endif; ?>
+                    <a href="<?php echo esc_url(home_url('/')); ?>" class="tgg-footer__logo-link">
+                        <img src="<?php echo esc_url($footer_logo_data['url']); ?>" 
+                             alt="<?php echo esc_attr($footer_logo_data['alt']); ?>"
+                             width="200"
+                             height="60"
+                             loading="lazy">
+                    </a>
                 </div>
                 
                 <?php if ($footer_description) : ?>
