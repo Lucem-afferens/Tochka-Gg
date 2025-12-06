@@ -191,30 +191,6 @@ if (empty($footer_info_links)) {
                         Премиальный компьютерный клуб нового поколения в Кунгуре. Мощное оборудование, комфортная атмосфера и незабываемый игровой опыт.
                     </p>
                 <?php endif; ?>
-                
-                <?php if ($social_links && is_array($social_links)) : ?>
-                    <div class="tgg-footer__social">
-                        <span class="tgg-footer__social-label">Мы в соцсетях:</span>
-                        <div class="tgg-footer__social-links">
-                            <?php foreach ($social_links as $social) : ?>
-                                <?php if (!empty($social['url'])) : ?>
-                                    <a href="<?php echo esc_url($social['url']); ?>" 
-                                       target="_blank" 
-                                       rel="noopener noreferrer"
-                                       class="tgg-footer__social-link"
-                                       aria-label="<?php echo esc_attr($social['platform_name'] ?? 'Социальная сеть'); ?>">
-                                        <?php if (!empty($social['icon'])) : ?>
-                                            <img src="<?php echo esc_url($social['icon']['url']); ?>" 
-                                                 alt="<?php echo esc_attr($social['icon']['alt'] ?? ''); ?>">
-                                        <?php else : ?>
-                                            <span><?php echo esc_html($social['platform_name'] ?? ''); ?></span>
-                                        <?php endif; ?>
-                                    </a>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
             </div>
             
             <!-- Колонка 2: Информация -->
