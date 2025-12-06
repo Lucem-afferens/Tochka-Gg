@@ -235,6 +235,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: $spacing-sm;
+  
+  @include max-width(xs) {
+    justify-content: center;
+    gap: $spacing-sm;
+  }
+  
+  @include respond-to(sm) {
+    justify-content: flex-start;
+  }
 }
 
 .tgg-footer__social-link {
