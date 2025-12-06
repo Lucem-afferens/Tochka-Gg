@@ -75,7 +75,7 @@ if (!defined('ABSPATH')) {
                 <?php
                 // Получаем телефон из ACF
                 $phone = function_exists('get_field') ? get_field('phone_main', 'option') : false;
-                $phone_display = $phone ?: '+7 992 222-62-72';
+                $phone_display = $phone ?: '8 (992) 222-62-72';
                 $phone_clean = preg_replace('/[^0-9+]/', '', $phone_display);
                 ?>
                 

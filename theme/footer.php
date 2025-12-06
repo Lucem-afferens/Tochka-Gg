@@ -10,10 +10,11 @@ if (!defined('ABSPATH')) {
 }
 
 // Получаем данные из ACF
-$phone = function_exists('get_field') ? get_field('phone_main', 'option') : false;
-$email = function_exists('get_field') ? get_field('email_main', 'option') : false;
+$phone = function_exists('get_field') ? get_field('phone_main', 'option') : '8 (992) 222-62-72';
+$email = function_exists('get_field') ? get_field('email_main', 'option') : 'vr.kungur@mail.ru';
+$telegram = function_exists('get_field') ? get_field('telegram_username', 'option') : '@TochkaGg_Kungur';
 $address = function_exists('get_field') ? get_field('address_full', 'option') : false;
-$working_hours = function_exists('get_field') ? get_field('working_hours', 'option') : false;
+$working_hours = function_exists('get_field') ? get_field('working_hours', 'option') : 'Круглосуточно, без выходных';
 $social_links = function_exists('get_field') ? get_field('social_networks', 'option') : false;
 $footer_logo = function_exists('get_field') ? get_field('footer_logo', 'option') : false;
 $copyright = function_exists('get_field') ? get_field('copyright_text', 'option') : false;
@@ -283,6 +284,19 @@ if (empty($footer_info_links)) {
                             </span>
                             <a href="mailto:<?php echo esc_attr($email); ?>" class="tgg-footer__contact-link">
                                 <?php echo esc_html($email); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if ($telegram) : ?>
+                        <div class="tgg-footer__contact-item">
+                            <span class="tgg-footer__contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 5L2 12.5l7 2M21 5l-7 13-3-6.5L21 5zM21 5L10 14.5l-1-5 12-9.5z"/>
+                                </svg>
+                            </span>
+                            <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer" class="tgg-footer__contact-link">
+                                <?php echo esc_html($telegram); ?>
                             </a>
                         </div>
                     <?php endif; ?>

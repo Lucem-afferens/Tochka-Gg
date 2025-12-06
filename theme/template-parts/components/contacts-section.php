@@ -9,9 +9,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$phone = get_field('phone_main', 'option') ?: '+7 992 222-62-72';
+$phone = get_field('phone_main', 'option') ?: '8 (992) 222-62-72';
+$email = get_field('email_main', 'option') ?: 'vr.kungur@mail.ru';
+$telegram = get_field('telegram_username', 'option') ?: '@TochkaGg_Kungur';
 $address = get_field('address_full', 'option') ?: 'Пермский край, г. Кунгур, ул. Голованова, 43, вход с торца здания, цокольный этаж';
-$working_hours = get_field('working_hours', 'option') ?: 'Понедельник - Воскресенье: 10:00 - 02:00';
+$working_hours = get_field('working_hours', 'option') ?: 'Круглосуточно, без выходных';
 $map_lat = get_field('map_latitude', 'option') ?: '57.424953';
 $map_lng = get_field('map_longitude', 'option') ?: '56.963968';
 
@@ -35,6 +37,39 @@ $social_links = get_field('social_networks', 'option');
                             <div class="tgg-contacts__item-label">Телефон</div>
                             <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone)); ?>" class="tgg-contacts__item-value">
                                 <?php echo esc_html($phone); ?>
+                            </a>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($email) : ?>
+                    <div class="tgg-contacts__item">
+                        <div class="tgg-contacts__item-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <div class="tgg-contacts__item-content">
+                            <div class="tgg-contacts__item-label">Email</div>
+                            <a href="mailto:<?php echo esc_attr($email); ?>" class="tgg-contacts__item-value">
+                                <?php echo esc_html($email); ?>
+                            </a>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($telegram) : ?>
+                    <div class="tgg-contacts__item">
+                        <div class="tgg-contacts__item-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 5L2 12.5l7 2M21 5l-7 13-3-6.5L21 5zM21 5L10 14.5l-1-5 12-9.5z"/>
+                            </svg>
+                        </div>
+                        <div class="tgg-contacts__item-content">
+                            <div class="tgg-contacts__item-label">Telegram-чат</div>
+                            <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer" class="tgg-contacts__item-value">
+                                <?php echo esc_html($telegram); ?>
                             </a>
                         </div>
                     </div>

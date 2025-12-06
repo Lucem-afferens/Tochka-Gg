@@ -18,7 +18,7 @@ $contacts_url_default = function_exists('tochkagg_get_page_url')
     ? tochkagg_get_page_url('contacts') 
     : home_url('/contacts/');
 $cta_button_link = get_field('footer_cta_button_link') ?: $contacts_url_default;
-$cta_phone = get_field('phone_main', 'option') ?: '+7 992 222-62-72';
+$cta_phone = get_field('phone_main', 'option') ?: '8 (992) 222-62-72';
 ?>
 
 <section class="tgg-footer-cta">

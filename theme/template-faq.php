@@ -41,10 +41,9 @@ get_header();
                         <h3 class="tgg-faq__question">Какие часы работы клуба?</h3>
                         <div class="tgg-faq__answer">
                             <?php
-                            $working_hours = function_exists('get_field') ? get_field('working_hours', 'option') : 'Ежедневно с 10:00 до 02:00';
+                            $working_hours = function_exists('get_field') ? get_field('working_hours', 'option') : 'Круглосуточно, без выходных';
                             ?>
                             <p><strong><?php echo esc_html($working_hours); ?></strong></p>
-                            <p>Точное расписание работы уточняйте по телефону, так как в праздничные дни режим работы может изменяться.</p>
                         </div>
                     </div>
                     
@@ -54,6 +53,7 @@ get_header();
                             <p>Вы можете забронировать время несколькими способами:</p>
                             <ul>
                                 <li>По телефону - позвоните нам и мы зарезервируем место</li>
+                                <li>В Telegram-чате - напишите нам @TochkaGg_Kungur</li>
                                 <li>Через социальные сети - напишите нам в ВКонтакте</li>
                                 <li>Через мобильное приложение Langame</li>
                                 <li>Лично в клубе - подойдите к администратору</li>
@@ -236,6 +236,7 @@ get_header();
                                 <?php if ($email) : ?>
                                     <li><strong>По email:</strong> <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a></li>
                                 <?php endif; ?>
+                                <li><strong>Telegram-чат:</strong> <a href="https://t.me/TochkaGg_Kungur" target="_blank" rel="noopener noreferrer">@TochkaGg_Kungur</a></li>
                                 <li><strong>В социальных сетях</strong> - найдите нас в ВКонтакте</li>
                                 <li><strong>Лично в клубе</strong> - подойдите к администратору</li>
                             </ul>
