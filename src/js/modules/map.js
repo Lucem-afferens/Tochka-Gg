@@ -126,13 +126,34 @@ export function initMap() {
     // Кастомный маркер в неоновом стиле
     const placemarkLayout = ymaps.templateLayoutFactory.createClass(
       '<div class="tgg-map-marker">' +
+        '<div class="tgg-map-marker__ring tgg-map-marker__ring--outer"></div>' +
+        '<div class="tgg-map-marker__ring tgg-map-marker__ring--middle"></div>' +
+        '<div class="tgg-map-marker__ring tgg-map-marker__ring--inner"></div>' +
+        '<div class="tgg-map-marker__glow"></div>' +
+        '<div class="tgg-map-marker__icon-wrapper">' +
+          '<svg class="tgg-map-marker__icon" width="56" height="56" viewBox="0 0 56 56">' +
+            '<defs>' +
+              '<linearGradient id="markerGradient" x1="0%" y1="0%" x2="100%" y2="100%">' +
+                '<stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />' +
+                '<stop offset="50%" style="stop-color:#60a5fa;stop-opacity:1" />' +
+                '<stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />' +
+              '</linearGradient>' +
+              '<filter id="glow">' +
+                '<feGaussianBlur stdDeviation="3" result="coloredBlur"/>' +
+                '<feMerge>' +
+                  '<feMergeNode in="coloredBlur"/>' +
+                  '<feMergeNode in="SourceGraphic"/>' +
+                '</feMerge>' +
+              '</filter>' +
+            '</defs>' +
+            '<circle cx="28" cy="28" r="24" fill="rgba(59, 130, 246, 0.15)" stroke="url(#markerGradient)" stroke-width="2"/>' +
+            '<circle cx="28" cy="28" r="18" fill="rgba(59, 130, 246, 0.25)" stroke="url(#markerGradient)" stroke-width="1.5"/>' +
+            '<circle cx="28" cy="28" r="12" fill="url(#markerGradient)" filter="url(#glow)"/>' +
+            '<circle cx="28" cy="28" r="6" fill="#ffffff"/>' +
+            '<circle cx="28" cy="28" r="3" fill="#3b82f6"/>' +
+          '</svg>' +
+        '</div>' +
         '<div class="tgg-map-marker__pulse"></div>' +
-        '<div class="tgg-map-marker__dot"></div>' +
-        '<svg class="tgg-map-marker__icon" width="40" height="40" viewBox="0 0 40 40">' +
-          '<circle cx="20" cy="20" r="18" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="2"/>' +
-          '<circle cx="20" cy="20" r="12" fill="#3b82f6"/>' +
-          '<circle cx="20" cy="20" r="6" fill="#ffffff"/>' +
-        '</svg>' +
       '</div>',
       {
         build: function () {
@@ -143,18 +164,23 @@ export function initMap() {
     );
 
     const placemark = new ymaps.Placemark([lat, lng], {
-      balloonContent: '<div style="background: #1a1d29; color: #ffffff; padding: 12px; border: 1px solid #3b82f6; border-radius: 8px; box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);">' +
-                      '<strong style="color: #3b82f6; display: block; margin-bottom: 8px;">Точка Gg</strong>' +
-                      'ул. Голованова, 43, Кунгур' +
+      balloonContent: '<div class="tgg-map-balloon">' +
+                      '<div class="tgg-map-balloon__header">' +
+                      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="margin-right: 8px;">' +
+                      '<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#3b82f6"/>' +
+                      '</svg>' +
+                      '<strong>Точка Gg</strong>' +
+                      '</div>' +
+                      '<div class="tgg-map-balloon__content">ул. Голованова, 43, Кунгур</div>' +
                       '</div>'
     }, {
       iconLayout: placemarkLayout,
       iconShape: {
         type: 'Circle',
         coordinates: [0, 0],
-        radius: 20
+        radius: 28
       },
-      iconOffset: [-20, -20]
+      iconOffset: [-28, -28]
     });
 
     map.geoObjects.add(placemark);
