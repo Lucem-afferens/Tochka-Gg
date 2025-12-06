@@ -74,7 +74,7 @@ get_header();
                 <section class="tgg-page__section">
                     <h2>4. Бронирование и оплата</h2>
                     <ul>
-                        <li>Бронирование игрового времени осуществляется через телефон, Telegram-чат, социальные сети или мобильное приложение</li>
+                        <li>Бронирование игрового времени осуществляется через телефон, Telegram-канал, социальные сети или мобильное приложение</li>
                         <li>Бронирование подтверждается после оплаты</li>
                         <li>При неявке в течение 15 минут после запланированного времени бронирование аннулируется</li>
                         <li>Оплата производится до начала игровой сессии</li>
@@ -157,7 +157,7 @@ get_header();
                     <?php
                     $phone = function_exists('get_field') ? get_field('phone_main', 'option') : '8 (992) 222-62-72';
                     $email = function_exists('get_field') ? get_field('email_main', 'option') : 'vr.kungur@mail.ru';
-                    $telegram = function_exists('get_field') ? get_field('telegram_username', 'option') : '@TochkaGg_Kungur';
+                    $telegram = function_exists('get_field') ? get_field('telegram_username', 'option') : '@tochaGgKungur';
                     $address = function_exists('get_field') ? get_field('address_full', 'option') : false;
                     ?>
                     <ul>
@@ -168,7 +168,7 @@ get_header();
                             <li><strong>Email:</strong> <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a></li>
                         <?php endif; ?>
                         <?php if ($telegram) : ?>
-                            <li><strong>Telegram-чат:</strong> <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($telegram); ?></a></li>
+                            <li><strong>Telegram-канал:</strong> <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($telegram); ?></a></li>
                         <?php endif; ?>
                         <?php if ($address) : ?>
                             <li><strong>Адрес:</strong> <?php echo esc_html($address); ?></li>

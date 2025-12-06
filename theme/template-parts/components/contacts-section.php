@@ -67,7 +67,7 @@ $social_links = get_field('social_networks', 'option');
                             </svg>
                         </div>
                         <div class="tgg-contacts__item-content">
-                            <div class="tgg-contacts__item-label">Telegram-чат</div>
+                            <div class="tgg-contacts__item-label">Telegram-канал</div>
                             <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer" class="tgg-contacts__item-value">
                                 <?php echo esc_html($telegram); ?>
                             </a>

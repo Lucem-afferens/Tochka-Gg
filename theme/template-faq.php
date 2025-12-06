@@ -53,7 +53,7 @@ get_header();
                             <p>Вы можете забронировать время несколькими способами:</p>
                             <ul>
                                 <li>По телефону - позвоните нам и мы зарезервируем место</li>
-                                <li>В Telegram-чате - напишите нам @TochkaGg_Kungur</li>
+                                <li>В Telegram-канале - подпишитесь на @tochaGgKungur</li>
                                 <li>Через социальные сети - напишите нам в ВКонтакте</li>
                                 <li>Через мобильное приложение Langame</li>
                                 <li>Лично в клубе - подойдите к администратору</li>
@@ -227,7 +227,7 @@ get_header();
                             <?php
                             $phone = function_exists('get_field') ? get_field('phone_main', 'option') : '8 (992) 222-62-72';
                             $email = function_exists('get_field') ? get_field('email_main', 'option') : 'vr.kungur@mail.ru';
-                            $telegram = function_exists('get_field') ? get_field('telegram_username', 'option') : '@TochkaGg_Kungur';
+                            $telegram = function_exists('get_field') ? get_field('telegram_username', 'option') : '@tochaGgKungur';
                             ?>
                             <p>Вы можете связаться с нами:</p>
                             <ul>
@@ -238,7 +238,7 @@ get_header();
                                     <li><strong>По email:</strong> <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a></li>
                                 <?php endif; ?>
                                 <?php if ($telegram) : ?>
-                                    <li><strong>Telegram-чат:</strong> <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($telegram); ?></a></li>
+                                    <li><strong>Telegram-канал:</strong> <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($telegram); ?></a></li>
                                 <?php endif; ?>
                                 <li><strong>В социальных сетях</strong> - найдите нас в ВКонтакте</li>
                                 <li><strong>Лично в клубе</strong> - подойдите к администратору</li>
