@@ -10,6 +10,7 @@ export function initMap() {
   
   const lat = parseFloat(mapContainer.dataset.lat) || 57.424953;
   const lng = parseFloat(mapContainer.dataset.lng) || 56.963968;
+  const logoUrl = mapContainer.dataset.logo || '';
   
   // Проверка, загружена ли Яндекс.Карта API
   if (typeof ymaps === 'undefined') {
@@ -123,41 +124,50 @@ export function initMap() {
       customStyles: darkTheme
     });
 
-    // Кастомный маркер - классическая иконка локации в кибер-стиле
+    // Кастомный маркер с логотипом в кибер-стиле
+    const markerHtml = logoUrl 
+      ? `<div class="tgg-map-marker tgg-map-marker--with-logo">
+          <div class="tgg-map-marker__pulse-ring"></div>
+          <div class="tgg-map-marker__icon-wrapper">
+            <div class="tgg-map-marker__logo-backdrop">
+              <img src="${logoUrl}" alt="Точка Gg" class="tgg-map-marker__logo">
+            </div>
+            <div class="tgg-map-marker__pin-tail"></div>
+          </div>
+        </div>`
+      : `<div class="tgg-map-marker">
+          <div class="tgg-map-marker__pulse-ring"></div>
+          <div class="tgg-map-marker__icon-wrapper">
+            <svg class="tgg-map-marker__icon" width="48" height="64" viewBox="0 0 48 64">
+              <defs>
+                <linearGradient id="pinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                  <stop offset="50%" style="stop-color:#2563eb;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+                </linearGradient>
+                <filter id="pinGlow">
+                  <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <ellipse cx="24" cy="58" rx="12" ry="4" fill="rgba(0, 0, 0, 0.3)" opacity="0.5"/>
+              <path d="M24 4 C29 4 33 6 36 9 C39 12 44 18 44 26 C44 34 36 50 24 60 C12 50 4 34 4 26 C4 18 9 12 12 9 C15 6 19 4 24 4 Z" 
+                    fill="url(#pinGradient)" 
+                    stroke="#ffffff" 
+                    stroke-width="2" 
+                    filter="url(#pinGlow)"/>
+              <circle cx="24" cy="20" r="8" fill="rgba(255, 255, 255, 0.9)"/>
+              <circle cx="24" cy="20" r="5" fill="#3b82f6"/>
+              <circle cx="24" cy="20" r="2.5" fill="#ffffff"/>
+            </svg>
+          </div>
+        </div>`;
+
     const placemarkLayout = ymaps.templateLayoutFactory.createClass(
-      '<div class="tgg-map-marker">' +
-        '<div class="tgg-map-marker__pulse-ring"></div>' +
-        '<div class="tgg-map-marker__icon-wrapper">' +
-          '<svg class="tgg-map-marker__icon" width="48" height="64" viewBox="0 0 48 64">' +
-            '<defs>' +
-              '<linearGradient id="pinGradient" x1="0%" y1="0%" x2="0%" y2="100%">' +
-                '<stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />' +
-                '<stop offset="50%" style="stop-color:#2563eb;stop-opacity:1" />' +
-                '<stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />' +
-              '</linearGradient>' +
-              '<filter id="pinGlow">' +
-                '<feGaussianBlur stdDeviation="4" result="coloredBlur"/>' +
-                '<feMerge>' +
-                  '<feMergeNode in="coloredBlur"/>' +
-                  '<feMergeNode in="SourceGraphic"/>' +
-                '</feMerge>' +
-              '</filter>' +
-            '</defs>' +
-            '<!-- Тень маркера -->' +
-            '<ellipse cx="24" cy="58" rx="12" ry="4" fill="rgba(0, 0, 0, 0.3)" opacity="0.5"/>' +
-            '<!-- Капля маркера -->' +
-            '<path d="M24 4 C29 4 33 6 36 9 C39 12 44 18 44 26 C44 34 36 50 24 60 C12 50 4 34 4 26 C4 18 9 12 12 9 C15 6 19 4 24 4 Z" ' +
-                  'fill="url(#pinGradient)" ' +
-                  'stroke="#ffffff" ' +
-                  'stroke-width="2" ' +
-                  'filter="url(#pinGlow)"/>' +
-            '<!-- Внутренний круг (точка) -->' +
-            '<circle cx="24" cy="20" r="8" fill="rgba(255, 255, 255, 0.9)"/>' +
-            '<circle cx="24" cy="20" r="5" fill="#3b82f6"/>' +
-            '<circle cx="24" cy="20" r="2.5" fill="#ffffff"/>' +
-          '</svg>' +
-        '</div>' +
-      '</div>',
+      markerHtml,
       {
         build: function () {
           placemarkLayout.superclass.build.call(this);
@@ -179,11 +189,11 @@ export function initMap() {
     }, {
       iconLayout: placemarkLayout,
       iconShape: {
-        type: 'Circle',
+        type: logoUrl ? 'Circle' : 'Circle',
         coordinates: [0, 0],
-        radius: 24
+        radius: logoUrl ? 40 : 24
       },
-      iconOffset: [-24, -64]
+      iconOffset: logoUrl ? [-40, -80] : [-24, -64]
     });
 
     map.geoObjects.add(placemark);

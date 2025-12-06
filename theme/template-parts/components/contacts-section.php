@@ -138,7 +138,30 @@ $social_links = get_field('social_networks', 'option');
             </div>
             
             <div class="tgg-contacts__map">
-                <div class="tgg-contacts__map-container" id="map" data-lat="<?php echo esc_attr($map_lat); ?>" data-lng="<?php echo esc_attr($map_lng); ?>">
+                <?php
+                // Получаем логотип для маркера карты
+                $map_logo = function_exists('get_field') ? get_field('logo', 'option') : false;
+                $map_logo_url = '';
+                if ($map_logo) {
+                    $map_logo_data = function_exists('tochkagg_get_image_or_placeholder') 
+                        ? tochkagg_get_image_or_placeholder($map_logo, 80, 80, 'Map Marker Logo')
+                        : null;
+                    $map_logo_url = $map_logo_data ? $map_logo_data['url'] : '';
+                }
+                // Если нет логотипа, используем fallback через функцию
+                if (!$map_logo_url && function_exists('tochkagg_get_image_or_placeholder')) {
+                    $fallback_logo = function_exists('get_field') ? get_field('logo', 'option') : false;
+                    if ($fallback_logo) {
+                        $fallback_data = tochkagg_get_image_or_placeholder($fallback_logo, 80, 80, 'Logo');
+                        $map_logo_url = $fallback_data['url'];
+                    }
+                }
+                ?>
+                <div class="tgg-contacts__map-container" 
+                     id="map" 
+                     data-lat="<?php echo esc_attr($map_lat); ?>" 
+                     data-lng="<?php echo esc_attr($map_lng); ?>"
+                     data-logo="<?php echo esc_attr($map_logo_url); ?>">
                     <!-- Карта будет инициализирована через JavaScript -->
                     <div class="tgg-contacts__map-placeholder">
                         <p>Карта загружается...</p>
