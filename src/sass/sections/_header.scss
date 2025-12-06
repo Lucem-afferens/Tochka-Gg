@@ -292,27 +292,31 @@
     
     @media (max-width: 1023px) {
       width: 100%;
-      opacity: 0;
-      transform: translateX(40px);
-      visibility: hidden;
+      display: block !important;
+      
+      // Изначально скрываем элементы
+      .tgg-header__nav:not(.active) & {
+        opacity: 0;
+        transform: translateX(40px);
+        visibility: hidden;
+      }
       
       // Показываем элементы при открытом меню
       .tgg-header__nav.active & {
-        visibility: visible;
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+        display: block !important;
         animation: nav-item-slide-in 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        
+        // Fallback на случай, если анимация не работает
+        animation-fill-mode: forwards;
         
         @for $i from 1 through 10 {
           &:nth-child(#{$i}) {
             animation-delay: #{($i - 1) * 0.06}s;
           }
         }
-      }
-      
-      // Если меню активно, но анимация еще не началась - показываем элементы
-      .tgg-header__nav.active & {
-        // fallback для браузеров без поддержки animation
-        opacity: 1;
-        transform: translateX(0);
       }
     }
   }

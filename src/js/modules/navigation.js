@@ -39,6 +39,12 @@ export function initNavigation() {
     burger.setAttribute('aria-label', willBeExpanded 
       ? 'Закрыть меню' 
       : 'Открыть меню');
+    
+    // Отладочная информация
+    if (willBeExpanded) {
+      const navItems = nav.querySelectorAll('.tgg-nav__list li');
+      console.log('Menu opened, found items:', navItems.length);
+    }
   });
   
   // Закрытие меню при клике вне его
