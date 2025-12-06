@@ -30,10 +30,17 @@
   transition: all $duration-normal $ease-out-cubic;
   position: relative;
   overflow: hidden;
+  min-height: 44px; // Минимальный touch target
   
   @include focus-visible;
   @include neon-glow($color-primary, 0.4);
   @include text-neon($color-primary, 0.3);
+  
+  @include max-width(xs) {
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-size-sm;
+    min-height: 40px;
+  }
   
   // Кибер-эффект: светящийся контур
   &::before {
@@ -98,6 +105,13 @@
   border: $border-width-medium solid $color-primary;
   border-radius: $border-radius-md;
   cursor: pointer;
+  min-height: 44px; // Минимальный touch target
+  
+  @include max-width(xs) {
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-size-sm;
+    min-height: 40px;
+  }
   transition: all $duration-normal $ease-out-cubic;
   position: relative;
   overflow: hidden;
@@ -162,8 +176,15 @@
   position: relative;
   overflow: hidden;
   animation: fire-gradient 3s ease infinite;
+  min-height: 44px; // Минимальный touch target
   
   @include focus-visible;
+  
+  @include max-width(xs) {
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-size-sm;
+    min-height: 40px;
+  }
   
   // Огненное свечение
   box-shadow: 

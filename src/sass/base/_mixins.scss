@@ -11,7 +11,12 @@
 // ============================================
 
 @mixin respond-to($breakpoint) {
-  @if $breakpoint == xs {
+  @if $breakpoint == xxs {
+    @media (min-width: $breakpoint-xxs) {
+      @content;
+    }
+  }
+  @else if $breakpoint == xs {
     @media (min-width: $breakpoint-xs) {
       @content;
     }
@@ -43,6 +48,30 @@
   }
 }
 
+// Миксин для маленьких экранов (max-width)
+@mixin max-width($breakpoint) {
+  @if $breakpoint == xxs {
+    @media (max-width: #{$breakpoint-xxs - 1px}) {
+      @content;
+    }
+  }
+  @else if $breakpoint == xs {
+    @media (max-width: #{$breakpoint-xs - 1px}) {
+      @content;
+    }
+  }
+  @else if $breakpoint == sm {
+    @media (max-width: #{$breakpoint-sm - 1px}) {
+      @content;
+    }
+  }
+  @else if $breakpoint == md {
+    @media (max-width: #{$breakpoint-md - 1px}) {
+      @content;
+    }
+  }
+}
+
 // ============================================
 // CONTAINER
 // ============================================
@@ -51,10 +80,14 @@
   width: 100%;
   max-width: $container-content-width;
   margin: 0 auto;
-  padding: 0 $container-padding-mobile;
+  padding: 0 $container-padding-mobile-small; // 16px для 320px
+  
+  @include respond-to(xs) {
+    padding: 0 $container-padding-mobile; // 24px для 375px+
+  }
   
   @include respond-to(lg) {
-    padding: 0 $container-padding-desktop;
+    padding: 0 $container-padding-desktop; // 48px для десктопов
   }
 }
 

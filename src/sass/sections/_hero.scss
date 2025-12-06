@@ -110,6 +110,11 @@
     @include glassmorphism-accent($color-primary, 0.15, 0.2, 25px);
     border-radius: $border-radius-xl;
     
+    @include max-width(xs) {
+      padding: $spacing-2xl $spacing-md;
+      margin: 0 $spacing-md;
+    }
+    
     @include respond-to(sm) {
       padding: $spacing-4xl $spacing-2xl;
     }
@@ -176,6 +181,12 @@
     margin-left: auto;
     margin-right: auto;
     animation: fade-in-up 0.8s $ease-out-cubic 0.4s both;
+    
+    @include max-width(xs) {
+      font-size: $font-size-base;
+      margin-bottom: $spacing-xl;
+      padding: 0 $spacing-sm;
+    }
   }
   
   &__cta {

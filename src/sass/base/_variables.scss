@@ -104,8 +104,9 @@ $spacing-5xl: 8rem;     // 128px
 
 $container-max-width: 1440px;
 $container-content-width: 1200px;
-$container-padding-mobile: $spacing-lg;   // 24px
-$container-padding-desktop: $spacing-2xl; // 48px
+$container-padding-mobile-small: $spacing-md;  // 16px для экранов 320px
+$container-padding-mobile: $spacing-lg;        // 24px для экранов 375px+
+$container-padding-desktop: $spacing-2xl;      // 48px
 
 $grid-columns: 12;
 $grid-gutter: $spacing-xl;        // 32px
@@ -115,12 +116,13 @@ $grid-gutter-mobile: $spacing-lg; // 24px
 // BREAKPOINTS
 // ============================================
 
-$breakpoint-xs: 375px;
-$breakpoint-sm: 640px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-$breakpoint-xl: 1280px;
-$breakpoint-2xl: 1440px;
+$breakpoint-xxs: 320px;  // Очень маленькие мобильные устройства
+$breakpoint-xs: 375px;   // Маленькие мобильные устройства
+$breakpoint-sm: 640px;   // Средние мобильные устройства
+$breakpoint-md: 768px;   // Планшеты
+$breakpoint-lg: 1024px;  // Маленькие десктопы
+$breakpoint-xl: 1280px;  // Средние десктопы
+$breakpoint-2xl: 1440px; // Большие десктопы
 
 // ============================================
 // ТЕНИ

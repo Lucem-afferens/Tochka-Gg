@@ -10,9 +10,15 @@
   padding: $spacing-5xl 0;
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+    min-height: 60vh;
+  }
+  
   &__content {
     text-align: center;
     max-width: 600px;
+    padding: 0 $spacing-md;
   }
   
   &__title {
@@ -49,6 +55,11 @@
     display: flex;
     justify-content: center;
     gap: $spacing-lg;
+    flex-wrap: wrap;
+    
+    @include max-width(xs) {
+      gap: $spacing-md;
+    }
   }
 }
 

@@ -7,6 +7,10 @@
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   position: relative;
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   .tgg-container {
     position: relative;
     z-index: 1;
@@ -19,6 +23,10 @@
     align-items: center;
     width: 100%;
     max-width: 100%;
+    
+    @include max-width(xs) {
+      gap: $spacing-2xl;
+    }
     
     @include respond-to(lg) {
       grid-template-columns: 1fr 1fr;
@@ -69,6 +77,10 @@
     margin-bottom: $spacing-2xl;
     width: 100%;
     max-width: 100%;
+    
+    @include max-width(xs) {
+      gap: $spacing-md;
+    }
     
     @include respond-to(sm) {
       grid-template-columns: repeat(2, 1fr);

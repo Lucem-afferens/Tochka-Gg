@@ -6,9 +6,18 @@
   padding: $spacing-5xl 0;
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &__header {
     text-align: center;
     margin-bottom: $spacing-4xl;
+    
+    @include max-width(xs) {
+      margin-bottom: $spacing-2xl;
+      padding: 0 $spacing-md;
+    }
   }
   
   &__title {
@@ -36,6 +45,10 @@
     gap: $spacing-2xl;
     width: 100%;
     max-width: 100%;
+    
+    @include max-width(xs) {
+      gap: $spacing-xl;
+    }
     
     @include respond-to(md) {
       grid-template-columns: repeat(2, 1fr);

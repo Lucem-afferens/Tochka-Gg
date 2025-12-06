@@ -7,16 +7,21 @@
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   position: relative;
   
-  &__wrapper {
-    position: relative;
-    z-index: 1;
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
   }
   
   &__wrapper {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 1fr;
     gap: $spacing-3xl;
     align-items: center;
+    
+    @include max-width(xs) {
+      gap: $spacing-2xl;
+    }
     
     @include respond-to(lg) {
       grid-template-columns: 1fr 1fr;
@@ -68,15 +73,15 @@
     font-size: $font-size-lg;
     line-height: $line-height-relaxed;
     color: $color-text-secondary;
-    
-    
     width: 100%;
     max-width: 100%;
     
+    @include max-width(xs) {
+      font-size: $font-size-base;
+    }
+    
     p {
       margin-bottom: $spacing-md;
-      
-      
       
       &:last-child {
         margin-bottom: 0;

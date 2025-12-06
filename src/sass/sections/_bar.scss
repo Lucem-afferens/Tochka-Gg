@@ -8,6 +8,10 @@
   padding: $spacing-5xl 0;
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &__title {
     font-family: $font-heading;
     font-size: $font-size-h1;
@@ -18,6 +22,11 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-md;
+    
+    @include max-width(xs) {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      padding: 0 $spacing-sm;
+    }
     text-shadow: 
       0 0 25px rgba(59, 130, 246, 0.9),
       0 0 40px rgba(59, 130, 246, 0.6),

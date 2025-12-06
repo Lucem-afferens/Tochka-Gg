@@ -8,6 +8,10 @@
   position: relative;
   overflow: hidden;
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &::before {
     content: '';
     position: absolute;
@@ -34,6 +38,11 @@
     @include glassmorphism-accent($color-primary, 0.12, 0.18, 20px);
     border-radius: $border-radius-xl;
     padding: $spacing-4xl $spacing-2xl;
+    
+    @include max-width(xs) {
+      padding: $spacing-2xl $spacing-md;
+      margin: 0 $spacing-md;
+    }
     
     @include respond-to(sm) {
       padding: $spacing-5xl $spacing-3xl;
@@ -107,11 +116,24 @@
     border: $border-width-medium solid rgba(59, 130, 246, 0.3);
     border-radius: $border-radius-md;
     transition: all $duration-normal $ease-out-cubic;
+    min-height: 44px; // Минимальный touch target
+    
+    @include max-width(xs) {
+      font-size: $font-size-base;
+      padding: $spacing-sm $spacing-lg;
+      white-space: normal;
+      min-height: 40px;
+    }
     
     svg {
       width: 20px;
       height: 20px;
       color: $color-primary;
+      
+      @include max-width(xs) {
+        width: 18px;
+        height: 18px;
+      }
     }
     
     &:hover {

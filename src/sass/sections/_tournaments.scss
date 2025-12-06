@@ -7,6 +7,10 @@
   padding: $spacing-5xl 0;
   overflow: hidden;
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &__bg {
     position: absolute;
     top: 0;

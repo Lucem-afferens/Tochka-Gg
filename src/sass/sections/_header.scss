@@ -51,6 +51,14 @@
     padding-bottom: $spacing-md;
     max-width: 1400px;
     margin: 0 auto;
+    
+    // Для очень маленьких экранов уменьшаем padding
+    @include max-width(xs) {
+      padding-left: $spacing-md;
+      padding-right: $spacing-md;
+      padding-top: $spacing-sm;
+      padding-bottom: $spacing-sm;
+    }
   }
   
   // Эффект при скролле - более плотный глоссморфизм
@@ -83,8 +91,15 @@
   img {
     height: 48px;
     width: auto;
+    max-width: 120px; // Ограничение для маленьких экранов
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3));
+    
+    // Для очень маленьких экранов уменьшаем размер логотипа
+    @include max-width(xs) {
+      height: 36px;
+      max-width: 100px;
+    }
   }
   
   a {
@@ -148,6 +163,10 @@
     overflow-x: hidden;
     padding: $spacing-4xl $spacing-2xl;
     z-index: 999;
+    
+    @include max-width(xs) {
+      padding: $spacing-3xl $spacing-md;
+    }
     
     // Кибер-сетка на фоне мобильного меню
     &::before {
@@ -462,6 +481,17 @@
     justify-content: center;
     padding: $spacing-md;
     font-size: $font-size-base;
+    width: 100%;
+    
+    @include max-width(xs) {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-sm;
+      
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
     width: 100%;
     border: 1px solid rgba(59, 130, 246, 0.2);
     border-radius: $border-radius-md;

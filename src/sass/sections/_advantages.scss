@@ -7,6 +7,10 @@
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   position: relative;
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &__items {
     position: relative;
     z-index: 1;
@@ -22,6 +26,12 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-4xl;
+    
+    @include max-width(xs) {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin-bottom: $spacing-2xl;
+      padding: 0 $spacing-sm;
+    }
     // Футуристичное свечение: синий + красный неон
     text-shadow: 
       0 0 20px rgba(59, 130, 246, 0.8),
@@ -47,6 +57,10 @@
     width: 100%;
     max-width: 100%;
     
+    @include max-width(xs) {
+      gap: $spacing-xl;
+    }
+    
     @include respond-to(md) {
       grid-template-columns: repeat(3, 1fr);
       gap: $spacing-xl;
@@ -70,6 +84,11 @@
     flex-direction: column;
     align-items: center;
     min-height: 320px; // Минимальная высота для вмещения всего контента
+    
+    @include max-width(xs) {
+      padding: $spacing-xl $spacing-md;
+      min-height: 280px;
+    }
     
     // Радужный перелив при hover
     &::before {

@@ -6,11 +6,19 @@
   padding: $spacing-5xl 0;
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &__wrapper {
     display: grid;
     grid-template-columns: 1fr;
     gap: $spacing-3xl;
     align-items: center;
+    
+    @include max-width(xs) {
+      gap: $spacing-2xl;
+    }
     
     @include respond-to(lg) {
       grid-template-columns: 1fr 1fr;
@@ -54,6 +62,11 @@
     grid-template-columns: repeat(2, 1fr);
     gap: $spacing-lg;
     margin-bottom: $spacing-2xl;
+    
+    @include max-width(xs) {
+      grid-template-columns: 1fr;
+      gap: $spacing-md;
+    }
   }
   
   &__feature {

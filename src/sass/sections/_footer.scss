@@ -19,6 +19,11 @@
   position: relative;
   margin-top: $spacing-5xl;
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0 $spacing-lg;
+    margin-top: $spacing-3xl;
+  }
+  
   // Градиентная линия сверху
   &::before {
     content: '';
@@ -59,6 +64,11 @@
   margin-bottom: $spacing-4xl;
   position: relative;
   z-index: 1;
+  
+  @include max-width(xs) {
+    gap: $spacing-2xl;
+    margin-bottom: $spacing-2xl;
+  }
   
   @include respond-to(sm) {
     grid-template-columns: repeat(2, 1fr);
@@ -383,6 +393,10 @@
   display: inline-block;
   word-break: break-word;
   
+  @include max-width(xs) {
+    font-size: $font-size-xs;
+  }
+  
   &:hover {
     color: $color-primary;
     text-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
@@ -576,6 +590,23 @@
   .tgg-footer__bottom-content {
     flex-direction: column;
     text-align: center;
+    gap: $spacing-md;
+  }
+  
+  .tgg-footer__copyright {
+    p {
+      font-size: $font-size-xs;
+    }
+  }
+  
+  .tgg-footer__payment {
+    &-label {
+      font-size: $font-size-xs;
+    }
+    
+    &-method {
+      font-size: 16px;
+    }
   }
   
   .tgg-footer__copyright {

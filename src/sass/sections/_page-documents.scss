@@ -10,6 +10,10 @@
   background: transparent;
   min-height: 60vh;
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &--privacy,
   &--terms,
   &--rules,
@@ -22,6 +26,10 @@
   max-width: 900px;
   margin: 0 auto;
   width: 100%;
+  
+  @include max-width(xs) {
+    padding: 0 $spacing-md;
+  }
 }
 
 .tgg-page__header {
@@ -128,6 +136,10 @@
     margin-bottom: $spacing-lg;
     padding-left: $spacing-xl;
     color: $color-text-secondary;
+    
+    @include max-width(xs) {
+      padding-left: $spacing-lg;
+    }
     
     li {
       margin-bottom: $spacing-sm;

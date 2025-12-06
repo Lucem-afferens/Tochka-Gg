@@ -6,10 +6,18 @@
   padding: $spacing-5xl 0;
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &__wrapper {
     display: grid;
     grid-template-columns: 1fr;
     gap: $spacing-3xl;
+    
+    @include max-width(xs) {
+      gap: $spacing-2xl;
+    }
     
     @include respond-to(lg) {
       grid-template-columns: 1fr 1fr;
@@ -26,12 +34,22 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-2xl;
+    
+    @include max-width(xs) {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin-bottom: $spacing-xl;
+    }
   }
   
   &__item {
     display: flex;
     gap: $spacing-lg;
     margin-bottom: $spacing-xl;
+    
+    @include max-width(xs) {
+      gap: $spacing-md;
+      margin-bottom: $spacing-lg;
+    }
     
     &-icon {
       flex-shrink: 0;
@@ -44,9 +62,19 @@
       border-radius: $border-radius-md;
       color: $color-primary;
       
+      @include max-width(xs) {
+        width: 40px;
+        height: 40px;
+      }
+      
       svg {
         width: 24px;
         height: 24px;
+        
+        @include max-width(xs) {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
     
@@ -118,6 +146,11 @@
     border-radius: $border-radius-xl;
     overflow: hidden;
     min-height: 500px;
+    
+    @include max-width(xs) {
+      min-height: 350px;
+      border-radius: $border-radius-lg;
+    }
     border: 2px solid rgba(59, 130, 246, 0.4);
     box-shadow: 
       0 0 30px rgba(59, 130, 246, 0.4),
@@ -174,6 +207,10 @@
       position: relative;
       z-index: 2;
       
+      @include max-width(xs) {
+        min-height: 350px;
+      }
+      
       // Стилизация карты Яндекс
       :global {
         [class*="ymaps-2"][class*="-ground-pane"] {
@@ -208,6 +245,11 @@
       width: 100%;
       height: 100%;
       min-height: 500px;
+      
+      @include max-width(xs) {
+        min-height: 350px;
+        padding: $spacing-lg;
+      }
       background: 
         radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),

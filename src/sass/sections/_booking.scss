@@ -14,6 +14,10 @@
   background: transparent;
   position: relative;
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &__header {
     text-align: center;
     margin-bottom: $spacing-5xl;
@@ -21,6 +25,11 @@
     margin-left: auto;
     margin-right: auto;
     animation: fade-in-up 0.6s $ease-out-cubic;
+    
+    @include max-width(xs) {
+      margin-bottom: $spacing-3xl;
+      padding: 0 $spacing-md;
+    }
   }
   
   &__title {
@@ -65,6 +74,11 @@
     gap: $spacing-2xl;
     max-width: 1400px;
     margin: 0 auto;
+    
+    @include max-width(xs) {
+      gap: $spacing-xl;
+      padding: 0 $spacing-md;
+    }
     
     // От 768px: кастомная раскладка - первая строка Langame на всю ширину, вторая строка Phone и VK
     @include respond-to(md) {

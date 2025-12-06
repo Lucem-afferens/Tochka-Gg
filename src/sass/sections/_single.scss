@@ -7,8 +7,17 @@
   padding: $spacing-5xl 0;
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
   &__header {
     margin-bottom: $spacing-3xl;
+    
+    @include max-width(xs) {
+      margin-bottom: $spacing-2xl;
+      padding: 0 $spacing-md;
+    }
   }
   
   &__image {
@@ -185,8 +194,12 @@
   
   &__navigation {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: $spacing-lg;
+    
+    @include respond-to(sm) {
+      grid-template-columns: 1fr 1fr;
+    }
     
     a {
       display: block;
@@ -199,6 +212,11 @@
       color: $color-text-primary;
       text-decoration: none;
       transition: all $duration-normal $ease-out-cubic;
+      
+      @include max-width(xs) {
+        padding: $spacing-md;
+        font-size: $font-size-sm;
+      }
       
       &:hover {
         border-color: rgba(59, 130, 246, 0.5);
