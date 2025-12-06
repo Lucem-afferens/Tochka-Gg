@@ -153,8 +153,9 @@ get_header();
                     <h2>12. Контакты</h2>
                     <p>По всем вопросам, связанным с настоящим Соглашением, вы можете обращаться:</p>
                     <?php
-                    $phone = function_exists('get_field') ? get_field('phone_main', 'option') : false;
-                    $email = function_exists('get_field') ? get_field('email_main', 'option') : false;
+                    $phone = function_exists('get_field') ? get_field('phone_main', 'option') : '8 (992) 222-62-72';
+                    $email = function_exists('get_field') ? get_field('email_main', 'option') : 'vr.kungur@mail.ru';
+                    $telegram = function_exists('get_field') ? get_field('telegram_username', 'option') : '@TochkaGg_Kungur';
                     $address = function_exists('get_field') ? get_field('address_full', 'option') : false;
                     ?>
                     <ul>
@@ -163,6 +164,9 @@ get_header();
                         <?php endif; ?>
                         <?php if ($email) : ?>
                             <li><strong>Email:</strong> <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a></li>
+                        <?php endif; ?>
+                        <?php if ($telegram) : ?>
+                            <li><strong>Telegram-чат:</strong> <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($telegram); ?></a></li>
                         <?php endif; ?>
                         <?php if ($address) : ?>
                             <li><strong>Адрес:</strong> <?php echo esc_html($address); ?></li>
