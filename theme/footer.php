@@ -14,6 +14,8 @@ $phone = (function_exists('get_field') ? get_field('phone_main', 'option') : nul
 $email = (function_exists('get_field') ? get_field('email_main', 'option') : null) ?: 'vr.kungur@mail.ru';
 $telegram = (function_exists('get_field') ? get_field('telegram_username', 'option') : null) ?: '@tochaGgKungur';
 $address = (function_exists('get_field') ? get_field('address_full', 'option') : null) ?: 'Пермский край, г. Кунгур, ул. Голованова, 43, вход с торца здания, цокольный этаж';
+$map_lat = (function_exists('get_field') ? get_field('map_latitude', 'option') : null) ?: '57.424953';
+$map_lng = (function_exists('get_field') ? get_field('map_longitude', 'option') : null) ?: '56.963968';
 $working_hours = (function_exists('get_field') ? get_field('working_hours', 'option') : null) ?: 'Круглосуточно, без выходных';
 $social_links = function_exists('get_field') ? get_field('social_networks', 'option') : false;
 $footer_logo = function_exists('get_field') ? get_field('footer_logo', 'option') : false;
@@ -315,9 +317,12 @@ if (empty($footer_info_links)) {
                                     <circle cx="12" cy="10" r="3"/>
                                 </svg>
                             </span>
-                            <address class="tgg-footer__contact-link">
+                            <a href="https://yandex.ru/maps/?pt=<?php echo esc_attr($map_lng); ?>,<?php echo esc_attr($map_lat); ?>&z=17&l=map" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="tgg-footer__contact-link">
                                 <?php echo esc_html($address); ?>
-                            </address>
+                            </a>
                         </div>
                     <?php endif; ?>
                     

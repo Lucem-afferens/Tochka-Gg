@@ -85,9 +85,12 @@ $social_links = get_field('social_networks', 'option');
                         </div>
                         <div class="tgg-contacts__item-content">
                             <div class="tgg-contacts__item-label">Адрес</div>
-                            <div class="tgg-contacts__item-value">
+                            <a href="https://yandex.ru/maps/?pt=<?php echo esc_attr($map_lng); ?>,<?php echo esc_attr($map_lat); ?>&z=17&l=map" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="tgg-contacts__item-value">
                                 <?php echo esc_html($address); ?>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 <?php endif; ?>
