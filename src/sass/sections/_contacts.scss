@@ -117,20 +117,57 @@
     position: relative;
     border-radius: $border-radius-lg;
     overflow: hidden;
-    box-shadow: $shadow-lg;
     min-height: 400px;
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 
+      0 0 20px rgba(59, 130, 246, 0.3),
+      0 0 40px rgba(59, 130, 246, 0.15),
+      inset 0 0 60px rgba(59, 130, 246, 0.05);
+    background: linear-gradient(135deg, rgba(26, 29, 41, 0.9) 0%, rgba(30, 33, 40, 0.9) 100%);
+    
+    // Неоновое свечение по краям
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, 
+        rgba(59, 130, 246, 0.5),
+        rgba(139, 92, 246, 0.5),
+        rgba(59, 130, 246, 0.5)
+      );
+      border-radius: $border-radius-lg;
+      z-index: -1;
+      opacity: 0.6;
+      animation: neonPulse 3s ease-in-out infinite;
+      filter: blur(8px);
+    }
     
     &-container {
       width: 100%;
       height: 100%;
       min-height: 400px;
+      position: relative;
+      
+      // Стилизация карты Яндекс
+      :global {
+        [class*="ymaps-2"][class*="-ground-pane"] {
+          filter: brightness(0.7) contrast(1.2) saturate(0.8);
+        }
+        
+        [class*="ymaps-2"][class*="-controls"] {
+          filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+        }
+      }
     }
     
     &-placeholder {
       width: 100%;
       height: 100%;
       min-height: 400px;
-      background: $color-bg-primary;
+      background: linear-gradient(135deg, #1a1d29 0%, #252830 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -138,10 +175,12 @@
       gap: $spacing-md;
       color: $color-text-secondary;
       padding: $spacing-xl;
+      border: 1px solid rgba(59, 130, 246, 0.2);
       
       p {
         margin: 0;
         text-align: center;
+        color: $color-text-secondary;
       }
     }
     
@@ -150,13 +189,108 @@
         color: $color-primary;
         text-decoration: none;
         font-weight: $font-weight-body-medium;
-        transition: color $duration-normal $ease-out-cubic;
+        transition: all $duration-normal $ease-out-cubic;
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         
         &:hover {
           color: $color-primary-bright;
+          text-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
         }
       }
     }
+  }
+}
+
+// Стили для кастомного маркера карты
+.tgg-map-marker {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  
+  &__pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.4);
+    animation: markerPulse 2s ease-out infinite;
+    z-index: 0;
+  }
+  
+  &__dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3b82f6;
+    box-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.8),
+      0 0 20px rgba(59, 130, 246, 0.6),
+      0 0 30px rgba(59, 130, 246, 0.4);
+    z-index: 2;
+    animation: markerGlow 2s ease-in-out infinite;
+  }
+  
+  &__icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.8));
+    animation: markerFloat 3s ease-in-out infinite;
+  }
+}
+
+// Анимации для маркера и карты
+@keyframes neonPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.01);
+  }
+}
+
+@keyframes markerPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes markerGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.8),
+      0 0 20px rgba(59, 130, 246, 0.6),
+      0 0 30px rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 15px rgba(59, 130, 246, 1),
+      0 0 30px rgba(59, 130, 246, 0.8),
+      0 0 45px rgba(59, 130, 246, 0.6);
+  }
+}
+
+@keyframes markerFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
   }
 }
 
