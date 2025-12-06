@@ -1186,6 +1186,52 @@
 body.menu-open {
   @media (max-width: 1023px) {
     overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    
+    // Предотвращаем прыжок при блокировке скролла
+    &::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 9998; // Ниже меню, но выше контента
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      pointer-events: auto;
+    }
+  }
+}
+
+// Дополнительная блокировка для html (на некоторых устройствах)
+html.menu-open {
+  @media (max-width: 1023px) {
+    overflow: hidden;
+    height: 100%;
+  }
+}
+
+// Блокировка кликов по основному контенту
+body.menu-open {
+  @media (max-width: 1023px) {
+    // Блокируем все элементы кроме меню
+    * {
+      pointer-events: none;
+    }
+    
+    // Разрешаем клики только в меню и бургере
+    .tgg-header__nav,
+    .tgg-header__nav *,
+    .tgg-header__burger,
+    .tgg-header__burger * {
+      pointer-events: auto;
+    }
   }
 }
 

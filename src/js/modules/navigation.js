@@ -20,6 +20,9 @@ export function initNavigation() {
   // MOBILE MENU TOGGLE
   // ============================================
   
+  // Сохраняем позицию скролла перед блокировкой
+  let scrollPosition = 0;
+  
   burger.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -33,7 +36,28 @@ export function initNavigation() {
     // Переключаем классы
     nav.classList.toggle('active');
     burger.classList.toggle('active');
-    document.body.classList.toggle('menu-open');
+    
+    // Блокировка скролла и кликов
+    if (window.innerWidth <= 1023) {
+      if (willBeExpanded) {
+        // Сохраняем позицию скролла
+        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Блокируем скролл
+        document.body.classList.add('menu-open');
+        document.documentElement.classList.add('menu-open');
+        document.body.style.top = `-${scrollPosition}px`;
+      } else {
+        // Разблокируем скролл
+        document.body.classList.remove('menu-open');
+        document.documentElement.classList.remove('menu-open');
+        document.body.style.top = '';
+        window.scrollTo(0, scrollPosition);
+      }
+    } else {
+      document.body.classList.remove('menu-open');
+      document.documentElement.classList.remove('menu-open');
+    }
     
     // Обновляем aria-label для доступности
     burger.setAttribute('aria-label', willBeExpanded 
@@ -51,23 +75,51 @@ export function initNavigation() {
   document.addEventListener('click', (e) => {
     if (window.innerWidth <= 1023 && nav.classList.contains('active')) {
       if (!nav.contains(e.target) && !burger.contains(e.target)) {
-        nav.classList.remove('active');
-        burger.classList.remove('active');
-        burger.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('menu-open');
+        closeMenu();
       }
     }
   });
   
+  // Функция закрытия меню
+  function closeMenu() {
+    nav.classList.remove('active');
+    burger.classList.remove('active');
+    burger.setAttribute('aria-expanded', 'false');
+    
+    // Разблокируем скролл
+    if (window.innerWidth <= 1023) {
+      document.body.classList.remove('menu-open');
+      document.documentElement.classList.remove('menu-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollPosition);
+    }
+  }
+  
   // Закрытие меню при нажатии Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && nav.classList.contains('active')) {
-      nav.classList.remove('active');
-      burger.classList.remove('active');
-      burger.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
+      closeMenu();
     }
   });
+  
+  // Блокировка скролла при открытом меню
+  document.addEventListener('wheel', (e) => {
+    if (window.innerWidth <= 1023 && nav.classList.contains('active')) {
+      e.preventDefault();
+      return false;
+    }
+  }, { passive: false });
+  
+  // Блокировка touchmove (для мобильных устройств)
+  document.addEventListener('touchmove', (e) => {
+    if (window.innerWidth <= 1023 && nav.classList.contains('active')) {
+      // Разрешаем скролл только внутри меню
+      if (!nav.contains(e.target)) {
+        e.preventDefault();
+        return false;
+      }
+    }
+  }, { passive: false });
   
   // ============================================
   // HEADER SCROLL EFFECT
@@ -114,10 +166,7 @@ export function initNavigation() {
       // Закрываем мобильное меню после небольшой задержки
       if (window.innerWidth <= 1023) {
         setTimeout(() => {
-          nav.classList.remove('active');
-          burger.classList.remove('active');
-          burger.setAttribute('aria-expanded', 'false');
-          document.body.classList.remove('menu-open');
+          closeMenu();
         }, 300);
       }
     });
@@ -241,10 +290,7 @@ export function initNavigation() {
     resizeTimeout = setTimeout(() => {
       // Закрываем мобильное меню при переходе на десктоп
       if (window.innerWidth > 1023) {
-        nav.classList.remove('active');
-        burger.classList.remove('active');
-        burger.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('menu-open');
+        closeMenu();
       }
     }, 250);
   });
