@@ -225,8 +225,9 @@ get_header();
                         <h3 class="tgg-faq__question">Как связаться с администрацией?</h3>
                         <div class="tgg-faq__answer">
                             <?php
-                            $phone = function_exists('get_field') ? get_field('phone_main', 'option') : false;
-                            $email = function_exists('get_field') ? get_field('email_main', 'option') : false;
+                            $phone = function_exists('get_field') ? get_field('phone_main', 'option') : '8 (992) 222-62-72';
+                            $email = function_exists('get_field') ? get_field('email_main', 'option') : 'vr.kungur@mail.ru';
+                            $telegram = function_exists('get_field') ? get_field('telegram_username', 'option') : '@TochkaGg_Kungur';
                             ?>
                             <p>Вы можете связаться с нами:</p>
                             <ul>
@@ -236,7 +237,9 @@ get_header();
                                 <?php if ($email) : ?>
                                     <li><strong>По email:</strong> <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a></li>
                                 <?php endif; ?>
-                                <li><strong>Telegram-чат:</strong> <a href="https://t.me/TochkaGg_Kungur" target="_blank" rel="noopener noreferrer">@TochkaGg_Kungur</a></li>
+                                <?php if ($telegram) : ?>
+                                    <li><strong>Telegram-чат:</strong> <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($telegram); ?></a></li>
+                                <?php endif; ?>
                                 <li><strong>В социальных сетях</strong> - найдите нас в ВКонтакте</li>
                                 <li><strong>Лично в клубе</strong> - подойдите к администратору</li>
                             </ul>
