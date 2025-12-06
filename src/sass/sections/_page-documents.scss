@@ -1,0 +1,309 @@
+/**
+ * Document Pages Styles
+ * 
+ * Стили для страниц документов: Политика конфиденциальности, 
+ * Пользовательское соглашение, Правила клуба, FAQ
+ */
+
+.tgg-page {
+  padding: $spacing-5xl 0;
+  background: transparent;
+  min-height: 60vh;
+  
+  &--privacy,
+  &--terms,
+  &--rules,
+  &--faq {
+    // Специфичные стили для документов
+  }
+}
+
+.tgg-page__content {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tgg-page__header {
+  text-align: center;
+  margin-bottom: $spacing-4xl;
+  padding-bottom: $spacing-2xl;
+  border-bottom: $border-width-thin solid rgba(59, 130, 246, 0.2);
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: $gradient-primary;
+    border-radius: $border-radius-full;
+  }
+}
+
+.tgg-page__title {
+  font-family: $font-heading;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: $font-weight-heading-bold;
+  line-height: $line-height-tight;
+  color: $color-text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: $spacing-md;
+  @include text-neon($color-primary, 0.3);
+}
+
+.tgg-page__subtitle {
+  font-family: $font-body;
+  font-size: $font-size-base;
+  color: $color-text-secondary;
+  font-style: italic;
+}
+
+.tgg-page__body {
+  font-family: $font-body;
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+  color: $color-text-primary;
+}
+
+.tgg-page__section {
+  margin-bottom: $spacing-3xl;
+  
+  h2 {
+    font-family: $font-heading;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: $font-weight-heading-bold;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-lg;
+    margin-top: $spacing-2xl;
+    padding-bottom: $spacing-sm;
+    border-bottom: $border-width-thin solid rgba(59, 130, 246, 0.1);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: $gradient-primary;
+      border-radius: $border-radius-full;
+    }
+    
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  
+  h3 {
+    font-family: $font-heading;
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    font-weight: $font-weight-heading-regular;
+    color: $color-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: $spacing-xl;
+    margin-bottom: $spacing-md;
+  }
+  
+  p {
+    margin-bottom: $spacing-lg;
+    color: $color-text-secondary;
+    line-height: $line-height-relaxed;
+    
+    strong {
+      color: $color-text-primary;
+      font-weight: $font-weight-body-semibold;
+    }
+  }
+  
+  ul, ol {
+    margin-bottom: $spacing-lg;
+    padding-left: $spacing-xl;
+    color: $color-text-secondary;
+    
+    li {
+      margin-bottom: $spacing-sm;
+      line-height: $line-height-relaxed;
+      position: relative;
+      
+      &::marker {
+        color: $color-primary;
+      }
+    }
+  }
+  
+  ul {
+    list-style-type: disc;
+    
+    li::marker {
+      color: $color-primary;
+      font-size: 1.2em;
+    }
+  }
+  
+  ol {
+    list-style-type: decimal;
+    
+    li::marker {
+      color: $color-primary;
+      font-weight: $font-weight-body-bold;
+    }
+  }
+  
+  a {
+    color: $color-primary;
+    text-decoration: underline;
+    text-decoration-color: rgba(59, 130, 246, 0.4);
+    transition: all $duration-normal $ease-out-cubic;
+    
+    &:hover {
+      color: $color-primary-bright;
+      text-decoration-color: rgba(59, 130, 246, 0.8);
+      text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+    }
+  }
+  
+  // Специальные блоки с важной информацией
+  > ul, > ol {
+    background: rgba(26, 21, 36, 0.5);
+    border-left: 3px solid $color-primary;
+    padding: $spacing-lg $spacing-xl;
+    border-radius: $border-radius-md;
+    margin: $spacing-xl 0;
+  }
+}
+
+// ============================================
+// FAQ СПЕЦИФИЧНЫЕ СТИЛИ
+// ============================================
+
+.tgg-faq__item {
+  margin-bottom: $spacing-2xl;
+  padding: $spacing-xl;
+  background: rgba(26, 21, 36, 0.4);
+  border: $border-width-thin solid rgba(59, 130, 246, 0.1);
+  border-radius: $border-radius-lg;
+  transition: all $duration-normal $ease-out-cubic;
+  
+  &:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    background: rgba(26, 21, 36, 0.6);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+  }
+}
+
+.tgg-faq__question {
+  font-family: $font-heading;
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  font-weight: $font-weight-heading-bold;
+  color: $color-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  
+  &::before {
+    content: 'Q:';
+    font-size: $font-size-sm;
+    color: rgba(59, 130, 246, 0.6);
+    font-weight: $font-weight-heading-bold;
+  }
+}
+
+.tgg-faq__answer {
+  font-family: $font-body;
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+  color: $color-text-secondary;
+  padding-left: $spacing-lg;
+  position: relative;
+  
+  &::before {
+    content: 'A:';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: $font-heading;
+    font-size: $font-size-sm;
+    color: rgba(239, 68, 68, 0.6);
+    font-weight: $font-weight-heading-bold;
+  }
+  
+  p {
+    margin-bottom: $spacing-md;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  ul, ol {
+    margin-top: $spacing-md;
+    margin-bottom: $spacing-md;
+    padding-left: $spacing-xl;
+    
+    li {
+      margin-bottom: $spacing-xs;
+    }
+  }
+  
+  a {
+    color: $color-primary;
+    text-decoration: underline;
+    
+    &:hover {
+      color: $color-primary-bright;
+      text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+    }
+  }
+}
+
+// ============================================
+// АДАПТИВНОСТЬ
+// ============================================
+
+@media (max-width: 767px) {
+  .tgg-page {
+    padding: $spacing-3xl 0;
+  }
+  
+  .tgg-page__header {
+    margin-bottom: $spacing-2xl;
+    padding-bottom: $spacing-xl;
+  }
+  
+  .tgg-page__section {
+    margin-bottom: $spacing-2xl;
+    
+    h2 {
+      font-size: clamp(1.25rem, 5vw, 1.5rem);
+    }
+    
+    > ul, > ol {
+      padding: $spacing-md $spacing-lg;
+    }
+  }
+  
+  .tgg-faq__item {
+    padding: $spacing-lg;
+  }
+  
+  .tgg-faq__question {
+    font-size: $font-size-base;
+  }
+  
+  .tgg-faq__answer {
+    padding-left: $spacing-md;
+    font-size: $font-size-sm;
+  }
+}

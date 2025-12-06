@@ -65,12 +65,59 @@ $footer_services = [
 ];
 
 // Информационные ссылки
-$footer_info_links = [
-    ['title' => 'Политика конфиденциальности', 'url' => '#privacy'],
-    ['title' => 'Пользовательское соглашение', 'url' => '#terms'],
-    ['title' => 'Правила клуба', 'url' => '#rules'],
-    ['title' => 'FAQ', 'url' => '#faq'],
-];
+$footer_info_links = [];
+if (function_exists('tochkagg_get_page_url')) {
+    // Пытаемся найти страницы по slug
+    $pages_slugs = [
+        'privacy' => 'Политика конфиденциальности',
+        'terms' => 'Пользовательское соглашение',
+        'rules' => 'Правила клуба',
+        'faq' => 'FAQ',
+        'политика-конфиденциальности' => 'Политика конфиденциальности',
+        'пользовательское-соглашение' => 'Пользовательское соглашение',
+        'правила-клуба' => 'Правила клуба',
+    ];
+    
+    foreach ($pages_slugs as $slug => $title) {
+        $page = get_page_by_path($slug);
+        if ($page && $page->post_status === 'publish') {
+            $footer_info_links[] = [
+                'title' => $title,
+                'url' => get_permalink($page->ID),
+            ];
+            // Удаляем из массива, чтобы не дублировать
+            if ($title === 'Правила клуба') break;
+        }
+    }
+    
+    // Если страницы не найдены, используем заглушки с якорями
+    if (empty($footer_info_links)) {
+        $footer_info_links = [
+            ['title' => 'Политика конфиденциальности', 'url' => '#privacy'],
+            ['title' => 'Пользовательское соглашение', 'url' => '#terms'],
+            ['title' => 'Правила клуба', 'url' => '#rules'],
+            ['title' => 'FAQ', 'url' => '#faq'],
+        ];
+    } else {
+        // Добавляем FAQ отдельно
+        $faq_page = get_page_by_path('faq') ?: get_page_by_path('частые-вопросы') ?: get_page_by_path('вопросы');
+        if ($faq_page && $faq_page->post_status === 'publish') {
+            $footer_info_links[] = [
+                'title' => 'FAQ',
+                'url' => get_permalink($faq_page->ID),
+            ];
+        } else {
+            $footer_info_links[] = ['title' => 'FAQ', 'url' => '#faq'];
+        }
+    }
+} else {
+    $footer_info_links = [
+        ['title' => 'Политика конфиденциальности', 'url' => '#privacy'],
+        ['title' => 'Пользовательское соглашение', 'url' => '#terms'],
+        ['title' => 'Правила клуба', 'url' => '#rules'],
+        ['title' => 'FAQ', 'url' => '#faq'],
+    ];
+}
 ?>
 <footer class="tgg-footer">
     <div class="tgg-container">
