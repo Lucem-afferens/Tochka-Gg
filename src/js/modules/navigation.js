@@ -11,19 +11,34 @@ export function initNavigation() {
   const header = document.querySelector('.tgg-header');
   const navList = document.querySelector('.tgg-nav__list');
   
-  if (!burger || !nav) return;
+  if (!burger || !nav) {
+    console.warn('Navigation elements not found');
+    return;
+  }
   
   // ============================================
   // MOBILE MENU TOGGLE
   // ============================================
   
   burger.addEventListener('click', (e) => {
+    e.preventDefault();
     e.stopPropagation();
+    
     const isExpanded = burger.getAttribute('aria-expanded') === 'true';
-    burger.setAttribute('aria-expanded', !isExpanded);
+    const willBeExpanded = !isExpanded;
+    
+    // Обновляем aria-expanded
+    burger.setAttribute('aria-expanded', willBeExpanded);
+    
+    // Переключаем классы
     nav.classList.toggle('active');
     burger.classList.toggle('active');
     document.body.classList.toggle('menu-open');
+    
+    // Обновляем aria-label для доступности
+    burger.setAttribute('aria-label', willBeExpanded 
+      ? 'Закрыть меню' 
+      : 'Открыть меню');
   });
   
   // Закрытие меню при клике вне его

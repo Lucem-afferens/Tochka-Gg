@@ -149,6 +149,7 @@
   }
   
   @media (max-width: 1023px) {
+    display: flex !important; // Показываем меню на мобильных
     position: fixed;
     top: 0;
     left: 0;
@@ -157,12 +158,15 @@
     flex-direction: column;
     background: rgba(13, 15, 20, 0.98);
     backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
     transform: translateX(100%);
     transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     overflow-y: auto;
     overflow-x: hidden;
     padding: $spacing-4xl $spacing-2xl;
     z-index: 999;
+    visibility: hidden; // Скрываем визуально, но оставляем в DOM
+    opacity: 0;
     
     @include max-width(xs) {
       padding: $spacing-3xl $spacing-md;
@@ -197,11 +201,27 @@
       opacity: 0.5;
     }
     
+    // Активное состояние (открыто)
     &.active {
       transform: translateX(0);
+      visibility: visible;
+      opacity: 1;
       box-shadow: 
         -20px 0 60px rgba(0, 0, 0, 0.8),
-        inset 0 0 200px rgba(59, 130, 246, 0.03);
+        inset 0 0 200px rgba(59, 130, 246, 0.03),
+        0 0 100px rgba(59, 130, 246, 0.1);
+      
+      // Улучшаем видимость сетки при открытии
+      &::before {
+        opacity: 0.6;
+      }
+      
+      // Ярче градиентная граница
+      &::after {
+        opacity: 1;
+        height: 3px;
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+      }
     }
   }
 }
@@ -284,37 +304,79 @@
     box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
   }
   
+  // Кибер-эффект: светящаяся линия слева при hover (для мобильного меню)
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 3px;
+    height: 0;
+    background: $gradient-primary;
+    border-radius: $border-radius-full;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+  }
+  
   @media (max-width: 1023px) {
-    padding: $spacing-md 0;
+    padding: $spacing-md $spacing-lg;
     font-size: $font-size-base;
     width: 100%;
     text-align: left;
+    border-radius: $border-radius-md;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     
     &::after {
-      display: block;
+      display: none; // Убираем нижнее подчеркивание на мобильных
     }
     
-    &:hover,
+    &::before {
+      display: block; // Показываем левую линию на мобильных
+    }
+    
+    // Кибер-фон при hover
+    &:hover {
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateX(5px);
+      
+      &::before {
+        transform: translateY(-50%) scaleY(1);
+        height: 60%;
+        opacity: 1;
+      }
+    }
+    
     &.active {
-      border-bottom: none;
+      color: $color-primary;
+      background: rgba(59, 130, 246, 0.15);
+      
+      &::before {
+        transform: translateY(-50%) scaleY(1);
+        height: 70%;
+        opacity: 1;
+      }
     }
   }
   
-  // Hover эффекты - синий цвет
-  &:hover {
-    color: #3B82F6;
-    
-    &::after {
-      width: 100%;
+  // Hover эффекты - синий цвет (для десктопа)
+  @include respond-to(lg) {
+    &:hover {
+      color: #3B82F6;
+      
+      &::after {
+        width: 100%;
+      }
     }
-  }
-  
-  // Активное состояние - синий цвет
-  &.active {
-    color: #3B82F6;
     
-    &::after {
-      width: 100%;
+    // Активное состояние - синий цвет
+    &.active {
+      color: #3B82F6;
+      
+      &::after {
+        width: 100%;
+      }
     }
   }
 }
@@ -426,6 +488,11 @@
       }
     }
   }
+  
+  // Улучшенная анимация при нажатии
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 // ============================================
@@ -444,7 +511,21 @@
     width: 100%;
     margin-top: $spacing-xl;
     padding-top: $spacing-xl;
-    border-top: 1px solid rgba(59, 130, 246, 0.1);
+    border-top: 1px solid rgba(59, 130, 246, 0.2);
+    position: relative;
+    
+    // Кибер-эффект для разделителя
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 1px;
+      background: $gradient-primary;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+    }
   }
 }
 
