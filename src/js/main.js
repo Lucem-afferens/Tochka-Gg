@@ -7,6 +7,17 @@
 // Импорт стилей
 import '../sass/style.scss';
 
+// Импорт Swiper
+import Swiper from 'swiper';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Экспорт Swiper для использования в других модулях
+window.Swiper = Swiper;
+window.SwiperModules = { Navigation, Pagination, Autoplay };
+
 // Импорт модулей
 import { initNavigation } from './modules/navigation.js';
 import { initSmoothScroll } from './modules/smooth-scroll.js';

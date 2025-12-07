@@ -293,6 +293,243 @@
     text-align: center;
     margin-top: $spacing-3xl;
   }
+  
+  // Карусель с маленькими карточками
+  &__carousel {
+    position: relative;
+    padding: 0 $spacing-2xl $spacing-3xl;
+    margin: 0 (-$spacing-2xl);
+    
+    @include max-width(xs) {
+      padding: 0 $spacing-md $spacing-2xl;
+      margin: 0 (-$spacing-md);
+    }
+    
+    @include respond-to(lg) {
+      padding: 0 $spacing-3xl $spacing-4xl;
+      margin: 0 (-$spacing-3xl);
+    }
+    
+    // Swiper навигация
+    .swiper-button-prev,
+    .swiper-button-next {
+      width: 44px;
+      height: 44px;
+      background: rgba(26, 32, 44, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 50%;
+      color: $color-primary;
+      transition: all $duration-normal $ease-out-cubic;
+      
+      &::after {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      
+      @media (hover: hover) {
+        &:hover {
+          background: rgba(26, 32, 44, 0.95);
+          border-color: rgba(59, 130, 246, 0.6);
+          color: $color-primary-bright;
+          box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+      }
+      
+      &.swiper-button-disabled {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+      
+      @include max-width(sm) {
+        display: none;
+      }
+    }
+    
+    .swiper-button-prev {
+      left: 0;
+    }
+    
+    .swiper-button-next {
+      right: 0;
+    }
+    
+    // Swiper пагинация
+    .swiper-pagination {
+      position: relative;
+      margin-top: $spacing-xl;
+      bottom: auto;
+      
+      .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: rgba(59, 130, 246, 0.4);
+        opacity: 1;
+        transition: all $duration-normal $ease-out-cubic;
+        
+        &-active {
+          background: $color-primary;
+          width: 24px;
+          border-radius: 4px;
+          box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+        }
+      }
+    }
+  }
+  
+  // Маленькие карточки турниров
+  &__card {
+    height: 100%;
+    @include glassmorphism-light(0.1, 10px);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.3);
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    transition: all $duration-normal $ease-out-cubic;
+    position: relative;
+    
+    // Неоновая тень в статичном состоянии
+    box-shadow: 
+      0 4px 20px rgba(59, 130, 246, 0.2),
+      0 0 25px rgba(59, 130, 246, 0.1),
+      0 0 15px rgba(192, 38, 211, 0.15);
+    
+    // Неоновая граница
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.3) 0%,
+        rgba(192, 38, 211, 0.3) 50%,
+        rgba(239, 68, 68, 0.3) 100%
+      );
+      background-size: 200% 200%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0.5;
+      animation: neon-border-shine 3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    // Hover эффекты только на устройствах с курсором
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.6);
+        transform: translateY(-4px);
+        box-shadow: 
+          0 8px 30px rgba(59, 130, 246, 0.4),
+          0 0 40px rgba(59, 130, 246, 0.25),
+          0 0 25px rgba(192, 38, 211, 0.3);
+        
+        &::after {
+          opacity: 0.8;
+          animation: neon-border-shine 2s ease-in-out infinite;
+        }
+      }
+    }
+    
+    &-link {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      height: 100%;
+    }
+    
+    &-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      flex-shrink: 0;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform $duration-slow $ease-out-cubic;
+      }
+      
+      @media (hover: hover) {
+        .tgg-tournaments-preview__card:hover & img {
+          transform: scale(1.08);
+        }
+      }
+    }
+    
+    &-content {
+      padding: $spacing-md;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-xs;
+    }
+    
+    &-title {
+      font-family: $font-heading;
+      font-size: clamp(0.875rem, 1.5vw, 1rem);
+      font-weight: $font-weight-heading-bold;
+      color: $color-text-primary;
+      line-height: $line-height-tight;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 2.5em;
+    }
+    
+    &-prize {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-xs;
+      margin-top: auto;
+      
+      &-label {
+        font-family: $font-body;
+        font-size: $font-size-xs;
+        color: $color-text-secondary;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      
+      &-value {
+        font-family: $font-heading;
+        font-size: clamp(0.875rem, 1.8vw, 1.125rem);
+        font-weight: $font-weight-heading-bold;
+        color: $color-secondary;
+        line-height: 1.2;
+      }
+    }
+    
+    &-date {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      font-family: $font-body;
+      font-size: $font-size-xs;
+      color: $color-text-secondary;
+      margin-top: $spacing-xs;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+        color: $color-primary;
+        flex-shrink: 0;
+      }
+      
+      span {
+        line-height: 1.4;
+      }
+    }
+  }
 }
 
 

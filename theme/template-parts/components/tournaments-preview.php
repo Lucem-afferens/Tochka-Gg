@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 $tournaments_title = get_field('tournaments_preview_title') ?: 'Ближайшие турниры';
-$tournaments_count = get_field('tournaments_preview_count') ?: 3;
+$tournaments_count = get_field('tournaments_preview_count') ?: 6;
 $tournaments_bg_type = function_exists('get_field') ? get_field('tournaments_preview_bg_type') : 'image'; // 'image' или 'video'
 $tournaments_bg_image = function_exists('get_field') ? get_field('tournaments_preview_bg_image') : false;
 $tournaments_bg_video = function_exists('get_field') ? get_field('tournaments_preview_bg_video') : false; // URL видео
@@ -91,67 +91,65 @@ $tournaments_query = new WP_Query([
         <?php endif; ?>
         
         <?php if ($tournaments_query->have_posts()) : ?>
-            <div class="tgg-tournaments-preview__items">
-                <?php while ($tournaments_query->have_posts()) : $tournaments_query->the_post(); 
-                    $tournament_date = get_field('tournament_date');
-                    $tournament_time = get_field('tournament_time');
-                    $tournament_prize = get_field('tournament_prize');
-                ?>
-                    <div class="tgg-tournaments-preview__item">
-                        <div class="tgg-tournaments-preview__item-image">
-                            <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('medium'); ?>
-                            <?php else : ?>
-                                <?php 
-                                $tournament_placeholder = function_exists('tochkagg_get_placeholder_image') 
-                                    ? tochkagg_get_placeholder_image(600, 400, get_the_title() . ' - Турнир', '1a1d29', 'c026d3')
-                                    : 'https://placehold.co/600x400/1a1d29/c026d3?text=' . urlencode(get_the_title() . ' - Турнир');
-                                ?>
-                                <img src="<?php echo esc_url($tournament_placeholder); ?>" 
-                                     alt="<?php echo esc_attr(get_the_title() . ' (заглушка - загрузите изображение)'); ?>"
-                                     loading="lazy">
-                            <?php endif; ?>
-                        </div>
-                        
-                        <div class="tgg-tournaments-preview__item-content">
-                            <h3 class="tgg-tournaments-preview__item-title">
-                                <a href="<?php the_permalink(); ?>">
-                                    <?php the_title(); ?>
+            <div class="tgg-tournaments-preview__carousel swiper tgg-slider-tournaments">
+                <div class="swiper-wrapper">
+                    <?php while ($tournaments_query->have_posts()) : $tournaments_query->the_post(); 
+                        $tournament_date = get_field('tournament_date');
+                        $tournament_time = get_field('tournament_time');
+                        $tournament_prize = get_field('tournament_prize');
+                    ?>
+                        <div class="swiper-slide">
+                            <div class="tgg-tournaments-preview__card">
+                                <a href="<?php the_permalink(); ?>" class="tgg-tournaments-preview__card-link">
+                                    <div class="tgg-tournaments-preview__card-image">
+                                        <?php if (has_post_thumbnail()) : ?>
+                                            <?php the_post_thumbnail('medium'); ?>
+                                        <?php else : ?>
+                                            <?php 
+                                            $tournament_placeholder = function_exists('tochkagg_get_placeholder_image') 
+                                                ? tochkagg_get_placeholder_image(400, 300, get_the_title() . ' - Турнир', '1a1d29', 'c026d3')
+                                                : 'https://placehold.co/400x300/1a1d29/c026d3?text=' . urlencode(get_the_title() . ' - Турнир');
+                                            ?>
+                                            <img src="<?php echo esc_url($tournament_placeholder); ?>" 
+                                                 alt="<?php echo esc_attr(get_the_title() . ' (заглушка - загрузите изображение)'); ?>"
+                                                 loading="lazy">
+                                        <?php endif; ?>
+                                    </div>
+                                    
+                                    <div class="tgg-tournaments-preview__card-content">
+                                        <h3 class="tgg-tournaments-preview__card-title">
+                                            <?php the_title(); ?>
+                                        </h3>
+                                        
+                                        <?php if ($tournament_prize) : ?>
+                                            <div class="tgg-tournaments-preview__card-prize">
+                                                <span class="tgg-tournaments-preview__card-prize-label">Призовой фонд</span>
+                                                <span class="tgg-tournaments-preview__card-prize-value"><?php echo esc_html($tournament_prize); ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                        
+                                        <?php if ($tournament_date) : ?>
+                                            <div class="tgg-tournaments-preview__card-date">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                                    <path d="M3 10h18M8 2v4M16 2v4"/>
+                                                </svg>
+                                                <span><?php echo esc_html(date_i18n('d.m.Y', strtotime($tournament_date))); ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
                                 </a>
-                            </h3>
-                            
-                            <?php if ($tournament_date) : ?>
-                                <div class="tgg-tournaments-preview__item-date">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
-                                        <path d="M3 10h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                    <?php echo esc_html(date_i18n('d F Y', strtotime($tournament_date))); ?>
-                                    <?php if ($tournament_time) : ?>
-                                        <span>в <?php echo esc_html($tournament_time); ?></span>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endif; ?>
-                            
-                            <?php if ($tournament_prize) : ?>
-                                <div class="tgg-tournaments-preview__item-prize">
-                                    <span>Призовой фонд:</span>
-                                    <strong><?php echo esc_html($tournament_prize); ?></strong>
-                                </div>
-                            <?php endif; ?>
-                            
-                            <?php if (get_the_excerpt()) : ?>
-                                <p class="tgg-tournaments-preview__item-excerpt">
-                                    <?php echo esc_html(get_the_excerpt()); ?>
-                                </p>
-                            <?php endif; ?>
-                            
-                            <a href="<?php the_permalink(); ?>" class="tgg-tournaments-preview__item-link">
-                                Узнать подробнее →
-                            </a>
+                            </div>
                         </div>
-                    </div>
-                <?php endwhile; ?>
+                    <?php endwhile; ?>
+                </div>
+                
+                <!-- Навигация карусели -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                
+                <!-- Пагинация -->
+                <div class="swiper-pagination"></div>
             </div>
             
             <?php if ($tournaments_link) : ?>
