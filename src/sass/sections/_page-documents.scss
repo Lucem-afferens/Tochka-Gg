@@ -61,7 +61,8 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: $spacing-md;
-  @include text-neon($color-primary, 0.3);
+  // Единое неоновое свечение (через миксин)
+  @include heading-neon-glow;
 }
 
 .tgg-page__subtitle {
