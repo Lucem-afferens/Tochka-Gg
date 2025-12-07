@@ -209,25 +209,15 @@
   
   &__cta {
     margin-top: $spacing-xl;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
-    // Центрируем кнопку при ширине меньше 1024px
-    @media (max-width: 1023px) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .tgg-btn-fire {
+      width: auto;
       
-      .tgg-btn-fire {
-        width: auto;
+      @media (max-width: 1023px) {
         min-width: 280px;
-      }
-    }
-    
-    @include respond-to(lg) {
-      display: block;
-      
-      .tgg-btn-fire {
-        width: auto;
-        min-width: auto;
       }
     }
   }
