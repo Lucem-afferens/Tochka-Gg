@@ -21,6 +21,10 @@ if (!defined('ABSPATH')) {
         <div class="tgg-page__content">
             <?php the_content(); ?>
         </div>
+        
+        <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
+            <?php get_template_part('template-parts/components/info-notice'); ?>
+        <?php endif; ?>
     </div>
 </article>
 

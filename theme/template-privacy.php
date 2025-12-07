@@ -137,6 +137,10 @@ get_header();
                     </ul>
                 </section>
             </div>
+            
+            <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
+                <?php get_template_part('template-parts/components/info-notice'); ?>
+            <?php endif; ?>
         </article>
     </div>
 </main>

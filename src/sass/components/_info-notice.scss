@@ -1,0 +1,99 @@
+/**
+ * Info Notice Component
+ * 
+ * Компонент уведомления об актуальности информации
+ */
+
+.tgg-info-notice {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-3xl;
+  padding: $spacing-md $spacing-lg;
+  background: rgba(26, 29, 41, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: $border-radius-md;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(59, 130, 246, 0.1);
+  transition: all $duration-normal ease;
+  
+  @include max-width(xs) {
+    flex-direction: column;
+    text-align: center;
+    gap: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    margin-top: $spacing-2xl;
+  }
+  
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: rgba(59, 130, 246, 0.9);
+    animation: pulse-icon 2s ease-in-out infinite;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+    }
+  }
+  
+  &__text {
+    margin: 0;
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    line-height: $line-height-relaxed;
+    color: $color-text-secondary;
+    flex: 1;
+    
+    @include max-width(xs) {
+      font-size: $font-size-xs;
+    }
+  }
+  
+  // Небольшой эффект свечения при наведении
+  @media (hover: hover) {
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(59, 130, 246, 0.2);
+      
+      .tgg-info-notice__icon {
+        color: rgba(59, 130, 246, 1);
+        animation: pulse-icon-intense 1.5s ease-in-out infinite;
+      }
+    }
+  }
+}
+
+// Анимация пульсации иконки
+@keyframes pulse-icon {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pulse-icon-intense {
+  0%, 100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
