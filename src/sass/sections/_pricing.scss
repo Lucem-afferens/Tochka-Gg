@@ -240,14 +240,14 @@
         position: relative;
         // Минимальное неоновое свечение для цен (синий - для LITE)
         text-shadow: 
-          0 0 4px rgba(59, 130, 246, 0.4),
-          0 0 8px rgba(59, 130, 246, 0.2);
+          0 0 2px rgba(59, 130, 246, 0.15),
+          0 0 4px rgba(59, 130, 246, 0.08);
         
         @media (hover: hover) {
           tr:hover & {
             text-shadow: 
-              0 0 6px rgba(59, 130, 246, 0.5),
-              0 0 12px rgba(59, 130, 246, 0.3);
+              0 0 3px rgba(59, 130, 246, 0.2),
+              0 0 6px rgba(59, 130, 246, 0.12);
             transform: scale(1.05);
           }
         }
@@ -264,14 +264,14 @@
           // Убираем синее свечение для VIP цен
           text-shadow: none;
           // Минимальное огненное свечение для VIP цен (только оранжевое)
-          filter: drop-shadow(0 0 3px rgba(255, 107, 53, 0.4))
-                  drop-shadow(0 0 6px rgba(247, 44, 37, 0.3));
+          filter: drop-shadow(0 0 2px rgba(255, 107, 53, 0.15))
+                  drop-shadow(0 0 3px rgba(247, 44, 37, 0.1));
           
           @media (hover: hover) {
             tr:hover & {
               text-shadow: none;
-              filter: drop-shadow(0 0 5px rgba(255, 107, 53, 0.5))
-                      drop-shadow(0 0 10px rgba(247, 44, 37, 0.4));
+              filter: drop-shadow(0 0 3px rgba(255, 107, 53, 0.2))
+                      drop-shadow(0 0 5px rgba(247, 44, 37, 0.15));
               transform: scale(1.05);
             }
           }
