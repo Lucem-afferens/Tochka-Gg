@@ -238,22 +238,20 @@
         // Выравнивание по центру для цен
         text-align: center;
         position: relative;
-        // Необходимо для работы псевдоэлемента с бликом
-        display: inline-block;
         // Неоновое свечение для цен (синий - для LITE)
         text-shadow: 
           0 0 12px rgba(59, 130, 246, 0.8),
           0 0 24px rgba(59, 130, 246, 0.5),
           0 0 15px rgba(192, 38, 211, 0.4);
         
-        // Постоянная анимация блика для всех цен
+        // Постоянная анимация блика для всех цен (диагональная)
         &::before {
           content: '';
           position: absolute;
-          top: -150%;
-          left: -150%;
-          width: 200%;
-          height: 200%;
+          top: 50%;
+          left: 50%;
+          width: 300%;
+          height: 300%;
           background: linear-gradient(
             135deg,
             transparent 0%,
@@ -262,10 +260,12 @@
             transparent 70%,
             transparent 100%
           );
+          transform: translate(-150%, -150%);
           animation: price-shine-diagonal 4.5s ease-in-out infinite;
           pointer-events: none;
           mix-blend-mode: screen;
-          will-change: top, left;
+          will-change: transform;
+          z-index: -1;
         }
         
         @media (hover: hover) {
@@ -334,16 +334,13 @@
 // Анимация блика для цен (диагональная)
 @keyframes price-shine-diagonal {
   0% {
-    top: -150%;
-    left: -150%;
+    transform: translate(-150%, -150%);
   }
   50% {
-    top: 150%;
-    left: 150%;
+    transform: translate(50%, 50%);
   }
   100% {
-    top: -150%;
-    left: -150%;
+    transform: translate(-150%, -150%);
   }
 }
 
