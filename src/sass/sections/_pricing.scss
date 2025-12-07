@@ -227,10 +227,13 @@
         font-size: $font-size-price;
         font-weight: $font-weight-heading-bold;
         color: $color-primary;
-        // Предотвращение переноса текста
+        // Предотвращение переноса текста (без overflow: hidden, чтобы свечение было видно)
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        // Padding для видимости свечения
+        padding: $spacing-xs $spacing-sm;
+        margin: -$spacing-xs -$spacing-sm;
+        box-sizing: content-box;
+        display: inline-block;
         // Неоновое свечение для цен
         text-shadow: 
           0 0 12px rgba(59, 130, 246, 0.8),
