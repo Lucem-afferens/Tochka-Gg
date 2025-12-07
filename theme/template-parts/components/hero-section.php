@@ -9,8 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$hero_title = (function_exists('get_field') ? get_field('hero_title') : null) ?: 'Точка Gg';
-$hero_subtitle = (function_exists('get_field') ? get_field('hero_subtitle') : null) ?: 'Премиальный компьютерный клуб нового поколения';
+$hero_title = (function_exists('get_field') ? get_field('hero_title') : null) ?: 'Good Games';
+// Убираем subtitle
+$hero_subtitle = null;
 $hero_description = (function_exists('get_field') ? get_field('hero_description') : null) ?: 'Стильное и технологичное игровое пространство, где сочетаются мощное железо, комфорт и высокий стандарт сервиса';
 $hero_bg_type = function_exists('get_field') ? get_field('hero_background_type') : 'image'; // 'image' или 'video'
 $hero_image = function_exists('get_field') ? get_field('hero_background_image') : false;
@@ -68,8 +69,24 @@ if ($hero_bg_type === 'video') {
     
     <div class="tgg-container">
         <div class="tgg-hero__content">
-            <h1 class="tgg-hero__title tgg-animate-text-glow">
-                <?php echo esc_html($hero_title); ?>
+            <h1 class="tgg-hero__title tgg-hero__title--cyber">
+                <?php 
+                // Разбиваем текст на буквы для анимации мигания
+                $title_text = esc_html($hero_title);
+                $letters = mb_str_split($title_text, 1, 'UTF-8');
+                // Индексы букв, которые будут мигать чаще (для эффекта электричества)
+                $flicker_letters = [0, 1, 4, 5, 9, 10]; // G, o, d, G, a, m
+                foreach ($letters as $index => $letter) {
+                    // Случайная задержка для более реалистичного эффекта
+                    $base_delay = $index * 0.08;
+                    $random_offset = (($index * 7) % 5) * 0.05; // Псевдослучайная задержка
+                    $delay = $base_delay + $random_offset;
+                    // Буквы из списка мигают чаще
+                    $duration = in_array($index, $flicker_letters) ? '1.8s' : '2.5s';
+                    $letter_class = in_array($index, $flicker_letters) ? ' tgg-hero__title-letter--flicker' : '';
+                    echo '<span class="tgg-hero__title-letter' . $letter_class . '" style="animation-delay: ' . $delay . 's; animation-duration: ' . $duration . ';">' . ($letter === ' ' ? '&nbsp;' : $letter) . '</span>';
+                }
+                ?>
             </h1>
             
             <?php if ($hero_subtitle) : ?>
