@@ -44,15 +44,9 @@
     gap: $spacing-2xl;
     width: 100%;
     max-width: 100%;
-    // Padding для видимости свечения карточек
-    padding: $spacing-lg;
-    margin: -$spacing-lg;
-    box-sizing: content-box;
     
     @include max-width(xs) {
       gap: $spacing-xl;
-      padding: $spacing-md;
-      margin: -$spacing-md;
     }
     
     @include respond-to(md) {
