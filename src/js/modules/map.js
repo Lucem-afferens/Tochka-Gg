@@ -34,83 +34,83 @@ export function initMap() {
   
   // Инициализация карты с темной кибер-темой
   ymaps.ready(() => {
-    // Кастомная темная цветовая схема
+    // Кастомная темная цветовая схема (более темная и менее яркая)
     const darkTheme = [
       {
         "featureType": "all",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#1a1d29" }
+          { "color": "#0f1114" }
         ]
       },
       {
         "featureType": "all",
         "elementType": "labels.text.fill",
         "stylers": [
-          { "color": "#8b9dc3" }
+          { "color": "#5a6578", "lightness": -20 }
         ]
       },
       {
         "featureType": "all",
         "elementType": "labels.text.stroke",
         "stylers": [
-          { "color": "#1a1d29" }
+          { "color": "#0f1114" }
         ]
       },
       {
         "featureType": "administrative",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#252830" }
+          { "color": "#161820" }
         ]
       },
       {
         "featureType": "landscape",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#1e2128" }
+          { "color": "#0d0f12" }
         ]
       },
       {
         "featureType": "poi",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#252830" }
+          { "color": "#161820" }
         ]
       },
       {
         "featureType": "poi",
         "elementType": "labels.text.fill",
         "stylers": [
-          { "color": "#6b7a99" }
+          { "color": "#4a5568", "lightness": -30 }
         ]
       },
       {
         "featureType": "road",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#2a2d3a" }
+          { "color": "#1a1c24" }
         ]
       },
       {
         "featureType": "road",
         "elementType": "labels.text.fill",
         "stylers": [
-          { "color": "#9ca5b8" }
+          { "color": "#6b7585", "lightness": -25 }
         ]
       },
       {
         "featureType": "road.highway",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#353849" }
+          { "color": "#1f2229" }
         ]
       },
       {
         "featureType": "water",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#0e1117" }
+          { "color": "#050608" }
         ]
       }
     ];
@@ -119,9 +119,23 @@ export function initMap() {
       center: [lat, lng],
       zoom: 17,
       controls: ['zoomControl', 'fullscreenControl'],
-      type: 'yandex#map'
+      type: 'yandex#map',
+      // Отключаем масштабирование колесом мыши
+      behaviors: ['default', 'scrollZoom']
     }, {
       customStyles: darkTheme
+    });
+
+    // Изначально отключаем масштабирование колесом
+    map.behaviors.disable('scrollZoom');
+
+    // Включаем масштабирование колесом только после клика по карте
+    let scrollZoomEnabled = false;
+    map.events.add('click', () => {
+      if (!scrollZoomEnabled) {
+        map.behaviors.enable('scrollZoom');
+        scrollZoomEnabled = true;
+      }
     });
 
     // Кастомный маркер с логотипом в кибер-стиле
