@@ -210,6 +210,7 @@
     transform: translateY(-2px);
     border-color: rgba(255, 217, 61, 1);
     box-shadow: $shadow-fire-glow;
+    color: #4a003e; // Темный пурпурный цвет текста при hover
     
     &::before {
       transform: translateX(100%);
