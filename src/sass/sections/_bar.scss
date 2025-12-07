@@ -27,17 +27,20 @@
       font-size: clamp(1.75rem, 5vw, 2.5rem);
       padding: 0 $spacing-sm;
     }
-    text-shadow: 
-      0 0 25px rgba(59, 130, 246, 0.9),
-      0 0 40px rgba(59, 130, 246, 0.6),
-      0 0 30px rgba(255, 107, 53, 0.5);
+      text-shadow: 
+        0 0 25px rgba(59, 130, 246, 0.9),
+        0 0 40px rgba(59, 130, 246, 0.6),
+        0 0 30px rgba(255, 107, 53, 0.5);
     transition: text-shadow 0.3s ease;
     
-    &:hover {
-      text-shadow: 
-        0 0 35px rgba(59, 130, 246, 1),
-        0 0 60px rgba(30, 144, 255, 0.8),
-        0 0 50px rgba(255, 107, 53, 0.7);
+    // Hover эффекты только на устройствах с курсором
+    @media (hover: hover) {
+      &:hover {
+        text-shadow: 
+          0 0 35px rgba(59, 130, 246, 1),
+          0 0 60px rgba(30, 144, 255, 0.8),
+          0 0 50px rgba(255, 107, 53, 0.7);
+      }
     }
   }
   
@@ -76,11 +79,14 @@
       padding-bottom: $spacing-md;
       border-bottom: $border-width-medium solid rgba(59, 130, 246, 0.3);
       
-      &:hover {
-        text-shadow: 
-          0 0 30px rgba(59, 130, 246, 1),
-          0 0 50px rgba(30, 144, 255, 0.7),
-          0 0 40px rgba(255, 107, 53, 0.6);
+      // Hover эффекты только на устройствах с курсором
+      @media (hover: hover) {
+        &:hover {
+          text-shadow: 
+            0 0 30px rgba(59, 130, 246, 1),
+            0 0 50px rgba(30, 144, 255, 0.7),
+            0 0 40px rgba(255, 107, 53, 0.6);
+        }
       }
     }
   }
@@ -120,23 +126,76 @@
     box-sizing: border-box;
     position: relative;
     
-    // Яркая неоновая тень в статичном состоянии
+    // Яркая неоновая тень в статичном состоянии (сине-фиолетово-розовая)
     box-shadow: 
-      0 6px 25px rgba(59, 130, 246, 0.3),
-      0 0 30px rgba(59, 130, 246, 0.15),
-      0 0 25px rgba(192, 38, 211, 0.2),
-      0 0 15px rgba(239, 68, 68, 0.1);
+      0 6px 30px rgba(59, 130, 246, 0.4),
+      0 0 40px rgba(59, 130, 246, 0.25),
+      0 0 30px rgba(192, 38, 211, 0.3),
+      0 0 20px rgba(239, 68, 68, 0.2);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.5);
+    
+    // Неоновая граница в статичном состоянии
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.5) 0%,
+        rgba(192, 38, 211, 0.5) 50%,
+        rgba(239, 68, 68, 0.5) 100%
+      );
+      background-size: 200% 200%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0.6;
+      animation: neon-border-shine 3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    // Кибер-сетка на фоне карточки
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.15;
+      @include cyber-grid(rgba(59, 130, 246, 0.08));
+      transition: opacity $duration-normal;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: inherit;
+    }
+    
+    // Контент должен быть выше декоративных элементов
+    > * {
+      position: relative;
+      z-index: 1;
+    }
     
     // Hover эффекты только на устройствах с курсором
     @media (hover: hover) {
       &:hover {
-        border-color: rgba(59, 130, 246, 0.7);
+        border-color: rgba(59, 130, 246, 0.8);
         transform: translateY(-4px);
         box-shadow: 
-          0 10px 40px rgba(59, 130, 246, 0.4),
-          0 0 50px rgba(59, 130, 246, 0.25),
-          0 0 30px rgba(192, 38, 211, 0.3),
-          0 0 20px rgba(239, 68, 68, 0.15);
+          0 12px 40px rgba(59, 130, 246, 0.5),
+          0 0 60px rgba(59, 130, 246, 0.3),
+          0 0 35px rgba(192, 38, 211, 0.35),
+          0 0 25px rgba(239, 68, 68, 0.25);
+        
+        &::before {
+          opacity: 1;
+          animation: neon-border-shine 2s ease-in-out infinite;
+        }
+        
+        &::after {
+          opacity: 0.3;
+        }
         
         .tgg-bar__item-image img {
           transform: scale(1.1);
@@ -222,6 +281,18 @@
         vertical-align: middle;
       }
     }
+  }
+}
+
+// Анимация сияния неоновой границы для карточек
+@keyframes neon-border-shine {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.6;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.8;
   }
 }
 

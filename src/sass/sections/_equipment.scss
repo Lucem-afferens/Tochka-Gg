@@ -109,12 +109,13 @@
     min-height: 140px; // Минимальная высота для вмещения контента
     position: relative;
     
-    // Яркая неоновая тень в статичном состоянии
+    // Яркая неоновая тень в статичном состоянии (сине-фиолетово-розовая)
     box-shadow: 
-      0 4px 20px rgba(59, 130, 246, 0.3),
-      0 0 25px rgba(59, 130, 246, 0.15),
-      0 0 15px rgba(192, 38, 211, 0.2),
-      0 0 10px rgba(239, 68, 68, 0.1);
+      0 6px 30px rgba(59, 130, 246, 0.4),
+      0 0 40px rgba(59, 130, 246, 0.25),
+      0 0 30px rgba(192, 38, 211, 0.3),
+      0 0 20px rgba(239, 68, 68, 0.2);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.5);
     
     // Неоновая граница в статичном состоянии
     &::before {
@@ -134,25 +135,43 @@
       -webkit-mask-composite: xor;
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask-composite: exclude;
-      opacity: 0.5;
+      opacity: 0.6;
       animation: neon-border-shine 3s ease-in-out infinite;
       pointer-events: none;
       z-index: -1;
     }
     
+    // Кибер-сетка на фоне карточки
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.15;
+      @include cyber-grid(rgba(59, 130, 246, 0.08));
+      transition: opacity $duration-normal;
+      pointer-events: none;
+      z-index: -1;
+      border-radius: inherit;
+    }
+    
     // Hover эффекты только на устройствах с курсором
     @media (hover: hover) {
       &:hover {
-        border-color: rgba(59, 130, 246, 0.6);
+        border-color: rgba(59, 130, 246, 0.8);
         transform: translateY(-4px);
         box-shadow: 
-          0 8px 30px rgba(59, 130, 246, 0.4),
-          0 0 40px rgba(59, 130, 246, 0.25),
-          0 0 25px rgba(192, 38, 211, 0.3),
-          0 0 15px rgba(239, 68, 68, 0.2);
+          0 12px 40px rgba(59, 130, 246, 0.5),
+          0 0 60px rgba(59, 130, 246, 0.3),
+          0 0 35px rgba(192, 38, 211, 0.35),
+          0 0 25px rgba(239, 68, 68, 0.25);
         
         &::before {
-          opacity: 0.8;
+          opacity: 1;
+          animation: neon-border-shine 2s ease-in-out infinite;
+        }
+        
+        &::after {
+          opacity: 0.3;
         }
       }
     }

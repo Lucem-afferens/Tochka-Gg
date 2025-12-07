@@ -40,13 +40,16 @@
       0 0 40px rgba(239, 68, 68, 0.3);
     transition: text-shadow 0.3s ease;
     
-    &:hover {
-      text-shadow: 
-        0 0 30px rgba(59, 130, 246, 1),
-        0 0 50px rgba(30, 144, 255, 0.7),
-        0 0 40px rgba(239, 68, 68, 0.8),
-        0 0 60px rgba(239, 68, 68, 0.5),
-        0 0 80px rgba(220, 38, 38, 0.3);
+    // Hover эффекты только на устройствах с курсором
+    @media (hover: hover) {
+      &:hover {
+        text-shadow: 
+          0 0 30px rgba(59, 130, 246, 1),
+          0 0 50px rgba(30, 144, 255, 0.7),
+          0 0 40px rgba(239, 68, 68, 0.8),
+          0 0 60px rgba(239, 68, 68, 0.5),
+          0 0 80px rgba(220, 38, 38, 0.3);
+      }
     }
   }
   
@@ -85,42 +88,60 @@
     align-items: center;
     min-height: 320px; // Минимальная высота для вмещения всего контента
     
-    // Яркая неоновая тень в статичном состоянии
+    // Яркая неоновая тень в статичном состоянии (сине-фиолетово-розовая)
     box-shadow: 
-      0 6px 30px rgba(59, 130, 246, 0.35),
-      0 0 40px rgba(59, 130, 246, 0.2),
-      0 0 30px rgba(192, 38, 211, 0.25),
-      0 0 20px rgba(239, 68, 68, 0.15);
-    border: $border-width-thin solid rgba(59, 130, 246, 0.4);
+      0 6px 30px rgba(59, 130, 246, 0.4),
+      0 0 45px rgba(59, 130, 246, 0.25),
+      0 0 35px rgba(192, 38, 211, 0.3),
+      0 0 25px rgba(239, 68, 68, 0.2);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.5);
     
     @include max-width(xs) {
       padding: $spacing-xl $spacing-md;
       min-height: 280px;
     }
     
-    // Радужный перелив (более заметный в статике)
+    // Радужный перелив (более заметный в статике) с неоновой границей
     &::before {
       content: '';
       position: absolute;
-      inset: -2px;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
       background: linear-gradient(
         135deg,
-        rgba(59, 130, 246, 0.5) 0%,
-        rgba(192, 38, 211, 0.5) 25%,
-        rgba(239, 68, 68, 0.5) 50%,
-        rgba(34, 211, 238, 0.5) 75%,
-        rgba(59, 130, 246, 0.5) 100%
+        rgba(59, 130, 246, 0.6) 0%,
+        rgba(192, 38, 211, 0.6) 25%,
+        rgba(239, 68, 68, 0.6) 50%,
+        rgba(192, 38, 211, 0.6) 75%,
+        rgba(59, 130, 246, 0.6) 100%
       );
-      background-size: 300% 300%;
-      border-radius: $border-radius-lg;
-      opacity: 0.4;
+      background-size: 200% 200%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0.7;
       transition: opacity $duration-normal $ease-out-cubic;
       z-index: 0;
-      animation: rainbow-shine 4s ease-in-out infinite;
+      animation: neon-border-shine 3s ease-in-out infinite;
       pointer-events: none;
     }
     
-    // Контент должен быть выше радужного фона
+    // Кибер-сетка на фоне карточки
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.2;
+      @include cyber-grid(rgba(59, 130, 246, 0.1));
+      transition: opacity $duration-normal;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: inherit;
+    }
+    
+    // Контент должен быть выше радужного фона и сетки
     > * {
       position: relative;
       z-index: 1;
@@ -140,6 +161,11 @@
         
         &::before {
           opacity: 1;
+          animation: neon-border-shine 2s ease-in-out infinite;
+        }
+        
+        &::after {
+          opacity: 0.4;
         }
         
         .tgg-advantages__item-icon-glow {
@@ -249,4 +275,17 @@
     }
   }
 }
+
+// Анимация сияния неоновой границы для карточек
+@keyframes neon-border-shine {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.6;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.8;
+  }
+}
+
 
