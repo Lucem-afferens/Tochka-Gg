@@ -40,7 +40,7 @@
     width: 100%;
     max-width: 100%;
     min-width: 0; // Предотвращает переполнение
-    overflow: hidden; // Скрывает переполнение
+    overflow: visible; // Разрешаем видимость теней
     
     @include respond-to(lg) {
       order: 1;
@@ -77,19 +77,25 @@
     margin-bottom: $spacing-2xl;
     width: 100%;
     max-width: 100%;
+    // Добавляем padding для отображения теней по бокам (чтобы свечение не обрубалось)
+    padding: $spacing-xs $spacing-sm;
+    box-sizing: border-box;
     
     @include max-width(xs) {
       gap: $spacing-md;
+      padding: $spacing-xs;
     }
     
     // Только с 768px и больше показываем 3 колонки
     @include respond-to(md) {
       grid-template-columns: repeat(3, 1fr);
       gap: $spacing-lg;
+      padding: $spacing-sm $spacing-md;
     }
     
     @include respond-to(lg) {
       grid-template-columns: repeat(3, 1fr);
+      padding: $spacing-sm $spacing-lg;
     }
   }
   
@@ -109,12 +115,12 @@
     min-height: 140px; // Минимальная высота для вмещения контента
     position: relative;
     
-    // Яркая неоновая тень в статичном состоянии (сине-фиолетово-розовая)
+    // Неоновая тень в статичном состоянии (сине-фиолетово-розовая) - немного ослаблена
     box-shadow: 
-      0 6px 30px rgba(59, 130, 246, 0.4),
-      0 0 40px rgba(59, 130, 246, 0.25),
-      0 0 30px rgba(192, 38, 211, 0.3),
-      0 0 20px rgba(239, 68, 68, 0.2);
+      0 6px 30px rgba(59, 130, 246, 0.25),
+      0 0 40px rgba(59, 130, 246, 0.15),
+      0 0 30px rgba(192, 38, 211, 0.2),
+      0 0 20px rgba(239, 68, 68, 0.12);
     border: $border-width-thin solid rgba(59, 130, 246, 0.5);
     
     // Неоновая граница в статичном состоянии
