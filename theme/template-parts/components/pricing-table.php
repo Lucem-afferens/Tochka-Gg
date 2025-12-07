@@ -46,13 +46,13 @@ $pricing_note = get_field('pricing_note') ?: 'Все актуальные ски
                     <tbody>
                         <tr>
                             <td><strong>LITE</strong></td>
-                            <td class="tgg-price">100 ₽</td>
-                            <td class="tgg-price">120 ₽</td>
+                            <td class="tgg-price" data-text="100 ₽">100 ₽</td>
+                            <td class="tgg-price" data-text="120 ₽">120 ₽</td>
                         </tr>
                         <tr>
                             <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip">110 ₽</td>
-                            <td class="tgg-price tgg-price--vip">130 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="110 ₽">110 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="130 ₽">130 ₽</td>
                         </tr>
                     </tbody>
                 </table>
@@ -72,13 +72,13 @@ $pricing_note = get_field('pricing_note') ?: 'Все актуальные ски
                     <tbody>
                         <tr>
                             <td><strong>LITE</strong></td>
-                            <td class="tgg-price">350 ₽</td>
-                            <td class="tgg-price">430 ₽</td>
+                            <td class="tgg-price" data-text="350 ₽">350 ₽</td>
+                            <td class="tgg-price" data-text="430 ₽">430 ₽</td>
                         </tr>
                         <tr>
                             <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip">390 ₽</td>
-                            <td class="tgg-price tgg-price--vip">460 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="390 ₽">390 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="460 ₽">460 ₽</td>
                         </tr>
                     </tbody>
                 </table>
@@ -98,13 +98,13 @@ $pricing_note = get_field('pricing_note') ?: 'Все актуальные ски
                     <tbody>
                         <tr>
                             <td><strong>LITE</strong></td>
-                            <td class="tgg-price">550 ₽</td>
-                            <td class="tgg-price">700 ₽</td>
+                            <td class="tgg-price" data-text="550 ₽">550 ₽</td>
+                            <td class="tgg-price" data-text="700 ₽">700 ₽</td>
                         </tr>
                         <tr>
                             <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip">600 ₽</td>
-                            <td class="tgg-price tgg-price--vip">750 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="600 ₽">600 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="750 ₽">750 ₽</td>
                         </tr>
                     </tbody>
                 </table>
@@ -124,13 +124,13 @@ $pricing_note = get_field('pricing_note') ?: 'Все актуальные ски
                     <tbody>
                         <tr>
                             <td><strong>LITE</strong></td>
-                            <td class="tgg-price">450 ₽</td>
-                            <td class="tgg-price">550 ₽</td>
+                            <td class="tgg-price" data-text="450 ₽">450 ₽</td>
+                            <td class="tgg-price" data-text="550 ₽">550 ₽</td>
                         </tr>
                         <tr>
                             <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip">500 ₽</td>
-                            <td class="tgg-price tgg-price--vip">600 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="500 ₽">500 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="600 ₽">600 ₽</td>
                         </tr>
                     </tbody>
                 </table>
@@ -150,13 +150,13 @@ $pricing_note = get_field('pricing_note') ?: 'Все актуальные ски
                     <tbody>
                         <tr>
                             <td><strong>LITE</strong></td>
-                            <td class="tgg-price">80 ₽</td>
-                            <td class="tgg-price">90 ₽</td>
+                            <td class="tgg-price" data-text="80 ₽">80 ₽</td>
+                            <td class="tgg-price" data-text="90 ₽">90 ₽</td>
                         </tr>
                         <tr>
                             <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip">90 ₽</td>
-                            <td class="tgg-price tgg-price--vip">100 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="90 ₽">90 ₽</td>
+                            <td class="tgg-price tgg-price--vip" data-text="100 ₽">100 ₽</td>
                         </tr>
                     </tbody>
                 </table>

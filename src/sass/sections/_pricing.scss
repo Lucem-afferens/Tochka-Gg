@@ -244,28 +244,37 @@
           0 0 24px rgba(59, 130, 246, 0.5),
           0 0 15px rgba(192, 38, 211, 0.4);
         
-        // Постоянная анимация блика для всех цен (диагональная)
+        // Постоянная анимация блика для всех цен (диагональная, только по тексту)
         &::before {
-          content: '';
+          content: attr(data-text);
           position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 300%;
-          height: 300%;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
           background: linear-gradient(
             135deg,
             transparent 0%,
             transparent 30%,
-            rgba(255, 255, 255, 0.5) 50%,
+            rgba(255, 255, 255, 0.6) 50%,
             transparent 70%,
             transparent 100%
           );
-          transform: translate(-150%, -150%);
-          animation: price-shine-diagonal 4.5s ease-in-out infinite;
+          background-size: 200% 200%;
+          background-position: -100% -100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: transparent;
+          animation: price-shine-diagonal-text 4.5s ease-in-out infinite;
           pointer-events: none;
           mix-blend-mode: screen;
-          will-change: transform;
-          z-index: -1;
+          will-change: background-position;
+          font-family: $font-heading;
+          font-size: $font-size-price;
+          font-weight: $font-weight-heading-bold;
+          text-align: center;
+          white-space: nowrap;
         }
         
         @media (hover: hover) {
@@ -298,11 +307,12 @@
               135deg,
               transparent 0%,
               transparent 30%,
-              rgba(255, 255, 255, 0.6) 50%,
+              rgba(255, 255, 255, 0.7) 50%,
               transparent 70%,
               transparent 100%
             );
-            animation: price-shine-diagonal 4.5s ease-in-out infinite;
+            background-size: 200% 200%;
+            animation: price-shine-diagonal-text 4.5s ease-in-out infinite;
           }
           
           @media (hover: hover) {
@@ -331,16 +341,16 @@
   }
 }
 
-// Анимация блика для цен (диагональная)
-@keyframes price-shine-diagonal {
+// Анимация блика для цен (диагональная, по тексту)
+@keyframes price-shine-diagonal-text {
   0% {
-    transform: translate(-150%, -150%);
+    background-position: -100% -100%;
   }
   50% {
-    transform: translate(50%, 50%);
+    background-position: 100% 100%;
   }
   100% {
-    transform: translate(-150%, -150%);
+    background-position: -100% -100%;
   }
 }
 
