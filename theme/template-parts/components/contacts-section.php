@@ -26,6 +26,10 @@ $social_links = get_field('social_networks', 'option');
             <div class="tgg-contacts__info">
                 <h2 class="tgg-contacts__title">Контакты</h2>
                 
+                <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
+                    <?php get_template_part('template-parts/components/info-notice'); ?>
+                <?php endif; ?>
+                
                 <?php if ($phone) : ?>
                     <div class="tgg-contacts__item">
                         <div class="tgg-contacts__item-icon">

@@ -14,6 +14,10 @@ if (!defined('ABSPATH')) {
     <div class="tgg-container">
         <h1 class="tgg-equipment-full__title">Оборудование</h1>
         
+        <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
+            <?php get_template_part('template-parts/components/info-notice'); ?>
+        <?php endif; ?>
+        
         <!-- VIP ПК -->
         <div class="tgg-equipment-full__category">
             <h2 class="tgg-equipment-full__category-title">VIP-компьютеры (6 шт.)</h2>

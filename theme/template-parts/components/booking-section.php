@@ -38,6 +38,10 @@ $booking_description = $booking_description ?: 'Выберите удобный 
                 </h1>
             <?php endif; ?>
             
+            <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
+                <?php get_template_part('template-parts/components/info-notice'); ?>
+            <?php endif; ?>
+            
             <?php if ($booking_description) : ?>
                 <p class="tgg-booking__description">
                     <?php echo esc_html($booking_description); ?>

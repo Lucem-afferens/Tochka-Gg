@@ -21,6 +21,10 @@ $pricing_note = get_field('pricing_note') ?: 'Все актуальные ски
             </h1>
         <?php endif; ?>
         
+        <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
+            <?php get_template_part('template-parts/components/info-notice'); ?>
+        <?php endif; ?>
+        
         <?php if ($pricing_note) : ?>
             <p class="tgg-pricing__note">
                 <?php echo esc_html($pricing_note); ?>

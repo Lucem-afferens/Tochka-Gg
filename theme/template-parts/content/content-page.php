@@ -18,13 +18,13 @@ if (!defined('ABSPATH')) {
             </h1>
         <?php endif; ?>
         
-        <div class="tgg-page__content">
-            <?php the_content(); ?>
-        </div>
-        
         <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
             <?php get_template_part('template-parts/components/info-notice'); ?>
         <?php endif; ?>
+        
+        <div class="tgg-page__content">
+            <?php the_content(); ?>
+        </div>
     </div>
 </article>
 

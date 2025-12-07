@@ -22,6 +22,10 @@ get_header();
                 <p class="tgg-page__subtitle">Соблюдение правил обеспечивает комфортное времяпрепровождение для всех посетителей</p>
             </header>
             
+            <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
+                <?php get_template_part('template-parts/components/info-notice'); ?>
+            <?php endif; ?>
+            
             <div class="tgg-page__body">
                 <section class="tgg-page__section">
                     <h2>1. Общие правила посещения</h2>
@@ -176,10 +180,6 @@ get_header();
                     </ul>
                 </section>
             </div>
-            
-            <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
-                <?php get_template_part('template-parts/components/info-notice'); ?>
-            <?php endif; ?>
         </article>
     </div>
 </main>

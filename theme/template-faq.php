@@ -22,6 +22,10 @@ get_header();
                 <p class="tgg-page__subtitle">Ответы на самые популярные вопросы о нашем клубе</p>
             </header>
             
+            <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
+                <?php get_template_part('template-parts/components/info-notice'); ?>
+            <?php endif; ?>
+            
             <div class="tgg-page__body">
                 <section class="tgg-page__section">
                     <h2>Общие вопросы</h2>
@@ -247,10 +251,6 @@ get_header();
                     </div>
                 </section>
             </div>
-            
-            <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
-                <?php get_template_part('template-parts/components/info-notice'); ?>
-            <?php endif; ?>
         </article>
     </div>
 </main>
