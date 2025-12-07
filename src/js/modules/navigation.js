@@ -122,33 +122,6 @@ export function initNavigation() {
   }, { passive: false });
   
   // ============================================
-  // HEADER SCROLL EFFECT
-  // ============================================
-  
-  let lastScroll = 0;
-  let ticking = false;
-  
-  function updateHeaderOnScroll() {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > 50) {
-      header?.classList.add('scrolled');
-    } else {
-      header?.classList.remove('scrolled');
-    }
-    
-    lastScroll = currentScroll;
-    ticking = false;
-  }
-  
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(updateHeaderOnScroll);
-      ticking = true;
-    }
-  }, { passive: true });
-  
-  // ============================================
   // NAVIGATION LINKS
   // ============================================
   
@@ -230,21 +203,47 @@ export function initNavigation() {
   // Обновляем при изменении истории (навигация назад/вперед)
   window.addEventListener('popstate', setActiveMenuItem);
   
-  // Обновляем при скролле (для якорных ссылок)
+  // ============================================
+  // HEADER SCROLL EFFECT + ACTIVE MENU DETECTION (объединены)
+  // ============================================
+  
+  let lastScroll = 0;
+  let scrollTicking = false;
   let scrollTimeout;
-  window.addEventListener('scroll', () => {
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      // Проверяем только якорные ссылки при скролле
-      const anchorLinks = Array.from(navLinks).filter(link => {
-        const href = link.getAttribute('href');
-        return href && href.startsWith('#');
-      });
-      
-      if (anchorLinks.length > 0) {
+  
+  function handleScroll() {
+    const currentScroll = window.pageYOffset;
+    
+    // Обновление header (scrolled класс)
+    if (currentScroll > 50) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+    
+    // Обновление активного пункта меню (только для якорных ссылок, с debounce)
+    const anchorLinks = Array.from(navLinks).filter(link => {
+      const href = link.getAttribute('href');
+      return href && href.startsWith('#');
+    });
+    
+    if (anchorLinks.length > 0) {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
         setActiveMenuItem();
-      }
-    }, 100);
+      }, 100);
+    }
+    
+    lastScroll = currentScroll;
+    scrollTicking = false;
+  }
+  
+  // Единый обработчик скролла с requestAnimationFrame
+  window.addEventListener('scroll', () => {
+    if (!scrollTicking) {
+      window.requestAnimationFrame(handleScroll);
+      scrollTicking = true;
+    }
   }, { passive: true });
   
   // ============================================

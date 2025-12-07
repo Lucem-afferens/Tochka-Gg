@@ -34,7 +34,7 @@ export function initScrollAnimations() {
 }
 
 /**
- * Parallax эффект для hero секции
+ * Parallax эффект для hero секции (оптимизирован с throttle)
  */
 export function initParallax() {
   const hero = document.querySelector('.tgg-hero');
@@ -43,12 +43,22 @@ export function initParallax() {
   const heroBg = hero.querySelector('.tgg-hero__bg');
   if (!heroBg) return;
   
-  window.addEventListener('scroll', () => {
+  let ticking = false;
+  
+  function updateParallax() {
     const scrolled = window.pageYOffset;
     const rate = scrolled * 0.5;
     
     heroBg.style.transform = `translateY(${rate}px)`;
-  });
+    ticking = false;
+  }
+  
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
 }
 
 

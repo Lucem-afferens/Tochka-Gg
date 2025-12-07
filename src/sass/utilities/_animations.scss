@@ -527,19 +527,16 @@
   }
 }
 
-// Вращающийся огненный градиент
+// Вращающийся огненный градиент (оптимизирован: убран filter для лучшей производительности)
 @keyframes fire-gradient {
   0% {
     background-position: 0% 50%;
-    filter: hue-rotate(0deg);
   }
   50% {
     background-position: 100% 50%;
-    filter: hue-rotate(10deg);
   }
   100% {
     background-position: 0% 50%;
-    filter: hue-rotate(0deg);
   }
 }
 
