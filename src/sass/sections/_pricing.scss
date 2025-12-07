@@ -210,11 +210,14 @@
       color: $color-text-primary;
       padding: $spacing-md $spacing-sm;
       transition: all 0.3s ease;
+      vertical-align: middle; // Выравнивание по вертикали
       
       &:first-child {
         font-weight: $font-weight-body-semibold;
+        text-align: left;
       }
       
+      &:nth-child(2),
       &:last-child {
         text-align: right;
       }
@@ -232,13 +235,13 @@
         color: $color-primary;
         // Предотвращение переноса текста
         white-space: nowrap;
+        // Выравнивание по правому краю для цен
+        text-align: right;
         // Неоновое свечение для цен
         text-shadow: 
           0 0 12px rgba(59, 130, 246, 0.8),
           0 0 24px rgba(59, 130, 246, 0.5),
           0 0 15px rgba(192, 38, 211, 0.4);
-        // Выравнивание по правому краю для цен
-        text-align: right;
         
         @media (hover: hover) {
           tr:hover & {
