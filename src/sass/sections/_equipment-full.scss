@@ -20,21 +20,73 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-4xl;
+    // Неоновое свечение заголовка
+    text-shadow: 
+      0 0 20px rgba(59, 130, 246, 0.8),
+      0 0 35px rgba(59, 130, 246, 0.5),
+      0 0 25px rgba(192, 38, 211, 0.6),
+      0 0 15px rgba(239, 68, 68, 0.4);
+    transition: text-shadow 0.3s ease;
     
     @include max-width(xs) {
       font-size: clamp(1.75rem, 5vw, 2.5rem);
       margin-bottom: $spacing-2xl;
       padding: 0 $spacing-sm;
     }
+    
+    @media (hover: hover) {
+      &:hover {
+        text-shadow: 
+          0 0 30px rgba(59, 130, 246, 1),
+          0 0 50px rgba(59, 130, 246, 0.7),
+          0 0 35px rgba(192, 38, 211, 0.8),
+          0 0 25px rgba(239, 68, 68, 0.6);
+      }
+    }
   }
   
   &__category {
     background: $color-bg-secondary;
-    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.3);
     border-radius: $border-radius-lg;
     padding: $spacing-3xl;
     margin-bottom: $spacing-3xl;
     transition: all $duration-normal $ease-out-cubic;
+    position: relative;
+    // Неоновая тень в статике
+    box-shadow: 
+      0 4px 20px rgba(59, 130, 246, 0.25),
+      0 0 30px rgba(59, 130, 246, 0.15),
+      0 0 20px rgba(192, 38, 211, 0.2);
+    
+    // Анимированная неоновая граница
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.4) 0%,
+        rgba(192, 38, 211, 0.4) 50%,
+        rgba(239, 68, 68, 0.4) 100%
+      );
+      background-size: 200% 200%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0.5;
+      animation: neon-border-shine 3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    > * {
+      position: relative;
+      z-index: 1;
+    }
     
     @include max-width(xs) {
       padding: $spacing-lg;
@@ -45,9 +97,21 @@
       padding: $spacing-md;
     }
     
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.5);
-      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.7);
+        transform: translateY(-4px);
+        box-shadow: 
+          0 10px 40px rgba(59, 130, 246, 0.35),
+          0 0 50px rgba(59, 130, 246, 0.25),
+          0 0 30px rgba(192, 38, 211, 0.3),
+          0 0 25px rgba(239, 68, 68, 0.2);
+        
+        &::before {
+          opacity: 0.8;
+          animation: neon-border-shine 2s ease-in-out infinite;
+        }
+      }
     }
   }
   
@@ -61,10 +125,48 @@
     letter-spacing: 0.05em;
     margin-bottom: $spacing-2xl;
     padding-bottom: $spacing-lg;
-    border-bottom: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border-bottom: $border-width-medium solid rgba(59, 130, 246, 0.3);
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
+    position: relative;
+    // Легкое неоновое свечение
+    text-shadow: 
+      0 0 15px rgba(59, 130, 246, 0.6),
+      0 0 25px rgba(59, 130, 246, 0.3),
+      0 0 15px rgba(192, 38, 211, 0.4);
+    transition: all 0.3s ease;
+    
+    // Градиентная линия под заголовком
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        rgba(59, 130, 246, 0.8) 0%,
+        rgba(192, 38, 211, 0.8) 50%,
+        rgba(239, 68, 68, 0.8) 100%
+      );
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+    
+    @media (hover: hover) {
+      &:hover {
+        text-shadow: 
+          0 0 20px rgba(59, 130, 246, 0.8),
+          0 0 35px rgba(59, 130, 246, 0.5),
+          0 0 25px rgba(192, 38, 211, 0.6);
+        
+        &::after {
+          width: 100%;
+        }
+      }
+    }
     
     @include max-width(xs) {
       font-size: clamp(0.75rem, 4.5vw, 1.125rem); // Для очень маленьких экранов: 12px-18px
@@ -112,7 +214,7 @@
   
   &__spec-item {
     background: $color-bg-primary;
-    border: $border-width-thin solid rgba(59, 130, 246, 0.1);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
     border-radius: $border-radius-md;
     padding: $spacing-lg;
     text-align: center;
@@ -121,10 +223,21 @@
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
+    position: relative;
+    // Легкая неоновая тень
+    box-shadow: 
+      0 2px 15px rgba(59, 130, 246, 0.2),
+      0 0 20px rgba(59, 130, 246, 0.1);
     
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.3);
-      transform: translateY(-4px);
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.5);
+        transform: translateY(-4px);
+        box-shadow: 
+          0 6px 25px rgba(59, 130, 246, 0.35),
+          0 0 35px rgba(59, 130, 246, 0.2),
+          0 0 20px rgba(192, 38, 211, 0.25);
+      }
     }
   }
   
@@ -148,10 +261,23 @@
     font-weight: $font-weight-heading-regular;
     color: $color-primary;
     line-height: $line-height-tight;
-    
+    // Неоновое свечение для значений
+    text-shadow: 
+      0 0 10px rgba(59, 130, 246, 0.7),
+      0 0 20px rgba(59, 130, 246, 0.4);
+    transition: all 0.3s ease;
     
     width: 100%;
     max-width: 100%;
+    
+    @media (hover: hover) {
+      .tgg-equipment-full__spec-item:hover & {
+        text-shadow: 
+          0 0 15px rgba(59, 130, 246, 1),
+          0 0 30px rgba(59, 130, 246, 0.6),
+          0 0 20px rgba(192, 38, 211, 0.5);
+      }
+    }
   }
   
   
@@ -281,12 +407,21 @@
     overflow: hidden;
     border-radius: $border-radius-md;
     background: $color-bg-primary;
-    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.3);
     transition: all $duration-normal $ease-out-cubic;
+    // Легкая неоновая тень
+    box-shadow: 
+      0 4px 20px rgba(59, 130, 246, 0.2),
+      0 0 25px rgba(59, 130, 246, 0.1);
     
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.6);
+        box-shadow: 
+          0 8px 35px rgba(59, 130, 246, 0.3),
+          0 0 40px rgba(59, 130, 246, 0.2),
+          0 0 25px rgba(192, 38, 211, 0.25);
+      }
     }
   }
   
@@ -416,6 +551,18 @@
       line-height: $line-height-relaxed;
       color: $color-text-secondary;
     }
+  }
+}
+
+// Анимация сияния неоновой границы
+@keyframes neon-border-shine {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.5;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.8;
   }
 }
 
