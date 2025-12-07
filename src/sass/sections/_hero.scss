@@ -135,24 +135,28 @@
     
     // Кибер-версия с анимацией мигания букв
     &--cyber {
+      color: #e879f9; // Розово-фиолетовый базовый цвет текста
+      
       .tgg-hero__title-letter {
         display: inline-block;
         position: relative;
         will-change: opacity, text-shadow, filter;
-        animation: cyber-letter-flicker 2.5s ease-in-out infinite;
-        // Базовое неоновое свечение
+        animation: cyber-letter-flicker 4s ease-in-out infinite; // Замедлено с 2.5s
+        // Базовое неоновое свечение с розово-фиолетовыми оттенками
+        color: #e879f9; // Розово-фиолетовый
         text-shadow: 
-          0 0 10px rgba(59, 130, 246, 0.8),
-          0 0 20px rgba(59, 130, 246, 0.6),
-          0 0 30px rgba(59, 130, 246, 0.4),
-          0 0 15px rgba(192, 38, 211, 0.5),
-          0 0 10px rgba(239, 68, 68, 0.4);
+          0 0 10px rgba(236, 72, 153, 0.9), // Розовый
+          0 0 20px rgba(192, 38, 211, 0.8), // Фиолетовый
+          0 0 30px rgba(147, 51, 234, 0.7), // Фиолетовый глубокий
+          0 0 40px rgba(59, 130, 246, 0.5), // Синий для контраста
+          0 0 15px rgba(219, 39, 119, 0.8), // Розовый глубокий
+          0 0 10px rgba(168, 85, 247, 0.6); // Фиолетовый яркий
         filter: brightness(1);
         transition: all 0.1s ease;
         
         // Буквы, которые мигают чаще (эффект электричества)
         &--flicker {
-          animation: cyber-letter-flicker-intense 1.8s ease-in-out infinite;
+          animation: cyber-letter-flicker-intense 3s ease-in-out infinite; // Замедлено с 1.8s
         }
       }
     }
@@ -162,11 +166,12 @@
       &:hover {
         .tgg-hero__title-letter {
           text-shadow: 
-            0 0 15px rgba(59, 130, 246, 1),
-            0 0 30px rgba(59, 130, 246, 0.8),
-            0 0 45px rgba(59, 130, 246, 0.6),
-            0 0 20px rgba(192, 38, 211, 0.7),
-            0 0 15px rgba(239, 68, 68, 0.6);
+            0 0 18px rgba(236, 72, 153, 1),
+            0 0 35px rgba(192, 38, 211, 0.9),
+            0 0 50px rgba(147, 51, 234, 0.8),
+            0 0 30px rgba(59, 130, 246, 0.7),
+            0 0 20px rgba(219, 39, 119, 0.9),
+            0 0 15px rgba(168, 85, 247, 0.8);
         }
       }
     }
@@ -248,37 +253,45 @@
   0%, 100% {
     opacity: 1;
     filter: brightness(1);
+    color: #e879f9; // Розово-фиолетовый
     text-shadow: 
-      0 0 10px rgba(59, 130, 246, 0.8),
-      0 0 20px rgba(59, 130, 246, 0.6),
-      0 0 30px rgba(59, 130, 246, 0.4),
-      0 0 15px rgba(192, 38, 211, 0.5),
-      0 0 10px rgba(239, 68, 68, 0.4);
+      0 0 10px rgba(236, 72, 153, 0.9),
+      0 0 20px rgba(192, 38, 211, 0.8),
+      0 0 30px rgba(147, 51, 234, 0.7),
+      0 0 40px rgba(59, 130, 246, 0.5),
+      0 0 15px rgba(219, 39, 119, 0.8),
+      0 0 10px rgba(168, 85, 247, 0.6);
   }
   2%, 4%, 6%, 8%, 10% {
     opacity: 0.7;
     filter: brightness(0.8);
+    color: #a855f7; // Более темный фиолетовый при мигании
     text-shadow: 
-      0 0 5px rgba(59, 130, 246, 0.4),
-      0 0 10px rgba(59, 130, 246, 0.3);
+      0 0 5px rgba(192, 38, 211, 0.5),
+      0 0 10px rgba(147, 51, 234, 0.4),
+      0 0 8px rgba(236, 72, 153, 0.4);
   }
   3%, 5%, 7%, 9% {
     opacity: 1;
     filter: brightness(1.2);
+    color: #f0abfc; // Более светлый розовый при ярком мигании
     text-shadow: 
-      0 0 15px rgba(59, 130, 246, 1),
-      0 0 30px rgba(59, 130, 246, 0.8),
-      0 0 45px rgba(59, 130, 246, 0.6),
-      0 0 20px rgba(192, 38, 211, 0.9),
-      0 0 15px rgba(239, 68, 68, 0.7);
+      0 0 18px rgba(236, 72, 153, 1),
+      0 0 35px rgba(192, 38, 211, 0.9),
+      0 0 50px rgba(147, 51, 234, 0.8),
+      0 0 25px rgba(59, 130, 246, 0.7),
+      0 0 20px rgba(219, 39, 119, 1),
+      0 0 15px rgba(168, 85, 247, 0.9);
   }
   50% {
     opacity: 0.9;
     filter: brightness(0.95);
+    color: #e879f9;
     text-shadow: 
-      0 0 8px rgba(59, 130, 246, 0.6),
-      0 0 18px rgba(59, 130, 246, 0.4),
-      0 0 12px rgba(192, 38, 211, 0.4);
+      0 0 12px rgba(236, 72, 153, 0.7),
+      0 0 22px rgba(192, 38, 211, 0.6),
+      0 0 18px rgba(147, 51, 234, 0.5),
+      0 0 15px rgba(219, 39, 119, 0.6);
   }
 }
 
@@ -287,45 +300,55 @@
   0%, 100% {
     opacity: 1;
     filter: brightness(1);
+    color: #e879f9; // Розово-фиолетовый
     text-shadow: 
-      0 0 12px rgba(59, 130, 246, 0.9),
-      0 0 24px rgba(59, 130, 246, 0.7),
-      0 0 36px rgba(59, 130, 246, 0.5),
-      0 0 18px rgba(192, 38, 211, 0.6),
-      0 0 12px rgba(239, 68, 68, 0.5);
+      0 0 12px rgba(236, 72, 153, 0.95),
+      0 0 24px rgba(192, 38, 211, 0.85),
+      0 0 36px rgba(147, 51, 234, 0.75),
+      0 0 18px rgba(219, 39, 119, 0.85),
+      0 0 12px rgba(168, 85, 247, 0.7),
+      0 0 15px rgba(59, 130, 246, 0.6);
   }
   1%, 3%, 5%, 7%, 9%, 11%, 13% {
     opacity: 0.6;
     filter: brightness(0.7);
+    color: #a855f7;
     text-shadow: 
-      0 0 4px rgba(59, 130, 246, 0.3),
-      0 0 8px rgba(59, 130, 246, 0.2);
+      0 0 4px rgba(192, 38, 211, 0.4),
+      0 0 8px rgba(147, 51, 234, 0.3),
+      0 0 6px rgba(236, 72, 153, 0.3);
   }
   2%, 4%, 6%, 8%, 10%, 12% {
     opacity: 1.1;
     filter: brightness(1.3);
+    color: #f0abfc; // Яркий розовый при вспышке
     text-shadow: 
-      0 0 18px rgba(59, 130, 246, 1),
-      0 0 36px rgba(59, 130, 246, 0.9),
-      0 0 54px rgba(59, 130, 246, 0.7),
-      0 0 24px rgba(192, 38, 211, 1),
-      0 0 18px rgba(239, 68, 68, 0.8);
+      0 0 20px rgba(236, 72, 153, 1),
+      0 0 40px rgba(192, 38, 211, 0.95),
+      0 0 60px rgba(147, 51, 234, 0.85),
+      0 0 28px rgba(219, 39, 119, 1),
+      0 0 22px rgba(168, 85, 247, 0.95),
+      0 0 20px rgba(59, 130, 246, 0.8);
   }
   25%, 75% {
     opacity: 0.85;
     filter: brightness(0.9);
+    color: #e879f9;
     text-shadow: 
-      0 0 10px rgba(59, 130, 246, 0.7),
-      0 0 20px rgba(59, 130, 246, 0.5),
-      0 0 15px rgba(192, 38, 211, 0.5);
+      0 0 12px rgba(236, 72, 153, 0.75),
+      0 0 24px rgba(192, 38, 211, 0.65),
+      0 0 18px rgba(147, 51, 234, 0.55),
+      0 0 16px rgba(219, 39, 119, 0.65);
   }
   50% {
     opacity: 0.95;
     filter: brightness(1.05);
+    color: #e879f9;
     text-shadow: 
-      0 0 14px rgba(59, 130, 246, 0.8),
-      0 0 28px rgba(59, 130, 246, 0.6),
-      0 0 20px rgba(192, 38, 211, 0.6);
+      0 0 16px rgba(236, 72, 153, 0.85),
+      0 0 32px rgba(192, 38, 211, 0.75),
+      0 0 24px rgba(147, 51, 234, 0.65),
+      0 0 20px rgba(219, 39, 119, 0.75);
   }
 }
 
