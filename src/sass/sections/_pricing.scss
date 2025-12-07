@@ -227,6 +227,10 @@
         font-size: $font-size-price;
         font-weight: $font-weight-heading-bold;
         color: $color-primary;
+        // Предотвращение переноса текста
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         // Неоновое свечение для цен
         text-shadow: 
           0 0 12px rgba(59, 130, 246, 0.8),
