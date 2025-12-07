@@ -17,11 +17,9 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
   padding: $spacing-5xl 0 $spacing-xl;
   position: relative;
-  margin-top: $spacing-5xl;
   
   @include max-width(xs) {
     padding: $spacing-3xl 0 $spacing-lg;
-    margin-top: $spacing-3xl;
   }
   
   // Градиентная линия сверху
