@@ -124,33 +124,6 @@
       inset 0 0 0 1px rgba(59, 130, 246, 0.15);
     animation: fade-in-up 0.6s $ease-out-cubic;
     
-    // Постоянная анимация отблеска (блик с цветным переливанием)
-    &::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent 25%,
-        rgba(59, 130, 246, 0.3) 35%,
-        rgba(192, 38, 211, 0.4) 40%,
-        rgba(239, 68, 68, 0.35) 45%,
-        rgba(192, 38, 211, 0.4) 50%,
-        rgba(59, 130, 246, 0.3) 55%,
-        transparent 65%
-      );
-      background-size: 100% 100%;
-      transform-origin: center;
-      pointer-events: none;
-      z-index: 1;
-      animation: card-shimmer 5s ease-in-out infinite;
-      mix-blend-mode: screen;
-      will-change: transform;
-    }
-    
     // Неоновая граница в статичном состоянии
     &::after {
       content: '';
@@ -214,11 +187,6 @@
           0 0 50px rgba(192, 38, 211, 0.4),
           0 0 35px rgba(239, 68, 68, 0.3),
           inset 0 0 0 1px rgba(59, 130, 246, 0.2);
-        
-        &::before {
-          opacity: 1;
-          animation-duration: 3.5s;
-        }
         
         &::after {
           opacity: 1;
