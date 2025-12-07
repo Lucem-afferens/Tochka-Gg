@@ -34,83 +34,83 @@ export function initMap() {
   
   // Инициализация карты с темной кибер-темой
   ymaps.ready(() => {
-    // Кастомная темная цветовая схема (более темная и менее яркая)
+    // Кастомная темная цветовая схема (еще более темная)
     const darkTheme = [
       {
         "featureType": "all",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#0f1114" }
+          { "color": "#0a0c0f" }
         ]
       },
       {
         "featureType": "all",
         "elementType": "labels.text.fill",
         "stylers": [
-          { "color": "#5a6578", "lightness": -20 }
+          { "color": "#4a5568", "lightness": -40 }
         ]
       },
       {
         "featureType": "all",
         "elementType": "labels.text.stroke",
         "stylers": [
-          { "color": "#0f1114" }
+          { "color": "#0a0c0f" }
         ]
       },
       {
         "featureType": "administrative",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#161820" }
+          { "color": "#0f1217" }
         ]
       },
       {
         "featureType": "landscape",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#0d0f12" }
+          { "color": "#080a0d" }
         ]
       },
       {
         "featureType": "poi",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#161820" }
+          { "color": "#0f1217" }
         ]
       },
       {
         "featureType": "poi",
         "elementType": "labels.text.fill",
         "stylers": [
-          { "color": "#4a5568", "lightness": -30 }
+          { "color": "#3a4558", "lightness": -50 }
         ]
       },
       {
         "featureType": "road",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#1a1c24" }
+          { "color": "#12151a" }
         ]
       },
       {
         "featureType": "road",
         "elementType": "labels.text.fill",
         "stylers": [
-          { "color": "#6b7585", "lightness": -25 }
+          { "color": "#5a6575", "lightness": -40 }
         ]
       },
       {
         "featureType": "road.highway",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#1f2229" }
+          { "color": "#151821" }
         ]
       },
       {
         "featureType": "water",
         "elementType": "geometry",
         "stylers": [
-          { "color": "#050608" }
+          { "color": "#030405" }
         ]
       }
     ];
