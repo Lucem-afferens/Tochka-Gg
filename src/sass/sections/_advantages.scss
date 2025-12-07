@@ -85,30 +85,38 @@
     align-items: center;
     min-height: 320px; // Минимальная высота для вмещения всего контента
     
+    // Яркая неоновая тень в статичном состоянии
+    box-shadow: 
+      0 6px 30px rgba(59, 130, 246, 0.35),
+      0 0 40px rgba(59, 130, 246, 0.2),
+      0 0 30px rgba(192, 38, 211, 0.25),
+      0 0 20px rgba(239, 68, 68, 0.15);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.4);
+    
     @include max-width(xs) {
       padding: $spacing-xl $spacing-md;
       min-height: 280px;
     }
     
-    // Радужный перелив при hover
+    // Радужный перелив (более заметный в статике)
     &::before {
       content: '';
       position: absolute;
       inset: -2px;
       background: linear-gradient(
         135deg,
-        rgba(59, 130, 246, 0.4) 0%,
-        rgba(192, 38, 211, 0.4) 25%,
-        rgba(239, 68, 68, 0.4) 50%,
-        rgba(34, 211, 238, 0.4) 75%,
-        rgba(59, 130, 246, 0.4) 100%
+        rgba(59, 130, 246, 0.5) 0%,
+        rgba(192, 38, 211, 0.5) 25%,
+        rgba(239, 68, 68, 0.5) 50%,
+        rgba(34, 211, 238, 0.5) 75%,
+        rgba(59, 130, 246, 0.5) 100%
       );
       background-size: 300% 300%;
       border-radius: $border-radius-lg;
-      opacity: 0;
+      opacity: 0.4;
       transition: opacity $duration-normal $ease-out-cubic;
       z-index: 0;
-      animation: rainbow-shine 3s ease-in-out infinite;
+      animation: rainbow-shine 4s ease-in-out infinite;
       pointer-events: none;
     }
     
@@ -118,21 +126,25 @@
       z-index: 1;
     }
     
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.8);
-      transform: translateY(-8px);
-      box-shadow: 
-        0 12px 40px rgba(59, 130, 246, 0.5),
-        0 0 60px rgba(59, 130, 246, 0.3),
-        0 0 30px rgba(239, 68, 68, 0.3),
-        0 0 50px rgba(239, 68, 68, 0.15);
-      
-      &::before {
-        opacity: 1;
-      }
-      
-      .tgg-advantages__item-icon-glow {
-        opacity: 1;
+    // Hover эффекты только на устройствах с курсором
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.8);
+        transform: translateY(-8px);
+        box-shadow: 
+          0 12px 40px rgba(59, 130, 246, 0.5),
+          0 0 60px rgba(59, 130, 246, 0.3),
+          0 0 30px rgba(239, 68, 68, 0.3),
+          0 0 50px rgba(239, 68, 68, 0.15),
+          0 0 40px rgba(192, 38, 211, 0.25);
+        
+        &::before {
+          opacity: 1;
+        }
+        
+        .tgg-advantages__item-icon-glow {
+          opacity: 1;
+        }
       }
     }
     

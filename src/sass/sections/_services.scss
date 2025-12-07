@@ -75,7 +75,7 @@
   &__item {
     position: relative;
     background: $color-bg-secondary;
-    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.4);
     border-radius: $border-radius-lg;
     overflow: hidden;
     transition: all $duration-normal $ease-out-cubic;
@@ -88,6 +88,13 @@
     min-width: 0; // Предотвращает переполнение в grid
     box-sizing: border-box;
     
+    // Яркая неоновая тень в статичном состоянии
+    box-shadow: 
+      0 6px 30px rgba(59, 130, 246, 0.3),
+      0 0 35px rgba(59, 130, 246, 0.15),
+      0 0 25px rgba(192, 38, 211, 0.2),
+      0 0 15px rgba(239, 68, 68, 0.1);
+    
     &-link {
       display: flex;
       flex-direction: column;
@@ -98,29 +105,38 @@
     
     // Базовые стили - вращение добавим в каждой карточке индивидуально
     
-    // Неоновая граница при наведении
+    // Неоновая граница (более заметная в статике)
     &::before {
       content: '';
       position: absolute;
       inset: 0;
       border-radius: inherit;
       padding: 2px;
-      opacity: 0;
+      opacity: 0.5;
       transition: opacity $duration-normal;
       pointer-events: none;
+      z-index: 1;
     }
     
     &--pc {
       // Уникальный синий стиль для ПК с глоссморфизмом
       @include glassmorphism-accent(rgba(59, 130, 246, 1), 0.12, 0.18, 15px);
-      border-color: rgba(59, 130, 246, 0.4);
+      border-color: rgba(59, 130, 246, 0.5);
+      
+      // Улучшенные неоновые тени в статике
+      box-shadow: 
+        0 6px 30px rgba(59, 130, 246, 0.4),
+        0 0 40px rgba(59, 130, 246, 0.2),
+        0 0 30px rgba(30, 144, 255, 0.25),
+        0 0 20px rgba(192, 38, 211, 0.15);
       
       &::before {
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(30, 144, 255, 0.6));
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.7), rgba(30, 144, 255, 0.7));
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask-composite: exclude;
+        opacity: 0.6;
       }
       
       .tgg-services__item-title {
@@ -136,36 +152,39 @@
         background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(30, 144, 255, 0.05));
       }
       
-      @include respond-to(lg) {
-        &:hover {
-          border-color: rgba(59, 130, 246, 1);
-          transform: translateY(-12px) rotateY(8deg) rotateX(-3deg);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-          box-shadow: 
-            0 12px 40px rgba(59, 130, 246, 0.6),
-            0 0 60px rgba(59, 130, 246, 0.4),
-            0 0 80px rgba(30, 144, 255, 0.2);
-          
-          &::before {
-            opacity: 1;
-          }
-          
-          .tgg-services__item-title {
-            text-shadow: 0 0 20px rgba(59, 130, 246, 1), 0 0 30px rgba(30, 144, 255, 0.8);
-          }
-          
-          .tgg-services__item-image img {
-            transform: scale(1.15);
+      // Hover эффекты только на устройствах с курсором
+      @media (hover: hover) {
+        @include respond-to(lg) {
+          &:hover {
+            border-color: rgba(59, 130, 246, 1);
+            transform: translateY(-12px) rotateY(8deg) rotateX(-3deg);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 
+              0 12px 40px rgba(59, 130, 246, 0.6),
+              0 0 60px rgba(59, 130, 246, 0.4),
+              0 0 80px rgba(30, 144, 255, 0.2);
+            
+            &::before {
+              opacity: 1;
+            }
+            
+            .tgg-services__item-title {
+              text-shadow: 0 0 20px rgba(59, 130, 246, 1), 0 0 30px rgba(30, 144, 255, 0.8);
+            }
+            
+            .tgg-services__item-image img {
+              transform: scale(1.15);
+            }
           }
         }
-      }
-      
-      @media (max-width: 1023px) {
-        &:hover {
-          transform: translateY(-8px);
-          
-          .tgg-services__item-image img {
-            transform: scale(1.1);
+        
+        @media (max-width: 1023px) {
+          &:hover {
+            transform: translateY(-8px);
+            
+            .tgg-services__item-image img {
+              transform: scale(1.1);
+            }
           }
         }
       }
@@ -174,14 +193,22 @@
     &--ps5 {
       // Уникальный фиолетово-пурпурный стиль для PS5 с глоссморфизмом
       @include glassmorphism-accent(rgba(192, 38, 211, 1), 0.12, 0.18, 15px);
-      border-color: rgba(192, 38, 211, 0.4);
+      border-color: rgba(192, 38, 211, 0.5);
+      
+      // Улучшенные неоновые тени в статике
+      box-shadow: 
+        0 6px 30px rgba(192, 38, 211, 0.4),
+        0 0 40px rgba(192, 38, 211, 0.2),
+        0 0 30px rgba(139, 92, 246, 0.25),
+        0 0 20px rgba(239, 68, 68, 0.15);
       
       &::before {
-        background: linear-gradient(135deg, rgba(192, 38, 211, 0.7), rgba(139, 92, 246, 0.6));
+        background: linear-gradient(135deg, rgba(192, 38, 211, 0.7), rgba(139, 92, 246, 0.7));
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask-composite: exclude;
+        opacity: 0.6;
       }
       
       .tgg-services__item-title {
@@ -197,36 +224,39 @@
         background: linear-gradient(135deg, rgba(192, 38, 211, 0.1), rgba(139, 92, 246, 0.05));
       }
       
-      @include respond-to(lg) {
-        &:hover {
-          border-color: rgba(192, 38, 211, 1);
-          transform: translateY(-12px) rotateY(-8deg) rotateX(-3deg);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-          box-shadow: 
-            0 12px 40px rgba(192, 38, 211, 0.6),
-            0 0 60px rgba(192, 38, 211, 0.4),
-            0 0 80px rgba(139, 92, 246, 0.3);
-          
-          &::before {
-            opacity: 1;
-          }
-          
-          .tgg-services__item-title {
-            text-shadow: 0 0 20px rgba(192, 38, 211, 1), 0 0 30px rgba(139, 92, 246, 0.8);
-          }
-          
-          .tgg-services__item-image img {
-            transform: scale(1.15);
+      // Hover эффекты только на устройствах с курсором
+      @media (hover: hover) {
+        @include respond-to(lg) {
+          &:hover {
+            border-color: rgba(192, 38, 211, 1);
+            transform: translateY(-12px) rotateY(-8deg) rotateX(-3deg);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 
+              0 12px 40px rgba(192, 38, 211, 0.6),
+              0 0 60px rgba(192, 38, 211, 0.4),
+              0 0 80px rgba(139, 92, 246, 0.3);
+            
+            &::before {
+              opacity: 1;
+            }
+            
+            .tgg-services__item-title {
+              text-shadow: 0 0 20px rgba(192, 38, 211, 1), 0 0 30px rgba(139, 92, 246, 0.8);
+            }
+            
+            .tgg-services__item-image img {
+              transform: scale(1.15);
+            }
           }
         }
-      }
-      
-      @media (max-width: 1023px) {
-        &:hover {
-          transform: translateY(-8px);
-          
-          .tgg-services__item-image img {
-            transform: scale(1.1);
+        
+        @media (max-width: 1023px) {
+          &:hover {
+            transform: translateY(-8px);
+            
+            .tgg-services__item-image img {
+              transform: scale(1.1);
+            }
           }
         }
       }
@@ -235,14 +265,22 @@
     &--vr {
       // Уникальный циановый стиль для VR с глоссморфизмом
       @include glassmorphism-accent(rgba(34, 211, 238, 1), 0.12, 0.18, 15px);
-      border-color: rgba(34, 211, 238, 0.4);
+      border-color: rgba(34, 211, 238, 0.5);
+      
+      // Улучшенные неоновые тени в статике
+      box-shadow: 
+        0 6px 30px rgba(34, 211, 238, 0.4),
+        0 0 40px rgba(34, 211, 238, 0.2),
+        0 0 30px rgba(14, 165, 233, 0.25),
+        0 0 20px rgba(59, 130, 246, 0.15);
       
       &::before {
-        background: linear-gradient(135deg, rgba(34, 211, 238, 0.7), rgba(14, 165, 233, 0.6));
+        background: linear-gradient(135deg, rgba(34, 211, 238, 0.7), rgba(14, 165, 233, 0.7));
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask-composite: exclude;
+        opacity: 0.6;
       }
       
       .tgg-services__item-title {
@@ -258,36 +296,39 @@
         background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(14, 165, 233, 0.05));
       }
       
-      @include respond-to(lg) {
-        &:hover {
-          border-color: rgba(34, 211, 238, 1);
-          transform: translateY(-12px) rotateY(8deg) rotateX(3deg);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-          box-shadow: 
-            0 12px 40px rgba(34, 211, 238, 0.6),
-            0 0 60px rgba(34, 211, 238, 0.4),
-            0 0 80px rgba(14, 165, 233, 0.3);
-          
-          &::before {
-            opacity: 1;
-          }
-          
-          .tgg-services__item-title {
-            text-shadow: 0 0 20px rgba(34, 211, 238, 1), 0 0 30px rgba(14, 165, 233, 0.8);
-          }
-          
-          .tgg-services__item-image img {
-            transform: scale(1.15);
+      // Hover эффекты только на устройствах с курсором
+      @media (hover: hover) {
+        @include respond-to(lg) {
+          &:hover {
+            border-color: rgba(34, 211, 238, 1);
+            transform: translateY(-12px) rotateY(8deg) rotateX(3deg);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 
+              0 12px 40px rgba(34, 211, 238, 0.6),
+              0 0 60px rgba(34, 211, 238, 0.4),
+              0 0 80px rgba(14, 165, 233, 0.3);
+            
+            &::before {
+              opacity: 1;
+            }
+            
+            .tgg-services__item-title {
+              text-shadow: 0 0 20px rgba(34, 211, 238, 1), 0 0 30px rgba(14, 165, 233, 0.8);
+            }
+            
+            .tgg-services__item-image img {
+              transform: scale(1.15);
+            }
           }
         }
-      }
-      
-      @media (max-width: 1023px) {
-        &:hover {
-          transform: translateY(-8px);
-          
-          .tgg-services__item-image img {
-            transform: scale(1.1);
+        
+        @media (max-width: 1023px) {
+          &:hover {
+            transform: translateY(-8px);
+            
+            .tgg-services__item-image img {
+              transform: scale(1.1);
+            }
           }
         }
       }
@@ -296,14 +337,22 @@
     &--food {
       // Уникальный стиль для еды с глоссморфизмом
       @include glassmorphism-accent(rgba(255, 107, 53, 1), 0.12, 0.18, 15px);
-      border-color: rgba(255, 107, 53, 0.4);
+      border-color: rgba(255, 107, 53, 0.5);
+      
+      // Улучшенные неоновые тени в статике (с розовыми оттенками)
+      box-shadow: 
+        0 6px 30px rgba(255, 107, 53, 0.4),
+        0 0 40px rgba(255, 107, 53, 0.2),
+        0 0 30px rgba(247, 44, 37, 0.25),
+        0 0 20px rgba(239, 68, 68, 0.15);
       
       &::before {
-        background: linear-gradient(135deg, rgba(255, 107, 53, 0.6), rgba(255, 217, 61, 0.5));
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.7), rgba(247, 44, 37, 0.7));
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask-composite: exclude;
+        opacity: 0.6;
       }
       
       .tgg-services__item-title {
@@ -319,36 +368,39 @@
         background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 217, 61, 0.05));
       }
       
-      @include respond-to(lg) {
-        &:hover {
-          border-color: rgba(255, 107, 53, 1);
-          transform: translateY(-12px) rotateY(-8deg) rotateX(3deg);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-          box-shadow: 
-            0 12px 40px rgba(255, 107, 53, 0.6),
-            0 0 60px rgba(255, 107, 53, 0.4),
-            0 0 80px rgba(255, 217, 61, 0.2);
-          
-          &::before {
-            opacity: 1;
-          }
-          
-          .tgg-services__item-title {
-            text-shadow: 0 0 20px rgba(255, 107, 53, 1), 0 0 30px rgba(255, 217, 61, 0.8);
-          }
-          
-          .tgg-services__item-image img {
-            transform: scale(1.15);
+      // Hover эффекты только на устройствах с курсором
+      @media (hover: hover) {
+        @include respond-to(lg) {
+          &:hover {
+            border-color: rgba(255, 107, 53, 1);
+            transform: translateY(-12px) rotateY(-8deg) rotateX(3deg);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 
+              0 12px 40px rgba(255, 107, 53, 0.6),
+              0 0 60px rgba(255, 107, 53, 0.4),
+              0 0 80px rgba(255, 217, 61, 0.2);
+            
+            &::before {
+              opacity: 1;
+            }
+            
+            .tgg-services__item-title {
+              text-shadow: 0 0 20px rgba(255, 107, 53, 1), 0 0 30px rgba(255, 217, 61, 0.8);
+            }
+            
+            .tgg-services__item-image img {
+              transform: scale(1.15);
+            }
           }
         }
-      }
-      
-      @media (max-width: 1023px) {
-        &:hover {
-          transform: translateY(-8px);
-          
-          .tgg-services__item-image img {
-            transform: scale(1.1);
+        
+        @media (max-width: 1023px) {
+          &:hover {
+            transform: translateY(-8px);
+            
+            .tgg-services__item-image img {
+              transform: scale(1.1);
+            }
           }
         }
       }

@@ -96,7 +96,7 @@
   &__spec {
     // Глоссморфизм для карточек оборудования
     @include glassmorphism-light(0.12, 10px);
-    border: $border-width-thin solid rgba(59, 130, 246, 0.3);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.4);
     border-radius: $border-radius-md;
     padding: $spacing-lg;
     text-align: center;
@@ -107,11 +107,54 @@
     min-width: 0; // Предотвращает переполнение
     overflow: visible; // Разрешаем видимость текста
     min-height: 140px; // Минимальная высота для вмещения контента
+    position: relative;
     
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.5);
-      transform: translateY(-4px);
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+    // Яркая неоновая тень в статичном состоянии
+    box-shadow: 
+      0 4px 20px rgba(59, 130, 246, 0.3),
+      0 0 25px rgba(59, 130, 246, 0.15),
+      0 0 15px rgba(192, 38, 211, 0.2),
+      0 0 10px rgba(239, 68, 68, 0.1);
+    
+    // Неоновая граница в статичном состоянии
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.4) 0%,
+        rgba(192, 38, 211, 0.4) 50%,
+        rgba(239, 68, 68, 0.4) 100%
+      );
+      background-size: 200% 200%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0.5;
+      animation: neon-border-shine 3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    // Hover эффекты только на устройствах с курсором
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.6);
+        transform: translateY(-4px);
+        box-shadow: 
+          0 8px 30px rgba(59, 130, 246, 0.4),
+          0 0 40px rgba(59, 130, 246, 0.25),
+          0 0 25px rgba(192, 38, 211, 0.3),
+          0 0 15px rgba(239, 68, 68, 0.2);
+        
+        &::before {
+          opacity: 0.8;
+        }
+      }
     }
   }
   
@@ -220,4 +263,15 @@
   }
 }
 
+// Анимация сияния неоновой границы для карточек оборудования
+@keyframes neon-border-shine {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.5;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.7;
+  }
+}
 

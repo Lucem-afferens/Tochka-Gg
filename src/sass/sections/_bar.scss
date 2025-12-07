@@ -107,7 +107,7 @@
   
   &__item {
     background: $color-bg-secondary;
-    border: $border-width-thin solid rgba(59, 130, 246, 0.2);
+    border: $border-width-thin solid rgba(59, 130, 246, 0.4);
     border-radius: $border-radius-lg;
     overflow: hidden;
     transition: all $duration-normal $ease-out-cubic;
@@ -118,21 +118,34 @@
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
+    position: relative;
     
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.6);
-      transform: translateY(-4px);
-      box-shadow: 
-        0 8px 30px rgba(59, 130, 246, 0.3),
-        0 0 40px rgba(59, 130, 246, 0.1);
-      
-      .tgg-bar__item-image img {
-        transform: scale(1.1);
-      }
-      
-      .tgg-bar__item-price {
-        color: $color-primary;
-        text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+    // Яркая неоновая тень в статичном состоянии
+    box-shadow: 
+      0 6px 25px rgba(59, 130, 246, 0.3),
+      0 0 30px rgba(59, 130, 246, 0.15),
+      0 0 25px rgba(192, 38, 211, 0.2),
+      0 0 15px rgba(239, 68, 68, 0.1);
+    
+    // Hover эффекты только на устройствах с курсором
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.7);
+        transform: translateY(-4px);
+        box-shadow: 
+          0 10px 40px rgba(59, 130, 246, 0.4),
+          0 0 50px rgba(59, 130, 246, 0.25),
+          0 0 30px rgba(192, 38, 211, 0.3),
+          0 0 20px rgba(239, 68, 68, 0.15);
+        
+        .tgg-bar__item-image img {
+          transform: scale(1.1);
+        }
+        
+        .tgg-bar__item-price {
+          color: $color-primary;
+          text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+        }
       }
     }
     

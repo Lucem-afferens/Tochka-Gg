@@ -107,17 +107,21 @@
     background: rgba(18, 13, 26, 0.75);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(59, 130, 246, 0.25);
+    border: 1px solid rgba(59, 130, 246, 0.4);
     border-radius: $border-radius-xl;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    // Улучшенные неоновые тени в статичном состоянии
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.4),
-      0 0 20px rgba(59, 130, 246, 0.1),
-      inset 0 0 0 1px rgba(59, 130, 246, 0.05);
+      0 0 30px rgba(59, 130, 246, 0.25),
+      0 0 25px rgba(59, 130, 246, 0.15),
+      0 0 20px rgba(192, 38, 211, 0.2),
+      0 0 15px rgba(239, 68, 68, 0.1),
+      inset 0 0 0 1px rgba(59, 130, 246, 0.1);
     animation: fade-in-up 0.6s $ease-out-cubic;
     width: 100%;
     
@@ -148,48 +152,51 @@
       min-width: 0;
     }
     
-    // Эффект при наведении
-    &:hover {
-      transform: translateY(-8px);
-      border-color: rgba(59, 130, 246, 0.5);
-      box-shadow: 
-        0 20px 60px rgba(59, 130, 246, 0.4),
-        0 0 80px rgba(59, 130, 246, 0.25),
-        0 0 40px rgba(239, 68, 68, 0.3),
-        inset 0 0 0 1px rgba(59, 130, 246, 0.15);
-      
-      .tgg-booking__option-image {
-        &::before {
-          opacity: 1;
+    // Hover эффекты только на устройствах с курсором
+    @media (hover: hover) {
+      &:hover {
+        transform: translateY(-8px);
+        border-color: rgba(59, 130, 246, 0.6);
+        box-shadow: 
+          0 20px 60px rgba(59, 130, 246, 0.4),
+          0 0 80px rgba(59, 130, 246, 0.25),
+          0 0 40px rgba(239, 68, 68, 0.3),
+          0 0 30px rgba(192, 38, 211, 0.25),
+          inset 0 0 0 1px rgba(59, 130, 246, 0.15);
+        
+        .tgg-booking__option-image {
+          &::before {
+            opacity: 1;
+          }
+          
+          img {
+            transform: scale(1.1);
+            filter: brightness(0.85) contrast(1.2);
+          }
         }
         
-        img {
-          transform: scale(1.1);
-          filter: brightness(0.85) contrast(1.2);
+        .tgg-booking__option-overlay {
+          background: linear-gradient(
+            180deg,
+            transparent 0%,
+            rgba(18, 13, 26, 0.3) 50%,
+            rgba(18, 13, 26, 0.9) 100%
+          );
         }
-      }
-      
-      .tgg-booking__option-overlay {
-        background: linear-gradient(
-          180deg,
-          transparent 0%,
-          rgba(18, 13, 26, 0.3) 50%,
-          rgba(18, 13, 26, 0.9) 100%
-        );
-      }
-      
-      .tgg-booking__option-badge {
-        transform: scale(1.1) translateY(-2px);
-        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
-      }
-      
-      .tgg-booking__option-badges .tgg-booking__option-badge {
-        transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-      }
-      
-      .tgg-booking__option-button {
-        transform: translateY(-2px);
+        
+        .tgg-booking__option-badge {
+          transform: scale(1.1) translateY(-2px);
+          box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .tgg-booking__option-badges .tgg-booking__option-badge {
+          transform: scale(1.05);
+          box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+        }
+        
+        .tgg-booking__option-button {
+          transform: translateY(-2px);
+        }
       }
     }
     
@@ -443,8 +450,10 @@
     }
     
     // Унифицированный ховер эффект для всех кнопок
-    &:hover {
-      transform: translateY(-2px);
+    @media (hover: hover) {
+      &:hover {
+        transform: translateY(-2px);
+      }
     }
   }
   
@@ -466,10 +475,12 @@
     padding: $spacing-xs $spacing-sm;
     border-radius: $border-radius-sm;
     
-    &:hover {
-      color: $color-primary;
-      background: rgba(59, 130, 246, 0.1);
-      text-decoration: none;
+    @media (hover: hover) {
+      &:hover {
+        color: $color-primary;
+        background: rgba(59, 130, 246, 0.1);
+        text-decoration: none;
+      }
     }
   }
 }

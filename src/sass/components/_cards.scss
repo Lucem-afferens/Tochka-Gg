@@ -9,7 +9,7 @@
 .tgg-card {
   // Глоссморфизм для базовых карточек
   @include glassmorphism-light(0.15, 12px);
-  border: $border-width-thin solid rgba(59, 130, 246, 0.25);
+  border: $border-width-thin solid rgba(59, 130, 246, 0.4);
   border-radius: $border-radius-lg;
   padding: $spacing-xl;
   transition: all $duration-normal $ease-out-cubic;
@@ -20,48 +20,81 @@
   min-width: 0;
   box-sizing: border-box;
   
-  // Кибер-сетка на фоне карточки
+  // Яркая неоновая тень в статичном состоянии (сине-фиолетово-розовая)
+  box-shadow: 
+    0 4px 20px rgba(59, 130, 246, 0.3),
+    0 0 30px rgba(59, 130, 246, 0.15),
+    0 0 20px rgba(192, 38, 211, 0.2),
+    0 0 15px rgba(239, 68, 68, 0.1);
+  
+  // Кибер-сетка на фоне карточки (более заметная в статике)
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    opacity: 0;
-    @include cyber-grid(rgba(59, 130, 246, 0.05));
+    opacity: 0.3;
+    @include cyber-grid(rgba(59, 130, 246, 0.08));
     transition: opacity $duration-normal;
     pointer-events: none;
   }
   
-  // Сканирующая линия при наведении
+  // Неоновая граница в статичном состоянии
   &::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.8), transparent);
-    transition: left $duration-slow;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.4) 0%,
+      rgba(192, 38, 211, 0.4) 50%,
+      rgba(239, 68, 68, 0.4) 100%
+    );
+    background-size: 200% 200%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0.6;
+    animation: neon-border-shine 3s ease-in-out infinite;
     pointer-events: none;
+    z-index: -1;
   }
   
-  &:hover {
-    border-color: rgba(59, 130, 246, 0.8);
-    box-shadow: 
-      0 12px 40px rgba(59, 130, 246, 0.5),
-      0 0 60px rgba(59, 130, 246, 0.3),
-      0 0 30px rgba(239, 68, 68, 0.3),
-      0 0 50px rgba(239, 68, 68, 0.15);
-    transform: translateY(-4px);
-    
-    &::before {
-      opacity: 1;
+  // Hover эффекты только на устройствах с курсором
+  @media (hover: hover) {
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.8);
+      box-shadow: 
+        0 12px 40px rgba(59, 130, 246, 0.5),
+        0 0 60px rgba(59, 130, 246, 0.3),
+        0 0 30px rgba(239, 68, 68, 0.3),
+        0 0 50px rgba(239, 68, 68, 0.15),
+        0 0 40px rgba(192, 38, 211, 0.2);
+      transform: translateY(-4px);
+      
+      &::before {
+        opacity: 0.6;
+      }
+      
+      &::after {
+        opacity: 1;
+        animation: neon-border-shine 2s ease-in-out infinite;
+      }
     }
-    
-    &::after {
-      left: 100%;
-      background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.8), rgba(59, 130, 246, 0.8), transparent);
-      transition: left 0.5s ease-out;
-    }
+  }
+}
+
+// Анимация сияния неоновой границы
+@keyframes neon-border-shine {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.6;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.8;
   }
 }
 
@@ -73,8 +106,10 @@
   transition: transform $duration-normal $ease-out-cubic;
   margin-bottom: $spacing-md;
   
-  .tgg-card:hover & {
-    transform: scale(1.05);
+  @media (hover: hover) {
+    .tgg-card:hover & {
+      transform: scale(1.05);
+    }
   }
 }
 

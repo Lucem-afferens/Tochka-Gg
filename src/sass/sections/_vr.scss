@@ -71,16 +71,31 @@
   
   &__feature {
     background: $color-bg-secondary;
-    border: $border-width-thin solid rgba(34, 211, 238, 0.2);
+    border: $border-width-thin solid rgba(34, 211, 238, 0.4);
     border-radius: $border-radius-md;
     padding: $spacing-xl;
     text-align: center;
     transition: all $duration-normal $ease-out-cubic;
+    position: relative;
     
-    &:hover {
-      border-color: rgba(34, 211, 238, 0.5);
-      transform: translateY(-4px);
-      box-shadow: 0 4px 20px rgba(34, 211, 238, 0.3);
+    // Яркая неоновая тень в статичном состоянии (цианово-синяя)
+    box-shadow: 
+      0 4px 20px rgba(34, 211, 238, 0.3),
+      0 0 25px rgba(34, 211, 238, 0.15),
+      0 0 20px rgba(59, 130, 246, 0.2),
+      0 0 15px rgba(14, 165, 233, 0.1);
+    
+    // Hover эффекты только на устройствах с курсором
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(34, 211, 238, 0.6);
+        transform: translateY(-4px);
+        box-shadow: 
+          0 8px 30px rgba(34, 211, 238, 0.4),
+          0 0 40px rgba(34, 211, 238, 0.25),
+          0 0 30px rgba(59, 130, 246, 0.3),
+          0 0 20px rgba(14, 165, 233, 0.2);
+      }
     }
     
     &-value {
@@ -161,18 +176,20 @@
         color: $color-primary;
       }
       
-      &:hover {
-        color: $color-primary;
-        border-color: rgba(59, 130, 246, 1);
-        background: rgba(59, 130, 246, 0.2);
-        transform: translateY(-4px);
-        box-shadow: 
-          0 0 20px rgba(59, 130, 246, 0.7),
-          0 0 40px rgba(59, 130, 246, 0.4),
-          0 0 25px rgba(239, 68, 68, 0.4),
-          0 0 45px rgba(239, 68, 68, 0.2);
-        filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.8));
-        text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+      @media (hover: hover) {
+        &:hover {
+          color: $color-primary;
+          border-color: rgba(59, 130, 246, 1);
+          background: rgba(59, 130, 246, 0.2);
+          transform: translateY(-4px);
+          box-shadow: 
+            0 0 20px rgba(59, 130, 246, 0.7),
+            0 0 40px rgba(59, 130, 246, 0.4),
+            0 0 25px rgba(239, 68, 68, 0.4),
+            0 0 45px rgba(239, 68, 68, 0.2);
+          filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.8));
+          text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+        }
       }
     }
   }
@@ -195,8 +212,10 @@
       transition: transform $duration-slow $ease-out-cubic;
     }
     
-    .tgg-vr__wrapper:hover & img {
-      transform: scale(1.05);
+    @media (hover: hover) {
+      .tgg-vr__wrapper:hover & img {
+        transform: scale(1.05);
+      }
     }
     
     &-placeholder {
