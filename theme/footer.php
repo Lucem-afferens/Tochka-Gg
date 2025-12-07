@@ -313,6 +313,13 @@ if (empty($footer_info_links)) {
     </div>
 </footer>
 
+<?php
+// Модальное окно VR арены (не показываем на странице VR арены)
+if (!is_page_template('template-vr.php') && locate_template('template-parts/components/vr-modal.php')) {
+    get_template_part('template-parts/components/vr-modal');
+}
+?>
+
 <?php wp_footer(); ?>
 </body>
 </html>
