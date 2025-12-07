@@ -14,9 +14,12 @@ if (!defined('ABSPATH')) {
 
 <div class="tgg-info-notice">
     <div class="tgg-info-notice__icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <text x="12" y="17" text-anchor="middle" fill="currentColor" font-family="Arial, sans-serif" font-size="14" font-weight="bold" font-style="normal">i</text>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+            <!-- Точка буквы i -->
+            <circle cx="12" cy="8" r="1.5" fill="currentColor"/>
+            <!-- Палочка буквы i -->
+            <line x1="12" y1="10" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
     </div>
     <p class="tgg-info-notice__text">
