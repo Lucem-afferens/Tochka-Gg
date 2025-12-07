@@ -38,7 +38,7 @@ body {
   overflow-wrap: normal;
   hyphens: none;
   
-  // Анимированный кибер неоновый градиентный слой
+  // Анимированный кибер неоновый градиентный слой (более контрастный)
   &::before {
     content: '';
     position: fixed;
@@ -49,9 +49,9 @@ body {
     z-index: -1;
     pointer-events: none;
     background: 
-      radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.12) 0%, transparent 60%),
-      radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.1) 0%, transparent 60%),
-      radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.08) 0%, transparent 70%);
+      radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.22) 0%, transparent 55%),
+      radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.18) 0%, transparent 55%),
+      radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.15) 0%, transparent 65%);
     background-attachment: fixed;
     background-size: 400% 400%;
     animation: cyber-gradient-smooth 35s cubic-bezier(0.4, 0, 0.6, 1) infinite;
