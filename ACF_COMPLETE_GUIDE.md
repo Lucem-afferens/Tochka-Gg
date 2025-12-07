@@ -62,14 +62,20 @@
 
 ### Шаг 1: Создание Options Page
 
-1. Перейдите: **Custom Fields → Options Pages**
-2. Нажмите **"Add New"**
-3. Заполните:
+**Важно:** Options Pages доступны только в **ACF Pro**. Если у вас ACF Free, используйте код из файла `ACF_OPTIONS_PAGE_FIX.md`.
+
+1. В левом меню WordPress найдите **Custom Fields**
+2. В подменю выберите **Options Pages** (если не видите - см. `ACF_OPTIONS_PAGE_FIX.md`)
+3. Нажмите **"Add New"** (кнопка вверху страницы)
+4. Заполните форму:
    - **Page Title:** `Настройки темы`
    - **Menu Slug:** `theme-options`
-   - **Icon:** (опционально) выберите иконку
-   - **Position:** `2` (под Dashboard)
-   - Нажмите **"Publish"**
+   - **Menu Title:** `Настройки темы` (текст в меню)
+   - **Capability:** `edit_posts` (права доступа)
+   - **Position:** `2` (позиция в меню, под Dashboard)
+   - **Icon:** (опционально) выберите иконку из списка
+   - **Redirect:** не отмечайте
+5. Нажмите **"Publish"** (вверху справа)
 
 ### Шаг 2: Создание группы полей для Options
 
