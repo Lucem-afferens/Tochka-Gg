@@ -46,16 +46,12 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     text-align: center;
-    margin-bottom: $spacing-2xl;
+    margin-bottom: 0; // Отступ контролируется через margin-top уведомления
     // Единое неоновое свечение (через миксин)
     @include heading-neon-glow;
     
     @include respond-to(md) {
       font-size: $font-size-h1;
-    }
-    
-    @include max-width(xs) {
-      margin-bottom: $spacing-xl;
     }
   }
   

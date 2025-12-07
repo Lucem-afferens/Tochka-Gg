@@ -60,7 +60,7 @@
   color: $color-text-primary;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: $spacing-md;
+  margin-bottom: 0; // Отступ контролируется через margin-top уведомления
   // Единое неоновое свечение (через миксин)
   @include heading-neon-glow;
 }

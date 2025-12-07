@@ -19,14 +19,13 @@
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: $spacing-md;
+    margin-bottom: 0; // Отступ контролируется через margin-top уведомления
     // Единое неоновое свечение (через миксин)
     @include heading-neon-glow;
     
     @include max-width(xs) {
       font-size: clamp(1.75rem, 5vw, 2.5rem);
       padding: 0 $spacing-sm;
-      margin-bottom: $spacing-sm;
     }
   }
   
