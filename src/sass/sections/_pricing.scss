@@ -237,11 +237,39 @@
         white-space: nowrap;
         // Выравнивание по центру для цен
         text-align: center;
+        position: relative;
+        // Необходимо для работы псевдоэлемента с бликом
+        display: inline-block;
         // Неоновое свечение для цен (синий - для LITE)
         text-shadow: 
           0 0 12px rgba(59, 130, 246, 0.8),
           0 0 24px rgba(59, 130, 246, 0.5),
           0 0 15px rgba(192, 38, 211, 0.4);
+        
+        // Постоянная анимация блика для всех цен
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            transparent 40%,
+            rgba(255, 255, 255, 0.4) 50%,
+            transparent 60%,
+            transparent 100%
+          );
+          background-size: 200% 100%;
+          background-position: -100% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          pointer-events: none;
+          animation: price-shine 3s ease-in-out infinite;
+        }
         
         @media (hover: hover) {
           tr:hover & {
@@ -262,11 +290,23 @@
           -webkit-text-fill-color: transparent;
           color: transparent;
           animation: fire-gradient 3s ease infinite;
-          // Огненное свечение для VIP цен (с filter для поддержки градиентного текста)
+          // Огненное свечение для VIP цен (оранжевое вместо синего)
           filter: drop-shadow(0 0 8px rgba(255, 107, 53, 0.9))
                   drop-shadow(0 0 15px rgba(247, 44, 37, 0.7))
                   drop-shadow(0 0 10px rgba(255, 217, 61, 0.6));
-          // Также text-shadow для дополнительного эффекта (для текста с градиентом работает через filter)
+          
+          // Постоянная анимация блика для VIP цен (более яркий)
+          &::before {
+            background: linear-gradient(
+              90deg,
+              transparent 0%,
+              transparent 40%,
+              rgba(255, 255, 255, 0.5) 50%,
+              transparent 60%,
+              transparent 100%
+            );
+            animation: price-shine 3s ease-in-out infinite;
+          }
           
           @media (hover: hover) {
             tr:hover & {
@@ -291,6 +331,19 @@
   50% {
     background-position: 100% 50%;
     opacity: 0.8;
+  }
+}
+
+// Анимация блика для цен
+@keyframes price-shine {
+  0% {
+    background-position: -100% 0;
+  }
+  50% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -100% 0;
   }
 }
 
