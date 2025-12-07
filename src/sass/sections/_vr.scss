@@ -214,7 +214,7 @@
       
       @media (hover: hover) {
         &:hover {
-          color: $color-primary;
+          color: #4a003e; // Темный пурпурный цвет текста при hover
           border-color: rgba(59, 130, 246, 1);
           background: rgba(59, 130, 246, 0.2);
           transform: translateY(-4px);
