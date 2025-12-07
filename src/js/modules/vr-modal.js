@@ -24,6 +24,12 @@
         modal = document.getElementById(MODAL_ID);
         if (!modal) return;
         
+        // Не показываем модальное окно на странице VR арены
+        const currentPath = window.location.pathname.toLowerCase();
+        if (currentPath.includes('/vr') || currentPath.endsWith('/vr/')) {
+            return;
+        }
+        
         overlay = modal.querySelector('.tgg-vr-modal__overlay');
         closeBtn = modal.querySelector('.tgg-vr-modal__close');
         

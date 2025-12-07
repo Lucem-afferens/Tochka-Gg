@@ -471,6 +471,11 @@
         transform: translateY(-2px);
       }
     }
+    
+    // Цвет текста при ховере для огненных кнопок (темный пурпурный)
+    &.tgg-btn-fire:hover {
+      color: #4a003e;
+    }
   }
   
   &__option-links {

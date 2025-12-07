@@ -18,8 +18,10 @@ $vr_link = (function_exists('get_field') ? get_field('vr_link', 'option') : null
 $vr_phone = (function_exists('get_field') ? get_field('vr_phone', 'option') : null) ?: '+7 912 068-34-17';
 $vr_image = function_exists('get_field') ? get_field('vr_image', 'option') : false;
 
-// Получаем путь к странице VR арены
-$vr_page_link = get_permalink(get_page_by_path('vr')) ?: home_url('/vr/');
+// Получаем путь к странице VR арены (используем функцию для надежности)
+$vr_page_link = function_exists('tochkagg_get_page_url') 
+    ? tochkagg_get_page_url('vr', home_url('/vr/'))
+    : (get_permalink(get_page_by_path('vr')) ?: home_url('/vr/'));
 ?>
 
 <div class="tgg-vr-modal" id="vr-modal" aria-hidden="true" role="dialog" aria-labelledby="vr-modal-title">
