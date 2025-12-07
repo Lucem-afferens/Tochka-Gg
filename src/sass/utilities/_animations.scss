@@ -93,6 +93,28 @@
   }
 }
 
+// Постоянная анимация отблеска для карточек (профессиональная версия)
+// Блик проходит по карточке с мягким цветным переливанием
+@keyframes card-shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(200%) translateY(200%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
 // Сканирующая линия (горизонтальная) - для навигации
 @keyframes scan-line-horizontal {
   0% {

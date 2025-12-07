@@ -101,8 +101,35 @@
       min-height: 280px;
     }
     
-    // Радужный перелив (более заметный в статике) с неоновой границей
+    // Постоянная анимация отблеска (блик с цветным переливанием)
     &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 25%,
+        rgba(59, 130, 246, 0.3) 35%,
+        rgba(192, 38, 211, 0.4) 40%,
+        rgba(239, 68, 68, 0.35) 45%,
+        rgba(192, 38, 211, 0.4) 50%,
+        rgba(59, 130, 246, 0.3) 55%,
+        transparent 65%
+      );
+      background-size: 100% 100%;
+      transform-origin: center;
+      pointer-events: none;
+      z-index: 2;
+      animation: card-shimmer 5s ease-in-out infinite;
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+    
+    // Неоновая граница в статичном состоянии
+    &::after {
       content: '';
       position: absolute;
       inset: -1px;
@@ -110,35 +137,19 @@
       padding: 1px;
       background: linear-gradient(
         135deg,
-        rgba(59, 130, 246, 0.6) 0%,
-        rgba(192, 38, 211, 0.6) 25%,
-        rgba(239, 68, 68, 0.6) 50%,
-        rgba(192, 38, 211, 0.6) 75%,
-        rgba(59, 130, 246, 0.6) 100%
+        rgba(59, 130, 246, 0.4) 0%,
+        rgba(192, 38, 211, 0.4) 50%,
+        rgba(239, 68, 68, 0.4) 100%
       );
       background-size: 200% 200%;
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask-composite: exclude;
-      opacity: 0.7;
-      transition: opacity $duration-normal $ease-out-cubic;
-      z-index: 0;
+      opacity: 0.6;
       animation: neon-border-shine 3s ease-in-out infinite;
       pointer-events: none;
-    }
-    
-    // Кибер-сетка на фоне карточки
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.2;
-      @include cyber-grid(rgba(59, 130, 246, 0.1));
-      transition: opacity $duration-normal;
-      pointer-events: none;
-      z-index: 0;
-      border-radius: inherit;
+      z-index: 3;
     }
     
     // Контент должен быть выше радужного фона и сетки
@@ -161,11 +172,12 @@
         
         &::before {
           opacity: 1;
-          animation: neon-border-shine 2s ease-in-out infinite;
+          animation-duration: 3.5s;
         }
         
         &::after {
-          opacity: 0.4;
+          opacity: 1;
+          animation: neon-border-shine 2s ease-in-out infinite;
         }
         
         .tgg-advantages__item-icon-glow {

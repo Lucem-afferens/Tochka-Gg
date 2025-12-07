@@ -110,8 +110,35 @@
     
     // Базовые стили - вращение добавим в каждой карточке индивидуально
     
-    // Неоновая граница (более заметная в статике)
+    // Постоянная анимация отблеска (блик с цветным переливанием)
     &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 25%,
+        rgba(59, 130, 246, 0.3) 35%,
+        rgba(192, 38, 211, 0.4) 40%,
+        rgba(239, 68, 68, 0.35) 45%,
+        rgba(192, 38, 211, 0.4) 50%,
+        rgba(59, 130, 246, 0.3) 55%,
+        transparent 65%
+      );
+      background-size: 100% 100%;
+      transform-origin: center;
+      pointer-events: none;
+      z-index: 2;
+      animation: card-shimmer 5s ease-in-out infinite;
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+    
+    // Неоновая граница в статичном состоянии
+    &::after {
       content: '';
       position: absolute;
       inset: -1px;
@@ -119,9 +146,9 @@
       padding: 1px;
       background: linear-gradient(
         135deg,
-        rgba(59, 130, 246, 0.5) 0%,
-        rgba(192, 38, 211, 0.5) 50%,
-        rgba(239, 68, 68, 0.5) 100%
+        rgba(59, 130, 246, 0.4) 0%,
+        rgba(192, 38, 211, 0.4) 50%,
+        rgba(239, 68, 68, 0.4) 100%
       );
       background-size: 200% 200%;
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -129,23 +156,9 @@
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask-composite: exclude;
       opacity: 0.6;
-      transition: opacity $duration-normal;
-      pointer-events: none;
-      z-index: 0;
       animation: neon-border-shine 3s ease-in-out infinite;
-    }
-    
-    // Кибер-сетка на фоне карточки
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.15;
-      @include cyber-grid(rgba(59, 130, 246, 0.08));
-      transition: opacity $duration-normal;
       pointer-events: none;
-      z-index: 0;
-      border-radius: inherit;
+      z-index: 3;
     }
     
     &--pc {
@@ -160,15 +173,7 @@
         0 0 30px rgba(30, 144, 255, 0.25),
         0 0 20px rgba(192, 38, 211, 0.15);
       
-      &::before {
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(30, 144, 255, 0.8));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        opacity: 0.7;
-        animation: neon-border-shine 3s ease-in-out infinite;
-      }
+      // Для ПК карточки блик остается общим, граница уникальная
       
       .tgg-services__item-title {
         color: rgba(59, 130, 246, 1);
@@ -233,14 +238,9 @@
         0 0 30px rgba(139, 92, 246, 0.25),
         0 0 20px rgba(239, 68, 68, 0.15);
       
-      &::before {
-        background: linear-gradient(135deg, rgba(192, 38, 211, 0.8), rgba(139, 92, 246, 0.8));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        opacity: 0.7;
-        animation: neon-border-shine 3s ease-in-out infinite;
+      // Блик остается общим, граница уникальная для PS5
+      &::after {
+        background: linear-gradient(135deg, rgba(192, 38, 211, 0.5), rgba(139, 92, 246, 0.5));
       }
       
       .tgg-services__item-title {
@@ -306,14 +306,9 @@
         0 0 30px rgba(14, 165, 233, 0.25),
         0 0 20px rgba(59, 130, 246, 0.15);
       
-      &::before {
-        background: linear-gradient(135deg, rgba(34, 211, 238, 0.8), rgba(14, 165, 233, 0.8));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        opacity: 0.7;
-        animation: neon-border-shine 3s ease-in-out infinite;
+      // Блик остается общим, граница уникальная для VR
+      &::after {
+        background: linear-gradient(135deg, rgba(34, 211, 238, 0.5), rgba(14, 165, 233, 0.5));
       }
       
       .tgg-services__item-title {
@@ -379,14 +374,9 @@
         0 0 30px rgba(247, 44, 37, 0.25),
         0 0 20px rgba(239, 68, 68, 0.15);
       
-      &::before {
-        background: linear-gradient(135deg, rgba(255, 107, 53, 0.8), rgba(247, 44, 37, 0.8));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        opacity: 0.7;
-        animation: neon-border-shine 3s ease-in-out infinite;
+      // Блик остается общим, граница уникальная для Food
+      &::after {
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.5), rgba(247, 44, 37, 0.5));
       }
       
       .tgg-services__item-title {
