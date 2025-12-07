@@ -20,15 +20,16 @@ $vr_phone = get_field('vr_phone') ?: '+7 912 068-34-17';
 
 <section class="tgg-vr" id="vr">
     <div class="tgg-container">
+        <h2 class="tgg-vr__title">
+            <?php echo esc_html($vr_title); ?>
+        </h2>
+        
+        <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
+            <?php get_template_part('template-parts/components/info-notice'); ?>
+        <?php endif; ?>
+        
         <div class="tgg-vr__wrapper">
             <div class="tgg-vr__content">
-                <h2 class="tgg-vr__title">
-                    <?php echo esc_html($vr_title); ?>
-                </h2>
-                
-                <?php if (locate_template('template-parts/components/info-notice.php')) : ?>
-                    <?php get_template_part('template-parts/components/info-notice'); ?>
-                <?php endif; ?>
                 
                 <?php if ($vr_description) : ?>
                     <p class="tgg-vr__description">

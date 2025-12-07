@@ -15,14 +15,17 @@
     grid-template-columns: 1fr;
     gap: $spacing-3xl;
     align-items: center;
+    margin-top: $spacing-3xl;
     
     @include max-width(xs) {
       gap: $spacing-2xl;
+      margin-top: $spacing-2xl;
     }
     
     @include respond-to(lg) {
       grid-template-columns: 1fr 1fr;
       gap: $spacing-4xl;
+      margin-top: $spacing-4xl;
     }
   }
   
@@ -42,12 +45,17 @@
     color: $color-text-primary;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: $spacing-lg;
+    text-align: center;
+    margin-bottom: $spacing-2xl;
     // Единое неоновое свечение (через миксин)
     @include heading-neon-glow;
     
     @include respond-to(md) {
       font-size: $font-size-h1;
+    }
+    
+    @include max-width(xs) {
+      margin-bottom: $spacing-xl;
     }
   }
   
