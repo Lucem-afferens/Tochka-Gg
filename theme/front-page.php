@@ -14,7 +14,7 @@ get_header();
 
 <main class="tgg-main">
     <?php
-    // Безопасная функция для получения ACF поля
+    // Безопасная функция для получения SCF поля
     $get_field_safe = function($field, $default = null) {
         if (function_exists('get_field')) {
             $value = get_field($field);
