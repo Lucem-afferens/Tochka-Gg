@@ -60,7 +60,7 @@ if (!defined('ABSPATH')) {
                     <div class="tgg-equipment-full__gallery-slider" data-gallery="vip-pc">
                         <div class="tgg-equipment-full__gallery-track">
                             <?php
-                            // Если есть реальные изображения из ACF
+                            // Если есть реальные изображения из SCF
                             if (!empty($vip_gallery) && is_array($vip_gallery)) {
                                 foreach ($vip_gallery as $image) {
                                     if (is_array($image) && !empty($image['url'])) {
@@ -133,7 +133,7 @@ if (!defined('ABSPATH')) {
                     <div class="tgg-equipment-full__gallery-slider" data-gallery="lite-pc">
                         <div class="tgg-equipment-full__gallery-track">
                             <?php
-                            // Если есть реальные изображения из ACF
+                            // Если есть реальные изображения из SCF
                             if (!empty($lite_gallery) && is_array($lite_gallery)) {
                                 foreach ($lite_gallery as $image) {
                                     if (is_array($image) && !empty($image['url'])) {
@@ -213,7 +213,7 @@ if (!defined('ABSPATH')) {
                     <div class="tgg-equipment-full__gallery-slider" data-gallery="ps5-zone">
                         <div class="tgg-equipment-full__gallery-track">
                             <?php
-                            // Если есть реальные изображения из ACF
+                            // Если есть реальные изображения из SCF
                             if (!empty($ps5_gallery) && is_array($ps5_gallery)) {
                                 foreach ($ps5_gallery as $image) {
                                     if (is_array($image) && !empty($image['url'])) {

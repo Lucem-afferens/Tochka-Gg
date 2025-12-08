@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Получаем данные из ACF
+// Получаем данные из SCF
 $booking_title = function_exists('get_field') ? get_field('booking_title') : null;
 $booking_description = function_exists('get_field') ? get_field('booking_description') : null;
 $phone_raw = function_exists('get_field') ? get_field('phone_main', 'option') : null;
