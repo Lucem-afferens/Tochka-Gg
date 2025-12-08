@@ -83,14 +83,20 @@ function tochkagg_fix_admin_bar_lodash() {
         
         // Добавляем inline скрипт для обеспечения совместимости
         wp_add_inline_script('lodash', '
-            if (typeof window._ === "undefined" && typeof lodash !== "undefined") {
-                window._ = lodash;
-            }
-            if (typeof window._ !== "undefined" && typeof window._.noConflict === "undefined") {
-                window._.noConflict = function() {
-                    return window._;
-                };
-            }
+            (function() {
+                if (typeof window._ === "undefined") {
+                    if (typeof lodash !== "undefined") {
+                        window._ = lodash;
+                    } else if (typeof window.lodash !== "undefined") {
+                        window._ = window.lodash;
+                    }
+                }
+                if (typeof window._ !== "undefined" && typeof window._.noConflict === "undefined") {
+                    window._.noConflict = function() {
+                        return window._;
+                    };
+                }
+            })();
         ', 'after');
         
         // Убеждаемся, что admin bar зависит от lodash
@@ -111,6 +117,12 @@ function tochkagg_fix_admin_bar_lodash() {
     }
 }
 add_action('wp_enqueue_scripts', 'tochkagg_fix_admin_bar_lodash', 1);
+
+/**
+ * Альтернативное решение: отключение admin bar на фронтенде
+ * Раскомментируйте следующую строку, если admin bar не нужен на фронтенде
+ */
+// add_filter('show_admin_bar', '__return_false');
 
 /**
  * Отключение Gutenberg стилей (опционально)
