@@ -18,7 +18,11 @@ $map_lat = (function_exists('get_field') ? get_field('map_latitude', 'option') :
 $map_lng = (function_exists('get_field') ? get_field('map_longitude', 'option') : null) ?: '56.963968';
 $working_hours = (function_exists('get_field') ? get_field('working_hours', 'option') : null) ?: 'Круглосуточно, без выходных';
 $social_links = function_exists('get_field') ? get_field('social_networks', 'option') : false;
+// Логотип футера: если footer_logo не заполнен, используем основной logo
 $footer_logo = function_exists('get_field') ? get_field('footer_logo', 'option') : false;
+if (!$footer_logo) {
+    $footer_logo = function_exists('get_field') ? get_field('logo', 'option') : false;
+}
 $copyright = function_exists('get_field') ? get_field('copyright_text', 'option') : false;
 $footer_description = function_exists('get_field') ? get_field('footer_description', 'option') : false;
 
