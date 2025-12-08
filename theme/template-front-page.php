@@ -62,6 +62,14 @@ get_header();
         }
     }
 
+    // Новости и события (по умолчанию показываем, если есть новости)
+    $news_enabled = function_exists('get_field') ? get_field('news_preview_enabled') : true;
+    if ($news_enabled === null || $news_enabled === '' || $news_enabled === true || $news_enabled === '1' || $news_enabled === 1) {
+        if (locate_template('template-parts/components/news-preview.php')) {
+            get_template_part('template-parts/components/news-preview');
+        }
+    }
+
     // Ближайшие турниры (по умолчанию показываем)
     $tournaments_enabled = function_exists('get_field') ? get_field('tournaments_preview_enabled') : true;
     if ($tournaments_enabled === null || $tournaments_enabled === '' || $tournaments_enabled === true || $tournaments_enabled === '1' || $tournaments_enabled === 1) {

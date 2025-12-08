@@ -1,0 +1,330 @@
+/**
+ * News Preview Section Styles
+ * 
+ * Секция предпросмотра новостей и вакансий на главной странице
+ */
+
+.tgg-news-preview {
+  padding: $spacing-5xl 0;
+  position: relative;
+  overflow: hidden;
+  
+  @include max-width(xs) {
+    padding: $spacing-3xl 0;
+  }
+  
+  &__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+    
+    img,
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.3) contrast(1.2) saturate(0.8);
+    }
+    
+    &-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(13, 15, 20, 0.85) 0%,
+      rgba(13, 15, 20, 0.9) 50%,
+      rgba(13, 15, 20, 0.95) 100%
+    );
+    z-index: 1;
+  }
+  
+  .tgg-container {
+    position: relative;
+    z-index: 2;
+  }
+  
+  &__title {
+    font-family: $font-heading;
+    font-size: $font-size-h2;
+    font-weight: $font-weight-heading-bold;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-4xl;
+    // Единое неоновое свечение (через миксин)
+    @include heading-neon-glow;
+    
+    @include max-width(xs) {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      margin-bottom: $spacing-3xl;
+    }
+  }
+  
+  &__items {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+    width: 100%;
+    max-width: 100%;
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-3xl;
+    }
+    
+    @include respond-to(lg) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: $spacing-4xl;
+    }
+  }
+  
+  &__item {
+    background: rgba(18, 13, 26, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: $border-radius-xl;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    // Улучшенные неоновые тени в статичном состоянии
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 6px 30px rgba(59, 130, 246, 0.25),
+      0 0 40px rgba(59, 130, 246, 0.15),
+      0 0 30px rgba(192, 38, 211, 0.2),
+      0 0 20px rgba(239, 68, 68, 0.15);
+    
+    // Неоновая граница в статичном состоянии
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.4) 0%,
+        rgba(192, 38, 211, 0.4) 50%,
+        rgba(239, 68, 68, 0.4) 100%
+      );
+      background-size: 200% 200%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0.5;
+      animation: neon-border-shine 3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    position: relative;
+    
+    @media (hover: hover) {
+      &:hover {
+        transform: translateY(-8px);
+        border-color: rgba(59, 130, 246, 0.6);
+        box-shadow: 
+          0 20px 60px rgba(59, 130, 246, 0.4),
+          0 0 80px rgba(59, 130, 246, 0.25),
+          0 0 50px rgba(192, 38, 211, 0.3),
+          0 0 35px rgba(239, 68, 68, 0.25);
+        
+        &::after {
+          opacity: 0.9;
+          animation: neon-border-shine 2s ease-in-out infinite;
+        }
+      }
+    }
+  }
+  
+  &__item-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+  }
+  
+  &__item-image {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    flex-shrink: 0;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.7) contrast(1.1);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+    }
+    
+    @media (hover: hover) {
+      .tgg-news-preview__item:hover & {
+        img {
+          transform: scale(1.1);
+          filter: brightness(0.85) contrast(1.2);
+        }
+      }
+    }
+  }
+  
+  &__item-badge {
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    padding: $spacing-xs $spacing-md;
+    background: rgba(59, 130, 246, 0.9);
+    border: 1px solid rgba(59, 130, 246, 1);
+    border-radius: $border-radius-full;
+    font-family: $font-heading;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-heading-bold;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    z-index: 3;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+    
+    &--vacancy {
+      background: rgba(255, 217, 61, 0.9);
+      border-color: rgba(255, 217, 61, 1);
+      color: rgba(26, 29, 41, 1);
+      box-shadow: 0 2px 10px rgba(255, 217, 61, 0.4);
+    }
+    
+    &--announcement {
+      background: rgba(192, 38, 211, 0.9);
+      border-color: rgba(192, 38, 211, 1);
+      box-shadow: 0 2px 10px rgba(192, 38, 211, 0.4);
+    }
+  }
+  
+  &__item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: $spacing-xl;
+    gap: $spacing-md;
+  }
+  
+  &__item-meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+  
+  &__item-date {
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    color: rgba(59, 130, 246, 0.8);
+    font-weight: $font-weight-body-semibold;
+  }
+  
+  &__item-title {
+    font-family: $font-heading;
+    font-size: clamp(1rem, 2.5vw, $font-size-h4);
+    font-weight: $font-weight-heading-bold;
+    color: $color-text-primary;
+    margin: 0;
+    line-height: $line-height-tight;
+    // Легкое неоновое свечение для заголовков
+    text-shadow: 
+      0 0 8px rgba(59, 130, 246, 0.4),
+      0 0 16px rgba(59, 130, 246, 0.2);
+    transition: text-shadow 0.3s ease;
+    
+    @media (hover: hover) {
+      .tgg-news-preview__item:hover & {
+        text-shadow: 
+          0 0 12px rgba(59, 130, 246, 0.6),
+          0 0 24px rgba(59, 130, 246, 0.3);
+      }
+    }
+  }
+  
+  &__item-excerpt {
+    font-family: $font-body;
+    font-size: $font-size-base;
+    line-height: $line-height-relaxed;
+    color: $color-text-secondary;
+    flex: 1;
+  }
+  
+  &__item-cta {
+    font-family: $font-heading;
+    font-size: $font-size-sm;
+    color: $color-primary;
+    font-weight: $font-weight-heading-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: auto;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+    
+    @media (hover: hover) {
+      .tgg-news-preview__item:hover & {
+        color: rgba(192, 38, 211, 1);
+        text-shadow: 
+          0 0 12px rgba(192, 38, 211, 0.6),
+          0 0 20px rgba(192, 38, 211, 0.3);
+        transform: translateX(4px);
+      }
+    }
+  }
+  
+  &__cta {
+    text-align: center;
+    margin-top: $spacing-4xl;
+    
+    @include max-width(xs) {
+      margin-top: $spacing-3xl;
+    }
+  }
+  
+  &__empty {
+    text-align: center;
+    padding: $spacing-4xl 0;
+    color: $color-text-secondary;
+    font-family: $font-body;
+    font-size: $font-size-lg;
+  }
+}
+
+// Анимация сияния неоновой границы
+@keyframes neon-border-shine {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.5;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.8;
+  }
+}
+
