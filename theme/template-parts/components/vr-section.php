@@ -12,10 +12,16 @@ if (!defined('ABSPATH')) {
 $vr_title = get_field('vr_title') ?: 'VR Арена "Другие миры"';
 $vr_description = get_field('vr_description') ?: 'Привыкли управлять героем в игре? Это в прошлом! Теперь вы и есть герой!';
 $vr_area = get_field('vr_area') ?: '840';
+$vr_area_label = get_field('vr_area_label') ?: 'Площадь виртуальной арены';
+$vr_area_unit = get_field('vr_area_unit') ?: 'м²';
 $vr_players = get_field('vr_players') ?: '10';
+$vr_players_label = get_field('vr_players_label') ?: 'Игроков одновременно';
+$vr_players_prefix = get_field('vr_players_prefix') ?: 'до';
 $vr_image = get_field('vr_image');
 $vr_link = get_field('vr_link') ?: 'https://vk.com/another_world_kungur';
+$vr_button_text = get_field('vr_button_text') ?: 'ВКонтакте арены';
 $vr_phone = get_field('vr_phone') ?: '+7 912 068-34-17';
+$vr_services = get_field('vr_services');
 ?>
 
 <section class="tgg-vr" id="vr">
@@ -39,29 +45,45 @@ $vr_phone = get_field('vr_phone') ?: '+7 912 068-34-17';
                 
                 <div class="tgg-vr__features">
                     <div class="tgg-vr__feature">
-                        <div class="tgg-vr__feature-value"><?php echo esc_html($vr_area); ?> м²</div>
-                        <div class="tgg-vr__feature-label">Площадь виртуальной арены</div>
+                        <div class="tgg-vr__feature-value"><?php echo esc_html($vr_area); ?> <?php echo esc_html($vr_area_unit); ?></div>
+                        <div class="tgg-vr__feature-label"><?php echo esc_html($vr_area_label); ?></div>
                     </div>
                     
                     <div class="tgg-vr__feature">
-                        <div class="tgg-vr__feature-value">до <?php echo esc_html($vr_players); ?></div>
-                        <div class="tgg-vr__feature-label">Игроков одновременно</div>
+                        <div class="tgg-vr__feature-value"><?php echo esc_html($vr_players_prefix); ?> <?php echo esc_html($vr_players); ?></div>
+                        <div class="tgg-vr__feature-label"><?php echo esc_html($vr_players_label); ?></div>
                     </div>
                 </div>
                 
-                <div class="tgg-vr__services">
-                    <ul>
-                        <li>Телепорт в виртуальный мир с помощью современного оборудования</li>
-                        <li>Уникальные игры в форматах «игрок против игрока» и «игрок против компьютера»</li>
-                        <li>Арена VR для командных игр до <?php echo esc_html($vr_players); ?> человек</li>
-                        <li>Зона отдыха и банкета на все время праздника</li>
-                    </ul>
-                </div>
+                <?php if ($vr_services && is_array($vr_services) && !empty($vr_services)) : ?>
+                    <div class="tgg-vr__services">
+                        <ul>
+                            <?php foreach ($vr_services as $service) : 
+                                $service_text = isset($service['service_text']) ? $service['service_text'] : '';
+                                if (!empty($service_text)) :
+                            ?>
+                                <li><?php echo esc_html($service_text); ?></li>
+                            <?php 
+                                endif;
+                            endforeach; ?>
+                        </ul>
+                    </div>
+                <?php else : ?>
+                    <!-- Значения по умолчанию, если список услуг не задан -->
+                    <div class="tgg-vr__services">
+                        <ul>
+                            <li>Телепорт в виртуальный мир с помощью современного оборудования</li>
+                            <li>Уникальные игры в форматах «игрок против игрока» и «игрок против компьютера»</li>
+                            <li>Арена VR для командных игр <?php echo esc_html($vr_players_prefix); ?> <?php echo esc_html($vr_players); ?> человек</li>
+                            <li>Зона отдыха и банкета на все время праздника</li>
+                        </ul>
+                    </div>
+                <?php endif; ?>
                 
                 <div class="tgg-vr__contacts">
-                    <?php if ($vr_link) : ?>
+                    <?php if ($vr_link && $vr_button_text) : ?>
                         <a href="<?php echo esc_url($vr_link); ?>" target="_blank" rel="noopener noreferrer" class="tgg-btn-fire">
-                            ВКонтакте арены
+                            <?php echo esc_html($vr_button_text); ?>
                         </a>
                     <?php endif; ?>
                     
