@@ -12,8 +12,9 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Безопасная функция для получения поля ACF
- * Работает даже если ACF не установлен
+ * Безопасная функция для получения поля SCF (Secure Custom Fields)
+ * Работает даже если SCF не установлен
+ * SCF совместим с API ACF, поэтому используем get_field()
  */
 function tochkagg_get_field($selector, $post_id = false, $format_value = true) {
     if (function_exists('get_field')) {
@@ -23,7 +24,7 @@ function tochkagg_get_field($selector, $post_id = false, $format_value = true) {
 }
 
 /**
- * Безопасная функция для проверки существования поля ACF
+ * Безопасная функция для проверки существования поля SCF
  */
 function tochkagg_has_field($selector, $post_id = false) {
     if (function_exists('get_field')) {
@@ -34,7 +35,7 @@ function tochkagg_has_field($selector, $post_id = false) {
 }
 
 /**
- * Получить ACF поле с проверкой существования
+ * Получить SCF поле с проверкой существования
  *
  * @param string $field_name Имя поля
  * @param mixed $default Значение по умолчанию
@@ -179,20 +180,21 @@ function tochkagg_get_placeholder_video($label = 'Video') {
 }
 
 /**
- * Получить placeholder изображение или реальное ACF изображение
+ * Получить placeholder изображение или реальное SCF изображение
  * 
- * @param mixed $acf_image ACF изображение (array или false)
+ * @param mixed $scf_image SCF изображение (array или false)
  * @param int $width Ширина placeholder
  * @param int $height Высота placeholder
  * @param string $placeholder_text Текст для placeholder
  * @return array Массив с URL и alt для изображения
  */
-function tochkagg_get_image_or_placeholder($acf_image, $width = 800, $height = 600, $placeholder_text = 'Изображение') {
-    // Проверяем, есть ли реальное изображение из ACF
-    if ($acf_image && is_array($acf_image) && !empty($acf_image['url']) && filter_var($acf_image['url'], FILTER_VALIDATE_URL)) {
+function tochkagg_get_image_or_placeholder($scf_image, $width = 800, $height = 600, $placeholder_text = 'Изображение') {
+    // Проверяем, есть ли реальное изображение из SCF
+    // SCF использует тот же формат данных, что и ACF
+    if ($scf_image && is_array($scf_image) && !empty($scf_image['url']) && filter_var($scf_image['url'], FILTER_VALIDATE_URL)) {
         return [
-            'url' => $acf_image['url'],
-            'alt' => $acf_image['alt'] ?? $placeholder_text
+            'url' => $scf_image['url'],
+            'alt' => $scf_image['alt'] ?? $placeholder_text
         ];
     }
     

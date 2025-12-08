@@ -22,6 +22,6 @@ require_once TOCHKAGG_THEME_PATH . '/inc/custom-post-types.php';
 require_once TOCHKAGG_THEME_PATH . '/inc/theme-functions.php';
 require_once TOCHKAGG_THEME_PATH . '/inc/theme-security.php';
 require_once TOCHKAGG_THEME_PATH . '/inc/theme-helpers.php';
-require_once TOCHKAGG_THEME_PATH . '/inc/acf-options.php';
+require_once TOCHKAGG_THEME_PATH . '/inc/scf-options.php';
 
 

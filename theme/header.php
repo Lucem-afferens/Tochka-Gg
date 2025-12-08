@@ -28,6 +28,7 @@ if (!defined('ABSPATH')) {
     <div class="tgg-container">
         <div class="tgg-header__logo">
             <?php
+            // Получаем логотип из SCF Options Page
             $logo = function_exists('get_field') ? get_field('logo', 'option') : false;
             $logo_data = tochkagg_get_image_or_placeholder($logo, 200, 60, 'Logo');
             ?>
@@ -81,7 +82,7 @@ if (!defined('ABSPATH')) {
                 $booking_text = function_exists('get_field') ? get_field('booking_button_text', 'option') : 'Забронировать место';
                 $booking_link = function_exists('get_field') ? get_field('booking_link', 'option') : null;
                 
-                // Если ссылка не задана в ACF, используем автоматический поиск страницы бронирования
+                // Если ссылка не задана в SCF, используем автоматический поиск страницы бронирования
                 if (!$booking_link || $booking_link === '#booking') {
                     if (function_exists('tochkagg_get_page_url')) {
                         $booking_link = tochkagg_get_page_url('booking', home_url('/бронирование/'));

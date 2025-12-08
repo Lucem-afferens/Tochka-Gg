@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Получаем данные из ACF с значениями по умолчанию
+// Получаем данные из SCF с значениями по умолчанию
 $phone = (function_exists('get_field') ? get_field('phone_main', 'option') : null) ?: '8 (992) 222-62-72';
 $email = (function_exists('get_field') ? get_field('email_main', 'option') : null) ?: 'vr.kungur@mail.ru';
 $telegram = (function_exists('get_field') ? get_field('telegram_username', 'option') : null) ?: '@tochaGgKungur';

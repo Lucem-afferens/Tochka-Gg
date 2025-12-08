@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Получаем данные VR арены из ACF или используем значения по умолчанию
+// Получаем данные VR арены из SCF или используем значения по умолчанию
 $vr_title = (function_exists('get_field') ? get_field('vr_title', 'option') : null) ?: 'VR Арена "Другие миры"';
 $vr_description = (function_exists('get_field') ? get_field('vr_description', 'option') : null) ?: 'Привыкли управлять героем в игре? Это в прошлом! Теперь вы и есть герой!';
 $vr_link = (function_exists('get_field') ? get_field('vr_link', 'option') : null) ?: 'https://vk.com/another_world_kungur';
