@@ -178,8 +178,15 @@
       // Легкое неоновое свечение для заголовков
       text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
       
+      // Первый столбец (Категория) - слева
+      &:first-child {
+        text-align: left;
+      }
+      
+      // Второй и третий столбцы (Пн-Чт и Пт-Вс) - по центру
+      &:nth-child(2),
       &:last-child {
-        text-align: right;
+        text-align: center;
       }
     }
   }
