@@ -275,12 +275,6 @@
         border-color: rgba(255, 107, 53, 0.4);
         color: rgba(255, 107, 53, 1);
       }
-      
-      // Синий цвет текста при ховере для кнопки "Открыть приложение"
-      .tgg-booking__option-button:hover {
-        color: $color-primary !important;
-        text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
-      }
     }
   }
   
