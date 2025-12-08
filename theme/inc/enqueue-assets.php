@@ -63,6 +63,56 @@ function tochkagg_enqueue_assets() {
 add_action('wp_enqueue_scripts', 'tochkagg_enqueue_assets');
 
 /**
+ * Исправление проблемы с lodash для admin bar
+ * Обеспечивает правильное подключение lodash перед admin bar скриптами
+ */
+function tochkagg_fix_admin_bar_lodash() {
+    // Проверяем, что пользователь залогинен и admin bar должен отображаться
+    if (!is_admin() && is_user_logged_in()) {
+        // Отключаем текущую регистрацию lodash, если она есть
+        wp_deregister_script('lodash');
+        
+        // Регистрируем lodash из WordPress core
+        wp_register_script(
+            'lodash',
+            includes_url('js/dist/lodash.min.js'),
+            array(),
+            '4.17.21',
+            false
+        );
+        
+        // Добавляем inline скрипт для обеспечения совместимости
+        wp_add_inline_script('lodash', '
+            if (typeof window._ === "undefined" && typeof lodash !== "undefined") {
+                window._ = lodash;
+            }
+            if (typeof window._ !== "undefined" && typeof window._.noConflict === "undefined") {
+                window._.noConflict = function() {
+                    return window._;
+                };
+            }
+        ', 'after');
+        
+        // Убеждаемся, что admin bar зависит от lodash
+        add_filter('script_loader_tag', function($tag, $handle) {
+            if ($handle === 'admin-bar') {
+                global $wp_scripts;
+                if (isset($wp_scripts->registered['admin-bar'])) {
+                    if (!in_array('lodash', $wp_scripts->registered['admin-bar']->deps)) {
+                        $wp_scripts->registered['admin-bar']->deps[] = 'lodash';
+                    }
+                }
+            }
+            return $tag;
+        }, 10, 2);
+        
+        // Принудительно загружаем lodash перед admin bar
+        wp_enqueue_script('lodash');
+    }
+}
+add_action('wp_enqueue_scripts', 'tochkagg_fix_admin_bar_lodash', 1);
+
+/**
  * Отключение Gutenberg стилей (опционально)
  */
 function tochkagg_disable_gutenberg_styles() {
