@@ -17,6 +17,7 @@ $equipment_link_default = function_exists('tochkagg_get_page_url')
     ? tochkagg_get_page_url('equipment') 
     : home_url('/equipment/');
 $equipment_link = get_field('equipment_preview_link') ?: $equipment_link_default;
+$equipment_button_text = get_field('equipment_preview_button_text') ?: 'Подробнее об оборудовании';
 ?>
 
 <section class="tgg-equipment-preview">
@@ -55,10 +56,10 @@ $equipment_link = get_field('equipment_preview_link') ?: $equipment_link_default
                     </div>
                 </div>
                 
-                <?php if ($equipment_link) : ?>
+                <?php if ($equipment_link && $equipment_button_text) : ?>
                     <div class="tgg-equipment-preview__cta">
                         <a href="<?php echo esc_url($equipment_link); ?>" class="tgg-btn-fire">
-                            Подробнее об оборудовании
+                            <?php echo esc_html($equipment_button_text); ?>
                         </a>
                     </div>
                 <?php endif; ?>
