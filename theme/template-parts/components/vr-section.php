@@ -61,6 +61,25 @@ $vr_services = get_field('vr_services');
                             <?php foreach ($vr_services as $service) : 
                                 $service_text = isset($service['service_text']) ? $service['service_text'] : '';
                                 if (!empty($service_text)) :
+                                    // Автоматическая подстановка количества игроков в тексте
+                                    // Заменяем плейсхолдеры: [количество игроков], [игроков], {players}, {vr_players}
+                                    $service_text = str_replace(
+                                        ['[количество игроков]', '[игроков]', '{players}', '{vr_players}', '{players_prefix}'],
+                                        [$vr_players, $vr_players, $vr_players, $vr_players, $vr_players_prefix],
+                                        $service_text
+                                    );
+                                    // Также заменяем полную фразу "до [количество игроков]"
+                                    $service_text = str_replace(
+                                        'до [количество игроков]',
+                                        $vr_players_prefix . ' ' . $vr_players,
+                                        $service_text
+                                    );
+                                    // И заменяем "до [игроков]"
+                                    $service_text = str_replace(
+                                        'до [игроков]',
+                                        $vr_players_prefix . ' ' . $vr_players,
+                                        $service_text
+                                    );
                             ?>
                                 <li><?php echo esc_html($service_text); ?></li>
                             <?php 
