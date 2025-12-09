@@ -11,6 +11,62 @@ if (!defined('ABSPATH')) {
 
 $pricing_title = get_field('pricing_title') ?: 'Тарифы и цены';
 $pricing_note = get_field('pricing_note') ?: 'Все актуальные скидки и акции можно посмотреть в приложении LANGAME';
+
+// Заголовки таблицы (можно настроить)
+$pricing_table_header_category = get_field('pricing_table_header_category') ?: 'Категория';
+$pricing_table_header_weekdays = get_field('pricing_table_header_weekdays') ?: 'Пн-Чт';
+$pricing_table_header_weekend = get_field('pricing_table_header_weekend') ?: 'Пт-Вс';
+
+// Названия категорий (можно настроить)
+$pricing_category_lite_label = get_field('pricing_category_lite_label') ?: 'LITE';
+$pricing_category_vip_label = get_field('pricing_category_vip_label') ?: 'VIP';
+
+// Символ валюты
+$pricing_currency_symbol = get_field('pricing_currency_symbol') ?: '₽';
+
+// Тарифные пакеты (Repeater)
+$pricing_packages = get_field('pricing_packages');
+
+// Если пакеты не заданы, используем значения по умолчанию
+if (!$pricing_packages || empty($pricing_packages)) {
+    $pricing_packages = [
+        [
+            'package_title' => '1 час',
+            'package_lite_weekday_price' => '100',
+            'package_lite_weekend_price' => '120',
+            'package_vip_weekday_price' => '110',
+            'package_vip_weekend_price' => '130',
+        ],
+        [
+            'package_title' => 'Пакет СТАРТ (08:00-13:00)',
+            'package_lite_weekday_price' => '350',
+            'package_lite_weekend_price' => '430',
+            'package_vip_weekday_price' => '390',
+            'package_vip_weekend_price' => '460',
+        ],
+        [
+            'package_title' => 'Пакет GG (20:00-03:00) 🎁',
+            'package_lite_weekday_price' => '550',
+            'package_lite_weekend_price' => '700',
+            'package_vip_weekday_price' => '600',
+            'package_vip_weekend_price' => '750',
+        ],
+        [
+            'package_title' => 'Пакет NIGHT (23:00-07:00)',
+            'package_lite_weekday_price' => '450',
+            'package_lite_weekend_price' => '550',
+            'package_vip_weekday_price' => '500',
+            'package_vip_weekend_price' => '600',
+        ],
+        [
+            'package_title' => '1 час - night (03:00-08:00)',
+            'package_lite_weekday_price' => '80',
+            'package_lite_weekend_price' => '90',
+            'package_vip_weekday_price' => '90',
+            'package_vip_weekend_price' => '100',
+        ],
+    ];
+}
 ?>
 
 <section class="tgg-pricing">
@@ -31,138 +87,53 @@ $pricing_note = get_field('pricing_note') ?: 'Все актуальные ски
             </p>
         <?php endif; ?>
         
-        <div class="tgg-pricing__tables">
-            <!-- 1 час -->
-            <div class="tgg-pricing__table">
-                <h3 class="tgg-pricing__table-title">1 час</h3>
-                <table class="tgg-pricing-table">
-                    <thead>
-                        <tr>
-                            <th>Категория</th>
-                            <th>Пн-Чт</th>
-                            <th>Пт-Вс</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>LITE</strong></td>
-                            <td class="tgg-price" data-text="100 ₽">100 ₽</td>
-                            <td class="tgg-price" data-text="120 ₽">120 ₽</td>
-                        </tr>
-                        <tr>
-                            <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip" data-text="110 ₽">110 ₽</td>
-                            <td class="tgg-price tgg-price--vip" data-text="130 ₽">130 ₽</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <?php if ($pricing_packages && is_array($pricing_packages) && !empty($pricing_packages)) : ?>
+            <div class="tgg-pricing__tables">
+                <?php foreach ($pricing_packages as $package) : 
+                    $package_title = isset($package['package_title']) ? $package['package_title'] : '';
+                    $package_lite_weekday_price = isset($package['package_lite_weekday_price']) ? $package['package_lite_weekday_price'] : '0';
+                    $package_lite_weekend_price = isset($package['package_lite_weekend_price']) ? $package['package_lite_weekend_price'] : '0';
+                    $package_vip_weekday_price = isset($package['package_vip_weekday_price']) ? $package['package_vip_weekday_price'] : '0';
+                    $package_vip_weekend_price = isset($package['package_vip_weekend_price']) ? $package['package_vip_weekend_price'] : '0';
+                    $package_description = isset($package['package_description']) ? $package['package_description'] : '';
+                    
+                    if (empty($package_title)) continue;
+                ?>
+                    <div class="tgg-pricing__table">
+                        <?php if ($package_title) : ?>
+                            <h3 class="tgg-pricing__table-title"><?php echo esc_html($package_title); ?></h3>
+                        <?php endif; ?>
+                        
+                        <?php if ($package_description) : ?>
+                            <p class="tgg-pricing__table-description">
+                                <?php echo esc_html($package_description); ?>
+                            </p>
+                        <?php endif; ?>
+                        
+                        <table class="tgg-pricing-table">
+                            <thead>
+                                <tr>
+                                    <th><?php echo esc_html($pricing_table_header_category); ?></th>
+                                    <th><?php echo esc_html($pricing_table_header_weekdays); ?></th>
+                                    <th><?php echo esc_html($pricing_table_header_weekend); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong><?php echo esc_html($pricing_category_lite_label); ?></strong></td>
+                                    <td class="tgg-price"><?php echo esc_html($package_lite_weekday_price); ?> <?php echo esc_html($pricing_currency_symbol); ?></td>
+                                    <td class="tgg-price"><?php echo esc_html($package_lite_weekend_price); ?> <?php echo esc_html($pricing_currency_symbol); ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong><?php echo esc_html($pricing_category_vip_label); ?></strong></td>
+                                    <td class="tgg-price tgg-price--vip"><?php echo esc_html($package_vip_weekday_price); ?> <?php echo esc_html($pricing_currency_symbol); ?></td>
+                                    <td class="tgg-price tgg-price--vip"><?php echo esc_html($package_vip_weekend_price); ?> <?php echo esc_html($pricing_currency_symbol); ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endforeach; ?>
             </div>
-            
-            <!-- Пакет СТАРТ -->
-            <div class="tgg-pricing__table">
-                <h3 class="tgg-pricing__table-title">Пакет СТАРТ (08:00-13:00)</h3>
-                <table class="tgg-pricing-table">
-                    <thead>
-                        <tr>
-                            <th>Категория</th>
-                            <th>Пн-Чт</th>
-                            <th>Пт-Вс</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>LITE</strong></td>
-                            <td class="tgg-price" data-text="350 ₽">350 ₽</td>
-                            <td class="tgg-price" data-text="430 ₽">430 ₽</td>
-                        </tr>
-                        <tr>
-                            <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip" data-text="390 ₽">390 ₽</td>
-                            <td class="tgg-price tgg-price--vip" data-text="460 ₽">460 ₽</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Пакет GG -->
-            <div class="tgg-pricing__table">
-                <h3 class="tgg-pricing__table-title">Пакет GG (20:00-03:00) 🎁</h3>
-                <table class="tgg-pricing-table">
-                    <thead>
-                        <tr>
-                            <th>Категория</th>
-                            <th>Пн-Чт</th>
-                            <th>Пт-Вс</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>LITE</strong></td>
-                            <td class="tgg-price" data-text="550 ₽">550 ₽</td>
-                            <td class="tgg-price" data-text="700 ₽">700 ₽</td>
-                        </tr>
-                        <tr>
-                            <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip" data-text="600 ₽">600 ₽</td>
-                            <td class="tgg-price tgg-price--vip" data-text="750 ₽">750 ₽</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Пакет NIGHT -->
-            <div class="tgg-pricing__table">
-                <h3 class="tgg-pricing__table-title">Пакет NIGHT (23:00-07:00)</h3>
-                <table class="tgg-pricing-table">
-                    <thead>
-                        <tr>
-                            <th>Категория</th>
-                            <th>Пн-Чт</th>
-                            <th>Пт-Вс</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>LITE</strong></td>
-                            <td class="tgg-price" data-text="450 ₽">450 ₽</td>
-                            <td class="tgg-price" data-text="550 ₽">550 ₽</td>
-                        </tr>
-                        <tr>
-                            <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip" data-text="500 ₽">500 ₽</td>
-                            <td class="tgg-price tgg-price--vip" data-text="600 ₽">600 ₽</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- 1 час - night -->
-            <div class="tgg-pricing__table">
-                <h3 class="tgg-pricing__table-title">1 час - night (03:00-08:00)</h3>
-                <table class="tgg-pricing-table">
-                    <thead>
-                        <tr>
-                            <th>Категория</th>
-                            <th>Пн-Чт</th>
-                            <th>Пт-Вс</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>LITE</strong></td>
-                            <td class="tgg-price" data-text="80 ₽">80 ₽</td>
-                            <td class="tgg-price" data-text="90 ₽">90 ₽</td>
-                        </tr>
-                        <tr>
-                            <td><strong>VIP</strong></td>
-                            <td class="tgg-price tgg-price--vip" data-text="90 ₽">90 ₽</td>
-                            <td class="tgg-price tgg-price--vip" data-text="100 ₽">100 ₽</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <?php endif; ?>
     </div>
 </section>
-
-

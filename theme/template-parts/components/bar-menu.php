@@ -13,6 +13,7 @@ if (!defined('ABSPATH')) {
 
 $bar_title = get_field('bar_title') ?: 'Клубный бар';
 $bar_description = get_field('bar_description') ?: 'Кофе, энергетики, закуски и многое другое';
+$bar_currency_symbol = get_field('bar_currency_symbol') ?: '₽';
 
 // Категории товаров
 $categories = get_field('bar_categories') ?: [
@@ -91,6 +92,7 @@ $categories = get_field('bar_categories') ?: [
             <div class="tgg-bar__categories">
                 <?php foreach ($categories as $category) : 
                     $category_name = $category['name'] ?? '';
+                    $category_description = $category['category_description'] ?? '';
                     $items = $category['items'] ?? [];
                 ?>
                     <?php if ($category_name && !empty($items)) : ?>
@@ -98,6 +100,12 @@ $categories = get_field('bar_categories') ?: [
                             <h2 class="tgg-bar__category-title">
                                 <?php echo esc_html($category_name); ?>
                             </h2>
+                            
+                            <?php if ($category_description) : ?>
+                                <p class="tgg-bar__category-description">
+                                    <?php echo esc_html($category_description); ?>
+                                </p>
+                            <?php endif; ?>
                             
                             <div class="tgg-bar__items">
                                 <?php foreach ($items as $item) : 
@@ -128,7 +136,7 @@ $categories = get_field('bar_categories') ?: [
                                             <?php endif; ?>
                                             
                                             <div class="tgg-bar__item-price">
-                                                <?php echo esc_html($item_price); ?> ₽
+                                                <?php echo esc_html($item_price); ?> <?php echo esc_html($bar_currency_symbol); ?>
                                             </div>
                                         </div>
                                     </div>

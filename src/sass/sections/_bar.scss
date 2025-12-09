@@ -57,7 +57,7 @@
       color: $color-text-primary;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: $spacing-2xl;
+      margin-bottom: $spacing-md;
       text-shadow: 
         0 0 20px rgba(59, 130, 246, 0.8),
         0 0 35px rgba(59, 130, 246, 0.5),
@@ -75,6 +75,15 @@
             0 0 40px rgba(255, 107, 53, 0.6);
         }
       }
+    }
+    
+    &-description {
+      font-family: $font-body;
+      font-size: $font-size-base;
+      color: $color-text-secondary;
+      line-height: $line-height-relaxed;
+      margin-bottom: $spacing-2xl;
+      max-width: 900px;
     }
   }
   
