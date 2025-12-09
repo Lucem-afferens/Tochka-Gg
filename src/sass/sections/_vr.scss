@@ -230,7 +230,7 @@
     }
   }
   
-  &__image {
+  &__media {
     order: 1;
     position: relative;
     border-radius: $border-radius-xl;
@@ -240,7 +240,8 @@
       order: 2;
     }
     
-    img {
+    img,
+    video {
       width: 100%;
       height: auto;
       display: block;

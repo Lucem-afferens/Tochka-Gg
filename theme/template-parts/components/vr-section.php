@@ -17,7 +17,9 @@ $vr_area_unit = get_field('vr_area_unit') ?: 'м²';
 $vr_players = get_field('vr_players') ?: '10';
 $vr_players_label = get_field('vr_players_label') ?: 'Игроков одновременно';
 $vr_players_prefix = get_field('vr_players_prefix') ?: 'до';
+$vr_media_type = get_field('vr_media_type') ?: 'image'; // 'image' или 'video'
 $vr_image = get_field('vr_image');
+$vr_video = get_field('vr_video');
 $vr_link = get_field('vr_link') ?: 'https://vk.com/another_world_kungur';
 $vr_button_text = get_field('vr_button_text') ?: 'ВКонтакте арены';
 $vr_phone = get_field('vr_phone') ?: '+7 912 068-34-17';
@@ -117,13 +119,48 @@ $vr_services = get_field('vr_services');
                 </div>
             </div>
             
-            <div class="tgg-vr__image">
-                <?php
-                $vr_image_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
+            <div class="tgg-vr__media">
+                <?php if ($vr_media_type === 'video' && $vr_video) : 
+                    // Если выбран тип "видео" и видео указано
+                    $vr_video_url = is_array($vr_video) ? ($vr_video['url'] ?? '') : $vr_video;
+                    // Если это массив (File field), берем URL
+                    if (is_array($vr_video) && isset($vr_video['url'])) {
+                        $vr_video_url = $vr_video['url'];
+                    } elseif (is_string($vr_video) && filter_var($vr_video, FILTER_VALIDATE_URL)) {
+                        $vr_video_url = $vr_video;
+                    } else {
+                        // Если видео невалидно, показываем изображение
+                        $vr_media_type = 'image';
+                    }
+                    
+                    if ($vr_media_type === 'video' && !empty($vr_video_url)) :
+                        // Используем изображение как poster для видео
+                        $vr_poster_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
                 ?>
-                <img src="<?php echo esc_url($vr_image_data['url']); ?>" 
-                     alt="<?php echo esc_attr($vr_image_data['alt']); ?>"
-                     loading="lazy">
+                    <video class="tgg-vr__media-video" 
+                           controls 
+                           preload="metadata"
+                           poster="<?php echo esc_url($vr_poster_data['url']); ?>"
+                           aria-label="Видео VR арены">
+                        <source src="<?php echo esc_url($vr_video_url); ?>" type="video/mp4">
+                        Ваш браузер не поддерживает воспроизведение видео.
+                    </video>
+                <?php else : 
+                    // Если видео не указано или невалидно, показываем изображение
+                    $vr_image_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
+                ?>
+                    <img src="<?php echo esc_url($vr_image_data['url']); ?>" 
+                         alt="<?php echo esc_attr($vr_image_data['alt']); ?>"
+                         loading="lazy">
+                <?php endif; ?>
+                <?php else : 
+                    // Если выбран тип "изображение"
+                    $vr_image_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
+                ?>
+                    <img src="<?php echo esc_url($vr_image_data['url']); ?>" 
+                         alt="<?php echo esc_attr($vr_image_data['alt']); ?>"
+                         loading="lazy">
+                <?php endif; ?>
             </div>
         </div>
     </div>
