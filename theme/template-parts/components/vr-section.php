@@ -120,22 +120,29 @@ $vr_services = get_field('vr_services');
             </div>
             
             <div class="tgg-vr__media">
-                <?php if ($vr_media_type === 'video' && $vr_video) : 
-                    // Если выбран тип "видео" и видео указано
-                    $vr_video_url = is_array($vr_video) ? ($vr_video['url'] ?? '') : $vr_video;
-                    // Если это массив (File field), берем URL
-                    if (is_array($vr_video) && isset($vr_video['url'])) {
-                        $vr_video_url = $vr_video['url'];
-                    } elseif (is_string($vr_video) && filter_var($vr_video, FILTER_VALIDATE_URL)) {
-                        $vr_video_url = $vr_video;
+                <?php 
+                // Определяем тип медиа и URL
+                $show_video = false;
+                $vr_video_url = '';
+                
+                if ($vr_media_type === 'video' && $vr_video) {
+                    // Обрабатываем видео - может быть массивом (File field) или строкой (URL)
+                    if (is_array($vr_video)) {
+                        // Если это массив (File field), берем URL
+                        $vr_video_url = isset($vr_video['url']) ? $vr_video['url'] : '';
                     } else {
-                        // Если видео невалидно, показываем изображение
-                        $vr_media_type = 'image';
+                        // Если это строка, проверяем, что это валидный URL
+                        $vr_video_url = filter_var($vr_video, FILTER_VALIDATE_URL) ? $vr_video : '';
                     }
                     
-                    if ($vr_media_type === 'video' && !empty($vr_video_url)) :
-                        // Используем изображение как poster для видео
-                        $vr_poster_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
+                    if (!empty($vr_video_url)) {
+                        $show_video = true;
+                    }
+                }
+                
+                if ($show_video) :
+                    // Показываем видео
+                    $vr_poster_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
                 ?>
                     <video class="tgg-vr__media-video" 
                            controls 
@@ -143,18 +150,18 @@ $vr_services = get_field('vr_services');
                            poster="<?php echo esc_url($vr_poster_data['url']); ?>"
                            aria-label="Видео VR арены">
                         <source src="<?php echo esc_url($vr_video_url); ?>" type="video/mp4">
+                        <source src="<?php echo esc_url($vr_video_url); ?>" type="video/webm">
                         Ваш браузер не поддерживает воспроизведение видео.
+                        <!-- Fallback на изображение, если видео не загружается -->
+                        <?php
+                        $vr_fallback_image_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
+                        ?>
+                        <img src="<?php echo esc_url($vr_fallback_image_data['url']); ?>" 
+                             alt="<?php echo esc_attr($vr_fallback_image_data['alt']); ?>"
+                             loading="lazy">
                     </video>
                 <?php else : 
-                    // Если видео не указано или невалидно, показываем изображение
-                    $vr_image_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
-                ?>
-                    <img src="<?php echo esc_url($vr_image_data['url']); ?>" 
-                         alt="<?php echo esc_attr($vr_image_data['alt']); ?>"
-                         loading="lazy">
-                <?php endif; ?>
-                <?php else : 
-                    // Если выбран тип "изображение"
+                    // Показываем изображение
                     $vr_image_data = tochkagg_get_image_or_placeholder($vr_image, 800, 600, 'VR Arena');
                 ?>
                     <img src="<?php echo esc_url($vr_image_data['url']); ?>" 
