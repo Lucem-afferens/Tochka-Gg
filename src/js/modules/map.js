@@ -120,21 +120,34 @@ export function initMap() {
       zoom: 17,
       controls: ['zoomControl', 'fullscreenControl'],
       type: 'yandex#map',
-      // Отключаем масштабирование колесом мыши
-      behaviors: ['default', 'scrollZoom']
+      // Изначально отключаем все способы масштабирования
+      behaviors: ['default']
     }, {
       customStyles: darkTheme
     });
 
-    // Изначально отключаем масштабирование колесом
-    map.behaviors.disable('scrollZoom');
+    // Изначально отключаем все способы масштабирования
+    map.behaviors.disable('scrollZoom'); // Масштабирование колесом мыши
+    map.behaviors.disable('dblClickZoom'); // Масштабирование двойным кликом
+    map.behaviors.disable('multiTouch'); // Масштабирование жестами на мобильных
 
-    // Включаем масштабирование колесом только после клика по карте
-    let scrollZoomEnabled = false;
+    // Включаем все способы масштабирования только после клика по карте
+    let zoomEnabled = false;
     map.events.add('click', () => {
-      if (!scrollZoomEnabled) {
+      if (!zoomEnabled) {
         map.behaviors.enable('scrollZoom');
-        scrollZoomEnabled = true;
+        map.behaviors.enable('dblClickZoom');
+        map.behaviors.enable('multiTouch');
+        zoomEnabled = true;
+        
+        // Показываем подсказку пользователю (опционально)
+        const mapContainer = document.getElementById('map');
+        if (mapContainer) {
+          const hint = mapContainer.querySelector('.tgg-map-zoom-hint');
+          if (hint) {
+            hint.style.display = 'none';
+          }
+        }
       }
     });
 

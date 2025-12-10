@@ -306,6 +306,44 @@
   }
 }
 
+// Подсказка о необходимости клика для масштабирования карты
+.tgg-map-zoom-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(26, 29, 41, 0.95);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(59, 130, 246, 0.5);
+  border-radius: $border-radius-md;
+  padding: $spacing-md $spacing-lg;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 
+    0 0 20px rgba(59, 130, 246, 0.6),
+    0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeInOut 3s ease-in-out;
+  opacity: 0;
+  
+  p {
+    margin: 0;
+    color: $color-text-primary;
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+  
+  @include max-width(xs) {
+    padding: $spacing-sm $spacing-md;
+    max-width: 80%;
+    
+    p {
+      font-size: $font-size-xs;
+    }
+  }
+}
+
 // Стили для кастомного маркера карты - с логотипом или иконкой локации
 .tgg-map-marker {
   position: relative;
@@ -470,6 +508,15 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  20%, 80% {
+    opacity: 1;
   }
 }
 

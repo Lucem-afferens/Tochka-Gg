@@ -178,6 +178,10 @@ $social_links = get_field('social_networks', 'option');
                             </a>
                         </p>
                     </div>
+                    <!-- Подсказка о необходимости клика для масштабирования -->
+                    <div class="tgg-map-zoom-hint">
+                        <p>Кликните по карте для масштабирования</p>
+                    </div>
                 </div>
             </div>
         </div>
