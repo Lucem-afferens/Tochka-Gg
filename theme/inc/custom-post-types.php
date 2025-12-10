@@ -38,12 +38,24 @@ function tochkagg_register_tournament_post_type() {
         'query_var' => true,
         'rewrite' => ['slug' => 'tournaments'],
         'capability_type' => 'post',
+        'capabilities' => [
+            'edit_post' => 'edit_post',
+            'read_post' => 'read_post',
+            'delete_post' => 'delete_post',
+            'edit_posts' => 'edit_posts',
+            'edit_others_posts' => 'edit_others_posts',
+            'publish_posts' => 'publish_posts',
+            'read_private_posts' => 'read_private_posts',
+            'create_posts' => 'edit_posts',
+        ],
+        'map_meta_cap' => true, // Использовать стандартные права доступа WordPress
         'has_archive' => true,
         'hierarchical' => false,
         'menu_position' => 5,
         'menu_icon' => 'dashicons-awards',
         'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
         'show_in_rest' => true, // Поддержка Gutenberg
+        'can_export' => true, // Разрешить экспорт
     ];
 
     register_post_type('tournament', $args);
@@ -77,12 +89,24 @@ function tochkagg_register_news_post_type() {
         'query_var' => true,
         'rewrite' => ['slug' => 'news'],
         'capability_type' => 'post',
+        'capabilities' => [
+            'edit_post' => 'edit_post',
+            'read_post' => 'read_post',
+            'delete_post' => 'delete_post',
+            'edit_posts' => 'edit_posts',
+            'edit_others_posts' => 'edit_others_posts',
+            'publish_posts' => 'publish_posts',
+            'read_private_posts' => 'read_private_posts',
+            'create_posts' => 'edit_posts',
+        ],
+        'map_meta_cap' => true, // Использовать стандартные права доступа WordPress
         'has_archive' => true,
         'hierarchical' => false,
         'menu_position' => 5,
         'menu_icon' => 'dashicons-megaphone',
         'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'author'],
         'show_in_rest' => true,
+        'can_export' => true, // Разрешить экспорт
     ];
 
     register_post_type('news', $args);
