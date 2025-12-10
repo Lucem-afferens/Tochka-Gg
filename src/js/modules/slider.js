@@ -27,7 +27,7 @@ export function initSliders() {
     
     // Настройки для карусели турниров
     if (selector === '.tgg-slider-tournaments') {
-      new Swiper(sliderElement, {
+      const tournamentsSwiper = new Swiper(sliderElement, {
         modules: [Navigation, Pagination, Autoplay],
         slidesPerView: 1.2,
         spaceBetween: 16,
@@ -67,7 +67,48 @@ export function initSliders() {
             autoHeight: false,
           },
         },
+        on: {
+          init: function() {
+            // Синхронизируем высоту всех слайдов после инициализации
+            syncSlideHeights(this);
+          },
+          resize: function() {
+            // Синхронизируем высоту при изменении размера окна
+            syncSlideHeights(this);
+          },
+        },
       });
+      
+      // Функция для синхронизации высоты всех слайдов
+      function syncSlideHeights(swiper) {
+        const slides = swiper.slides;
+        if (!slides || slides.length === 0) return;
+        
+        let maxHeight = 0;
+        
+        // Находим максимальную высоту
+        slides.forEach(slide => {
+          const card = slide.querySelector('.tgg-tournaments-preview__card');
+          if (card) {
+            // Временно сбрасываем высоту для измерения реальной высоты
+            card.style.height = 'auto';
+            const height = card.offsetHeight;
+            if (height > maxHeight) {
+              maxHeight = height;
+            }
+          }
+        });
+        
+        // Устанавливаем одинаковую высоту для всех карточек
+        if (maxHeight > 0) {
+          slides.forEach(slide => {
+            const card = slide.querySelector('.tgg-tournaments-preview__card');
+            if (card) {
+              card.style.height = maxHeight + 'px';
+            }
+          });
+        }
+      }
     } else {
       // Настройки для других слайдеров
       new Swiper(sliderElement, {
