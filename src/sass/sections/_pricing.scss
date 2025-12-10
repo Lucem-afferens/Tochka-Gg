@@ -268,6 +268,11 @@
           }
         }
         
+        // Стили для LITE цен (синий, как по умолчанию, но явно указано)
+        &--lite {
+          // Использует базовые стили .tgg-price (синий цвет)
+        }
+        
         // Стили для VIP цен (огненный градиент)
         &--vip {
           background: $gradient-fire;
@@ -288,6 +293,23 @@
               text-shadow: none;
               filter: drop-shadow(0 0 3px rgba(255, 107, 53, 0.2))
                       drop-shadow(0 0 5px rgba(247, 44, 37, 0.15));
+              transform: scale(1.05);
+            }
+          }
+        }
+        
+        // Стили для STANDARD цен (фиолетовый/пурпурный неон)
+        &--standard {
+          color: rgba(192, 38, 211, 1);
+          text-shadow: 
+            0 0 2px rgba(192, 38, 211, 0.15),
+            0 0 4px rgba(192, 38, 211, 0.08);
+          
+          @media (hover: hover) {
+            tr:hover & {
+              text-shadow: 
+                0 0 3px rgba(192, 38, 211, 0.2),
+                0 0 6px rgba(192, 38, 211, 0.12);
               transform: scale(1.05);
             }
           }
