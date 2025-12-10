@@ -520,15 +520,12 @@
       color: $color-text-primary;
       line-height: 1.4;
       margin: 0;
-      padding: 0; // Убираем padding, так как он в контенте
+      padding: 0; // Убираем padding, так как увеличен в content
       box-sizing: border-box;
       min-height: 2.5em; // Минимальная высота для одинакового размера
       position: relative;
       z-index: 2; // Поверх других элементов
       overflow: visible !important; // Разрешаем свечение выходить за границы (важно!)
-      
-      // Единое неоновое свечение (через миксин)
-      @include heading-neon-glow;
     }
     
     &-title-text {
@@ -539,9 +536,24 @@
       overflow: visible !important; // Разрешаем свечение выходить за границы (критично!)
       word-wrap: break-word;
       overflow-wrap: break-word;
-      // Наследуем свечение от родителя - это ключевой момент
-      text-shadow: inherit;
-      // НЕ используем mask или overflow: hidden, чтобы свечение было полностью видно
+      // Применяем свечение напрямую через filter: drop-shadow
+      // Это не обрезается overflow: hidden родительских элементов
+      filter: 
+        drop-shadow(0 0 20px rgba(59, 130, 246, 0.8))
+        drop-shadow(0 0 35px rgba(59, 130, 246, 0.5))
+        drop-shadow(0 0 25px rgba(192, 38, 211, 0.6))
+        drop-shadow(0 0 15px rgba(239, 68, 68, 0.4));
+      transition: filter 0.3s ease;
+      
+      @media (hover: hover) {
+        .tgg-tournaments-preview__card:hover & {
+          filter: 
+            drop-shadow(0 0 30px rgba(59, 130, 246, 1))
+            drop-shadow(0 0 50px rgba(59, 130, 246, 0.7))
+            drop-shadow(0 0 35px rgba(192, 38, 211, 0.8))
+            drop-shadow(0 0 25px rgba(239, 68, 68, 0.6));
+        }
+      }
     }
     
     &-prize {
