@@ -27,8 +27,6 @@ function tochkagg_enqueue_assets() {
             $style_version,
             'all'
         );
-        // Добавляем preload для критического CSS
-        wp_add_inline_style('tochkagg-style', '');
     }
 
     // Основной скрипт (отложенная загрузка для лучшей производительности)
