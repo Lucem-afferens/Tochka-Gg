@@ -19,13 +19,44 @@ $equipment_link_default = function_exists('tochkagg_get_page_url')
 $equipment_link = get_field('equipment_preview_link') ?: $equipment_link_default;
 $equipment_button_text = get_field('equipment_preview_button_text') ?: 'Подробнее об оборудовании';
 
-// Получаем категории оборудования для превью (первые 3 категории)
-$equipment_categories = get_field('equipment_categories') ?: [];
+// Получаем ID страницы оборудования
+$equipment_page_id = null;
+$equipment_page = function_exists('tochkagg_get_page_url') 
+    ? get_page_by_path('equipment') 
+    : null;
+if (!$equipment_page) {
+    // Пробуем найти по русскому slug
+    $equipment_page = get_page_by_path('оборудование');
+}
+if (!$equipment_page) {
+    // Ищем по названию
+    $pages = get_pages([
+        'post_status' => 'publish',
+        'number' => 50,
+    ]);
+    foreach ($pages as $page) {
+        if (trim($page->post_title) === 'Оборудование') {
+            $equipment_page = $page;
+            break;
+        }
+    }
+}
+$equipment_page_id = $equipment_page ? $equipment_page->ID : null;
+
+// Получаем категории оборудования для превью со страницы оборудования (первые 3 категории)
+$equipment_categories = [];
+if ($equipment_page_id) {
+    $equipment_categories = get_field('equipment_categories', $equipment_page_id) ?: [];
+}
 $preview_categories = array_slice($equipment_categories, 0, 3); // Берем первые 3 категории для превью
 
-// Получаем данные PS-зоны для превью
-$ps5_title = get_field('ps5_zone_title') ?: 'PS-зона';
-$ps5_specs = get_field('ps5_zone_specs') ?: [];
+// Получаем данные PS-зоны для превью со страницы оборудования
+$ps5_title = 'PS-зона';
+$ps5_specs = [];
+if ($equipment_page_id) {
+    $ps5_title = get_field('ps5_zone_title', $equipment_page_id) ?: 'PS-зона';
+    $ps5_specs = get_field('ps5_zone_specs', $equipment_page_id) ?: [];
+}
 ?>
 
 <section class="tgg-equipment-preview">
