@@ -420,7 +420,7 @@
     @include glassmorphism-light(0.1, 10px);
     border: $border-width-thin solid rgba(59, 130, 246, 0.3);
     border-radius: $border-radius-md;
-    overflow: visible; // Разрешаем свечение заголовка выходить за границы
+    overflow: visible !important; // Разрешаем свечение заголовка выходить за границы (важно!)
     transition: all $duration-normal $ease-out-cubic;
     position: relative;
     margin: $spacing-sm; // Отступы для видимости свечения
