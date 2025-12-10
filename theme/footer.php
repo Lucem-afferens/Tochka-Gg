@@ -177,12 +177,15 @@ if (empty($footer_info_links)) {
                             : ['url' => 'https://placehold.co/200x60/1a1d29/3b82f6?text=Логотип', 'alt' => 'Логотип Точка Gg'];
                     }
                     ?>
-                    <a href="<?php echo esc_url(home_url('/')); ?>" class="tgg-footer__logo-link">
+                    <a href="<?php echo esc_url(home_url('/')); ?>" 
+                       class="tgg-footer__logo-link"
+                       aria-label="Перейти на главную страницу">
                         <img src="<?php echo esc_url($footer_logo_data['url']); ?>" 
                              alt="<?php echo esc_attr($footer_logo_data['alt']); ?>"
                              width="200"
                              height="60"
                              loading="lazy">
+                        <span class="visually-hidden"><?php bloginfo('name'); ?></span>
                     </a>
                 </div>
                 
