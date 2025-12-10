@@ -27,6 +27,7 @@ import { initForms } from './modules/forms.js';
 import { initSliders } from './modules/slider.js';
 import { initEquipmentGalleries } from './modules/equipment-gallery.js';
 import { initLangameBooking } from './modules/booking.js';
+import { initNewsCards } from './modules/news-cards.js';
 import './modules/vr-modal.js';
 
 // ============================================
@@ -62,6 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initLangameBooking();
   }
   
+  // Синхронизация высоты карточек новостей
+  if (document.querySelector('.tgg-news-preview__items')) {
+    initNewsCards();
+  }
   
   console.log('✅ Tochka Gg theme initialized');
 });
