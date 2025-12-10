@@ -101,25 +101,18 @@
       z-index: 0;
     }
     
-    // Анимация блика по восходящей диагонали (слева снизу вверх вправо)
+    // Анимация блика по диагонали (из нижнего левого угла в верхний правый)
     &::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 150%;
-      height: 150%;
+      inset: 0;
       background: linear-gradient(
-        135deg,
-        transparent 0%,
-        transparent 40%,
-        rgba(255, 255, 255, 0.1) 45%,
-        rgba(255, 255, 255, 0.2) 50%,
-        rgba(255, 255, 255, 0.1) 55%,
-        transparent 60%,
-        transparent 100%
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.25) 50%,
+        transparent 70%
       );
-      transform: translateX(-100%) translateY(100%) rotate(45deg);
+      transform: translate(-100%, 100%);
       animation: pricing-card-shine 4s ease-in-out infinite;
       pointer-events: none;
       z-index: 1;
@@ -356,28 +349,16 @@
   }
 }
 
-// Анимация блика для карточек цен (восходящая диагональ: слева снизу вверх вправо)
+// Анимация блика для карточек цен (диагональ: из нижнего левого угла в верхний правый)
 @keyframes pricing-card-shine {
   0% {
-    transform: translateX(-100%) translateY(100%) rotate(45deg);
-    opacity: 0;
+    transform: translate(-100%, 100%);
   }
-  5% {
-    opacity: 0.6;
-  }
-  15% {
-    opacity: 0.8;
-  }
-  25% {
-    opacity: 0.6;
-  }
-  35% {
-    transform: translateX(50%) translateY(-50%) rotate(45deg);
-    opacity: 0;
+  50% {
+    transform: translate(100%, -100%);
   }
   100% {
-    transform: translateX(50%) translateY(-50%) rotate(45deg);
-    opacity: 0;
+    transform: translate(100%, -100%);
   }
 }
 
