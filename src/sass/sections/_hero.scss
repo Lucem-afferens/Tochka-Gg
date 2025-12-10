@@ -123,15 +123,25 @@
   
   &__title {
     font-family: $font-heading;
-    font-size: clamp(2rem, 5vw, 3.5rem); // Уменьшено и сделано адаптивным
+    // Более агрессивное масштабирование для предотвращения переноса текста
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 3.5rem); // От 24px на маленьких до 56px на больших экранах
     font-weight: $font-weight-heading-bold;
     line-height: $line-height-tight;
     color: $color-text-primary;
     text-transform: uppercase;
-    letter-spacing: 0.15em; // Увеличено для кибер-эффекта
+    // Адаптивный letter-spacing: меньше на маленьких экранах, больше на больших
+    letter-spacing: clamp(0.05em, 0.08vw + 0.08em, 0.15em);
     margin-bottom: $spacing-md; // Уменьшено
     position: relative;
     display: inline-block;
+    // Предотвращаем перенос текста
+    white-space: nowrap;
+    
+    @include max-width(xs) {
+      // На очень маленьких экранах еще больше уменьшаем размер
+      font-size: clamp(1.25rem, 6vw, 2rem);
+      letter-spacing: clamp(0.03em, 0.1vw + 0.05em, 0.1em);
+    }
     
     // Кибер-версия с анимацией мигания букв
     &--cyber {
