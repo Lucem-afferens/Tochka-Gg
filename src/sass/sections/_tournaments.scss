@@ -5,7 +5,7 @@
 .tgg-tournaments-preview {
   position: relative;
   padding: $spacing-5xl 0;
-  overflow: hidden;
+  overflow: visible; // Разрешаем свечение карточек выходить за границы
   
   @include max-width(xs) {
     padding: $spacing-3xl 0;
@@ -59,6 +59,14 @@
   .tgg-container {
     position: relative;
     z-index: 2;
+    overflow: visible; // Разрешаем свечение карточек выходить за границы
+    padding-left: $spacing-md; // Дополнительный padding для видимости свечения
+    padding-right: $spacing-md; // Дополнительный padding для видимости свечения
+    
+    @include respond-to(md) {
+      padding-left: $spacing-lg;
+      padding-right: $spacing-lg;
+    }
   }
   
   &__title {
