@@ -98,7 +98,10 @@ $services = get_field('services') ?: [
                             ?>
                             <img src="<?php echo esc_url($service_image_data['url']); ?>" 
                                  alt="<?php echo esc_attr($service_image_data['alt']); ?>"
-                                 loading="lazy">
+                                 width="<?php echo esc_attr($service_image_data['width'] ?? 600); ?>"
+                                 height="<?php echo esc_attr($service_image_data['height'] ?? 400); ?>"
+                                 loading="lazy"
+                                 decoding="async">
                         </div>
                         
                         <div class="tgg-services__item-content">

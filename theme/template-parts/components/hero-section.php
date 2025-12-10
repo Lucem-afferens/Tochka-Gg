@@ -82,7 +82,11 @@ if ($hero_bg_type === 'video' && $hero_video) {
             <!-- Фоновое изображение (или placeholder) -->
             <img src="<?php echo esc_url($hero_image_data['url']); ?>" 
                  alt="<?php echo esc_attr($hero_image_data['alt']); ?>"
-                 loading="eager">
+                 width="<?php echo esc_attr($hero_image_data['width'] ?? 1920); ?>"
+                 height="<?php echo esc_attr($hero_image_data['height'] ?? 1080); ?>"
+                 loading="eager"
+                 fetchpriority="high"
+                 decoding="async">
         <?php endif; ?>
     </div>
     

@@ -218,7 +218,10 @@ if ($equipment_page_id) {
                 ?>
                 <img src="<?php echo esc_url($equipment_image_data['url']); ?>" 
                      alt="<?php echo esc_attr($equipment_image_data['alt']); ?>"
-                     loading="lazy">
+                     width="<?php echo esc_attr($equipment_image_data['width'] ?? 800); ?>"
+                     height="<?php echo esc_attr($equipment_image_data['height'] ?? 600); ?>"
+                     loading="lazy"
+                     decoding="async">
             </div>
         </div>
     </div>

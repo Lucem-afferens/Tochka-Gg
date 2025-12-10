@@ -182,9 +182,10 @@ if (empty($footer_info_links)) {
                        aria-label="Перейти на главную страницу">
                         <img src="<?php echo esc_url($footer_logo_data['url']); ?>" 
                              alt="<?php echo esc_attr($footer_logo_data['alt']); ?>"
-                             width="200"
-                             height="60"
-                             loading="lazy">
+                             width="<?php echo esc_attr($footer_logo_data['width'] ?? 200); ?>"
+                             height="<?php echo esc_attr($footer_logo_data['height'] ?? 60); ?>"
+                             loading="lazy"
+                             decoding="async">
                         <span class="visually-hidden"><?php bloginfo('name'); ?></span>
                     </a>
                 </div>

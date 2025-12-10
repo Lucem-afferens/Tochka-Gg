@@ -166,7 +166,10 @@ $vr_services = get_field('vr_services');
                 ?>
                     <img src="<?php echo esc_url($vr_image_data['url']); ?>" 
                          alt="<?php echo esc_attr($vr_image_data['alt']); ?>"
-                         loading="lazy">
+                         width="<?php echo esc_attr($vr_image_data['width'] ?? 800); ?>"
+                         height="<?php echo esc_attr($vr_image_data['height'] ?? 600); ?>"
+                         loading="lazy"
+                         decoding="async">
                 <?php endif; ?>
             </div>
         </div>

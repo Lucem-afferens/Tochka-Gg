@@ -107,7 +107,20 @@ $has_news = !empty($all_news_posts);
                         <a href="<?php echo $news_permalink; ?>" class="tgg-news-preview__item-link"<?php echo $news_target; ?>>
                             <div class="tgg-news-preview__item-image">
                                 <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail('medium'); ?>
+                                    <?php 
+                                    // Используем wp_get_attachment_image для контроля над атрибутами
+                                    $thumbnail_id = get_post_thumbnail_id();
+                                    echo wp_get_attachment_image(
+                                        $thumbnail_id,
+                                        'medium',
+                                        false,
+                                        array(
+                                            'loading' => 'lazy',
+                                            'decoding' => 'async',
+                                            'alt' => get_the_title()
+                                        )
+                                    );
+                                    ?>
                                 <?php else : ?>
                                     <?php 
                                     $news_placeholder = function_exists('tochkagg_get_placeholder_image') 
@@ -116,7 +129,10 @@ $has_news = !empty($all_news_posts);
                                     ?>
                                     <img src="<?php echo esc_url($news_placeholder); ?>" 
                                          alt="<?php echo esc_attr(get_the_title() . ' (заглушка - загрузите изображение)'); ?>"
-                                         loading="lazy">
+                                         width="400"
+                                         height="300"
+                                         loading="lazy"
+                                         decoding="async">
                                 <?php endif; ?>
                                 
                                 <div class="tgg-news-preview__item-badge tgg-news-preview__item-badge--<?php echo esc_attr($news_type); ?>">

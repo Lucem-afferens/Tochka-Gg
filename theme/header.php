@@ -15,10 +15,11 @@ if (!defined('ABSPATH')) {
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Google Fonts - Orbitron -->
+    <!-- Google Fonts - Orbitron (оптимизированная загрузка) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -34,7 +35,11 @@ if (!defined('ABSPATH')) {
             ?>
             <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
                 <img src="<?php echo esc_url($logo_data['url']); ?>" 
-                     alt="<?php echo esc_attr($logo_data['alt']); ?>">
+                     alt="<?php echo esc_attr($logo_data['alt']); ?>"
+                     width="<?php echo esc_attr($logo_data['width'] ?? 200); ?>"
+                     height="<?php echo esc_attr($logo_data['height'] ?? 60); ?>"
+                     fetchpriority="high"
+                     decoding="async">
             </a>
         </div>
 

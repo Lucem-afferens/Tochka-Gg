@@ -19,17 +19,19 @@ function tochkagg_enqueue_assets() {
     $style_path = TOCHKAGG_THEME_PATH . '/assets/css/style.css';
     if (file_exists($style_path)) {
         // Используем версию темы + время изменения файла для надежного сброса кеша
-        // Добавляем случайное число для принудительного обновления
-        $style_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($style_path) . '.' . rand(1000, 9999);
+        $style_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($style_path);
         wp_enqueue_style(
             'tochkagg-style',
             TOCHKAGG_THEME_URI . '/assets/css/style.css',
             array(),
-            $style_version
+            $style_version,
+            'all'
         );
+        // Добавляем preload для критического CSS
+        wp_add_inline_style('tochkagg-style', '');
     }
 
-    // Основной скрипт
+    // Основной скрипт (отложенная загрузка для лучшей производительности)
     $script_path = TOCHKAGG_THEME_PATH . '/assets/js/main.js';
     if (file_exists($script_path)) {
         // Используем версию темы + время изменения файла для надежного сброса кеша
@@ -41,6 +43,8 @@ function tochkagg_enqueue_assets() {
             $script_version,
             true
         );
+        // Добавляем defer для неблокирующей загрузки
+        wp_script_add_data('tochkagg-script', 'defer', true);
     }
 
     // Яндекс.Карты (для страницы контактов)
@@ -61,6 +65,64 @@ function tochkagg_enqueue_assets() {
     ]);
 }
 add_action('wp_enqueue_scripts', 'tochkagg_enqueue_assets');
+
+/**
+ * Улучшение кеширования ресурсов
+ */
+function tochkagg_set_cache_headers() {
+    // Устанавливаем заголовки кеширования для статических ресурсов
+    if (!is_admin() && !is_user_logged_in()) {
+        // CSS и JS файлы - кеш на 1 год
+        if (strpos($_SERVER['REQUEST_URI'], '/assets/css/') !== false || 
+            strpos($_SERVER['REQUEST_URI'], '/assets/js/') !== false) {
+            header('Cache-Control: public, max-age=31536000, immutable');
+        }
+        // Изображения - кеш на 1 год
+        if (strpos($_SERVER['REQUEST_URI'], '/uploads/') !== false) {
+            header('Cache-Control: public, max-age=31536000, immutable');
+        }
+    }
+}
+add_action('send_headers', 'tochkagg_set_cache_headers');
+
+/**
+ * Добавление атрибутов width и height для изображений WordPress
+ */
+function tochkagg_add_image_dimensions($html, $post_id, $post_thumbnail_id, $size, $attr) {
+    // Пропускаем, если уже есть width и height
+    if (strpos($html, 'width=') !== false && strpos($html, 'height=') !== false) {
+        return $html;
+    }
+    
+    // Получаем размеры изображения
+    $image_meta = wp_get_attachment_metadata($post_thumbnail_id);
+    if ($image_meta && isset($image_meta['width']) && isset($image_meta['height'])) {
+        $width = $image_meta['width'];
+        $height = $image_meta['height'];
+        
+        // Если задан конкретный размер, пытаемся получить его размеры
+        if ($size && is_array($size)) {
+            $width = $size[0] ?? $width;
+            $height = $size[1] ?? $height;
+        } elseif ($size && is_string($size)) {
+            $image_sizes = wp_get_registered_image_subsizes();
+            if (isset($image_sizes[$size])) {
+                $width = $image_sizes[$size]['width'] ?? $width;
+                $height = $image_sizes[$size]['height'] ?? $height;
+            }
+        }
+        
+        // Добавляем атрибуты, если их нет
+        $html = preg_replace(
+            '/<img\s+([^>]*?)>/i',
+            '<img $1 width="' . esc_attr($width) . '" height="' . esc_attr($height) . '">',
+            $html
+        );
+    }
+    
+    return $html;
+}
+add_filter('post_thumbnail_html', 'tochkagg_add_image_dimensions', 10, 5);
 
 /**
  * Отключение admin bar на фронтенде

@@ -192,9 +192,24 @@ function tochkagg_get_image_or_placeholder($scf_image, $width = 800, $height = 6
     // Проверяем, есть ли реальное изображение из SCF
     // SCF использует тот же формат данных, что и ACF
     if ($scf_image && is_array($scf_image) && !empty($scf_image['url']) && filter_var($scf_image['url'], FILTER_VALIDATE_URL)) {
+        // Пытаемся получить реальные размеры изображения
+        $image_width = isset($scf_image['width']) ? intval($scf_image['width']) : $width;
+        $image_height = isset($scf_image['height']) ? intval($scf_image['height']) : $height;
+        
+        // Если размеры не указаны в данных SCF, пытаемся получить их из attachment
+        if (isset($scf_image['ID'])) {
+            $attachment_meta = wp_get_attachment_metadata($scf_image['ID']);
+            if ($attachment_meta && isset($attachment_meta['width']) && isset($attachment_meta['height'])) {
+                $image_width = $attachment_meta['width'];
+                $image_height = $attachment_meta['height'];
+            }
+        }
+        
         return [
             'url' => $scf_image['url'],
-            'alt' => $scf_image['alt'] ?? $placeholder_text
+            'alt' => $scf_image['alt'] ?? $placeholder_text,
+            'width' => $image_width,
+            'height' => $image_height
         ];
     }
     
@@ -203,7 +218,9 @@ function tochkagg_get_image_or_placeholder($scf_image, $width = 800, $height = 6
     
     return [
         'url' => $placeholder_url,
-        'alt' => $placeholder_text . ' (заглушка - загрузите своё изображение)'
+        'alt' => $placeholder_text . ' (заглушка - загрузите своё изображение)',
+        'width' => $width,
+        'height' => $height
     ];
 }
 

@@ -38,7 +38,10 @@ $about_image = get_field('about_image');
                 ?>
                 <img src="<?php echo esc_url($about_image_data['url']); ?>" 
                      alt="<?php echo esc_attr($about_image_data['alt']); ?>"
-                     loading="lazy">
+                     width="<?php echo esc_attr($about_image_data['width'] ?? 800); ?>"
+                     height="<?php echo esc_attr($about_image_data['height'] ?? 600); ?>"
+                     loading="lazy"
+                     decoding="async">
             </div>
         </div>
     </div>
