@@ -503,12 +503,13 @@
     }
     
     &-content {
-      padding: clamp($spacing-md, 1.5vw, $spacing-lg) clamp($spacing-sm, 1.5vw, $spacing-md); // Адаптивный padding с увеличенными боковыми отступами для свечения
+      // Увеличенные отступы со всех сторон для полной видимости свечения (особенно боковые)
+      padding: clamp($spacing-md, 1.5vw, $spacing-lg) clamp($spacing-lg, 3vw, $spacing-2xl);
       flex-grow: 1;
       display: flex;
       flex-direction: column;
       gap: $spacing-xs;
-      overflow: visible; // Разрешаем свечение заголовка выходить за границы
+      overflow: visible !important; // Разрешаем свечение заголовка выходить за границы (важно!)
       position: relative; // Для корректного позиционирования свечения
     }
     
