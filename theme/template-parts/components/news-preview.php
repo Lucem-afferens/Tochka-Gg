@@ -11,31 +11,10 @@ if (!defined('ABSPATH')) {
 
 $news_title = get_field('news_preview_title') ?: 'Новости и события';
 $news_count = get_field('news_preview_count') ?: 3;
-$news_bg_type = function_exists('get_field') ? get_field('news_preview_bg_type') : 'image'; // 'image' или 'video'
-$news_bg_image = function_exists('get_field') ? get_field('news_preview_bg_image') : false;
-$news_bg_video = function_exists('get_field') ? get_field('news_preview_bg_video') : false;
 
 // Получаем URL архива новостей через WordPress функции
 $news_url_default = get_post_type_archive_link('news') ?: home_url('/news/');
 $news_link = get_field('news_preview_link') ?: $news_url_default;
-
-// Получаем изображение или placeholder для фона
-$news_bg_image_data = function_exists('tochkagg_get_image_or_placeholder') 
-    ? tochkagg_get_image_or_placeholder($news_bg_image, 1920, 1080, 'News Background')
-    : [
-        'url' => 'https://placehold.co/1920x1080/1a1d29/3b82f6?text=News+Background',
-        'alt' => 'News Background (заглушка - загрузите своё изображение)'
-    ];
-
-// Получаем видео URL или placeholder
-$news_bg_video_url = '';
-if ($news_bg_type === 'video') {
-    if ($news_bg_video && filter_var($news_bg_video, FILTER_VALIDATE_URL)) {
-        $news_bg_video_url = $news_bg_video;
-    } else {
-        $news_bg_type = 'image';
-    }
-}
 
 // Получаем последние новости
 $news_query = new WP_Query([
@@ -51,29 +30,6 @@ $has_news = $news_query->have_posts();
 ?>
 
 <section class="tgg-news-preview">
-    <div class="tgg-news-preview__bg">
-        <?php if ($news_bg_type === 'video' && $news_bg_video_url) : ?>
-            <video class="tgg-news-preview__bg-video" 
-                   autoplay 
-                   muted 
-                   loop 
-                   playsinline 
-                   aria-hidden="true"
-                   poster="<?php echo esc_url($news_bg_image_data['url']); ?>">
-                <source src="<?php echo esc_url($news_bg_video_url); ?>" type="video/mp4">
-                <img src="<?php echo esc_url($news_bg_image_data['url']); ?>" 
-                     alt="<?php echo esc_attr($news_bg_image_data['alt']); ?>"
-                     loading="lazy">
-            </video>
-        <?php else : ?>
-            <img src="<?php echo esc_url($news_bg_image_data['url']); ?>" 
-                 alt="<?php echo esc_attr($news_bg_image_data['alt']); ?>"
-                 loading="lazy">
-        <?php endif; ?>
-    </div>
-    
-    <div class="tgg-news-preview__overlay"></div>
-    
     <div class="tgg-container">
         <?php if ($news_title) : ?>
             <h2 class="tgg-news-preview__title">

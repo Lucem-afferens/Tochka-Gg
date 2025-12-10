@@ -6,55 +6,10 @@
 
 .tgg-news-preview {
   padding: $spacing-5xl 0;
-  position: relative;
-  overflow: hidden;
+  background: transparent; // Прозрачный фон, чтобы был виден фон body
   
   @include max-width(xs) {
     padding: $spacing-3xl 0;
-  }
-  
-  &__bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    overflow: hidden;
-    
-    img,
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.3) contrast(1.2) saturate(0.8);
-    }
-    
-    &-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-  
-  &__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(13, 15, 20, 0.85) 0%,
-      rgba(13, 15, 20, 0.9) 50%,
-      rgba(13, 15, 20, 0.95) 100%
-    );
-    z-index: 1;
-  }
-  
-  .tgg-container {
-    position: relative;
-    z-index: 2;
   }
   
   &__title {
