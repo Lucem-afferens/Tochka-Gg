@@ -162,7 +162,7 @@
   font-family: $font-heading;
   font-size: $font-size-base;
   font-weight: $font-weight-heading-regular;
-  line-height: 1;
+  line-height: 1.5; // Увеличенное расстояние между строками для лучшей читаемости
   color: #FFFFFF;
   text-transform: uppercase;
   letter-spacing: 0.05em;
