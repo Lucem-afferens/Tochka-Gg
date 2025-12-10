@@ -172,13 +172,14 @@
     box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
     
     &--pinned {
-      background: rgba(255, 217, 61, 0.95);
-      border-color: rgba(255, 217, 61, 1);
-      color: rgba(26, 29, 41, 1);
-      box-shadow: 0 2px 10px rgba(255, 217, 61, 0.5);
-      font-size: $font-size-sm;
-      padding: $spacing-xs $spacing-sm;
-      animation: pulse-icon 2s ease-in-out infinite;
+      background: rgba(255, 107, 53, 0.6); // Оранжевый, менее заметный
+      border-color: rgba(255, 107, 53, 0.8);
+      color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 1px 5px rgba(255, 107, 53, 0.3);
+      font-size: $font-size-xs; // Меньший размер
+      padding: 4px 8px; // Меньший padding
+      animation: none; // Убираем анимацию для менее заметности
+      opacity: 0.8; // Делаем менее заметным
     }
     
     &--vacancy {
