@@ -361,16 +361,16 @@
     position: relative;
   }
   
-  // Хвостик маркера (стрелка вниз) для логотипа
+  // Хвостик маркера (небольшой указатель вниз) для логотипа
   &__pin-tail {
     width: 0;
     height: 0;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-top: 16px solid rgba(59, 130, 246, 0.9);
-    margin-top: -2px;
-    filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.6))
-            drop-shadow(0 0 12px rgba(59, 130, 246, 0.4));
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid rgba(59, 130, 246, 0.9);
+    margin-top: 2px; // Небольшой отступ от логотипа
+    filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.6))
+            drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));
     position: relative;
     z-index: 1;
     
@@ -378,12 +378,12 @@
     &::before {
       content: '';
       position: absolute;
-      top: -20px;
-      left: -14px;
-      width: 28px;
-      height: 20px;
+      top: -14px;
+      left: -10px;
+      width: 20px;
+      height: 14px;
       background: rgba(59, 130, 246, 0.3);
-      filter: blur(8px);
+      filter: blur(6px);
       z-index: -1;
     }
   }
