@@ -44,7 +44,7 @@ export function initScrollAnimations() {
 }
 
 /**
- * Parallax эффект для hero секции (оптимизирован с throttle)
+ * Parallax эффект для hero секции (оптимизирован, отключен на мобильных/планшетах)
  */
 export function initParallax() {
   const hero = document.querySelector('.tgg-hero');
@@ -53,21 +53,72 @@ export function initParallax() {
   const heroBg = hero.querySelector('.tgg-hero__bg');
   if (!heroBg) return;
   
+  // Отключаем параллакс на мобильных и планшетных устройствах (меньше 1024px)
+  // для лучшей производительности и плавности
+  const isMobileOrTablet = () => {
+    return window.innerWidth < 1024 || 
+           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           (navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
+  };
+  
+  // Если мобильное/планшетное устройство, не инициализируем параллакс
+  if (isMobileOrTablet()) {
+    return;
+  }
+  
+  // Проверяем настройки пользователя для уменьшенной анимации
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    return;
+  }
+  
   let ticking = false;
+  let lastScrollY = 0;
   
   function updateParallax() {
-    const scrolled = window.pageYOffset;
-    const rate = scrolled * 0.5;
+    const scrolled = window.pageYOffset || window.scrollY;
     
-    heroBg.style.transform = `translateY(${rate}px)`;
+    // Используем более плавный коэффициент для параллакса
+    const rate = scrolled * 0.3;
+    
+    // Применяем transform только если значение изменилось (оптимизация)
+    if (Math.abs(scrolled - lastScrollY) > 0.5) {
+      heroBg.style.transform = `translateY(${rate}px)`;
+      heroBg.style.willChange = 'transform';
+      lastScrollY = scrolled;
+    }
+    
     ticking = false;
   }
   
-  window.addEventListener('scroll', () => {
+  // Обработчик скролла с оптимизацией
+  const handleScroll = () => {
+    // Проверяем размер экрана при каждом скролле (на случай изменения размера окна)
+    if (isMobileOrTablet()) {
+      // Отключаем параллакс, если размер экрана изменился
+      heroBg.style.transform = '';
+      heroBg.style.willChange = 'auto';
+      return;
+    }
+    
     if (!ticking) {
       window.requestAnimationFrame(updateParallax);
       ticking = true;
     }
+  };
+  
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  
+  // Также отключаем при изменении размера окна
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (isMobileOrTablet()) {
+        heroBg.style.transform = '';
+        heroBg.style.willChange = 'auto';
+      }
+    }, 250);
   }, { passive: true });
 }
 
