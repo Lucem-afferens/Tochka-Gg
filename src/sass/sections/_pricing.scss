@@ -39,22 +39,15 @@
   }
   
   &__tables {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; // Центрируем карточки, включая последнюю при переносе
     gap: $spacing-2xl;
     width: 100%;
     max-width: 100%;
     
     @include max-width(xs) {
       gap: $spacing-xl;
-    }
-    
-    @include respond-to(md) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    
-    @include respond-to(lg) {
-      grid-template-columns: repeat(3, 1fr);
     }
   }
   
@@ -69,6 +62,17 @@
     min-width: 0;
     box-sizing: border-box;
     position: relative;
+    flex: 0 1 100%; // По умолчанию одна карточка на строку
+    
+    @include respond-to(md) {
+      flex: 0 1 calc(50% - #{$spacing-2xl / 2}); // Две карточки на строку (вычитаем половину gap)
+      max-width: calc(50% - #{$spacing-2xl / 2});
+    }
+    
+    @include respond-to(lg) {
+      flex: 0 1 calc(33.333% - #{$spacing-2xl * 2 / 3}); // Три карточки на строку (вычитаем 2/3 gap)
+      max-width: calc(33.333% - #{$spacing-2xl * 2 / 3});
+    }
     // Разрешаем переполнение для видимости свечения
     overflow: hidden; // Изменено на hidden для блика
     // Неоновая тень в статике
