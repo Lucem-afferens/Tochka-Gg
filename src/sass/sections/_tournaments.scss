@@ -297,17 +297,29 @@
   // Карусель с маленькими карточками
   &__carousel {
     position: relative;
-    padding: 0 $spacing-2xl $spacing-3xl;
+    padding: $spacing-md $spacing-2xl $spacing-3xl; // Добавлен верхний padding для свечения
     margin: 0 (-$spacing-2xl);
+    overflow: visible; // Разрешаем свечение карточек выходить за границы
     
     @include max-width(xs) {
-      padding: 0 $spacing-md $spacing-2xl;
+      padding: $spacing-sm $spacing-md $spacing-2xl; // Добавлен верхний padding для свечения
       margin: 0 (-$spacing-md);
     }
     
     @include respond-to(lg) {
-      padding: 0 $spacing-3xl $spacing-4xl;
+      padding: $spacing-md $spacing-3xl $spacing-4xl; // Добавлен верхний padding для свечения
       margin: 0 (-$spacing-3xl);
+    }
+    
+    // Swiper wrapper - разрешаем свечение
+    .swiper-wrapper {
+      overflow: visible; // Разрешаем свечение карточек
+    }
+    
+    // Swiper slide - добавляем padding для свечения
+    .swiper-slide {
+      padding: $spacing-sm 0; // Отступы сверху и снизу для свечения
+      height: auto;
     }
     
     // Swiper навигация
@@ -383,9 +395,11 @@
     @include glassmorphism-light(0.1, 10px);
     border: $border-width-thin solid rgba(59, 130, 246, 0.3);
     border-radius: $border-radius-md;
-    overflow: hidden;
+    overflow: hidden; // Оставляем для внутреннего контента
     transition: all $duration-normal $ease-out-cubic;
     position: relative;
+    margin: $spacing-sm; // Отступы для видимости свечения
+    box-sizing: border-box;
     
     // Неоновая тень в статичном состоянии
     box-shadow: 
