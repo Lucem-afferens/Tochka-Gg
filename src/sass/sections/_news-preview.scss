@@ -62,9 +62,7 @@
       flex: 0 0 calc(33.333% - #{$spacing-4xl * 2 / 3});
       max-width: calc(33.333% - #{$spacing-4xl * 2 / 3});
     }
-  }
-  
-  &__item {
+    
     background: rgba(18, 13, 26, 0.85);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
