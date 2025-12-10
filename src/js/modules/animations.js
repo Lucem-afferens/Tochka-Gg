@@ -4,7 +4,14 @@
  * Анимации появления элементов при скролле
  */
 
+// Оптимизированная версия: проверка prefers-reduced-motion
 export function initScrollAnimations() {
+  // Проверяем настройки пользователя для уменьшенной анимации
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    return; // Не инициализируем анимации, если пользователь предпочитает их отключить
+  }
+  
   const animatedElements = document.querySelectorAll(
     '.tgg-advantages__item, .tgg-services__item, .tgg-archive__item, .tgg-card'
   );
@@ -20,10 +27,13 @@ export function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('tgg-animate-fade-in-up');
-          observer.unobserve(entry.target);
-        }, index * 100); // Задержка для последовательного появления
+        // Используем requestAnimationFrame вместо setTimeout для лучшей производительности
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            entry.target.classList.add('tgg-animate-fade-in-up');
+            observer.unobserve(entry.target);
+          }, index * 100); // Задержка для последовательного появления
+        });
       }
     });
   }, observerOptions);

@@ -4,6 +4,7 @@
  * Синхронизация высоты карточек новостей для одинакового размера
  */
 
+// Оптимизированная версия с requestAnimationFrame для лучшей производительности
 export function syncNewsCardsHeight() {
   const newsSection = document.querySelector('.tgg-news-preview__items');
   if (!newsSection) return;
@@ -11,26 +12,34 @@ export function syncNewsCardsHeight() {
   const newsCards = newsSection.querySelectorAll('.tgg-news-preview__item');
   if (!newsCards || newsCards.length === 0) return;
   
-  // Сбрасываем высоту для измерения реальной высоты
-  newsCards.forEach(card => {
-    card.style.height = 'auto';
-  });
-  
-  // Находим максимальную высоту
-  let maxHeight = 0;
-  newsCards.forEach(card => {
-    const height = card.offsetHeight;
-    if (height > maxHeight) {
-      maxHeight = height;
+  // Используем requestAnimationFrame для синхронизации с рендерингом браузера
+  requestAnimationFrame(() => {
+    // Сбрасываем высоту для измерения реальной высоты
+    newsCards.forEach(card => {
+      card.style.height = 'auto';
+    });
+    
+    // Принудительный reflow для измерения реальной высоты
+    void newsSection.offsetHeight;
+    
+    // Находим максимальную высоту
+    let maxHeight = 0;
+    newsCards.forEach(card => {
+      const height = card.offsetHeight;
+      if (height > maxHeight) {
+        maxHeight = height;
+      }
+    });
+    
+    // Устанавливаем одинаковую высоту для всех карточек в следующем кадре
+    if (maxHeight > 0) {
+      requestAnimationFrame(() => {
+        newsCards.forEach(card => {
+          card.style.height = maxHeight + 'px';
+        });
+      });
     }
   });
-  
-  // Устанавливаем одинаковую высоту для всех карточек
-  if (maxHeight > 0) {
-    newsCards.forEach(card => {
-      card.style.height = maxHeight + 'px';
-    });
-  }
 }
 
 // Инициализация при загрузке страницы
@@ -53,7 +62,7 @@ export function initNewsCards() {
     }, 250);
   });
   
-  // Синхронизируем после загрузки всех изображений
+  // Синхронизируем после загрузки всех изображений (оптимизировано)
   const images = document.querySelectorAll('.tgg-news-preview__item img');
   let imagesLoaded = 0;
   const totalImages = images.length;
@@ -63,19 +72,28 @@ export function initNewsCards() {
     return;
   }
   
+  // Оптимизация: используем { once: true } для автоматического удаления обработчиков
+  const handleImageLoad = () => {
+    imagesLoaded++;
+    if (imagesLoaded === totalImages) {
+      // Используем requestAnimationFrame вместо setTimeout для лучшей производительности
+      requestAnimationFrame(() => {
+        setTimeout(syncNewsCardsHeight, 50);
+      });
+    }
+  };
+  
   images.forEach(img => {
     if (img.complete) {
       imagesLoaded++;
       if (imagesLoaded === totalImages) {
-        setTimeout(syncNewsCardsHeight, 100);
+        requestAnimationFrame(() => {
+          setTimeout(syncNewsCardsHeight, 50);
+        });
       }
     } else {
-      img.addEventListener('load', () => {
-        imagesLoaded++;
-        if (imagesLoaded === totalImages) {
-          setTimeout(syncNewsCardsHeight, 100);
-        }
-      });
+      img.addEventListener('load', handleImageLoad, { once: true });
+      img.addEventListener('error', handleImageLoad, { once: true }); // Обрабатываем ошибки загрузки
     }
   });
 }

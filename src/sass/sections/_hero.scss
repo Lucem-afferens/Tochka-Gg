@@ -140,7 +140,8 @@
       .tgg-hero__title-letter {
         display: inline-block;
         position: relative;
-        will-change: opacity, text-shadow, filter, background-position;
+        // Оптимизация: убран filter из will-change (больше не используется)
+        will-change: opacity, text-shadow, background-position;
         animation: cyber-letter-flicker 8s ease-in-out infinite, cyber-gradient-shift 5s ease-in-out infinite; // Увеличено в 2 раза (было 4s)
         // Анимированный градиент цвета текста (синий -> фиолетовый -> розовый)
         background: linear-gradient(
@@ -278,11 +279,10 @@
   }
 }
 
-// Анимация мигания букв как электричество (оптимизированная версия)
+// Анимация мигания букв как электричество (оптимизированная версия: убран filter: brightness)
 @keyframes cyber-letter-flicker {
   0%, 100% {
     opacity: 1;
-    filter: brightness(1);
     text-shadow: 
       0 0 6px rgba(59, 130, 246, 0.6),       // Синий
       0 0 8px rgba(96, 165, 250, 0.5),       // Светло-синий
@@ -293,7 +293,6 @@
   }
   2%, 4%, 6%, 8%, 10% {
     opacity: 0.7;
-    filter: brightness(0.8);
     text-shadow: 
       0 0 3px rgba(59, 130, 246, 0.4),       // Синий приглушенный
       0 0 4px rgba(192, 38, 211, 0.4),       // Фиолетовый приглушенный
@@ -302,7 +301,6 @@
   }
   3%, 5%, 7%, 9% {
     opacity: 1;
-    filter: brightness(1.2);
     text-shadow: 
       0 0 10px rgba(59, 130, 246, 0.8),      // Синий яркий
       0 0 12px rgba(96, 165, 250, 0.7),      // Светло-синий яркий
@@ -313,7 +311,6 @@
   }
   50% {
     opacity: 0.9;
-    filter: brightness(0.95);
     text-shadow: 
       0 0 7px rgba(59, 130, 246, 0.5),       // Синий средний
       0 0 9px rgba(96, 165, 250, 0.45),      // Светло-синий средний

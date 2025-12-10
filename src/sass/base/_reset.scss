@@ -76,9 +76,13 @@ body {
     background-size: 400% 400%;
     animation: cyber-gradient-smooth 35s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     opacity: 1;
+    // Оптимизация производительности: GPU-ускорение для анимации
+    will-change: background-position;
+    transform: translateZ(0); // Принудительное GPU-ускорение
   }
   
   // Эффект тумана/дыма (еле заметный, синхронизирован с переливанием цветов)
+  // Оптимизировано: уменьшен blur для лучшей производительности
   &::after {
     content: '';
     position: fixed;
@@ -101,10 +105,23 @@ body {
       radial-gradient(ellipse 650px 550px at 55% 85%, rgba(180, 190, 210, 0.02) 0%, transparent 35%);
     background-attachment: fixed;
     background-size: 400% 400%;
-    filter: blur(60px);
+    // Оптимизация: уменьшен blur с 60px до 40px для лучшей производительности
+    filter: blur(40px);
     animation: cyber-gradient-smooth 35s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     opacity: 0.6;
     mix-blend-mode: screen;
+    // Оптимизация производительности: GPU-ускорение
+    will-change: background-position, filter;
+    transform: translateZ(0); // Принудительное GPU-ускорение
+  }
+  
+  // Отключение анимаций для пользователей с prefers-reduced-motion
+  @media (prefers-reduced-motion: reduce) {
+    &::before,
+    &::after {
+      animation: none;
+      will-change: auto;
+    }
   }
 }
 
