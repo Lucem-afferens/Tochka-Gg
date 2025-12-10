@@ -29,6 +29,7 @@ import { initEquipmentGalleries } from './modules/equipment-gallery.js';
 import { initLangameBooking } from './modules/booking.js';
 import { initNewsCards } from './modules/news-cards.js';
 import './modules/vr-modal.js';
+import { optimizeHeroForMobile } from './modules/hero-optimization.js';
 
 // ============================================
 // INITIALIZATION
@@ -44,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Дополнительные функции (если есть нужные элементы)
   if (document.querySelector('.tgg-hero')) {
     initParallax();
+    optimizeHeroForMobile(); // Оптимизация hero для мобильных устройств
   }
   
   if (document.getElementById('map')) {

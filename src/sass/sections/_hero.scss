@@ -28,6 +28,12 @@
     // Расширяем фон выше, чтобы был виден под header
     top: -80px;
     height: calc(100% + 80px);
+    // Оптимизация для мобильных: предотвращаем скачки
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: auto; // Не предсказываем изменения для лучшей производительности
     
     img,
     video {
@@ -35,6 +41,31 @@
       height: 100%;
       object-fit: cover;
       filter: brightness(0.6) contrast(1.1);
+      // Оптимизация для плавности на мобильных
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      // Предотвращаем скачки при скролле на мобильных
+      position: absolute;
+      top: 0;
+      left: 0;
+      // Оптимизация производительности
+      will-change: auto;
+      
+      @include max-width(lg) {
+        // На мобильных и планшетах используем fixed позиционирование для предотвращения скачков
+        position: fixed;
+        top: -80px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh + 80px);
+        // Дополнительные оптимизации для мобильных
+        -webkit-transform: translateZ(0) translateY(0);
+        transform: translateZ(0) translateY(0);
+        // Упрощаем фильтры на мобильных для лучшей производительности
+        filter: brightness(0.6);
+      }
     }
     
     &-video {
@@ -47,14 +78,45 @@
       transform: translateZ(0);
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
+      // Оптимизация для мобильных: предотвращаем скачки видео
+      will-change: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      
+      @include max-width(lg) {
+        // На мобильных фиксируем видео, чтобы оно не скакало
+        position: fixed;
+        top: -80px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh + 80px);
+        // Дополнительные оптимизации для мобильных
+        -webkit-transform: translateZ(0) translateY(0);
+        transform: translateZ(0) translateY(0);
+        // Упрощаем фильтры на мобильных для лучшей производительности
+        filter: brightness(0.6);
+        // Предотвращаем взаимодействие с видео на мобильных (если нужно)
+        pointer-events: none;
+      }
     }
     
     &-placeholder {
       background: linear-gradient(135deg, $color-bg-primary 0%, $color-bg-secondary 100%);
       background-size: 200% 200%;
-      animation: gradient-shift 10s ease infinite;
       width: 100%;
       height: 100%;
+      
+      // Отключаем анимацию на мобильных для предотвращения скачков
+      @media (min-width: 1024px) {
+        animation: gradient-shift 10s ease infinite;
+      }
+      
+      @include max-width(lg) {
+        // На мобильных используем статичный фон без анимации
+        background-size: 100% 100%;
+        animation: none;
+      }
     }
   }
   
