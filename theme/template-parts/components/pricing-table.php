@@ -153,11 +153,26 @@ if (!$pricing_packages || empty($pricing_packages)) {
                                 <tbody>
                                     <?php foreach ($package_categories as $category) : 
                                         $category_name = isset($category['category_name']) ? $category['category_name'] : '';
-                                        $category_type = isset($category['category_type']) ? $category['category_type'] : 'standard';
+                                        $category_type_raw = isset($category['category_type']) ? $category['category_type'] : '';
                                         $weekday_price = isset($category['weekday_price']) ? $category['weekday_price'] : '0';
                                         $weekend_price = isset($category['weekend_price']) ? $category['weekend_price'] : '0';
                                         
                                         if (empty($category_name)) continue;
+                                        
+                                        // Обрабатываем тип категории (может быть строкой или массивом в зависимости от настроек SCF)
+                                        $category_type = 'standard'; // По умолчанию
+                                        if (!empty($category_type_raw)) {
+                                            // Если это массив (формат "Оба (массив)"), берем значение
+                                            if (is_array($category_type_raw)) {
+                                                $category_type = isset($category_type_raw['value']) ? $category_type_raw['value'] : (isset($category_type_raw[0]) ? $category_type_raw[0] : 'standard');
+                                            } else {
+                                                // Если это строка, используем как есть
+                                                $category_type = $category_type_raw;
+                                            }
+                                        }
+                                        
+                                        // Нормализуем значение (убираем пробелы, приводим к нижнему регистру)
+                                        $category_type = strtolower(trim($category_type));
                                         
                                         // Определяем CSS класс для стилизации
                                         $price_class = 'tgg-price';
