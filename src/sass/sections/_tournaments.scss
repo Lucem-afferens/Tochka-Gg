@@ -321,13 +321,19 @@
     
     // Swiper wrapper - разрешаем свечение
     .swiper-wrapper {
-      overflow: visible; // Разрешаем свечение карточек
+      overflow: visible !important; // Разрешаем свечение карточек (!important для переопределения Swiper)
+    }
+    
+    // Swiper - разрешаем свечение
+    &.swiper {
+      overflow: visible !important; // Разрешаем свечение карточек (!important для переопределения Swiper)
     }
     
     // Swiper slide - добавляем padding для свечения
     .swiper-slide {
-      padding: $spacing-sm 0; // Отступы сверху и снизу для свечения
+      padding: $spacing-sm $spacing-xs; // Отступы со всех сторон для свечения
       height: auto;
+      overflow: visible; // Разрешаем свечение карточек
     }
     
     // Swiper навигация
