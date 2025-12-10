@@ -119,23 +119,16 @@ $has_news = !empty($all_news_posts);
                                          loading="lazy">
                                 <?php endif; ?>
                                 
-                                <div class="tgg-news-preview__item-badges">
-                                    <?php if ($news_pinned) : ?>
-                                        <div class="tgg-news-preview__item-badge tgg-news-preview__item-badge--pinned" title="Закреплено">
-                                            📌
-                                        </div>
-                                    <?php endif; ?>
-                                    <div class="tgg-news-preview__item-badge tgg-news-preview__item-badge--<?php echo esc_attr($news_type); ?>">
-                                        <?php 
-                                        if ($news_type === 'vacancy') {
-                                            echo 'Вакансия';
-                                        } elseif ($news_type === 'announcement') {
-                                            echo 'Объявление';
-                                        } else {
-                                            echo 'Новость';
-                                        }
-                                        ?>
-                                    </div>
+                                <div class="tgg-news-preview__item-badge tgg-news-preview__item-badge--<?php echo esc_attr($news_type); ?>">
+                                    <?php 
+                                    if ($news_type === 'vacancy') {
+                                        echo 'Вакансия';
+                                    } elseif ($news_type === 'announcement') {
+                                        echo 'Объявление';
+                                    } else {
+                                        echo 'Новость';
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             
