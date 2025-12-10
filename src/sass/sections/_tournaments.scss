@@ -517,26 +517,25 @@
       font-size: clamp(0.875rem, 1.5vw, 1rem);
       font-weight: $font-weight-heading-bold;
       color: $color-text-primary;
-      line-height: $line-height-tight;
+      line-height: 1.4; // Более компактный межстрочный интервал
       margin: 0;
-      padding: clamp($spacing-xs, 1vw, $spacing-md) clamp($spacing-sm, 1.5vw, $spacing-md); // Увеличенные адаптивные отступы для видимости свечения
+      // Увеличенные боковые отступы для видимости свечения
+      padding: clamp($spacing-xs, 1vw, $spacing-md) clamp($spacing-md, 2.5vw, $spacing-xl);
       box-sizing: border-box;
       min-height: 2.5em; // Минимальная высота для одинакового размера
+      max-height: 2.8em; // Ограничиваем высоту примерно до 2 строк
       position: relative;
       z-index: 2; // Поверх других элементов
       // Единое неоновое свечение (через миксин)
       @include heading-neon-glow;
-      // Ограничиваем текст до 2 строк с переносом
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      // Ограничиваем текст до 2 строк
       overflow: visible; // Разрешаем свечение выходить за границы
-      text-overflow: ellipsis;
       word-wrap: break-word;
       overflow-wrap: break-word;
-      // Используем filter для обрезки текста вместо overflow: hidden
-      max-height: 3em; // Примерно 2 строки при line-height: 1.5
-      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      text-overflow: ellipsis;
     }
     
     &-prize {
