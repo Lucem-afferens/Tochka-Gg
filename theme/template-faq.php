@@ -58,7 +58,7 @@ get_header();
                             <ul>
                                 <li>По телефону - позвоните нам и мы зарезервируем место</li>
                                 <li>В Telegram-канале - подпишитесь на @tochaGgKungur</li>
-                                <li>Через социальные сети - напишите нам в ВКонтакте</li>
+                                <li>Через социальные сети - <a href="https://vk.com/tochka.good.game" target="_blank" rel="noopener noreferrer">найдите нас в ВКонтакте</a></li>
                                 <li>Через мобильное приложение Langame</li>
                                 <li>Лично в клубе - подойдите к администратору</li>
                             </ul>
@@ -69,7 +69,8 @@ get_header();
                     <div class="tgg-faq__item">
                         <h3 class="tgg-faq__question">Какой возраст посетителей?</h3>
                         <div class="tgg-faq__answer">
-                            <p>Лицам до 18 лет разрешено посещение клуба только в сопровождении совершеннолетних или с письменного разрешения родителей.</p>
+                            <p>Самостоятельное посещение клуба разрешено с 14 лет.</p>
+                            <p>Лицам до 14 лет разрешено посещение клуба только в сопровождении совершеннолетних или с письменного разрешения родителей.</p>
                             <p>Для игр с возрастными ограничениями (18+) требуется подтверждение совершеннолетия (предъявление документа).</p>
                         </div>
                     </div>
@@ -244,7 +245,7 @@ get_header();
                                 <?php if ($telegram) : ?>
                                     <li><strong>Telegram-канал:</strong> <a href="https://t.me/<?php echo esc_attr(ltrim($telegram, '@')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($telegram); ?></a></li>
                                 <?php endif; ?>
-                                <li><strong>В социальных сетях</strong> - найдите нас в ВКонтакте</li>
+                                <li><strong>В социальных сетях</strong> - <a href="https://vk.com/tochka.good.game" target="_blank" rel="noopener noreferrer">найдите нас в ВКонтакте</a></li>
                                 <li><strong>Лично в клубе</strong> - подойдите к администратору</li>
                             </ul>
                         </div>
