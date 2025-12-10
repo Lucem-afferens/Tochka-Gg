@@ -33,6 +33,7 @@ export function initSliders() {
         spaceBetween: 16,
         loop: false,
         centeredSlides: true, // Центрирование слайдов
+        autoHeight: false, // Отключаем автоматическую высоту для одинакового размера всех слайдов
         autoplay: {
           delay: 4000,
           disableOnInteraction: false,
@@ -51,16 +52,19 @@ export function initSliders() {
             slidesPerView: 1.5,
             spaceBetween: 20,
             centeredSlides: true,
+            autoHeight: false,
           },
           768: {
             slidesPerView: 2.5,
             spaceBetween: 24,
             centeredSlides: true,
+            autoHeight: false,
           },
           1024: {
             slidesPerView: 3.5,
             spaceBetween: 24,
             centeredSlides: true,
+            autoHeight: false,
           },
         },
       });

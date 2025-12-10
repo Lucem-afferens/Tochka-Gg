@@ -331,6 +331,13 @@
     
     // Swiper slide - добавляем padding для свечения
     .swiper-slide {
+      height: auto; // Автоматическая высота, но все слайды будут одинаковыми благодаря Swiper
+      display: flex; // Flexbox для растягивания карточки
+      
+      // Убеждаемся, что карточка растягивается на всю высоту слайда
+      > * {
+        height: 100%;
+      }
       padding: $spacing-sm $spacing-xs; // Отступы со всех сторон для свечения
       height: auto;
       overflow: visible; // Разрешаем свечение карточек
@@ -405,7 +412,8 @@
   
   // Маленькие карточки турниров
   &__card {
-    height: 100%;
+    height: 100%; // Растягиваем на всю высоту слайда
+    min-height: 100%; // Минимальная высота для одинакового размера
     @include glassmorphism-light(0.1, 10px);
     border: $border-width-thin solid rgba(59, 130, 246, 0.3);
     border-radius: $border-radius-md;
@@ -510,11 +518,11 @@
       padding: 0 $spacing-xs; // Отступы для видимости свечения
       box-sizing: border-box;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 2; // Ограничиваем до 2 строк для одинакового размера
       -webkit-box-orient: vertical;
-      overflow: visible; // Разрешаем свечение выходить за границы
+      overflow: hidden; // Скрываем переполнение для ellipsis
       text-overflow: ellipsis;
-      min-height: 2.5em;
+      min-height: 2.5em; // Минимальная высота для одинакового размера
       // Единое неоновое свечение (через миксин)
       @include heading-neon-glow;
       position: relative;
