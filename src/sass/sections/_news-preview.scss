@@ -70,10 +70,9 @@
     border-radius: $border-radius-xl;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    height: 100%; // Растягиваем до высоты самой высокой карточки в ряду
-    min-height: 100%; // Минимальная высота для одинакового размера
     display: flex;
     flex-direction: column;
+    align-self: stretch; // Растягиваем до высоты самой высокой карточки в ряду
     // Улучшенные неоновые тени в статичном состоянии
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.4),
@@ -194,11 +193,12 @@
   }
   
   &__item-content {
-    flex: 1;
+    flex: 1 1 auto; // Растягиваем контент для заполнения пространства
     display: flex;
     flex-direction: column;
     padding: $spacing-xl;
     gap: $spacing-md;
+    min-height: 0; // Позволяет flex-элементам сжиматься
   }
   
   &__item-meta {
@@ -247,8 +247,9 @@
     font-size: $font-size-base;
     line-height: $line-height-relaxed;
     color: $color-text-secondary;
-    flex: 1;
+    flex: 1 1 auto; // Растягиваем для заполнения пространства
     min-height: 3em; // Минимальная высота для одинакового размера
+    max-height: 4.5em; // Максимальная высота (3 строки * 1.5em)
     display: -webkit-box;
     -webkit-line-clamp: 3; // Ограничиваем до 3 строк
     -webkit-box-orient: vertical;

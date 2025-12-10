@@ -333,14 +333,17 @@
     .swiper-slide {
       height: auto; // Автоматическая высота, но все слайды будут одинаковыми благодаря Swiper
       display: flex; // Flexbox для растягивания карточки
+      align-items: center; // Центрируем карточку по вертикали
+      justify-content: center; // Центрируем карточку по горизонтали
       
       // Убеждаемся, что карточка растягивается на всю высоту слайда
       > * {
         height: 100%;
+        width: 100%;
       }
-      padding: $spacing-sm $spacing-xs; // Отступы со всех сторон для свечения
-      height: auto;
+      padding: $spacing-sm; // Симметричные отступы со всех сторон для свечения
       overflow: visible; // Разрешаем свечение карточек
+      box-sizing: border-box;
     }
     
     // Swiper навигация
