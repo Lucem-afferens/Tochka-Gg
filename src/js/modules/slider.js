@@ -31,59 +31,90 @@ export function initSliders() {
       let currentMaxHeight = 0;
       let isSyncing = false;
       let resizeTimeout = null;
+      let lastSyncTime = 0;
+      const MIN_SYNC_INTERVAL = 300; // Минимальный интервал между синхронизациями (мс)
       
       // Функция для синхронизации высоты всех слайдов с защитой от бесконечных циклов
       function syncSlideHeights(swiper) {
         // Предотвращаем повторные вызовы во время синхронизации
-        if (isSyncing) return;
+        if (isSyncing) {
+          return;
+        }
+        
+        // Предотвращаем слишком частые вызовы
+        const now = Date.now();
+        if (now - lastSyncTime < MIN_SYNC_INTERVAL) {
+          return;
+        }
         
         const slides = swiper.slides;
         if (!slides || slides.length === 0) return;
         
         isSyncing = true;
+        lastSyncTime = now;
         
-        let maxHeight = 0;
-        
-        // Находим максимальную высоту
-        slides.forEach(slide => {
-          const card = slide.querySelector('.tgg-tournaments-preview__card');
-          if (card) {
-            // Временно сбрасываем высоту для измерения реальной высоты
-            const oldHeight = card.style.height;
-            card.style.height = 'auto';
-            const height = card.offsetHeight;
-            if (height > maxHeight) {
-              maxHeight = height;
-            }
-            // Восстанавливаем высоту, если она была установлена
-            if (oldHeight) {
-              card.style.height = oldHeight;
-            }
-          }
-        });
-        
-        // Устанавливаем одинаковую высоту для всех карточек только если высота изменилась
-        if (maxHeight > 0 && maxHeight !== currentMaxHeight) {
-          currentMaxHeight = maxHeight;
+        // Используем requestAnimationFrame для предотвращения конфликтов с рендерингом
+        requestAnimationFrame(() => {
+          let maxHeight = 0;
+          
+          // Находим максимальную высоту
           slides.forEach(slide => {
             const card = slide.querySelector('.tgg-tournaments-preview__card');
             if (card) {
-              card.style.height = maxHeight + 'px';
+              // Сохраняем текущую высоту
+              const oldHeight = card.style.height;
+              // Временно сбрасываем высоту для измерения реальной высоты
+              card.style.height = '';
+              card.style.minHeight = '';
+              // Принудительно пересчитываем layout
+              void card.offsetHeight; // Force reflow
+              const height = card.offsetHeight;
+              if (height > maxHeight) {
+                maxHeight = height;
+              }
+              // Восстанавливаем высоту временно
+              if (oldHeight) {
+                card.style.height = oldHeight;
+              }
             }
           });
-        }
-        
-        isSyncing = false;
+          
+          // Устанавливаем одинаковую высоту для всех карточек только если высота изменилась значительно
+          const heightDifference = Math.abs(maxHeight - currentMaxHeight);
+          if (maxHeight > 0 && heightDifference > 5) { // Изменение больше 5px
+            currentMaxHeight = maxHeight;
+            
+            // Устанавливаем высоту через requestAnimationFrame для избежания конфликтов
+            requestAnimationFrame(() => {
+              slides.forEach(slide => {
+                const card = slide.querySelector('.tgg-tournaments-preview__card');
+                if (card) {
+                  card.style.height = maxHeight + 'px';
+                  card.style.minHeight = maxHeight + 'px';
+                }
+              });
+              
+              // Обновляем высоту Swiper после установки высоты карточек
+              setTimeout(() => {
+                if (swiper && swiper.update) {
+                  swiper.update();
+                }
+              }, 50);
+            });
+          }
+          
+          isSyncing = false;
+        });
       }
       
-      // Debounced версия функции для resize
+      // Debounced версия функции для resize с более длительной задержкой
       function debouncedSyncSlideHeights(swiper) {
         if (resizeTimeout) {
           clearTimeout(resizeTimeout);
         }
         resizeTimeout = setTimeout(() => {
           syncSlideHeights(swiper);
-        }, 150);
+        }, 250); // Увеличена задержка до 250мс
       }
       
       const tournamentsSwiper = new Swiper(sliderElement, {
@@ -128,10 +159,10 @@ export function initSliders() {
         },
         on: {
           init: function() {
-            // Синхронизируем высоту всех слайдов после инициализации
+            // Синхронизируем высоту всех слайдов после инициализации с задержкой
             setTimeout(() => {
               syncSlideHeights(this);
-            }, 100);
+            }, 200);
           },
           resize: function() {
             // Используем debounced версию для предотвращения бесконечных циклов
@@ -140,40 +171,47 @@ export function initSliders() {
           slideChange: function() {
             // Не синхронизируем при смене слайда, чтобы избежать лишних пересчетов
           },
+          update: function() {
+            // Не синхронизируем при обновлении Swiper, чтобы избежать циклов
+          },
         },
       });
       
-      // Также синхронизируем после загрузки изображений
+      // Также синхронизируем после загрузки изображений (только один раз)
       const images = sliderElement.querySelectorAll('.tgg-tournaments-preview__card img');
       let imagesLoaded = 0;
       const totalImages = images.length;
+      let imagesSyncDone = false;
       
       if (totalImages > 0) {
+        const syncAfterImages = () => {
+          if (!imagesSyncDone) {
+            imagesSyncDone = true;
+            setTimeout(() => {
+              syncSlideHeights(tournamentsSwiper);
+            }, 300);
+          }
+        };
+        
         images.forEach(img => {
           if (img.complete) {
             imagesLoaded++;
             if (imagesLoaded === totalImages) {
-              setTimeout(() => {
-                syncSlideHeights(tournamentsSwiper);
-              }, 100);
+              syncAfterImages();
             }
           } else {
             img.addEventListener('load', () => {
               imagesLoaded++;
               if (imagesLoaded === totalImages) {
-                setTimeout(() => {
-                  syncSlideHeights(tournamentsSwiper);
-                }, 100);
+                syncAfterImages();
               }
-            });
+            }, { once: true });
             img.addEventListener('error', () => {
               imagesLoaded++;
               if (imagesLoaded === totalImages) {
-                setTimeout(() => {
-                  syncSlideHeights(tournamentsSwiper);
-                }, 100);
+                syncAfterImages();
               }
-            });
+            }, { once: true });
           }
         });
       }
