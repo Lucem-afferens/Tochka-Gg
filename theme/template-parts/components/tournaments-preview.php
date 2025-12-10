@@ -28,11 +28,33 @@ $tournaments_bg_image_data = function_exists('tochkagg_get_image_or_placeholder'
     ];
 // Получаем видео URL или placeholder
 $tournaments_bg_video_url = '';
-if ($tournaments_bg_type === 'video') {
-    if ($tournaments_bg_video && filter_var($tournaments_bg_video, FILTER_VALIDATE_URL)) {
-        $tournaments_bg_video_url = $tournaments_bg_video;
-    } else {
-        // Если видео не указано, но тип выбран "video", используем placeholder изображение
+if ($tournaments_bg_type === 'video' && $tournaments_bg_video) {
+    // Обрабатываем видео - может быть массивом (File field) или строкой (URL)
+    if (is_array($tournaments_bg_video)) {
+        // Если это массив (File field), берем URL
+        $tournaments_bg_video_url = isset($tournaments_bg_video['url']) ? $tournaments_bg_video['url'] : '';
+    } elseif (is_string($tournaments_bg_video)) {
+        // Если это строка, проверяем, что это валидный URL или относительный путь
+        $tournaments_bg_video = trim($tournaments_bg_video);
+        if (!empty($tournaments_bg_video)) {
+            // Проверяем, является ли это абсолютным URL
+            if (filter_var($tournaments_bg_video, FILTER_VALIDATE_URL)) {
+                $tournaments_bg_video_url = $tournaments_bg_video;
+            } elseif (strpos($tournaments_bg_video, '/') === 0 || strpos($tournaments_bg_video, './') === 0) {
+                // Относительный путь от корня сайта
+                $tournaments_bg_video_url = $tournaments_bg_video;
+            } elseif (strpos($tournaments_bg_video, 'http') === 0 || strpos($tournaments_bg_video, '//') === 0) {
+                // URL без протокола или с протоколом
+                $tournaments_bg_video_url = $tournaments_bg_video;
+            } else {
+                // Пробуем как относительный путь
+                $tournaments_bg_video_url = '/' . ltrim($tournaments_bg_video, '/');
+            }
+        }
+    }
+    
+    // Если URL не получен, переключаемся на изображение
+    if (empty($tournaments_bg_video_url)) {
         $tournaments_bg_type = 'image';
     }
 }

@@ -29,12 +29,33 @@ $hero_image_data = function_exists('tochkagg_get_image_or_placeholder')
 
 // Получаем видео URL или placeholder
 $hero_video_url = '';
-if ($hero_bg_type === 'video') {
-    if ($hero_video && filter_var($hero_video, FILTER_VALIDATE_URL)) {
-        $hero_video_url = $hero_video;
-    } else {
-        // Если видео не указано, но тип выбран "video", используем placeholder изображение
-        // (так как реального placeholder видео нет, показываем изображение)
+if ($hero_bg_type === 'video' && $hero_video) {
+    // Обрабатываем видео - может быть массивом (File field) или строкой (URL)
+    if (is_array($hero_video)) {
+        // Если это массив (File field), берем URL
+        $hero_video_url = isset($hero_video['url']) ? $hero_video['url'] : '';
+    } elseif (is_string($hero_video)) {
+        // Если это строка, проверяем, что это валидный URL или относительный путь
+        $hero_video = trim($hero_video);
+        if (!empty($hero_video)) {
+            // Проверяем, является ли это абсолютным URL
+            if (filter_var($hero_video, FILTER_VALIDATE_URL)) {
+                $hero_video_url = $hero_video;
+            } elseif (strpos($hero_video, '/') === 0 || strpos($hero_video, './') === 0) {
+                // Относительный путь от корня сайта
+                $hero_video_url = $hero_video;
+            } elseif (strpos($hero_video, 'http') === 0 || strpos($hero_video, '//') === 0) {
+                // URL без протокола или с протоколом
+                $hero_video_url = $hero_video;
+            } else {
+                // Пробуем как относительный путь
+                $hero_video_url = '/' . ltrim($hero_video, '/');
+            }
+        }
+    }
+    
+    // Если URL не получен, переключаемся на изображение
+    if (empty($hero_video_url)) {
         $hero_bg_type = 'image';
     }
 }
