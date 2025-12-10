@@ -56,8 +56,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-lg;
-    
-    
+    text-align: center; // Центрируем заголовок
   }
   
   &__text {
@@ -66,8 +65,7 @@
     line-height: $line-height-relaxed;
     color: $color-text-secondary;
     margin-bottom: $spacing-2xl;
-    
-    
+    text-align: center; // Центрируем текст
   }
   
   &__specs {
