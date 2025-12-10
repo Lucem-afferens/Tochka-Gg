@@ -202,8 +202,8 @@ $all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_cou
                                     </div>
                                     
                                     <div class="tgg-tournaments-preview__card-content">
-                                        <h3 class="tgg-tournaments-preview__card-title" data-title="<?php echo esc_attr(get_the_title()); ?>">
-                                            <?php the_title(); ?>
+                                        <h3 class="tgg-tournaments-preview__card-title">
+                                            <span class="tgg-tournaments-preview__card-title-text"><?php the_title(); ?></span>
                                         </h3>
                                         
                                         <?php if ($tournament_prize) : ?>
