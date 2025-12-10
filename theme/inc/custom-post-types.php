@@ -38,23 +38,22 @@ function tochkagg_register_tournament_post_type() {
         'query_var' => true,
         'rewrite' => ['slug' => 'tournaments'],
         'capability_type' => 'post',
-        'capabilities' => [
-            'edit_post' => 'edit_post',
-            'read_post' => 'read_post',
-            'delete_post' => 'delete_post',
-            'edit_posts' => 'edit_posts',
-            'edit_others_posts' => 'edit_others_posts',
-            'publish_posts' => 'publish_posts',
-            'read_private_posts' => 'read_private_posts',
-            'create_posts' => 'edit_posts',
-        ],
-        'map_meta_cap' => true, // Использовать стандартные права доступа WordPress
+        'map_meta_cap' => true, // Использовать стандартные права доступа WordPress (автоматически создаст все нужные capabilities)
         'has_archive' => true,
         'hierarchical' => false,
         'menu_position' => 5,
         'menu_icon' => 'dashicons-awards',
-        'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
+        'supports' => [
+            'title',           // Заголовок
+            'editor',          // Редактор контента (Gutenberg/классический)
+            'thumbnail',       // Миниатюра записи
+            'excerpt',         // Краткое описание
+            'custom-fields',   // Дополнительные поля
+            'revisions',       // Ревизии
+        ],
         'show_in_rest' => true, // Поддержка Gutenberg
+        'rest_base' => 'tournaments',
+        'rest_controller_class' => 'WP_REST_Posts_Controller',
         'can_export' => true, // Разрешить экспорт
     ];
 
@@ -89,23 +88,23 @@ function tochkagg_register_news_post_type() {
         'query_var' => true,
         'rewrite' => ['slug' => 'news'],
         'capability_type' => 'post',
-        'capabilities' => [
-            'edit_post' => 'edit_post',
-            'read_post' => 'read_post',
-            'delete_post' => 'delete_post',
-            'edit_posts' => 'edit_posts',
-            'edit_others_posts' => 'edit_others_posts',
-            'publish_posts' => 'publish_posts',
-            'read_private_posts' => 'read_private_posts',
-            'create_posts' => 'edit_posts',
-        ],
-        'map_meta_cap' => true, // Использовать стандартные права доступа WordPress
+        'map_meta_cap' => true, // Использовать стандартные права доступа WordPress (автоматически создаст все нужные capabilities)
         'has_archive' => true,
         'hierarchical' => false,
         'menu_position' => 5,
         'menu_icon' => 'dashicons-megaphone',
-        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'author'],
-        'show_in_rest' => true,
+        'supports' => [
+            'title',           // Заголовок
+            'editor',          // Редактор контента (Gutenberg/классический)
+            'thumbnail',       // Миниатюра записи
+            'excerpt',         // Краткое описание
+            'author',          // Автор
+            'custom-fields',   // Дополнительные поля
+            'revisions',       // Ревизии
+        ],
+        'show_in_rest' => true, // Поддержка Gutenberg
+        'rest_base' => 'news',
+        'rest_controller_class' => 'WP_REST_Posts_Controller',
         'can_export' => true, // Разрешить экспорт
     ];
 
