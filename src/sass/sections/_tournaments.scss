@@ -517,25 +517,33 @@
       font-size: clamp(0.875rem, 1.5vw, 1rem);
       font-weight: $font-weight-heading-bold;
       color: $color-text-primary;
-      line-height: 1.4; // Более компактный межстрочный интервал
+      line-height: 1.4;
       margin: 0;
       // Увеличенные боковые отступы для видимости свечения
       padding: clamp($spacing-xs, 1vw, $spacing-md) clamp($spacing-md, 2.5vw, $spacing-xl);
       box-sizing: border-box;
       min-height: 2.5em; // Минимальная высота для одинакового размера
-      max-height: 2.8em; // Ограничиваем высоту примерно до 2 строк
       position: relative;
       z-index: 2; // Поверх других элементов
+      overflow: visible; // Разрешаем свечение выходить за границы
+      
       // Единое неоновое свечение (через миксин)
       @include heading-neon-glow;
-      // Ограничиваем текст до 2 строк
-      overflow: visible; // Разрешаем свечение выходить за границы
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+    }
+    
+    &-title-text {
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 2; // Ограничиваем до 2 строк
+      overflow: hidden; // Для работы -webkit-line-clamp
       text-overflow: ellipsis;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.4;
+      max-height: 2.8em; // Примерно 2 строки
+      position: relative;
+      // Наследуем свечение от родителя, но текст обрезается
+      text-shadow: inherit;
     }
     
     &-prize {
