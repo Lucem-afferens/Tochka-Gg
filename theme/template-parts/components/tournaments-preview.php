@@ -37,12 +37,18 @@ if ($tournaments_bg_type === 'video') {
     }
 }
 
-// Получаем последние турниры
-$tournaments_query = new WP_Query([
+// Получаем закрепленные турниры
+$pinned_tournaments_query = new WP_Query([
     'post_type' => 'tournament',
-    'posts_per_page' => $tournaments_count,
+    'posts_per_page' => -1, // Получаем все закрепленные
     'post_status' => 'publish',
     'meta_query' => [
+        'relation' => 'AND',
+        [
+            'key' => 'tournament_pinned',
+            'value' => '1',
+            'compare' => '='
+        ],
         [
             'key' => 'tournament_date',
             'value' => date('Y-m-d'),
@@ -54,6 +60,62 @@ $tournaments_query = new WP_Query([
     'order' => 'ASC',
     'meta_key' => 'tournament_date'
 ]);
+
+// Получаем обычные турниры (не закрепленные)
+$regular_tournaments_count = $tournaments_count - $pinned_tournaments_query->found_posts;
+if ($regular_tournaments_count < 0) {
+    $regular_tournaments_count = 0;
+}
+
+$regular_tournaments_query = new WP_Query([
+    'post_type' => 'tournament',
+    'posts_per_page' => $regular_tournaments_count,
+    'post_status' => 'publish',
+    'meta_query' => [
+        'relation' => 'AND',
+        [
+            'relation' => 'OR',
+            [
+                'key' => 'tournament_pinned',
+                'compare' => 'NOT EXISTS'
+            ],
+            [
+                'key' => 'tournament_pinned',
+                'value' => '1',
+                'compare' => '!='
+            ]
+        ],
+        [
+            'key' => 'tournament_date',
+            'value' => date('Y-m-d'),
+            'compare' => '>=',
+            'type' => 'DATE'
+        ]
+    ],
+    'orderby' => 'meta_value',
+    'order' => 'ASC',
+    'meta_key' => 'tournament_date'
+]);
+
+// Объединяем результаты: сначала закрепленные, затем обычные
+$all_tournaments_posts = [];
+if ($pinned_tournaments_query->have_posts()) {
+    while ($pinned_tournaments_query->have_posts()) {
+        $pinned_tournaments_query->the_post();
+        $all_tournaments_posts[] = get_post();
+    }
+    wp_reset_postdata();
+}
+if ($regular_tournaments_query->have_posts()) {
+    while ($regular_tournaments_query->have_posts()) {
+        $regular_tournaments_query->the_post();
+        $all_tournaments_posts[] = get_post();
+    }
+    wp_reset_postdata();
+}
+
+// Ограничиваем общее количество турниров
+$all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_count);
 ?>
 
 <section class="tgg-tournaments-preview">
@@ -90,10 +152,11 @@ $tournaments_query = new WP_Query([
             </h2>
         <?php endif; ?>
         
-        <?php if ($tournaments_query->have_posts()) : ?>
+        <?php if (!empty($all_tournaments_posts)) : ?>
             <div class="tgg-tournaments-preview__carousel swiper tgg-slider-tournaments">
                 <div class="swiper-wrapper">
-                    <?php while ($tournaments_query->have_posts()) : $tournaments_query->the_post(); 
+                    <?php foreach ($all_tournaments_posts as $post) : 
+                        setup_postdata($post);
                         $tournament_date = get_field('tournament_date');
                         $tournament_time = get_field('tournament_time');
                         $tournament_prize = get_field('tournament_prize');
@@ -141,7 +204,7 @@ $tournaments_query = new WP_Query([
                                 </a>
                             </div>
                         </div>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 </div>
                 
                 <!-- Навигация карусели -->

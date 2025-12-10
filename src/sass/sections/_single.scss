@@ -24,10 +24,15 @@
     margin-bottom: $spacing-xl;
     border-radius: $border-radius-lg;
     overflow: hidden;
+    max-width: 800px; // Ограничиваем максимальную ширину изображения
+    margin-left: auto;
+    margin-right: auto;
     
     img {
       width: 100%;
       height: auto;
+      max-height: 500px; // Ограничиваем максимальную высоту
+      object-fit: cover; // Обрезаем изображение, если оно слишком большое
       display: block;
     }
   }
@@ -87,10 +92,13 @@
     color: $color-text-primary;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    
-    
+    // Единое неоновое свечение (через миксин)
+    @include heading-neon-glow;
     width: 100%;
     max-width: 100%;
+    padding: 0 $spacing-md; // Отступы для видимости свечения
+    box-sizing: border-box;
+    overflow: visible; // Разрешаем свечение выходить за границы
   }
   
   &__content {

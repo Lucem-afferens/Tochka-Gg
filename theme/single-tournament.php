@@ -25,7 +25,7 @@ get_header();
                 <header class="tgg-single-tournament__header">
                     <div class="tgg-single-tournament__image">
                         <?php if (has_post_thumbnail()) : ?>
-                            <?php the_post_thumbnail('large'); ?>
+                            <?php the_post_thumbnail('medium'); ?>
                         <?php else : ?>
                             <?php 
                             $tournament_placeholder = function_exists('tochkagg_get_placeholder_image') 
