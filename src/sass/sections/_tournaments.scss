@@ -519,31 +519,30 @@
       color: $color-text-primary;
       line-height: 1.4;
       margin: 0;
-      // Увеличенные боковые отступы для видимости свечения
-      padding: clamp($spacing-xs, 1vw, $spacing-md) clamp($spacing-md, 2.5vw, $spacing-xl);
+      padding: 0; // Убираем padding, так как он в контенте
       box-sizing: border-box;
       min-height: 2.5em; // Минимальная высота для одинакового размера
       position: relative;
       z-index: 2; // Поверх других элементов
-      overflow: visible; // Разрешаем свечение выходить за границы
+      overflow: visible !important; // Разрешаем свечение выходить за границы (важно!)
       
       // Единое неоновое свечение (через миксин)
       @include heading-neon-glow;
     }
     
     &-title-text {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2; // Ограничиваем до 2 строк
-      overflow: hidden; // Для работы -webkit-line-clamp
-      text-overflow: ellipsis;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      display: block;
       line-height: 1.4;
       max-height: 2.8em; // Примерно 2 строки
       position: relative;
-      // Наследуем свечение от родителя, но текст обрезается
+      overflow: visible !important; // Разрешаем свечение выходить за границы
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      // Наследуем свечение от родителя
       text-shadow: inherit;
+      // Используем градиент для скрытия лишнего текста вместо overflow: hidden
+      mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
     }
     
     &-prize {
