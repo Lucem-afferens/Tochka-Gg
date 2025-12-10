@@ -31,7 +31,7 @@
     @include respond-to(lg) {
       grid-template-columns: 1fr 1fr;
       gap: $spacing-4xl;
-      align-items: start;
+      align-items: center; // Центрируем содержимое по вертикали
     }
   }
   
