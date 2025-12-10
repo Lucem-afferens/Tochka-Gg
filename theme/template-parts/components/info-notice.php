@@ -26,7 +26,10 @@ if (empty($info_notice_text)) {
 
 <div class="tgg-info-notice">
     <div class="tgg-info-notice__icon">
-        <span>i</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <text x="10" y="14" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="currentColor">i</text>
+        </svg>
     </div>
     <p class="tgg-info-notice__text">
         <?php echo esc_html($info_notice_text); ?>

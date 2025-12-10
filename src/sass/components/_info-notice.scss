@@ -41,12 +41,9 @@
     color: rgba(59, 130, 246, 0.9);
     animation: pulse-icon 2s ease-in-out infinite;
     
-    span {
-      font-family: $font-heading;
-      font-size: 1.5rem;
-      font-weight: $font-weight-heading-bold;
-      font-style: italic;
-      line-height: 1;
+    svg {
+      width: 20px;
+      height: 20px;
       filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
     }
   }
