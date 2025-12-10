@@ -420,7 +420,7 @@
     @include glassmorphism-light(0.1, 10px);
     border: $border-width-thin solid rgba(59, 130, 246, 0.3);
     border-radius: $border-radius-md;
-    overflow: hidden; // Оставляем для внутреннего контента
+    overflow: visible; // Разрешаем свечение заголовка выходить за границы
     transition: all $duration-normal $ease-out-cubic;
     position: relative;
     margin: $spacing-sm; // Отступы для видимости свечения
@@ -503,12 +503,13 @@
     }
     
     &-content {
-      padding: $spacing-md;
+      padding: clamp($spacing-md, 1.5vw, $spacing-lg); // Адаптивный padding
       flex-grow: 1;
       display: flex;
       flex-direction: column;
       gap: $spacing-xs;
       overflow: visible; // Разрешаем свечение заголовка выходить за границы
+      position: relative; // Для корректного позиционирования свечения
     }
     
     &-title {
@@ -518,18 +519,24 @@
       color: $color-text-primary;
       line-height: $line-height-tight;
       margin: 0;
-      padding: 0 $spacing-xs; // Отступы для видимости свечения
+      padding: clamp($spacing-xs, 1vw, $spacing-md) clamp($spacing-sm, 1.5vw, $spacing-md); // Увеличенные адаптивные отступы для видимости свечения
       box-sizing: border-box;
-      display: -webkit-box;
-      -webkit-line-clamp: 2; // Ограничиваем до 2 строк для одинакового размера
-      -webkit-box-orient: vertical;
-      overflow: hidden; // Скрываем переполнение для ellipsis
-      text-overflow: ellipsis;
       min-height: 2.5em; // Минимальная высота для одинакового размера
-      // Единое неоновое свечение (через миксин)
-      @include heading-neon-glow;
       position: relative;
       z-index: 2; // Поверх других элементов
+      // Единое неоновое свечение (через миксин)
+      @include heading-neon-glow;
+      // Ограничиваем текст до 2 строк с переносом
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: visible; // Разрешаем свечение выходить за границы
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      // Используем filter для обрезки текста вместо overflow: hidden
+      max-height: 3em; // Примерно 2 строки при line-height: 1.5
+      line-height: 1.5;
     }
     
     &-prize {
