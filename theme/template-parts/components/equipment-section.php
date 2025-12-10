@@ -141,47 +141,62 @@ if ($equipment_page_id) {
                     
                     // Выводим PS-зону, если есть
                     if ($ps5_title && !empty($ps5_specs)) :
-                        // Формируем логичное описание PS-зоны
-                        $ps5_desc = '';
-                        if (!empty($ps5_specs)) {
-                            $ps5_desc_parts = [];
-                            foreach ($ps5_specs as $spec) {
-                                $label = isset($spec['spec_label']) ? mb_strtolower(trim($spec['spec_label'])) : '';
-                                $value = isset($spec['spec_value']) ? trim($spec['spec_value']) : '';
-                                
-                                if (empty($value)) continue;
-                                
-                                // Пропускаем PlayStation 5 (уже показано в количестве)
-                                if (stripos($label, 'playstation') !== false || stripos($label, 'ps5') !== false) {
-                                    continue;
-                                }
-                                
-                                // Добавляем другие характеристики (джойстики, руль и т.д.)
-                                $ps5_desc_parts[] = $value;
-                                
-                                // Ограничиваем до 2 характеристик для краткости
-                                if (count($ps5_desc_parts) >= 2) {
-                                    break;
-                                }
+                        // Формируем понятное описание PS-зоны с названиями характеристик
+                        $ps5_desc_parts = [];
+                        $shown_count = 0;
+                        $max_items = 2; // Показываем максимум 2 характеристики
+                        
+                        foreach ($ps5_specs as $spec) {
+                            $label = isset($spec['spec_label']) ? trim($spec['spec_label']) : '';
+                            $value = isset($spec['spec_value']) ? trim($spec['spec_value']) : '';
+                            
+                            if (empty($label) || empty($value)) continue;
+                            
+                            // Формируем строку "Название: Значение"
+                            // Сокращаем длинные названия для компактности
+                            $short_label = $label;
+                            if (stripos($label, 'playstation') !== false || stripos($label, 'ps5') !== false) {
+                                $short_label = 'PS5';
+                            } elseif (stripos($label, 'джойстик') !== false || stripos($label, 'контроллер') !== false) {
+                                $short_label = 'Джойстики';
+                            } elseif (stripos($label, 'руль') !== false) {
+                                $short_label = 'Руль';
+                            } elseif (stripos($label, 'подписка') !== false) {
+                                $short_label = 'Подписка';
                             }
                             
-                            $ps5_desc = !empty($ps5_desc_parts) ? implode(' • ', $ps5_desc_parts) : '';
-                        }
-                        
-                        // Находим количество PS5
-                        $ps5_count = '';
-                        foreach ($ps5_specs as $spec) {
-                            if (isset($spec['spec_label']) && stripos($spec['spec_label'], 'playstation') !== false || stripos($spec['spec_label'], 'ps5') !== false) {
-                                $ps5_count = $spec['spec_value'] ?? '';
+                            $ps5_desc_parts[] = $short_label . ': ' . $value;
+                            $shown_count++;
+                            
+                            // Ограничиваем до 2 характеристик для краткости
+                            if ($shown_count >= $max_items) {
                                 break;
                             }
+                        }
+                        
+                        $ps5_desc = !empty($ps5_desc_parts) ? implode('<br>', $ps5_desc_parts) : '';
+                        
+                        // Находим количество PS5 для основного значения
+                        $ps5_count = '';
+                        foreach ($ps5_specs as $spec) {
+                            $label = isset($spec['spec_label']) ? mb_strtolower(trim($spec['spec_label'])) : '';
+                            if (stripos($label, 'playstation') !== false || stripos($label, 'ps5') !== false) {
+                                $ps5_count = isset($spec['spec_value']) ? trim($spec['spec_value']) : '';
+                                break;
+                            }
+                        }
+                        
+                        // Если не нашли PS5, берем первое значение как основное
+                        if (empty($ps5_count) && !empty($ps5_specs)) {
+                            $first_spec = reset($ps5_specs);
+                            $ps5_count = isset($first_spec['spec_value']) ? trim($first_spec['spec_value']) : '';
                         }
                     ?>
                         <div class="tgg-equipment-preview__spec">
                             <div class="tgg-equipment-preview__spec-label"><?php echo esc_html($ps5_title); ?></div>
                             <div class="tgg-equipment-preview__spec-value"><?php echo esc_html($ps5_count ?: '—'); ?></div>
                             <?php if ($ps5_desc) : ?>
-                                <div class="tgg-equipment-preview__spec-desc"><?php echo esc_html($ps5_desc); ?></div>
+                                <div class="tgg-equipment-preview__spec-desc"><?php echo wp_kses_post($ps5_desc); ?></div>
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>
