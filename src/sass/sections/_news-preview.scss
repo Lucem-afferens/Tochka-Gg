@@ -32,20 +32,35 @@
   }
   
   &__items {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
     gap: $spacing-2xl;
     width: 100%;
     max-width: 100%;
     
     @include respond-to(md) {
-      grid-template-columns: repeat(2, 1fr);
       gap: $spacing-3xl;
     }
     
     @include respond-to(lg) {
-      grid-template-columns: repeat(3, 1fr);
       gap: $spacing-4xl;
+    }
+  }
+  
+  &__item {
+    flex: 0 0 100%;
+    max-width: 100%;
+    
+    @include respond-to(md) {
+      flex: 0 0 calc(50% - #{$spacing-3xl / 2});
+      max-width: calc(50% - #{$spacing-3xl / 2});
+    }
+    
+    @include respond-to(lg) {
+      flex: 0 0 calc(33.333% - #{$spacing-4xl * 2 / 3});
+      max-width: calc(33.333% - #{$spacing-4xl * 2 / 3});
     }
   }
   
