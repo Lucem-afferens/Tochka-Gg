@@ -10,7 +10,7 @@
     
     const MODAL_ID = 'vr-modal';
     const STORAGE_KEY = 'vr_modal_closed';
-    const DELAY_MS = 15000; // 15 секунд
+    const DEFAULT_DELAY_MS = 30000; // 30 секунд по умолчанию
     
     let modal = null;
     let overlay = null;
@@ -38,8 +38,18 @@
             return;
         }
         
+        // Получаем задержку из data-атрибута или используем значение по умолчанию
+        const delayMs = modal.dataset.delay 
+            ? parseInt(modal.dataset.delay, 10) 
+            : DEFAULT_DELAY_MS;
+        
+        // Проверяем, что задержка валидна (минимум 5 секунд, максимум 5 минут)
+        const validDelay = isNaN(delayMs) || delayMs < 5000 || delayMs > 300000
+            ? DEFAULT_DELAY_MS
+            : delayMs;
+        
         // Устанавливаем таймер на показ модального окна
-        timeoutId = setTimeout(showModal, DELAY_MS);
+        timeoutId = setTimeout(showModal, validDelay);
         
         // Обработчики событий
         if (closeBtn) {
