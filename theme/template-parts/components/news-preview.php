@@ -16,17 +16,70 @@ $news_count = get_field('news_preview_count') ?: 3;
 $news_url_default = get_post_type_archive_link('news') ?: home_url('/news/');
 $news_link = get_field('news_preview_link') ?: $news_url_default;
 
-// Получаем последние новости
-$news_query = new WP_Query([
+// Получаем закрепленные новости
+$pinned_news_query = new WP_Query([
     'post_type' => 'news',
-    'posts_per_page' => $news_count,
+    'posts_per_page' => -1, // Получаем все закрепленные
     'post_status' => 'publish',
+    'meta_query' => [
+        [
+            'key' => 'news_pinned',
+            'value' => '1',
+            'compare' => '='
+        ]
+    ],
     'orderby' => 'date',
     'order' => 'DESC',
 ]);
 
+// Получаем обычные новости (не закрепленные)
+$regular_news_count = $news_count - $pinned_news_query->found_posts;
+if ($regular_news_count < 0) {
+    $regular_news_count = 0;
+}
+
+$regular_news_query = new WP_Query([
+    'post_type' => 'news',
+    'posts_per_page' => $regular_news_count,
+    'post_status' => 'publish',
+    'meta_query' => [
+        'relation' => 'OR',
+        [
+            'key' => 'news_pinned',
+            'compare' => 'NOT EXISTS'
+        ],
+        [
+            'key' => 'news_pinned',
+            'value' => '1',
+            'compare' => '!='
+        ]
+    ],
+    'orderby' => 'date',
+    'order' => 'DESC',
+]);
+
+// Объединяем результаты: сначала закрепленные, затем обычные
+$all_news_posts = [];
+if ($pinned_news_query->have_posts()) {
+    while ($pinned_news_query->have_posts()) {
+        $pinned_news_query->the_post();
+        $all_news_posts[] = get_post();
+    }
+    wp_reset_postdata();
+}
+if ($regular_news_query->have_posts()) {
+    while ($regular_news_query->have_posts()) {
+        $regular_news_query->the_post();
+        $all_news_posts[] = get_post();
+    }
+    wp_reset_postdata();
+}
+
+// Ограничиваем общее количество новостей
+$all_news_posts = array_slice($all_news_posts, 0, $news_count);
+
 // Если новостей нет, не показываем секцию (если включено в настройках, но новостей нет - покажем пустое состояние)
-$has_news = $news_query->have_posts();
+$has_news = !empty($all_news_posts);
 ?>
 
 <section class="tgg-news-preview">
@@ -37,11 +90,13 @@ $has_news = $news_query->have_posts();
             </h2>
         <?php endif; ?>
         
-        <?php if ($news_query->have_posts()) : ?>
+        <?php if ($has_news) : ?>
             <div class="tgg-news-preview__items">
-                <?php while ($news_query->have_posts()) : $news_query->the_post(); 
+                <?php foreach ($all_news_posts as $post) : 
+                    setup_postdata($post);
                     $news_type = get_field('news_type') ?: 'news'; // 'news' или 'vacancy'
                     $news_external_link = get_field('news_external_link'); // Для внешних ссылок (например, на Telegram бота)
+                    $news_pinned = get_field('news_pinned'); // Закрепленная новость
                     $news_date = get_the_date('d.m.Y');
                 ?>
                     <article class="tgg-news-preview__item">
@@ -64,16 +119,23 @@ $has_news = $news_query->have_posts();
                                          loading="lazy">
                                 <?php endif; ?>
                                 
-                                <div class="tgg-news-preview__item-badge tgg-news-preview__item-badge--<?php echo esc_attr($news_type); ?>">
-                                    <?php 
-                                    if ($news_type === 'vacancy') {
-                                        echo 'Вакансия';
-                                    } elseif ($news_type === 'announcement') {
-                                        echo 'Объявление';
-                                    } else {
-                                        echo 'Новость';
-                                    }
-                                    ?>
+                                <div class="tgg-news-preview__item-badges">
+                                    <?php if ($news_pinned) : ?>
+                                        <div class="tgg-news-preview__item-badge tgg-news-preview__item-badge--pinned" title="Закреплено">
+                                            📌
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="tgg-news-preview__item-badge tgg-news-preview__item-badge--<?php echo esc_attr($news_type); ?>">
+                                        <?php 
+                                        if ($news_type === 'vacancy') {
+                                            echo 'Вакансия';
+                                        } elseif ($news_type === 'announcement') {
+                                            echo 'Объявление';
+                                        } else {
+                                            echo 'Новость';
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -100,7 +162,7 @@ $has_news = $news_query->have_posts();
                             </div>
                         </a>
                     </article>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
             </div>
             
             <?php if ($news_link) : ?>
