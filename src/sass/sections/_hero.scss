@@ -109,11 +109,23 @@
     // Глоссморфизм - стеклянная панель
     @include glassmorphism-accent($color-primary, 0.15, 0.2, 25px);
     border-radius: $border-radius-xl;
+    // Разрешаем переполнение для заголовка, чтобы текст не обрезался
+    overflow-x: visible;
     
     @include max-width(xs) {
-      padding: $spacing-xl $spacing-md; // Уменьшено
-      margin: 0 $spacing-md;
-      max-width: calc(100% - #{$spacing-md * 2});
+      // На маленьких экранах уменьшаем боковые отступы, чтобы дать больше места заголовку
+      padding: $spacing-xl $spacing-sm; // Уменьшены боковые отступы
+      margin: 0 $spacing-sm;
+      max-width: calc(100% - #{$spacing-sm * 2});
+      // Разрешаем небольшой горизонтальный скролл только если необходимо
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; // Скрываем скроллбар для Firefox
+      -ms-overflow-style: none; // Скрываем скроллбар для IE/Edge
+      
+      &::-webkit-scrollbar {
+        display: none; // Скрываем скроллбар для WebKit
+      }
     }
     
     @include respond-to(sm) {
