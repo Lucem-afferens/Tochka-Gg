@@ -50,11 +50,6 @@ get_header();
                                     <time datetime="<?php echo esc_attr(get_the_date('c')); ?>">
                                         <?php echo esc_html(get_the_date('d F Y')); ?>
                                     </time>
-                                    <?php if (get_the_author()) : ?>
-                                        <span class="tgg-archive__item-author">
-                                            <?php echo esc_html(get_the_author()); ?>
-                                        </span>
-                                    <?php endif; ?>
                                 </div>
                                 
                                 <h2 class="tgg-archive__item-title">
