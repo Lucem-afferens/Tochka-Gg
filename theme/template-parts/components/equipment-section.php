@@ -86,17 +86,46 @@ if ($equipment_page_id) {
                             
                             if (empty($category_name)) continue;
                             
-                            // Формируем описание из первых двух характеристик
+                            // Формируем логичное описание из ключевых характеристик
                             $spec_desc = '';
                             if (!empty($category_specs)) {
-                                $first_two_specs = array_slice($category_specs, 0, 2);
-                                $spec_values = [];
-                                foreach ($first_two_specs as $spec) {
-                                    if (isset($spec['spec_value']) && !empty($spec['spec_value'])) {
-                                        $spec_values[] = $spec['spec_value'];
+                                // Ищем ключевые характеристики: видеокарта, процессор, память
+                                $key_specs = [];
+                                foreach ($category_specs as $spec) {
+                                    $label = isset($spec['spec_label']) ? mb_strtolower(trim($spec['spec_label'])) : '';
+                                    $value = isset($spec['spec_value']) ? trim($spec['spec_value']) : '';
+                                    
+                                    if (empty($value)) continue;
+                                    
+                                    // Приоритетные характеристики для отображения
+                                    if (stripos($label, 'видеокарт') !== false || stripos($label, 'gpu') !== false) {
+                                        $key_specs['gpu'] = $value;
+                                    } elseif (stripos($label, 'процессор') !== false || stripos($label, 'cpu') !== false) {
+                                        $key_specs['cpu'] = $value;
+                                    } elseif (stripos($label, 'памят') !== false || stripos($label, 'ram') !== false) {
+                                        $key_specs['ram'] = $value;
                                     }
                                 }
-                                $spec_desc = implode(', ', $spec_values);
+                                
+                                // Формируем описание в логичном порядке
+                                $desc_parts = [];
+                                if (isset($key_specs['gpu'])) {
+                                    $desc_parts[] = $key_specs['gpu'];
+                                }
+                                if (isset($key_specs['cpu'])) {
+                                    $desc_parts[] = $key_specs['cpu'];
+                                }
+                                // Если нет ключевых характеристик, берем первые 2
+                                if (empty($desc_parts) && !empty($category_specs)) {
+                                    $first_two = array_slice($category_specs, 0, 2);
+                                    foreach ($first_two as $spec) {
+                                        if (isset($spec['spec_value']) && !empty(trim($spec['spec_value']))) {
+                                            $desc_parts[] = trim($spec['spec_value']);
+                                        }
+                                    }
+                                }
+                                
+                                $spec_desc = !empty($desc_parts) ? implode(' • ', $desc_parts) : '';
                             }
                     ?>
                         <div class="tgg-equipment-preview__spec">
@@ -112,16 +141,32 @@ if ($equipment_page_id) {
                     
                     // Выводим PS-зону, если есть
                     if ($ps5_title && !empty($ps5_specs)) :
-                        // Формируем описание из первых двух характеристик PS-зоны
+                        // Формируем логичное описание PS-зоны
                         $ps5_desc = '';
-                        $first_two_ps5_specs = array_slice($ps5_specs, 0, 2);
-                        $ps5_values = [];
-                        foreach ($first_two_ps5_specs as $spec) {
-                            if (isset($spec['spec_value']) && !empty($spec['spec_value'])) {
-                                $ps5_values[] = $spec['spec_value'];
+                        if (!empty($ps5_specs)) {
+                            $ps5_desc_parts = [];
+                            foreach ($ps5_specs as $spec) {
+                                $label = isset($spec['spec_label']) ? mb_strtolower(trim($spec['spec_label'])) : '';
+                                $value = isset($spec['spec_value']) ? trim($spec['spec_value']) : '';
+                                
+                                if (empty($value)) continue;
+                                
+                                // Пропускаем PlayStation 5 (уже показано в количестве)
+                                if (stripos($label, 'playstation') !== false || stripos($label, 'ps5') !== false) {
+                                    continue;
+                                }
+                                
+                                // Добавляем другие характеристики (джойстики, руль и т.д.)
+                                $ps5_desc_parts[] = $value;
+                                
+                                // Ограничиваем до 2 характеристик для краткости
+                                if (count($ps5_desc_parts) >= 2) {
+                                    break;
+                                }
                             }
+                            
+                            $ps5_desc = !empty($ps5_desc_parts) ? implode(' • ', $ps5_desc_parts) : '';
                         }
-                        $ps5_desc = implode(', ', $ps5_values);
                         
                         // Находим количество PS5
                         $ps5_count = '';

@@ -104,7 +104,7 @@
     @include glassmorphism-light(0.12, 10px);
     border: $border-width-thin solid rgba(59, 130, 246, 0.4);
     border-radius: $border-radius-md;
-    padding: $spacing-lg;
+    padding: clamp($spacing-md, 2vw, $spacing-lg); // Адаптивный padding от 16px до 24px
     text-align: center;
     transition: all $duration-normal $ease-out-cubic;
     width: 100%;
@@ -112,8 +112,11 @@
     box-sizing: border-box;
     min-width: 0; // Предотвращает переполнение
     overflow: visible; // Разрешаем видимость текста
-    min-height: 140px; // Минимальная высота для вмещения контента
+    min-height: clamp(120px, 15vw, 160px); // Адаптивная минимальная высота от 120px до 160px
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // Центрируем контент по вертикали
     
     // Неоновая тень в статичном состоянии (сине-фиолетово-розовая) - немного ослаблена
     box-shadow: 
@@ -168,7 +171,7 @@
   
   &__spec-label {
     font-family: $font-body;
-    font-size: clamp(0.75rem, 1.5vw, $font-size-sm);
+    font-size: clamp(0.7rem, 1.2vw, 0.875rem); // Адаптивный размер от 11.2px до 14px
     font-weight: $font-weight-body-medium;
     color: $color-text-secondary;
     margin-bottom: $spacing-sm;
@@ -176,35 +179,54 @@
     letter-spacing: 0.05em;
     width: 100%;
     max-width: 100%;
-    word-break: normal;
-    overflow-wrap: normal;
+    word-wrap: break-word; // Разрешаем перенос длинных слов
+    overflow-wrap: break-word; // Разрешаем перенос
+    hyphens: auto; // Автоматическая расстановка переносов
+    line-height: 1.3; // Более компактный межстрочный интервал
+    display: -webkit-box;
+    -webkit-line-clamp: 2; // Ограничиваем до 2 строк
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.2em; // Минимальная высота для 2 строк
   }
   
   &__spec-value {
     font-family: $font-heading;
-    font-size: clamp(0.875rem, 2vw, 1.75rem);
+    font-size: clamp(0.875rem, 1.8vw, 1.5rem); // Адаптивный размер от 14px до 24px
     font-weight: $font-weight-heading-bold;
     color: $color-primary;
     margin-bottom: $spacing-xs;
     width: 100%;
     max-width: 100%;
-    min-height: 2.5em; // Минимальная высота для 2 строк
+    min-height: 2em; // Минимальная высота для 2 строк
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     line-height: 1.3;
-    word-break: normal;
-    overflow-wrap: normal;
+    word-wrap: break-word; // Разрешаем перенос длинных слов
+    overflow-wrap: break-word; // Разрешаем перенос
+    hyphens: auto; // Автоматическая расстановка переносов
+    padding: 0 $spacing-xs; // Добавляем небольшой padding для длинных текстов
+    box-sizing: border-box;
   }
   
   &__spec-desc {
     font-family: $font-body;
-    font-size: $font-size-xs;
+    font-size: clamp(0.7rem, 1vw, 0.8125rem); // Адаптивный размер от 11.2px до 13px
     color: $color-text-muted;
-    line-height: $line-height-normal;
-    
-    
+    line-height: 1.4;
+    margin-top: $spacing-xs;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; // Ограничиваем до 2 строк
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2em; // Минимальная высота для 2 строк
   }
   
   &__cta {
