@@ -138,14 +138,12 @@ export function initMap() {
       }
     });
 
-    // Кастомный маркер с логотипом в кибер-стиле
+    // Кастомный маркер с логотипом в кибер-стиле (только логотип с указателем)
     const markerHtml = logoUrl 
       ? `<div class="tgg-map-marker tgg-map-marker--with-logo">
           <div class="tgg-map-marker__pulse-ring"></div>
           <div class="tgg-map-marker__icon-wrapper">
-            <div class="tgg-map-marker__logo-backdrop">
-              <img src="${logoUrl}" alt="Точка Gg" class="tgg-map-marker__logo">
-            </div>
+            <img src="${logoUrl}" alt="Точка Gg" class="tgg-map-marker__logo">
             <div class="tgg-map-marker__pin-tail"></div>
           </div>
         </div>`
