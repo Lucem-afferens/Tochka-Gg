@@ -542,21 +542,21 @@
       overflow-wrap: break-word;
       // Применяем свечение напрямую через filter: drop-shadow
       // Это не обрезается overflow: hidden родительских элементов
-      // Уменьшенная интенсивность свечения (в 2.5 раза)
+      // Почти минимальное свечение
       filter: 
-        drop-shadow(0 0 8px rgba(59, 130, 246, 0.32))
-        drop-shadow(0 0 14px rgba(59, 130, 246, 0.2))
-        drop-shadow(0 0 10px rgba(192, 38, 211, 0.24))
-        drop-shadow(0 0 6px rgba(239, 68, 68, 0.16));
+        drop-shadow(0 0 2px rgba(59, 130, 246, 0.15))
+        drop-shadow(0 0 4px rgba(59, 130, 246, 0.1))
+        drop-shadow(0 0 3px rgba(192, 38, 211, 0.12))
+        drop-shadow(0 0 2px rgba(239, 68, 68, 0.08));
       transition: filter 0.3s ease;
       
       @media (hover: hover) {
         .tgg-tournaments-preview__card:hover & {
           filter: 
-            drop-shadow(0 0 12px rgba(59, 130, 246, 0.4))
-            drop-shadow(0 0 20px rgba(59, 130, 246, 0.28))
-            drop-shadow(0 0 14px rgba(192, 38, 211, 0.32))
-            drop-shadow(0 0 10px rgba(239, 68, 68, 0.24));
+            drop-shadow(0 0 3px rgba(59, 130, 246, 0.2))
+            drop-shadow(0 0 6px rgba(59, 130, 246, 0.15))
+            drop-shadow(0 0 4px rgba(192, 38, 211, 0.18))
+            drop-shadow(0 0 3px rgba(239, 68, 68, 0.12));
         }
       }
     }
