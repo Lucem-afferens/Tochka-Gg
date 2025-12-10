@@ -13,6 +13,7 @@
   
   &__header {
     margin-bottom: $spacing-3xl;
+    overflow: visible; // Разрешаем свечение заголовка выходить за границы
     
     @include max-width(xs) {
       margin-bottom: $spacing-2xl;
