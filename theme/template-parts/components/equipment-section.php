@@ -18,6 +18,14 @@ $equipment_link_default = function_exists('tochkagg_get_page_url')
     : home_url('/equipment/');
 $equipment_link = get_field('equipment_preview_link') ?: $equipment_link_default;
 $equipment_button_text = get_field('equipment_preview_button_text') ?: 'Подробнее об оборудовании';
+
+// Получаем категории оборудования для превью (первые 3 категории)
+$equipment_categories = get_field('equipment_categories') ?: [];
+$preview_categories = array_slice($equipment_categories, 0, 3); // Берем первые 3 категории для превью
+
+// Получаем данные PS-зоны для превью
+$ps5_title = get_field('ps5_zone_title') ?: 'PS-зона';
+$ps5_specs = get_field('ps5_zone_specs') ?: [];
 ?>
 
 <section class="tgg-equipment-preview">
@@ -37,23 +45,70 @@ $equipment_button_text = get_field('equipment_preview_button_text') ?: 'Подр
                 <?php endif; ?>
                 
                 <div class="tgg-equipment-preview__specs">
-                    <div class="tgg-equipment-preview__spec">
-                        <div class="tgg-equipment-preview__spec-label">VIP ПК</div>
-                        <div class="tgg-equipment-preview__spec-value">6 шт.</div>
-                        <div class="tgg-equipment-preview__spec-desc">RTX 5060 Ti, i5-13400F</div>
-                    </div>
+                    <?php 
+                    // Выводим категории оборудования (первые 3)
+                    if (!empty($preview_categories) && is_array($preview_categories)) :
+                        foreach ($preview_categories as $category) :
+                            $category_name = isset($category['category_name']) ? $category['category_name'] : '';
+                            $category_quantity = isset($category['category_quantity']) ? $category['category_quantity'] : '';
+                            $category_specs = isset($category['category_specs']) && is_array($category['category_specs']) ? $category['category_specs'] : [];
+                            
+                            if (empty($category_name)) continue;
+                            
+                            // Формируем описание из первых двух характеристик
+                            $spec_desc = '';
+                            if (!empty($category_specs)) {
+                                $first_two_specs = array_slice($category_specs, 0, 2);
+                                $spec_values = [];
+                                foreach ($first_two_specs as $spec) {
+                                    if (isset($spec['spec_value']) && !empty($spec['spec_value'])) {
+                                        $spec_values[] = $spec['spec_value'];
+                                    }
+                                }
+                                $spec_desc = implode(', ', $spec_values);
+                            }
+                    ?>
+                        <div class="tgg-equipment-preview__spec">
+                            <div class="tgg-equipment-preview__spec-label"><?php echo esc_html($category_name); ?></div>
+                            <div class="tgg-equipment-preview__spec-value"><?php echo esc_html($category_quantity ?: '—'); ?></div>
+                            <?php if ($spec_desc) : ?>
+                                <div class="tgg-equipment-preview__spec-desc"><?php echo esc_html($spec_desc); ?></div>
+                            <?php endif; ?>
+                        </div>
+                    <?php 
+                        endforeach;
+                    endif;
                     
-                    <div class="tgg-equipment-preview__spec">
-                        <div class="tgg-equipment-preview__spec-label">LITE ПК</div>
-                        <div class="tgg-equipment-preview__spec-value">6 шт.</div>
-                        <div class="tgg-equipment-preview__spec-desc">RTX 4060, i5-12400F</div>
-                    </div>
-                    
-                    <div class="tgg-equipment-preview__spec">
-                        <div class="tgg-equipment-preview__spec-label">PS-зона</div>
-                        <div class="tgg-equipment-preview__spec-value">2 PS5</div>
-                        <div class="tgg-equipment-preview__spec-desc">4 джойстика, руль</div>
-                    </div>
+                    // Выводим PS-зону, если есть
+                    if ($ps5_title && !empty($ps5_specs)) :
+                        // Формируем описание из первых двух характеристик PS-зоны
+                        $ps5_desc = '';
+                        $first_two_ps5_specs = array_slice($ps5_specs, 0, 2);
+                        $ps5_values = [];
+                        foreach ($first_two_ps5_specs as $spec) {
+                            if (isset($spec['spec_value']) && !empty($spec['spec_value'])) {
+                                $ps5_values[] = $spec['spec_value'];
+                            }
+                        }
+                        $ps5_desc = implode(', ', $ps5_values);
+                        
+                        // Находим количество PS5
+                        $ps5_count = '';
+                        foreach ($ps5_specs as $spec) {
+                            if (isset($spec['spec_label']) && stripos($spec['spec_label'], 'playstation') !== false || stripos($spec['spec_label'], 'ps5') !== false) {
+                                $ps5_count = $spec['spec_value'] ?? '';
+                                break;
+                            }
+                        }
+                    ?>
+                        <div class="tgg-equipment-preview__spec">
+                            <div class="tgg-equipment-preview__spec-label"><?php echo esc_html($ps5_title); ?></div>
+                            <div class="tgg-equipment-preview__spec-value"><?php echo esc_html($ps5_count ?: '—'); ?></div>
+                            <?php if ($ps5_desc) : ?>
+                                <div class="tgg-equipment-preview__spec-desc"><?php echo esc_html($ps5_desc); ?></div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 
                 <?php if ($equipment_link && $equipment_button_text) : ?>
