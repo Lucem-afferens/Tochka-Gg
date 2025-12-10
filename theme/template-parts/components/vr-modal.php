@@ -63,10 +63,10 @@ $vr_page_link = function_exists('tochkagg_get_page_url')
         </button>
         
         <div class="tgg-vr-modal__body">
-            <?php if ($vr_image) : ?>
+            <?php if ($vr_ad_image) : ?>
                 <div class="tgg-vr-modal__image">
                     <?php
-                    $vr_image_data = tochkagg_get_image_or_placeholder($vr_image, 400, 300, 'VR Arena');
+                    $vr_image_data = tochkagg_get_image_or_placeholder($vr_ad_image, 400, 300, 'VR Arena');
                     ?>
                     <img src="<?php echo esc_url($vr_image_data['url']); ?>" 
                          alt="<?php echo esc_attr($vr_image_data['alt']); ?>"
@@ -76,26 +76,26 @@ $vr_page_link = function_exists('tochkagg_get_page_url')
             
             <div class="tgg-vr-modal__text">
                 <h3 class="tgg-vr-modal__title" id="vr-modal-title">
-                    <?php echo esc_html($vr_title); ?>
+                    <?php echo esc_html($vr_ad_title); ?>
                 </h3>
                 
-                <?php if ($vr_description) : ?>
+                <?php if ($vr_ad_description) : ?>
                     <p class="tgg-vr-modal__description">
-                        <?php echo esc_html($vr_description); ?>
+                        <?php echo esc_html($vr_ad_description); ?>
                     </p>
                 <?php endif; ?>
                 
                 <div class="tgg-vr-modal__actions">
                     <a href="<?php echo esc_url($vr_page_link); ?>" class="tgg-btn-fire tgg-vr-modal__btn">
-                        Узнать больше
+                        <?php echo esc_html($vr_ad_button_text); ?>
                     </a>
                     
-                    <?php if ($vr_phone) : ?>
-                        <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $vr_phone)); ?>" class="tgg-vr-modal__phone">
+                    <?php if ($vr_ad_phone) : ?>
+                        <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $vr_ad_phone)); ?>" class="tgg-vr-modal__phone">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
                             </svg>
-                            <?php echo esc_html($vr_phone); ?>
+                            <?php echo esc_html($vr_ad_phone); ?>
                         </a>
                     <?php endif; ?>
                 </div>
