@@ -203,9 +203,9 @@ export function initMap() {
       iconShape: {
         type: logoUrl ? 'Circle' : 'Circle',
         coordinates: [0, 0],
-        radius: logoUrl ? 40 : 24
+        radius: logoUrl ? 30 : 24
       },
-      iconOffset: logoUrl ? [-40, -80] : [-24, -64]
+      iconOffset: logoUrl ? [-30, -90] : [-24, -64]
     });
 
     map.geoObjects.add(placemark);
