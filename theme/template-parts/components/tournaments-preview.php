@@ -381,6 +381,14 @@ if ($tournaments_bg_image_mobile) {
                 <!-- Пагинация Swiper -->
                 <div class="swiper-pagination tgg-slider-tournaments-pagination"></div>
             </div>
+            
+            <?php if ($tournaments_link) : ?>
+                <div class="tgg-tournaments-preview__cta">
+                    <a href="<?php echo esc_url($tournaments_link); ?>" class="tgg-btn-fire">
+                        <?php echo esc_html($tournaments_button_text); ?>
+                    </a>
+                </div>
+            <?php endif; ?>
         <?php else : ?>
             <div class="tgg-tournaments-preview__empty">
                 <p>Ближайших турниров пока нет. Следите за новостями!</p>
