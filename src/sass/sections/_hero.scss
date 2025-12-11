@@ -6,28 +6,33 @@
   position: relative;
   // Hero секция должна занимать весь экран пользователя
   width: 100%;
-  min-height: 100vh; // Fallback для старых браузеров
-  min-height: 100dvh; // Dynamic viewport height - адаптируется к изменениям viewport
-  height: 100vh; // Фиксируем высоту для десктопов - весь экран
-  height: 100dvh; // Dynamic viewport height для мобильных - весь экран
+  // Используем viewport units для полного покрытия экрана
+  min-height: 100vh !important; // Fallback для старых браузеров - принудительно
+  min-height: 100dvh !important; // Dynamic viewport height - принудительно весь экран
+  height: 100vh !important; // Фиксируем высоту для десктопов - весь экран
+  height: 100dvh !important; // Dynamic viewport height для мобильных - весь экран
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   // Поддержка safe-area для iPhone с выемкой
   padding-bottom: env(safe-area-inset-bottom);
-  // Убеждаемся, что hero занимает весь экран
+  // Убеждаемся, что hero занимает весь экран и не сжимается
   flex-shrink: 0;
+  // Убираем любые отступы сверху
+  margin-top: 0 !important;
+  margin-bottom: 0;
   
   @include max-width(lg) {
     // На мобильных используем overflow: visible для предотвращения обрезки
     overflow: visible;
     // На мобильных также фиксируем высоту на весь экран
-    min-height: 100vh;
-    min-height: 100dvh;
-    height: 100vh;
-    height: 100dvh;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    height: 100vh !important;
+    height: 100dvh !important;
     flex-shrink: 0;
+    margin-top: 0 !important;
   }
   
   .tgg-container {
