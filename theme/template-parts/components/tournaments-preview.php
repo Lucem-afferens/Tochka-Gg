@@ -132,19 +132,32 @@ if ($regular_tournaments_query->have_posts()) {
         if ($date_type === 'exact') {
             // Точная дата: проверяем, что дата >= сегодня
             $tournament_date = get_field('tournament_date', $post->ID);
-            if ($tournament_date && strtotime($tournament_date) >= strtotime($current_date)) {
-                $should_include = true;
+            if ($tournament_date) {
+                $tournament_timestamp = strtotime($tournament_date);
+                if ($tournament_timestamp !== false && $tournament_timestamp >= strtotime($current_date)) {
+                    $should_include = true;
+                }
             }
         } elseif ($date_type === 'month_only') {
             // Только месяц/год: проверяем, что год >= текущего года
             $tournament_year = get_field('tournament_date_year', $post->ID);
-            if ($tournament_year && intval($tournament_year) >= $current_year) {
-                $should_include = true;
+            if ($tournament_year) {
+                $year_int = intval($tournament_year);
+                if ($year_int >= $current_year) {
+                    $should_include = true;
+                }
             }
         } else {
-            // Старые записи без типа даты: используем точную дату
+            // Старые записи без типа даты: используем точную дату, если она есть
+            // Если даты нет вообще, тоже включаем (для обратной совместимости)
             $tournament_date = get_field('tournament_date', $post->ID);
-            if ($tournament_date && strtotime($tournament_date) >= strtotime($current_date)) {
+            if ($tournament_date) {
+                $tournament_timestamp = strtotime($tournament_date);
+                if ($tournament_timestamp !== false && $tournament_timestamp >= strtotime($current_date)) {
+                    $should_include = true;
+                }
+            } else {
+                // Если даты нет, включаем турнир (для обратной совместимости со старыми записями)
                 $should_include = true;
             }
         }
@@ -171,10 +184,8 @@ if ($pinned_tournaments_query->have_posts()) {
 // Добавляем отфильтрованные обычные турниры
 $all_tournaments_posts = array_merge($all_tournaments_posts, $filtered_tournaments);
 
-// Если нет турниров, не показываем секцию
-if (empty($all_tournaments_posts)) {
-    return;
-}
+// Если нет турниров, все равно показываем секцию (но без карточек)
+// Это позволит видеть секцию даже если турниры еще не добавлены или все в прошлом
 
 // Подготовка данных для фонового изображения
 $tournaments_bg_image_data = function_exists('tochkagg_get_image_or_placeholder')
