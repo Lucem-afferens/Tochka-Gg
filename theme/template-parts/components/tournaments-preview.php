@@ -277,6 +277,12 @@ if ($tournaments_bg_image_mobile) {
             </h2>
         <?php endif; ?>
         
+        <?php if ($tournaments_description) : ?>
+            <div class="tgg-tournaments-preview__description">
+                <?php echo wp_kses_post($tournaments_description); ?>
+            </div>
+        <?php endif; ?>
+        
         <?php if (!empty($all_tournaments_posts)) : ?>
             <div class="tgg-tournaments-preview__carousel swiper tgg-slider-tournaments">
                 <div class="swiper-wrapper">
