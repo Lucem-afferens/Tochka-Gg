@@ -121,13 +121,13 @@
       background: $gradient-primary;
       border-radius: 2px;
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+      box-shadow: 0 0 12px rgba(255, 107, 53, 0.6);
     }
     
     &:hover {
       img {
         transform: scale(1.05) translateY(-2px);
-        filter: drop-shadow(0 4px 16px rgba(59, 130, 246, 0.5));
+        filter: drop-shadow(0 4px 16px rgba(255, 107, 53, 0.5));
       }
       
       &::after {
