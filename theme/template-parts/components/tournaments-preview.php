@@ -27,6 +27,18 @@ $tournaments_count = function_exists('get_field')
     : 6;
 $tournaments_count = is_numeric($tournaments_count) && $tournaments_count > 0 ? intval($tournaments_count) : 6;
 
+// Получаем ссылку на все турниры
+$tournaments_link = function_exists('get_field') ? get_field('tournaments_preview_link') : null;
+// Если ссылка не указана, используем автоматическое определение URL архива
+if (empty($tournaments_link)) {
+    $tournaments_link = get_post_type_archive_link('tournament') ?: home_url('/tournament/');
+}
+
+// Получаем текст кнопки (если есть отдельное поле, иначе используем дефолт)
+$tournaments_button_text = function_exists('get_field') 
+    ? (get_field('tournaments_preview_button_text') ?: 'Все турниры')
+    : 'Все турниры';
+
 // Если секция отключена явно, не показываем её
 if ($tournaments_enabled === false || $tournaments_enabled === '0' || $tournaments_enabled === 0) {
     return;

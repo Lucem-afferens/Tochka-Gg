@@ -7,7 +7,7 @@
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   
   @include max-width(xs) {
-    padding: $spacing-3xl 0;
+    padding: $spacing-4xl 0; // Изменено с $spacing-3xl на $spacing-4xl для единообразия
   }
   
   &__header {
@@ -22,13 +22,25 @@
   
   &__title {
     font-family: $font-heading;
-    font-size: $font-size-h1;
+    font-size: clamp(2rem, 4vw + 0.5rem, 3.5rem); // Адаптивный размер от 32px до 56px
     font-weight: $font-weight-heading-bold;
     line-height: $line-height-tight;
     color: $color-text-primary;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: $spacing-lg;
+    margin-bottom: 0; // Отступ контролируется через margin-top уведомления
+    // Единое неоновое свечение (через миксин)
+    @include heading-neon-glow;
+
+    @include max-width(xs) {
+      font-size: clamp(1.75rem, 5vw, 2.5rem); // Для мобильных: 28px-40px
+      padding: 0 $spacing-sm;
+    }
+
+    @media (max-width: 360px) {
+      font-size: clamp(1.5rem, 5.5vw, 2rem); // Для 320px: 24px-32px
+      letter-spacing: 0.03em;
+    }
   }
   
   &__description {
