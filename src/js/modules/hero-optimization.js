@@ -34,53 +34,33 @@ export function optimizeHeroForMobile() {
     // Видео можно включить по требованию пользователя, но по умолчанию не воспроизводим
   }
   
-  // Убеждаемся, что фон зафиксирован
+  // На мобильных используем absolute позиционирование, чтобы фон прокручивался вместе с секцией
+  // CSS уже устанавливает правильные стили, но убеждаемся, что они применены
   const bgImage = heroBg.querySelector('img');
   const bgVideo = heroBg.querySelector('video');
   
   [bgImage, bgVideo].forEach(element => {
     if (element) {
-      // Применяем fixed позиционирование через JavaScript для надежности
-      element.style.position = 'fixed';
+      // Используем absolute позиционирование для прокрутки вместе с секцией
+      element.style.position = 'absolute';
       element.style.top = '-80px';
       element.style.left = '0';
       element.style.width = '100%';
-      // Используем lvh (large viewport height) для максимального покрытия экрана
-      // Это гарантирует, что изображение покроет весь экран даже при скрытой адресной строке
+      // Высота будет установлена через CSS, но убеждаемся, что она достаточна
       const supportsLvh = CSS.supports('height', '100lvh');
-      const supportsDvh = CSS.supports('height', '100dvh');
       if (supportsLvh) {
-        element.style.height = 'calc(100lvh + 120px)';
-        element.style.minHeight = 'calc(100lvh + 120px)';
-      } else if (supportsDvh) {
-        element.style.height = 'calc(100dvh + 120px)';
-        element.style.minHeight = 'calc(100dvh + 120px)';
+        element.style.minHeight = 'calc(100lvh + 80px)';
       } else {
-        element.style.height = 'calc(100vh + 120px)';
-        element.style.minHeight = 'calc(100vh + 120px)';
+        element.style.minHeight = 'calc(100vh + 80px)';
       }
       element.style.zIndex = '-1';
       // Убеждаемся, что изображение покрывает весь экран
       element.style.objectFit = 'cover';
       element.style.objectPosition = 'center center';
-      // Отключаем transform для предотвращения скачков
-      element.style.transform = 'translateZ(0) translateY(0)';
-      element.style.webkitTransform = 'translateZ(0) translateY(0)';
+      // Используем translateZ для GPU-ускорения
+      element.style.transform = 'translateZ(0)';
+      element.style.webkitTransform = 'translateZ(0)';
     }
   });
-  
-  // Предотвращаем скачки при скролле
-  let ticking = false;
-  const handleScroll = () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        // На мобильных просто фиксируем фон, без движения
-        ticking = false;
-      });
-      ticking = true;
-    }
-  };
-  
-  window.addEventListener('scroll', handleScroll, { passive: true });
 }
 

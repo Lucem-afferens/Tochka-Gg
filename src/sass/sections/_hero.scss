@@ -63,20 +63,17 @@
       will-change: auto;
       
       @include max-width(lg) {
-        // На мобильных и планшетах используем fixed позиционирование для предотвращения скачков
-        position: fixed;
+        // На мобильных используем absolute позиционирование, чтобы фон прокручивался вместе с секцией
+        position: absolute;
         top: -80px;
         left: 0;
         width: 100%;
-        // Используем lvh (large viewport height) для максимального покрытия экрана
-        // Это гарантирует, что изображение покроет весь экран даже при скрытой адресной строке
-        height: calc(100vh + 120px); // Fallback для старых браузеров (увеличено для полного покрытия)
-        height: calc(100lvh + 120px); // Large viewport height - максимальная высота viewport
-        min-height: calc(100vh + 120px); // Дополнительная гарантия покрытия
-        min-height: calc(100lvh + 120px);
+        // Используем высоту контейнера для полного покрытия
+        height: calc(100% + 80px);
+        min-height: calc(100lvh + 80px); // Гарантируем покрытие экрана
         // Дополнительные оптимизации для мобильных
-        -webkit-transform: translateZ(0) translateY(0);
-        transform: translateZ(0) translateY(0);
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
         // Упрощаем фильтры на мобильных для лучшей производительности
         filter: brightness(0.6);
         // Убеждаемся, что изображение покрывает весь экран
@@ -102,19 +99,17 @@
       left: 0;
       
       @include max-width(lg) {
-        // На мобильных фиксируем видео, чтобы оно не скакало
-        position: fixed;
+        // На мобильных используем absolute позиционирование, чтобы видео прокручивалось вместе с секцией
+        position: absolute;
         top: -80px;
         left: 0;
         width: 100%;
-        // Используем lvh (large viewport height) для максимального покрытия экрана
-        height: calc(100vh + 120px); // Fallback для старых браузеров (увеличено для полного покрытия)
-        height: calc(100lvh + 120px); // Large viewport height - максимальная высота viewport
-        min-height: calc(100vh + 120px); // Дополнительная гарантия покрытия
-        min-height: calc(100lvh + 120px);
+        // Используем высоту контейнера для полного покрытия
+        height: calc(100% + 80px);
+        min-height: calc(100lvh + 80px); // Гарантируем покрытие экрана
         // Дополнительные оптимизации для мобильных
-        -webkit-transform: translateZ(0) translateY(0);
-        transform: translateZ(0) translateY(0);
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
         // Упрощаем фильтры на мобильных для лучшей производительности
         filter: brightness(0.6);
         // Убеждаемся, что видео покрывает весь экран
@@ -206,11 +201,17 @@
     // Разрешаем переполнение для заголовка, чтобы текст не обрезался
     overflow-x: visible;
     
+    @include max-width(lg) {
+      // На мобильных убираем боковые отступы полностью
+      margin: 0;
+      padding-left: $spacing-md;
+      padding-right: $spacing-md;
+      max-width: 100%;
+    }
+    
     @include max-width(xs) {
       // На маленьких экранах уменьшаем боковые отступы, чтобы дать больше места заголовку
       padding: $spacing-xl $spacing-sm; // Уменьшены боковые отступы
-      margin: 0 $spacing-sm;
-      max-width: calc(100% - #{$spacing-sm * 2});
       // Разрешаем небольшой горизонтальный скролл только если необходимо
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
