@@ -209,6 +209,8 @@
     padding: $spacing-xl;
     gap: $spacing-md;
     min-height: 0; // Позволяет flex-элементам сжиматься
+    overflow: visible !important; // Разрешаем свечение заголовка выходить за границы (важно!)
+    position: relative; // Для корректного позиционирования свечения
   }
   
   &__item-meta {
