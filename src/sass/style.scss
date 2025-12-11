@@ -76,30 +76,4 @@
   position: relative;
   // Убеждаемся, что контент покрывает весь экран без белых полос
   background: transparent; // Прозрачный, чтобы был виден фон body
-  
-  // На главной странице с hero секцией делаем hero на весь экран
-  &:has(.tgg-hero) {
-    // Hero должен быть первым элементом и занимать весь экран
-    display: flex;
-    flex-direction: column;
-    
-    // Hero секция должна занимать весь viewport
-    .tgg-hero {
-      flex: 0 0 100vh; // Фиксируем высоту на весь экран
-      flex: 0 0 100dvh; // Dynamic viewport height
-      min-height: 100vh;
-      min-height: 100dvh;
-      height: 100vh;
-      height: 100dvh;
-      
-      @include max-width(lg) {
-        flex: 0 0 100vh;
-        flex: 0 0 100dvh;
-        min-height: 100vh;
-        min-height: 100dvh;
-        height: 100vh;
-        height: 100dvh;
-      }
-    }
-  }
 }
