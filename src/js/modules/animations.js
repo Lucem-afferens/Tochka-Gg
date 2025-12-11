@@ -98,8 +98,9 @@ export function initParallax() {
     if (isMobileOrTablet()) {
       // Отключаем параллакс, если размер экрана изменился
       // На мобильных фон должен прокручиваться вместе с секцией
-      heroBg.style.transform = 'translateZ(0)'; // Только GPU-ускорение, без translateY
-      heroBg.style.willChange = 'auto';
+      // Удаляем inline стили, чтобы CSS правила сработали
+      heroBg.style.removeProperty('transform');
+      heroBg.style.removeProperty('will-change');
       return;
     }
     
@@ -118,8 +119,9 @@ export function initParallax() {
     resizeTimeout = setTimeout(() => {
       if (isMobileOrTablet()) {
         // На мобильных фон должен прокручиваться вместе с секцией
-        heroBg.style.transform = 'translateZ(0)'; // Только GPU-ускорение, без translateY
-        heroBg.style.willChange = 'auto';
+        // Удаляем inline стили, чтобы CSS правила сработали
+        heroBg.style.removeProperty('transform');
+        heroBg.style.removeProperty('will-change');
       }
     }, 250);
   }, { passive: true });
