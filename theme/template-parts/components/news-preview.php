@@ -178,7 +178,7 @@ $has_news = !empty($all_news_posts);
             
             <?php if ($news_link) : ?>
                 <div class="tgg-news-preview__cta">
-                    <a href="<?php echo esc_url($news_link); ?>" class="tgg-btn-secondary">
+                    <a href="<?php echo esc_url($news_link); ?>" class="tgg-btn-fire">
                         Все новости
                     </a>
                 </div>
