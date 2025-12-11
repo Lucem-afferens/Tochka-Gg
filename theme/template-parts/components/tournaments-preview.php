@@ -12,14 +12,23 @@ if (!defined('ABSPATH')) {
 }
 
 // Получаем настройки секции турниров из SCF
-$tournaments_enabled = function_exists('get_field') ? get_field('tournaments_enabled') : true;
-$tournaments_title = (function_exists('get_field') ? get_field('tournaments_title') : null) ?: 'Ближайшие турниры';
-$tournaments_description = function_exists('get_field') ? get_field('tournaments_description') : null;
-$tournaments_count = function_exists('get_field') ? get_field('tournaments_count') : 6;
+// Проверяем оба варианта названия поля для обратной совместимости
+$tournaments_enabled = function_exists('get_field') 
+    ? (get_field('tournaments_preview_enabled') !== false ? get_field('tournaments_preview_enabled') : get_field('tournaments_enabled'))
+    : true;
+$tournaments_title = (function_exists('get_field') 
+    ? (get_field('tournaments_preview_title') ?: get_field('tournaments_title'))
+    : null) ?: 'Ближайшие турниры';
+$tournaments_description = function_exists('get_field') 
+    ? (get_field('tournaments_preview_description') ?: get_field('tournaments_description'))
+    : null;
+$tournaments_count = function_exists('get_field') 
+    ? (get_field('tournaments_preview_count') ?: get_field('tournaments_count'))
+    : 6;
 $tournaments_count = is_numeric($tournaments_count) && $tournaments_count > 0 ? intval($tournaments_count) : 6;
 
-// Если секция отключена, не показываем её
-if (!$tournaments_enabled) {
+// Если секция отключена явно, не показываем её
+if ($tournaments_enabled === false || $tournaments_enabled === '0' || $tournaments_enabled === 0) {
     return;
 }
 
