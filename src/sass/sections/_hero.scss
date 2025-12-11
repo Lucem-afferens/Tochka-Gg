@@ -50,6 +50,9 @@
       height: calc(100lvh + 120px); // Синхронизируем с изображениями
       min-height: calc(100vh + 120px); // Fallback
       min-height: calc(100lvh + 120px);
+      // Отключаем параллакс на мобильных - фон прокручивается вместе с секцией
+      transform: translateZ(0) !important; // Только GPU-ускорение, без translateY
+      will-change: auto;
     }
     
     img,

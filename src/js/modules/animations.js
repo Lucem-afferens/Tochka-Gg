@@ -53,10 +53,11 @@ export function initParallax() {
   const heroBg = hero.querySelector('.tgg-hero__bg');
   if (!heroBg) return;
   
-  // Отключаем параллакс на мобильных и планшетных устройствах (меньше 1024px)
+  // Отключаем параллакс на мобильных и планшетных устройствах (меньше 1023px)
   // для лучшей производительности и плавности
+  // На мобильных фон прокручивается вместе с секцией как обычный элемент
   const isMobileOrTablet = () => {
-    return window.innerWidth < 1024 || 
+    return window.innerWidth < 1023 || 
            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
            (navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
   };
@@ -96,7 +97,8 @@ export function initParallax() {
     // Проверяем размер экрана при каждом скролле (на случай изменения размера окна)
     if (isMobileOrTablet()) {
       // Отключаем параллакс, если размер экрана изменился
-      heroBg.style.transform = '';
+      // На мобильных фон должен прокручиваться вместе с секцией
+      heroBg.style.transform = 'translateZ(0)'; // Только GPU-ускорение, без translateY
       heroBg.style.willChange = 'auto';
       return;
     }
@@ -115,7 +117,8 @@ export function initParallax() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       if (isMobileOrTablet()) {
-        heroBg.style.transform = '';
+        // На мобильных фон должен прокручиваться вместе с секцией
+        heroBg.style.transform = 'translateZ(0)'; // Только GPU-ускорение, без translateY
         heroBg.style.willChange = 'auto';
       }
     }, 250);
