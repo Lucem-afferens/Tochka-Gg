@@ -13,14 +13,14 @@
   // Поддержка safe-area для iPhone с выемкой
   padding-top: env(safe-area-inset-top);
   z-index: 1000;
-  // Улучшенный глоссморфизм для навигации - более прозрачный
-  background: rgba(18, 13, 26, 0.4);
-  backdrop-filter: blur(15px) saturate(180%);
-  -webkit-backdrop-filter: blur(15px) saturate(180%);
-  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+  // Улучшенный глоссморфизм для навигации - максимально прозрачный
+  background: rgba(18, 13, 26, 0.25);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.12);
   box-shadow: 
-    0 0 0 1px rgba(239, 68, 68, 0.05),
-    0 8px 32px rgba(0, 0, 0, 0.2);
+    0 0 0 1px rgba(239, 68, 68, 0.03),
+    0 8px 32px rgba(0, 0, 0, 0.15);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   
   // Кибер-сетка на фоне с красными акцентами
@@ -65,15 +65,15 @@
   
   // Эффект при скролле - более прозрачный глоссморфизм
   &.scrolled {
-    background: rgba(18, 13, 26, 0.6);
-    backdrop-filter: blur(20px) saturate(200%);
-    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    background: rgba(18, 13, 26, 0.4);
+    backdrop-filter: blur(15px) saturate(200%);
+    -webkit-backdrop-filter: blur(15px) saturate(200%);
     box-shadow: 
-      0 4px 30px rgba(0, 0, 0, 0.4),
-      0 0 0 1px rgba(59, 130, 246, 0.2),
-      0 0 20px rgba(239, 68, 68, 0.15),
-      0 8px 40px rgba(0, 0, 0, 0.3);
-    border-bottom-color: rgba(59, 130, 246, 0.25);
+      0 4px 30px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(59, 130, 246, 0.15),
+      0 0 20px rgba(239, 68, 68, 0.12),
+      0 8px 40px rgba(0, 0, 0, 0.25);
+    border-bottom-color: rgba(59, 130, 246, 0.2);
     
     &::before {
       opacity: 0.4;
