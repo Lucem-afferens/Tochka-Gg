@@ -15,6 +15,7 @@ $hero_subtitle = null;
 $hero_description = (function_exists('get_field') ? get_field('hero_description') : null) ?: 'Стильное и технологичное игровое пространство, где сочетаются мощное железо, комфорт и высокий стандарт сервиса';
 $hero_bg_type = function_exists('get_field') ? get_field('hero_background_type') : 'image'; // 'image' или 'video'
 $hero_image = function_exists('get_field') ? get_field('hero_background_image') : false;
+$hero_image_mobile = function_exists('get_field') ? get_field('hero_background_image_mobile') : false; // Мобильное изображение
 $hero_video = function_exists('get_field') ? get_field('hero_background_video') : false; // URL видео
 $hero_cta_text = (function_exists('get_field') ? get_field('hero_cta_text') : null) ?: 'Узнать больше';
 $hero_cta_link = (function_exists('get_field') ? get_field('hero_cta_link') : null) ?: '#about';
@@ -26,6 +27,14 @@ $hero_image_data = function_exists('tochkagg_get_image_or_placeholder')
         'url' => 'https://placehold.co/1920x1080/1a1d29/3b82f6?text=Hero+Background',
         'alt' => 'Hero Background (заглушка - загрузите своё изображение)'
     ];
+
+// Получаем мобильное изображение или используем основное как fallback
+$hero_image_mobile_data = false;
+if ($hero_image_mobile) {
+    $hero_image_mobile_data = function_exists('tochkagg_get_image_or_placeholder') 
+        ? tochkagg_get_image_or_placeholder($hero_image_mobile, 768, 1024, 'Hero Background Mobile')
+        : false;
+}
 
 // Получаем видео URL или placeholder
 $hero_video_url = '';
@@ -79,14 +88,33 @@ if ($hero_bg_type === 'video' && $hero_video) {
                      loading="eager">
             </video>
         <?php else : ?>
-            <!-- Фоновое изображение (или placeholder) -->
-            <img src="<?php echo esc_url($hero_image_data['url']); ?>" 
-                 alt="<?php echo esc_attr($hero_image_data['alt']); ?>"
-                 width="<?php echo esc_attr($hero_image_data['width'] ?? 1920); ?>"
-                 height="<?php echo esc_attr($hero_image_data['height'] ?? 1080); ?>"
-                 loading="eager"
-                 fetchpriority="high"
-                 decoding="async">
+            <!-- Фоновое изображение (или placeholder) с адаптивностью для мобильных -->
+            <?php if ($hero_image_mobile_data) : ?>
+                <picture>
+                    <!-- Мобильное изображение для экранов до 768px -->
+                    <source media="(max-width: 767px)" 
+                            srcset="<?php echo esc_url($hero_image_mobile_data['url']); ?>"
+                            width="<?php echo esc_attr($hero_image_mobile_data['width'] ?? 768); ?>"
+                            height="<?php echo esc_attr($hero_image_mobile_data['height'] ?? 1024); ?>">
+                    <!-- Десктопное изображение для экранов от 768px -->
+                    <img src="<?php echo esc_url($hero_image_data['url']); ?>" 
+                         alt="<?php echo esc_attr($hero_image_data['alt']); ?>"
+                         width="<?php echo esc_attr($hero_image_data['width'] ?? 1920); ?>"
+                         height="<?php echo esc_attr($hero_image_data['height'] ?? 1080); ?>"
+                         loading="eager"
+                         fetchpriority="high"
+                         decoding="async">
+                </picture>
+            <?php else : ?>
+                <!-- Если мобильное изображение не указано, используем основное -->
+                <img src="<?php echo esc_url($hero_image_data['url']); ?>" 
+                     alt="<?php echo esc_attr($hero_image_data['alt']); ?>"
+                     width="<?php echo esc_attr($hero_image_data['width'] ?? 1920); ?>"
+                     height="<?php echo esc_attr($hero_image_data['height'] ?? 1080); ?>"
+                     loading="eager"
+                     fetchpriority="high"
+                     decoding="async">
+            <?php endif; ?>
         <?php endif; ?>
     </div>
     

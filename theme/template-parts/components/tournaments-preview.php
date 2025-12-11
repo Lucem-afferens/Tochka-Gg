@@ -158,10 +158,31 @@ $all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_cou
                      loading="lazy">
             </video>
         <?php else : ?>
-            <!-- Фоновое изображение (или placeholder) -->
-            <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>" 
-                 alt="<?php echo esc_attr($tournaments_bg_image_data['alt']); ?>"
-                 loading="lazy">
+            <!-- Фоновое изображение (или placeholder) с адаптивностью для мобильных -->
+            <?php if ($tournaments_bg_image_mobile_data) : ?>
+                <picture>
+                    <!-- Мобильное изображение для экранов до 768px -->
+                    <source media="(max-width: 767px)" 
+                            srcset="<?php echo esc_url($tournaments_bg_image_mobile_data['url']); ?>"
+                            width="<?php echo esc_attr($tournaments_bg_image_mobile_data['width'] ?? 768); ?>"
+                            height="<?php echo esc_attr($tournaments_bg_image_mobile_data['height'] ?? 1024); ?>">
+                    <!-- Десктопное изображение для экранов от 768px -->
+                    <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>" 
+                         alt="<?php echo esc_attr($tournaments_bg_image_data['alt']); ?>"
+                         width="<?php echo esc_attr($tournaments_bg_image_data['width'] ?? 1920); ?>"
+                         height="<?php echo esc_attr($tournaments_bg_image_data['height'] ?? 1080); ?>"
+                         loading="lazy"
+                         decoding="async">
+                </picture>
+            <?php else : ?>
+                <!-- Если мобильное изображение не указано, используем основное -->
+                <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>" 
+                     alt="<?php echo esc_attr($tournaments_bg_image_data['alt']); ?>"
+                     width="<?php echo esc_attr($tournaments_bg_image_data['width'] ?? 1920); ?>"
+                     height="<?php echo esc_attr($tournaments_bg_image_data['height'] ?? 1080); ?>"
+                     loading="lazy"
+                     decoding="async">
+            <?php endif; ?>
         <?php endif; ?>
     </div>
     
