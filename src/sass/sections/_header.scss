@@ -1193,6 +1193,8 @@ body.menu-open {
     // Используем dvh для предотвращения скачков при скрытии адресной строки
     height: 100%; // Fallback
     height: 100dvh; // Dynamic viewport height
+    // Поддержка safe-area для iPhone с выемкой
+    padding-bottom: env(safe-area-inset-bottom);
     left: 0;
     top: 0;
     // Предотвращаем белые полосы при блокировке скролла
