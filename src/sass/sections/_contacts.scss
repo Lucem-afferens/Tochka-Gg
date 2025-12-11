@@ -7,7 +7,7 @@
   background: transparent; // Прозрачный фон, чтобы был виден фон body
   
   @include max-width(xs) {
-    padding: $spacing-3xl 0;
+    padding: $spacing-4xl 0 $spacing-3xl; // Верхний отступ 96px вместо 64px для предотвращения скрытия под шапкой
   }
   
   &__wrapper {
