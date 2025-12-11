@@ -125,7 +125,8 @@
         width: 100%;
         // Используем высоту контейнера для полного покрытия
         height: calc(100% + 80px);
-        min-height: calc(100lvh + 80px); // Гарантируем покрытие экрана
+        min-height: calc(100vh + 80px); // Fallback
+        min-height: calc(100dvh + 80px); // Гарантируем покрытие экрана
         // Дополнительные оптимизации для мобильных
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
@@ -171,9 +172,10 @@
     
     @include max-width(lg) {
       // На мобильных расширяем overlay для полного покрытия
-      height: calc(100lvh + 120px); // Синхронизируем с фоновым изображением
-      min-height: calc(100vh + 120px); // Fallback
-      min-height: calc(100lvh + 120px);
+      top: -80px;
+      height: calc(100% + 80px);
+      min-height: calc(100vh + 80px); // Fallback
+      min-height: calc(100dvh + 80px);
     }
     
     background: linear-gradient(
