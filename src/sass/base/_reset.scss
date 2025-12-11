@@ -19,7 +19,10 @@ html {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   height: 100%; // Фиксируем высоту для предотвращения белой полосы
+  height: 100dvh; // Используем dvh для Safari на iPhone
   background: $color-bg-primary; // Фон для html, чтобы не было белого
+  // Поддержка safe-area для iPhone с выемкой
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 body {
@@ -34,12 +37,20 @@ body {
   // Используем dvh для предотвращения скачков при скрытии адресной строки на мобильных
   min-height: 100vh; // Fallback для старых браузеров
   min-height: 100dvh; // Dynamic viewport height
+  min-height: 100%; // Дополнительный fallback
   height: auto; // Автоматическая высота, но минимум 100dvh
   overflow-x: hidden;
   overflow-y: auto; // Разрешаем вертикальный скролл
   position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  // Поддержка safe-area для iPhone с выемкой
+  padding-bottom: env(safe-area-inset-bottom);
+  
+  @include max-width(lg) {
+    // На мобильных отключаем fixed background для лучшей производительности
+    background-attachment: scroll;
+  }
   // Слова не разбиваются, но текст может переноситься
   word-break: normal;
   overflow-wrap: normal;

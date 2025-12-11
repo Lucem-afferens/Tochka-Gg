@@ -202,11 +202,11 @@
     overflow-x: visible;
     
     @include max-width(lg) {
-      // На мобильных убираем боковые отступы полностью
+      // На мобильных убираем боковые отступы полностью и увеличиваем размер
       margin: 0;
-      padding-left: $spacing-md;
-      padding-right: $spacing-md;
+      padding: $spacing-3xl $spacing-md; // Увеличено для лучшего вида
       max-width: 100%;
+      width: 100%;
     }
     
     @include max-width(xs) {
@@ -253,6 +253,7 @@
     // Кибер-версия с анимацией мигания букв
     &--cyber {
       color: #e879f9; // Розово-фиолетовый базовый цвет текста
+      white-space: nowrap; // Предотвращаем перенос текста
       
       .tgg-hero__title-letter {
         display: inline-block;

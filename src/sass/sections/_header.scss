@@ -10,6 +10,8 @@
   top: 0;
   left: 0;
   right: 0;
+  // Поддержка safe-area для iPhone с выемкой
+  padding-top: env(safe-area-inset-top);
   z-index: 1000;
   // Улучшенный глоссморфизм для навигации
   background: rgba(18, 13, 26, 0.65);
