@@ -525,13 +525,38 @@
     
     &::before {
       display: block; // Показываем горизонтальную линию на мобильных
+      // Линия показывается только для активной страницы
+      opacity: 0;
+      transform: translateX(-50%) scaleX(0);
     }
     
-    // Hover эффекты убраны по запросу
+    // Убираем все hover эффекты на мобильных
+    &:hover {
+      color: #ffffff; // Оставляем стандартный цвет
+      background: none;
+      transform: none;
+      box-shadow: none;
+      
+      &::before {
+        opacity: 0;
+        transform: translateX(-50%) scaleX(0);
+      }
+    }
     
     &.active {
       // Только цвет текста для активной страницы
       color: $color-primary;
+      
+      &::before {
+        // Показываем горизонтальную линию для активной страницы
+        opacity: 0.7;
+        transform: translateX(-50%) scaleX(1);
+        width: 70%;
+        box-shadow: 
+          0 0 6px rgba(59, 130, 246, 0.5), 
+          0 0 10px rgba(192, 38, 211, 0.4), 
+          0 0 14px rgba(239, 68, 68, 0.3);
+      }
     }
   }
   
