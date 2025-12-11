@@ -155,9 +155,11 @@ $has_news = !empty($all_news_posts);
                                     </time>
                                 </div>
                                 
-                                <h3 class="tgg-news-preview__item-title">
+                            <h3 class="tgg-news-preview__item-title">
+                                <span class="tgg-news-preview__item-title-text">
                                     <?php the_title(); ?>
-                                </h3>
+                                </span>
+                            </h3>
                                 
                                 <?php if (get_the_excerpt()) : ?>
                                     <div class="tgg-news-preview__item-excerpt">
