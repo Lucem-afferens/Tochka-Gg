@@ -7,7 +7,8 @@
   // Используем dvh для предотвращения скачков при скрытии адресной строки на мобильных
   min-height: 100vh; // Fallback для старых браузеров
   min-height: 100dvh; // Dynamic viewport height - адаптируется к изменениям viewport
-  min-height: 100%; // Дополнительный fallback
+  height: 100vh; // Фиксируем высоту для десктопов
+  height: 100dvh; // Dynamic viewport height для мобильных
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,6 +19,11 @@
   @include max-width(lg) {
     // На мобильных используем overflow: visible для предотвращения обрезки
     overflow: visible;
+    // На мобильных также фиксируем высоту
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
   }
   
   .tgg-container {
@@ -47,9 +53,10 @@
     
     @include max-width(lg) {
       // На мобильных расширяем контейнер фона для полного покрытия
-      height: calc(100lvh + 120px); // Синхронизируем с изображениями
-      min-height: calc(100vh + 120px); // Fallback
-      min-height: calc(100lvh + 120px);
+      top: -80px;
+      height: calc(100% + 80px);
+      min-height: calc(100vh + 80px);
+      min-height: calc(100dvh + 80px);
       // Отключаем параллакс на мобильных - фон прокручивается вместе с секцией
       transform: translateZ(0) !important; // Только GPU-ускорение, без translateY
       will-change: auto;
@@ -81,7 +88,8 @@
         width: 100%;
         // Используем высоту контейнера для полного покрытия
         height: calc(100% + 80px);
-        min-height: calc(100lvh + 80px); // Гарантируем покрытие экрана
+        min-height: calc(100vh + 80px); // Fallback
+        min-height: calc(100dvh + 80px); // Гарантируем покрытие экрана
         // Дополнительные оптимизации для мобильных
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
