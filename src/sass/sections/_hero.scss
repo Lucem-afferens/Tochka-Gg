@@ -61,14 +61,20 @@
         top: -80px;
         left: 0;
         width: 100%;
-        // Используем dvh для предотвращения скачков при скрытии адресной строки
-        height: calc(100vh + 80px); // Fallback для старых браузеров
-        height: calc(100dvh + 80px); // Dynamic viewport height
+        // Используем lvh (large viewport height) для максимального покрытия экрана
+        // Это гарантирует, что изображение покроет весь экран даже при скрытой адресной строке
+        height: calc(100vh + 120px); // Fallback для старых браузеров (увеличено для полного покрытия)
+        height: calc(100lvh + 120px); // Large viewport height - максимальная высота viewport
+        min-height: calc(100vh + 120px); // Дополнительная гарантия покрытия
+        min-height: calc(100lvh + 120px);
         // Дополнительные оптимизации для мобильных
         -webkit-transform: translateZ(0) translateY(0);
         transform: translateZ(0) translateY(0);
         // Упрощаем фильтры на мобильных для лучшей производительности
         filter: brightness(0.6);
+        // Убеждаемся, что изображение покрывает весь экран
+        object-fit: cover;
+        object-position: center center;
       }
     }
     
@@ -94,14 +100,19 @@
         top: -80px;
         left: 0;
         width: 100%;
-        // Используем dvh для предотвращения скачков при скрытии адресной строки
-        height: calc(100vh + 80px); // Fallback для старых браузеров
-        height: calc(100dvh + 80px); // Dynamic viewport height
+        // Используем lvh (large viewport height) для максимального покрытия экрана
+        height: calc(100vh + 120px); // Fallback для старых браузеров (увеличено для полного покрытия)
+        height: calc(100lvh + 120px); // Large viewport height - максимальная высота viewport
+        min-height: calc(100vh + 120px); // Дополнительная гарантия покрытия
+        min-height: calc(100lvh + 120px);
         // Дополнительные оптимизации для мобильных
         -webkit-transform: translateZ(0) translateY(0);
         transform: translateZ(0) translateY(0);
         // Упрощаем фильтры на мобильных для лучшей производительности
         filter: brightness(0.6);
+        // Убеждаемся, что видео покрывает весь экран
+        object-fit: cover;
+        object-position: center center;
         // Предотвращаем взаимодействие с видео на мобильных (если нужно)
         pointer-events: none;
       }
