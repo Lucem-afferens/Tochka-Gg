@@ -45,7 +45,10 @@ export function optimizeHeroForMobile() {
       element.style.top = '-80px';
       element.style.left = '0';
       element.style.width = '100%';
-      element.style.height = 'calc(100vh + 80px)';
+      // Используем dvh для предотвращения скачков при скрытии адресной строки
+      // Проверяем поддержку dvh
+      const supportsDvh = CSS.supports('height', '100dvh');
+      element.style.height = supportsDvh ? 'calc(100dvh + 80px)' : 'calc(100vh + 80px)';
       element.style.zIndex = '-1';
       // Отключаем transform для предотвращения скачков
       element.style.transform = 'translateZ(0) translateY(0)';

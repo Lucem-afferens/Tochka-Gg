@@ -4,7 +4,9 @@
 
 .tgg-hero {
   position: relative;
-  min-height: 100vh;
+  // Используем dvh для предотвращения скачков при скрытии адресной строки на мобильных
+  min-height: 100vh; // Fallback для старых браузеров
+  min-height: 100dvh; // Dynamic viewport height - адаптируется к изменениям viewport
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,7 +61,9 @@
         top: -80px;
         left: 0;
         width: 100%;
-        height: calc(100vh + 80px);
+        // Используем dvh для предотвращения скачков при скрытии адресной строки
+        height: calc(100vh + 80px); // Fallback для старых браузеров
+        height: calc(100dvh + 80px); // Dynamic viewport height
         // Дополнительные оптимизации для мобильных
         -webkit-transform: translateZ(0) translateY(0);
         transform: translateZ(0) translateY(0);
@@ -90,7 +94,9 @@
         top: -80px;
         left: 0;
         width: 100%;
-        height: calc(100vh + 80px);
+        // Используем dvh для предотвращения скачков при скрытии адресной строки
+        height: calc(100vh + 80px); // Fallback для старых браузеров
+        height: calc(100dvh + 80px); // Dynamic viewport height
         // Дополнительные оптимизации для мобильных
         -webkit-transform: translateZ(0) translateY(0);
         transform: translateZ(0) translateY(0);

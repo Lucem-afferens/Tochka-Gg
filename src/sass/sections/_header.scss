@@ -158,8 +158,11 @@
     right: 0;
     bottom: 0;
     width: 100vw;
-    max-height: 100vh; // Ограничиваем высоту до 100vh
-    height: 100vh; // Фиксируем высоту
+    // Используем dvh для предотвращения скачков при скрытии адресной строки на мобильных
+    max-height: 100vh; // Fallback для старых браузеров
+    max-height: 100dvh; // Dynamic viewport height
+    height: 100vh; // Fallback для старых браузеров
+    height: 100dvh; // Dynamic viewport height
     flex-direction: column;
     background: rgba(13, 15, 20, 0.98);
     backdrop-filter: blur(30px) saturate(180%);
@@ -338,8 +341,9 @@
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    // Ограничиваем высоту, чтобы не превышать 100vh
-    max-height: calc(100vh - #{$spacing-4xl * 2} - 80px); // Учитываем padding меню и header
+    // Ограничиваем высоту, используем dvh для предотвращения скачков
+    max-height: calc(100vh - #{$spacing-4xl * 2} - 80px); // Fallback для старых браузеров
+    max-height: calc(100dvh - #{$spacing-4xl * 2} - 80px); // Dynamic viewport height
     
     // Дополнительное свечение для wrapper при открытом меню
     .tgg-header__nav.active & {

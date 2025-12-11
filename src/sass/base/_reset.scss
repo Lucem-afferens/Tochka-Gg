@@ -31,8 +31,10 @@ body {
   background: linear-gradient(135deg, $color-bg-primary 0%, #140F1D 25%, #150E1B 50%, #140F1D 75%, $color-bg-primary 100%);
   background-attachment: fixed;
   background-size: cover; // Улучшаем покрытие фона
-  min-height: 100vh;
-  height: auto; // Автоматическая высота, но минимум 100vh
+  // Используем dvh для предотвращения скачков при скрытии адресной строки на мобильных
+  min-height: 100vh; // Fallback для старых браузеров
+  min-height: 100dvh; // Dynamic viewport height
+  height: auto; // Автоматическая высота, но минимум 100dvh
   overflow-x: hidden;
   overflow-y: auto; // Разрешаем вертикальный скролл
   position: relative;

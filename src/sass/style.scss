@@ -70,7 +70,9 @@
 
 // Main content area
 .tgg-main {
-  min-height: 100vh;
+  // Используем dvh для предотвращения скачков при скрытии адресной строки на мобильных
+  min-height: 100vh; // Fallback для старых браузеров
+  min-height: 100dvh; // Dynamic viewport height
   position: relative;
   // Убеждаемся, что контент покрывает весь экран без белых полос
   background: transparent; // Прозрачный, чтобы был виден фон body
