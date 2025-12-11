@@ -1294,6 +1294,8 @@ body.menu-open {
     height: 100%;
     left: 0;
     top: 0;
+    // Предотвращаем белые полосы при блокировке скролла
+    background: $color-bg-primary;
   }
 }
 
@@ -1302,6 +1304,8 @@ html.menu-open {
   @media (max-width: 1023px) {
     overflow: hidden;
     height: 100%;
+    // Предотвращаем белые полосы
+    background: $color-bg-primary;
   }
 }
 
