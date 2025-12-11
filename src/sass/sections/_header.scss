@@ -143,6 +143,8 @@
   display: none;
   align-items: center;
   gap: $spacing-xl;
+  // Оптимизация производительности
+  contain: layout style; // Изолируем навигацию
   
   @include respond-to(lg) {
     display: flex !important;
@@ -156,7 +158,8 @@
     right: 0;
     bottom: 0;
     width: 100vw;
-    height: 100vh;
+    max-height: 100vh; // Ограничиваем высоту до 100vh
+    height: 100vh; // Фиксируем высоту
     flex-direction: column;
     background: rgba(13, 15, 20, 0.98);
     backdrop-filter: blur(30px) saturate(180%);
@@ -165,13 +168,19 @@
     transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), 
                 opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1),
                 visibility 0s 0.5s;
-    overflow-y: auto;
+    overflow-y: hidden; // Убираем скролл у самого меню, скролл будет у wrapper
     overflow-x: hidden;
     padding: $spacing-4xl $spacing-2xl;
     z-index: 10000; // Поверх всего, включая overlay
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
+    // Оптимизация производительности
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain; // Предотвращаем скролл фона при достижении края меню
+    // Используем flexbox для правильного распределения пространства
+    display: flex;
+    flex-direction: column;
     
     // Overlay с затемнением фона - позади меню
     &::before {
@@ -279,22 +288,28 @@
         // Добавляем еще один слой для яркости
       }
       
-      // Убеждаемся, что контент виден
+      // Убеждаемся, что контент виден и правильно распределен
       .tgg-nav__wrapper {
         opacity: 1;
         visibility: visible;
         animation: content-fade-in 0.6s ease-out;
+        // Flex для правильного распределения пространства
+        flex: 1 1 auto;
+        min-height: 0; // Важно для flex с overflow
       }
       
       .tgg-nav__list {
         opacity: 1;
         visibility: visible;
+        flex-shrink: 0; // Не сжимаем список
       }
       
       .tgg-header__actions {
         opacity: 1;
         visibility: visible;
         animation: content-fade-in 0.8s ease-out;
+        flex-shrink: 0; // Не сжимаем действия
+        margin-top: auto; // Прижимаем к низу (если нужно)
       }
     }
   }
@@ -314,8 +329,17 @@
     max-width: 500px;
     margin: 0 auto;
     padding-top: $spacing-3xl;
+    padding-bottom: $spacing-2xl; // Добавляем отступ снизу
     opacity: 1;
     visibility: visible;
+    // Делаем wrapper scrollable вместо всего меню
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    // Ограничиваем высоту, чтобы не превышать 100vh
+    max-height: calc(100vh - #{$spacing-4xl * 2} - 80px); // Учитываем padding меню и header
     
     // Дополнительное свечение для wrapper при открытом меню
     .tgg-header__nav.active & {

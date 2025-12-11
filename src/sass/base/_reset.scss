@@ -18,6 +18,8 @@ html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  height: 100%; // Фиксируем высоту для предотвращения белой полосы
+  background: $color-bg-primary; // Фон для html, чтобы не было белого
 }
 
 body {
@@ -28,8 +30,11 @@ body {
   // Основной статичный фон
   background: linear-gradient(135deg, $color-bg-primary 0%, #140F1D 25%, #150E1B 50%, #140F1D 75%, $color-bg-primary 100%);
   background-attachment: fixed;
+  background-size: cover; // Улучшаем покрытие фона
   min-height: 100vh;
+  height: auto; // Автоматическая высота, но минимум 100vh
   overflow-x: hidden;
+  overflow-y: auto; // Разрешаем вертикальный скролл
   position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -48,6 +53,8 @@ body {
     bottom: 0;
     z-index: -1;
     pointer-events: none;
+    // Оптимизация: предотвращаем белые полосы при скролле
+    background-color: $color-bg-primary; // Базовый цвет фона
     background: 
       // Темно-синий/Черный - базовый слой (центр и углы)
       radial-gradient(circle at 50% 50%, rgba(13, 15, 20, 0.4) 0%, transparent 70%),
@@ -92,6 +99,8 @@ body {
     bottom: 0;
     z-index: -1;
     pointer-events: none;
+    // Оптимизация: предотвращаем белые полосы при скролле
+    background-color: transparent; // Прозрачный базовый цвет
     background: 
       // Размытые облака тумана с цветами, соответствующими основному градиенту
       radial-gradient(ellipse 800px 600px at 20% 20%, rgba(0, 191, 255, 0.03) 0%, transparent 50%),

@@ -71,4 +71,7 @@
 // Main content area
 .tgg-main {
   min-height: 100vh;
+  position: relative;
+  // Убеждаемся, что контент покрывает весь экран без белых полос
+  background: transparent; // Прозрачный, чтобы был виден фон body
 }
