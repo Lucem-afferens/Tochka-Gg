@@ -13,6 +13,7 @@ $tournaments_title = get_field('tournaments_preview_title') ?: 'Ближайши
 $tournaments_count = get_field('tournaments_preview_count') ?: 6;
 $tournaments_bg_type = function_exists('get_field') ? get_field('tournaments_preview_bg_type') : 'image'; // 'image' или 'video'
 $tournaments_bg_image = function_exists('get_field') ? get_field('tournaments_preview_bg_image') : false;
+$tournaments_bg_image_mobile = function_exists('get_field') ? get_field('tournaments_preview_bg_image_mobile') : false; // Мобильное изображение
 $tournaments_bg_video = function_exists('get_field') ? get_field('tournaments_preview_bg_video') : false; // URL видео
 
 // Получаем URL архива турниров через WordPress функции
@@ -26,6 +27,14 @@ $tournaments_bg_image_data = function_exists('tochkagg_get_image_or_placeholder'
         'url' => 'https://placehold.co/1920x1080/1a1d29/3b82f6?text=Tournaments+Background',
         'alt' => 'Tournaments Background (заглушка - загрузите своё изображение)'
     ];
+
+// Получаем мобильное изображение или используем основное как fallback
+$tournaments_bg_image_mobile_data = false;
+if ($tournaments_bg_image_mobile) {
+    $tournaments_bg_image_mobile_data = function_exists('tochkagg_get_image_or_placeholder') 
+        ? tochkagg_get_image_or_placeholder($tournaments_bg_image_mobile, 768, 1024, 'Tournaments Background Mobile')
+        : false;
+}
 // Получаем видео URL или placeholder
 $tournaments_bg_video_url = '';
 if ($tournaments_bg_type === 'video' && $tournaments_bg_video) {
