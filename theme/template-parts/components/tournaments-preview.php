@@ -1,6 +1,8 @@
 <?php
 /**
- * Tournaments Preview Template
+ * Tournaments Preview Component
+ * 
+ * Отображает карусель ближайших турниров на главной странице
  *
  * @package Tochkagg_Theme
  */
@@ -9,56 +11,44 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$tournaments_title = get_field('tournaments_preview_title') ?: 'Ближайшие турниры';
-$tournaments_count = get_field('tournaments_preview_count') ?: 6;
-$tournaments_bg_type = function_exists('get_field') ? get_field('tournaments_preview_bg_type') : 'image'; // 'image' или 'video'
-$tournaments_bg_image = function_exists('get_field') ? get_field('tournaments_preview_bg_image') : false;
-$tournaments_bg_image_mobile = function_exists('get_field') ? get_field('tournaments_preview_bg_image_mobile') : false; // Мобильное изображение
-$tournaments_bg_video = function_exists('get_field') ? get_field('tournaments_preview_bg_video') : false; // URL видео
+// Получаем настройки секции турниров из SCF
+$tournaments_enabled = function_exists('get_field') ? get_field('tournaments_enabled') : true;
+$tournaments_title = (function_exists('get_field') ? get_field('tournaments_title') : null) ?: 'Ближайшие турниры';
+$tournaments_description = function_exists('get_field') ? get_field('tournaments_description') : null;
+$tournaments_count = function_exists('get_field') ? get_field('tournaments_count') : 6;
+$tournaments_count = is_numeric($tournaments_count) && $tournaments_count > 0 ? intval($tournaments_count) : 6;
 
-// Получаем URL архива турниров через WordPress функции
-$tournaments_url_default = get_post_type_archive_link('tournament') ?: home_url('/tournament/');
-$tournaments_link = get_field('tournaments_preview_link') ?: $tournaments_url_default;
-
-// Получаем изображение или placeholder для фона
-$tournaments_bg_image_data = function_exists('tochkagg_get_image_or_placeholder') 
-    ? tochkagg_get_image_or_placeholder($tournaments_bg_image, 1920, 1080, 'Tournaments Background')
-    : [
-        'url' => 'https://placehold.co/1920x1080/1a1d29/3b82f6?text=Tournaments+Background',
-        'alt' => 'Tournaments Background (заглушка - загрузите своё изображение)'
-    ];
-
-// Получаем мобильное изображение или используем основное как fallback
-$tournaments_bg_image_mobile_data = false;
-if ($tournaments_bg_image_mobile) {
-    $tournaments_bg_image_mobile_data = function_exists('tochkagg_get_image_or_placeholder') 
-        ? tochkagg_get_image_or_placeholder($tournaments_bg_image_mobile, 768, 1024, 'Tournaments Background Mobile')
-        : false;
+// Если секция отключена, не показываем её
+if (!$tournaments_enabled) {
+    return;
 }
-// Получаем видео URL или placeholder
+
+// Получаем тип фона (изображение или видео)
+$tournaments_bg_type = function_exists('get_field') ? get_field('tournaments_preview_bg_type') : 'image';
+$tournaments_bg_image = function_exists('get_field') ? get_field('tournaments_preview_bg_image') : false;
+$tournaments_bg_video = function_exists('get_field') ? get_field('tournaments_preview_bg_video') : false;
+$tournaments_bg_image_mobile = function_exists('get_field') ? get_field('tournaments_preview_bg_image_mobile') : false;
+
+// Обработка видео фона
 $tournaments_bg_video_url = '';
 if ($tournaments_bg_type === 'video' && $tournaments_bg_video) {
-    // Обрабатываем видео - может быть массивом (File field) или строкой (URL)
-    if (is_array($tournaments_bg_video)) {
-        // Если это массив (File field), берем URL
-        $tournaments_bg_video_url = isset($tournaments_bg_video['url']) ? $tournaments_bg_video['url'] : '';
-    } elseif (is_string($tournaments_bg_video)) {
-        // Если это строка, проверяем, что это валидный URL или относительный путь
-        $tournaments_bg_video = trim($tournaments_bg_video);
-        if (!empty($tournaments_bg_video)) {
-            // Проверяем, является ли это абсолютным URL
-            if (filter_var($tournaments_bg_video, FILTER_VALIDATE_URL)) {
-                $tournaments_bg_video_url = $tournaments_bg_video;
-            } elseif (strpos($tournaments_bg_video, '/') === 0 || strpos($tournaments_bg_video, './') === 0) {
-                // Относительный путь от корня сайта
-                $tournaments_bg_video_url = $tournaments_bg_video;
-            } elseif (strpos($tournaments_bg_video, 'http') === 0 || strpos($tournaments_bg_video, '//') === 0) {
-                // URL без протокола или с протоколом
-                $tournaments_bg_video_url = $tournaments_bg_video;
-            } else {
-                // Пробуем как относительный путь
-                $tournaments_bg_video_url = '/' . ltrim($tournaments_bg_video, '/');
-            }
+    // Если это массив (File field), получаем URL
+    if (is_array($tournaments_bg_video) && !empty($tournaments_bg_video['url'])) {
+        $tournaments_bg_video_url = $tournaments_bg_video['url'];
+    } 
+    // Если это строка (URL field или прямая ссылка)
+    elseif (is_string($tournaments_bg_video)) {
+        // Проверяем, является ли это абсолютным URL
+        if (filter_var($tournaments_bg_video, FILTER_VALIDATE_URL)) {
+            $tournaments_bg_video_url = $tournaments_bg_video;
+        } 
+        // Если это относительный путь, делаем его абсолютным
+        elseif (strpos($tournaments_bg_video, '/') === 0 || strpos($tournaments_bg_video, './') === 0) {
+            $tournaments_bg_video_url = home_url($tournaments_bg_video);
+        } 
+        // Если это просто путь без слеша, добавляем его
+        else {
+            $tournaments_bg_video_url = '/' . ltrim($tournaments_bg_video, '/');
         }
     }
     
@@ -69,27 +59,20 @@ if ($tournaments_bg_type === 'video' && $tournaments_bg_video) {
 }
 
 // Получаем закрепленные турниры
+// Для закрепленных турниров не фильтруем по дате - они всегда показываются
 $pinned_tournaments_query = new WP_Query([
     'post_type' => 'tournament',
     'posts_per_page' => -1, // Получаем все закрепленные
     'post_status' => 'publish',
     'meta_query' => [
-        'relation' => 'AND',
         [
             'key' => 'tournament_pinned',
             'value' => '1',
             'compare' => '='
-        ],
-        [
-            'key' => 'tournament_date',
-            'value' => date('Y-m-d'),
-            'compare' => '>=',
-            'type' => 'DATE'
         ]
     ],
-    'orderby' => 'meta_value',
-    'order' => 'ASC',
-    'meta_key' => 'tournament_date'
+    'orderby' => 'date',
+    'order' => 'DESC'
 ]);
 
 // Получаем обычные турниры (не закрепленные)
@@ -98,12 +81,18 @@ if ($regular_tournaments_count < 0) {
     $regular_tournaments_count = 0;
 }
 
+// Получаем обычные турниры (не закрепленные)
+// Фильтруем по дате: либо точная дата >= сегодня, либо год >= текущего года
+$current_date = date('Y-m-d');
+$current_year = intval(date('Y'));
+
+// Используем более простую логику: получаем все не закрепленные турниры,
+// а фильтрацию по дате делаем в PHP для более гибкой логики
 $regular_tournaments_query = new WP_Query([
     'post_type' => 'tournament',
-    'posts_per_page' => $regular_tournaments_count,
+    'posts_per_page' => -1, // Получаем все для фильтрации
     'post_status' => 'publish',
     'meta_query' => [
-        'relation' => 'AND',
         [
             'relation' => 'OR',
             [
@@ -115,18 +104,51 @@ $regular_tournaments_query = new WP_Query([
                 'value' => '1',
                 'compare' => '!='
             ]
-        ],
-        [
-            'key' => 'tournament_date',
-            'value' => date('Y-m-d'),
-            'compare' => '>=',
-            'type' => 'DATE'
         ]
     ],
-    'orderby' => 'meta_value',
-    'order' => 'ASC',
-    'meta_key' => 'tournament_date'
+    'orderby' => 'date',
+    'order' => 'ASC'
 ]);
+
+// Фильтруем результаты в PHP
+$filtered_tournaments = [];
+if ($regular_tournaments_query->have_posts()) {
+    while ($regular_tournaments_query->have_posts()) {
+        $regular_tournaments_query->the_post();
+        $post = get_post();
+        
+        $date_type = get_field('tournament_date_type', $post->ID) ?: 'exact';
+        $should_include = false;
+        
+        if ($date_type === 'exact') {
+            // Точная дата: проверяем, что дата >= сегодня
+            $tournament_date = get_field('tournament_date', $post->ID);
+            if ($tournament_date && strtotime($tournament_date) >= strtotime($current_date)) {
+                $should_include = true;
+            }
+        } elseif ($date_type === 'month_only') {
+            // Только месяц/год: проверяем, что год >= текущего года
+            $tournament_year = get_field('tournament_date_year', $post->ID);
+            if ($tournament_year && intval($tournament_year) >= $current_year) {
+                $should_include = true;
+            }
+        } else {
+            // Старые записи без типа даты: используем точную дату
+            $tournament_date = get_field('tournament_date', $post->ID);
+            if ($tournament_date && strtotime($tournament_date) >= strtotime($current_date)) {
+                $should_include = true;
+            }
+        }
+        
+        if ($should_include) {
+            $filtered_tournaments[] = $post;
+        }
+    }
+    wp_reset_postdata();
+}
+
+// Ограничиваем количество результатов
+$filtered_tournaments = array_slice($filtered_tournaments, 0, $regular_tournaments_count);
 
 // Объединяем результаты: сначала закрепленные, затем обычные
 $all_tournaments_posts = [];
@@ -137,32 +159,51 @@ if ($pinned_tournaments_query->have_posts()) {
     }
     wp_reset_postdata();
 }
-if ($regular_tournaments_query->have_posts()) {
-    while ($regular_tournaments_query->have_posts()) {
-        $regular_tournaments_query->the_post();
-        $all_tournaments_posts[] = get_post();
-    }
-    wp_reset_postdata();
+// Добавляем отфильтрованные обычные турниры
+$all_tournaments_posts = array_merge($all_tournaments_posts, $filtered_tournaments);
+
+// Если нет турниров, не показываем секцию
+if (empty($all_tournaments_posts)) {
+    return;
 }
 
-// Ограничиваем общее количество турниров
-$all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_count);
+// Подготовка данных для фонового изображения
+$tournaments_bg_image_data = function_exists('tochkagg_get_image_or_placeholder')
+    ? tochkagg_get_image_or_placeholder($tournaments_bg_image, 1920, 1080, 'Tournaments Background')
+    : [
+        'url' => 'https://placehold.co/1920x1080/1a1d29/3b82f6?text=Tournaments+Background',
+        'alt' => 'Tournaments Background (заглушка - загрузите своё изображение)',
+        'width' => 1920,
+        'height' => 1080
+    ];
+
+$tournaments_bg_image_mobile_data = false;
+if ($tournaments_bg_image_mobile) {
+    $tournaments_bg_image_mobile_data = function_exists('tochkagg_get_image_or_placeholder')
+        ? tochkagg_get_image_or_placeholder($tournaments_bg_image_mobile, 768, 1024, 'Tournaments Background Mobile')
+        : [
+            'url' => 'https://placehold.co/768x1024/1a1d29/3b82f6?text=Tournaments+Background+Mobile',
+            'alt' => 'Tournaments Background Mobile (заглушка - загрузите своё изображение)',
+            'width' => 768,
+            'height' => 1024
+        ];
+}
 ?>
 
 <section class="tgg-tournaments-preview">
     <div class="tgg-tournaments-preview__bg">
         <?php if ($tournaments_bg_type === 'video' && $tournaments_bg_video_url) : ?>
             <!-- Фоновое видео -->
-            <video class="tgg-tournaments-preview__bg-video" 
-                   autoplay 
-                   muted 
-                   loop 
-                   playsinline 
+            <video class="tgg-tournaments-preview__bg-video"
+                   autoplay
+                   muted
+                   loop
+                   playsinline
                    aria-hidden="true"
                    poster="<?php echo esc_url($tournaments_bg_image_data['url']); ?>">
                 <source src="<?php echo esc_url($tournaments_bg_video_url); ?>" type="video/mp4">
                 <!-- Fallback на изображение, если видео не поддерживается -->
-                <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>" 
+                <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>"
                      alt="<?php echo esc_attr($tournaments_bg_image_data['alt']); ?>"
                      loading="lazy">
             </video>
@@ -171,12 +212,12 @@ $all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_cou
             <?php if ($tournaments_bg_image_mobile_data) : ?>
                 <picture>
                     <!-- Мобильное изображение для экранов до 768px -->
-                    <source media="(max-width: 767px)" 
+                    <source media="(max-width: 767px)"
                             srcset="<?php echo esc_url($tournaments_bg_image_mobile_data['url']); ?>"
                             width="<?php echo esc_attr($tournaments_bg_image_mobile_data['width'] ?? 768); ?>"
                             height="<?php echo esc_attr($tournaments_bg_image_mobile_data['height'] ?? 1024); ?>">
                     <!-- Десктопное изображение для экранов от 768px -->
-                    <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>" 
+                    <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>"
                          alt="<?php echo esc_attr($tournaments_bg_image_data['alt']); ?>"
                          width="<?php echo esc_attr($tournaments_bg_image_data['width'] ?? 1920); ?>"
                          height="<?php echo esc_attr($tournaments_bg_image_data['height'] ?? 1080); ?>"
@@ -185,7 +226,7 @@ $all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_cou
                 </picture>
             <?php else : ?>
                 <!-- Если мобильное изображение не указано, используем основное -->
-                <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>" 
+                <img src="<?php echo esc_url($tournaments_bg_image_data['url']); ?>"
                      alt="<?php echo esc_attr($tournaments_bg_image_data['alt']); ?>"
                      width="<?php echo esc_attr($tournaments_bg_image_data['width'] ?? 1920); ?>"
                      height="<?php echo esc_attr($tournaments_bg_image_data['height'] ?? 1080); ?>"
@@ -209,9 +250,30 @@ $all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_cou
                 <div class="swiper-wrapper">
                     <?php foreach ($all_tournaments_posts as $post) : 
                         setup_postdata($post);
+                        $tournament_date_type = get_field('tournament_date_type') ?: 'exact';
                         $tournament_date = get_field('tournament_date');
+                        $tournament_date_month = get_field('tournament_date_month');
+                        $tournament_date_year = get_field('tournament_date_year');
                         $tournament_time = get_field('tournament_time');
                         $tournament_prize = get_field('tournament_prize');
+                        
+                        // Формируем строку даты в зависимости от типа
+                        $tournament_date_display = '';
+                        if ($tournament_date_type === 'month_only' && $tournament_date_month && $tournament_date_year) {
+                            // Только месяц и год
+                            $month_names = [
+                                1 => 'Январь', 2 => 'Февраль', 3 => 'Март', 4 => 'Апрель',
+                                5 => 'Май', 6 => 'Июнь', 7 => 'Июль', 8 => 'Август',
+                                9 => 'Сентябрь', 10 => 'Октябрь', 11 => 'Ноябрь', 12 => 'Декабрь'
+                            ];
+                            $month_name = isset($month_names[intval($tournament_date_month)]) 
+                                ? $month_names[intval($tournament_date_month)] 
+                                : intval($tournament_date_month);
+                            $tournament_date_display = $month_name . ' ' . intval($tournament_date_year);
+                        } elseif ($tournament_date_type === 'exact' && $tournament_date) {
+                            // Точная дата
+                            $tournament_date_display = date_i18n('d.m.Y', strtotime($tournament_date));
+                        }
                     ?>
                         <div class="swiper-slide">
                             <div class="tgg-tournaments-preview__card">
@@ -223,7 +285,7 @@ $all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_cou
                                             $thumbnail_id = get_post_thumbnail_id();
                                             echo wp_get_attachment_image(
                                                 $thumbnail_id,
-                                                'medium',
+                                                'thumbnail',
                                                 false,
                                                 array(
                                                     'loading' => 'lazy',
@@ -240,6 +302,8 @@ $all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_cou
                                             ?>
                                             <img src="<?php echo esc_url($tournament_placeholder); ?>" 
                                                  alt="<?php echo esc_attr(get_the_title() . ' (заглушка - загрузите изображение)'); ?>"
+                                                 width="400"
+                                                 height="300"
                                                  loading="lazy">
                                         <?php endif; ?>
                                     </div>
@@ -256,13 +320,13 @@ $all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_cou
                                             </div>
                                         <?php endif; ?>
                                         
-                                        <?php if ($tournament_date) : ?>
+                                        <?php if ($tournament_date_display) : ?>
                                             <div class="tgg-tournaments-preview__card-date">
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                     <rect x="3" y="4" width="18" height="18" rx="2"/>
                                                     <path d="M3 10h18M8 2v4M16 2v4"/>
                                                 </svg>
-                                                <span><?php echo esc_html(date_i18n('d.m.Y', strtotime($tournament_date))); ?></span>
+                                                <span><?php echo esc_html($tournament_date_display); ?></span>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -272,29 +336,15 @@ $all_tournaments_posts = array_slice($all_tournaments_posts, 0, $tournaments_cou
                     <?php endforeach; ?>
                 </div>
                 
-                <!-- Навигация карусели -->
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
+                <!-- Навигация Swiper -->
+                <div class="swiper-button-next tgg-slider-tournaments-next"></div>
+                <div class="swiper-button-prev tgg-slider-tournaments-prev"></div>
                 
-                <!-- Пагинация -->
-                <div class="swiper-pagination"></div>
-            </div>
-            
-            <?php if ($tournaments_link) : ?>
-                <div class="tgg-tournaments-preview__cta">
-                    <a href="<?php echo esc_url($tournaments_link); ?>" class="tgg-btn-secondary">
-                        Все турниры
-                    </a>
-                </div>
-            <?php endif; ?>
-            
-            <?php wp_reset_postdata(); ?>
-        <?php else : ?>
-            <div class="tgg-tournaments-preview__empty">
-                <p>Ближайших турниров пока нет. Следите за новостями!</p>
+                <!-- Пагинация Swiper -->
+                <div class="swiper-pagination tgg-slider-tournaments-pagination"></div>
             </div>
         <?php endif; ?>
+        
+        <?php wp_reset_postdata(); ?>
     </div>
 </section>
-
-

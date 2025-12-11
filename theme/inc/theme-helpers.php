@@ -224,4 +224,32 @@ function tochkagg_get_image_or_placeholder($scf_image, $width = 800, $height = 6
     ];
 }
 
+/**
+ * Форматировать дату турнира в зависимости от типа
+ * 
+ * @param string $date_type Тип даты: 'exact' или 'month_only'
+ * @param string $date Точная дата (Y-m-d) для типа 'exact'
+ * @param int|string $month Месяц (1-12) для типа 'month_only'
+ * @param int|string $year Год для типа 'month_only'
+ * @return string Отформатированная строка даты
+ */
+function tochkagg_format_tournament_date($date_type, $date = '', $month = '', $year = '') {
+    if ($date_type === 'month_only' && $month && $year) {
+        // Только месяц и год
+        $month_names = [
+            1 => 'Январь', 2 => 'Февраль', 3 => 'Март', 4 => 'Апрель',
+            5 => 'Май', 6 => 'Июнь', 7 => 'Июль', 8 => 'Август',
+            9 => 'Сентябрь', 10 => 'Октябрь', 11 => 'Ноябрь', 12 => 'Декабрь'
+        ];
+        $month_name = isset($month_names[intval($month)]) 
+            ? $month_names[intval($month)] 
+            : intval($month);
+        return $month_name . ' ' . intval($year);
+    } elseif ($date_type === 'exact' && $date) {
+        // Точная дата
+        return date_i18n('d F Y', strtotime($date));
+    }
+    return '';
+}
+
 
