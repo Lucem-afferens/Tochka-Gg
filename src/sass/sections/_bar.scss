@@ -207,7 +207,7 @@
       img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         transition: transform $duration-slow $ease-out-cubic;
         filter: contrast(1.1) brightness(0.9);
       }
