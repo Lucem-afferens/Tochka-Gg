@@ -23,9 +23,20 @@
     // Единое неоновое свечение (через миксин)
     @include heading-neon-glow;
     
+    // Более адаптивный размер для всех экранов
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 3rem); // От 24px на маленьких до 48px на больших
+    letter-spacing: clamp(0.03em, 0.05vw + 0.03em, 0.05em);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    
     @include max-width(xs) {
-      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-size: clamp(1.25rem, 5vw, 2rem); // Для очень маленьких экранов: 20px-32px
       padding: 0 $spacing-sm;
+      letter-spacing: 0.03em;
+    }
+    
+    @media (max-width: 360px) {
+      font-size: clamp(1.125rem, 5.5vw, 1.75rem); // Для 320px: 18px-28px
     }
   }
   
