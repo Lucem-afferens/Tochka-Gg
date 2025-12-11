@@ -76,4 +76,12 @@
   position: relative;
   // Убеждаемся, что контент покрывает весь экран без белых полос
   background: transparent; // Прозрачный, чтобы был виден фон body
+  // Центрируем hero секцию по вертикали
+  display: flex;
+  flex-direction: column;
+  
+  // На главной странице hero должен занимать всю высоту и быть по центру
+  &:has(.tgg-hero) {
+    justify-content: center;
+  }
 }
