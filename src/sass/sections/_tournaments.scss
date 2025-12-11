@@ -310,6 +310,15 @@
     color: $color-text-secondary;
     font-size: $font-size-lg;
   }
+
+  &__cta {
+    text-align: center;
+    margin-top: $spacing-4xl;
+    
+    @include max-width(xs) {
+      margin-top: $spacing-3xl;
+    }
+  }
   
   &__cta {
     text-align: center;
