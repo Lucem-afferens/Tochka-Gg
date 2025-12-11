@@ -363,6 +363,10 @@ if ($tournaments_bg_image_mobile) {
                 <!-- Пагинация Swiper -->
                 <div class="swiper-pagination tgg-slider-tournaments-pagination"></div>
             </div>
+        <?php else : ?>
+            <div class="tgg-tournaments-preview__empty">
+                <p>Ближайших турниров пока нет. Следите за новостями!</p>
+            </div>
         <?php endif; ?>
         
         <?php wp_reset_postdata(); ?>
