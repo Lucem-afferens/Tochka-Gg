@@ -44,22 +44,6 @@
     border-radius: $border-radius-lg;
     padding: $spacing-3xl;
     margin-bottom: $spacing-3xl;
-    
-    // Уменьшаем боковые отступы для VIP категории в 2 раза
-    &--vip {
-      padding-left: calc($spacing-3xl / 2);
-      padding-right: calc($spacing-3xl / 2);
-      
-      @include max-width(xs) {
-        padding-left: calc($spacing-lg / 2);
-        padding-right: calc($spacing-lg / 2);
-      }
-      
-      @media (max-width: 360px) {
-        padding-left: calc($spacing-md / 2);
-        padding-right: calc($spacing-md / 2);
-      }
-    }
     transition: all $duration-normal $ease-out-cubic;
     position: relative;
     // Неоновая тень в статике
@@ -132,7 +116,19 @@
         0 4px 20px rgba(192, 38, 211, 0.3),
         0 0 30px rgba(192, 38, 211, 0.2),
         0 0 20px rgba(147, 51, 234, 0.15);
-      // Уменьшаем боковые отступы в 2 раза (уже добавлено выше в базовом &__category)
+      // Уменьшаем боковые отступы в 2 раза
+      padding-left: calc($spacing-3xl / 2);
+      padding-right: calc($spacing-3xl / 2);
+      
+      @include max-width(xs) {
+        padding-left: calc($spacing-lg / 2);
+        padding-right: calc($spacing-lg / 2);
+      }
+      
+      @media (max-width: 360px) {
+        padding-left: calc($spacing-md / 2);
+        padding-right: calc($spacing-md / 2);
+      }
       
       &::before {
         background: linear-gradient(
