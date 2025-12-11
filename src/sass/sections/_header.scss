@@ -480,9 +480,9 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: #3B82F6;
+    background: #ff6b35;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 8px rgba(255, 107, 53, 0.6);
   }
   
   // Кибер-эффект: горизонтальная линия снизу при hover/active
@@ -496,14 +496,14 @@
     height: 2px;
     background: linear-gradient(
       90deg,
-      rgba(59, 130, 246, 1) 0%,
+      rgba(255, 107, 53, 1) 0%,
       rgba(192, 38, 211, 1) 50%,
       rgba(239, 68, 68, 1) 100%
     );
     background-size: 200% 100%;
     border-radius: $border-radius-full;
     box-shadow: 
-      0 0 8px rgba(59, 130, 246, 0.6),
+      0 0 8px rgba(255, 107, 53, 0.6),
       0 0 12px rgba(192, 38, 211, 0.5),
       0 0 16px rgba(239, 68, 68, 0.4);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -553,7 +553,7 @@
         transform: translateX(-50%) scaleX(1);
         width: 70%;
         box-shadow: 
-          0 0 6px rgba(59, 130, 246, 0.5), 
+          0 0 6px rgba(255, 107, 53, 0.5), 
           0 0 10px rgba(192, 38, 211, 0.4), 
           0 0 14px rgba(239, 68, 68, 0.3);
       }
@@ -564,7 +564,7 @@
   @include respond-to(lg) {
     // Активное состояние - только цвет текста
     &.active {
-      color: #3B82F6;
+      color: #ff6b35;
     }
   }
 }
@@ -586,7 +586,7 @@
   width: 40px;
   height: 40px;
   background: rgba(26, 21, 36, 0.6);
-  border: 2px solid rgba(59, 130, 246, 0.3);
+  border: 2px solid rgba(255, 107, 53, 0.3);
   border-radius: $border-radius-md;
   cursor: pointer;
   padding: 8px;
@@ -607,7 +607,7 @@
     border-radius: $border-radius-md;
     background: linear-gradient(
       135deg,
-      rgba(59, 130, 246, 0.3) 0%,
+      rgba(255, 107, 53, 0.3) 0%,
       rgba(192, 38, 211, 0.3) 50%,
       rgba(239, 68, 68, 0.3) 100%
     );
