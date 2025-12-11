@@ -15,9 +15,6 @@
   overflow: hidden;
   // Поддержка safe-area для iPhone с выемкой
   padding-bottom: env(safe-area-inset-bottom);
-  // Центрируем hero секцию по вертикали в main
-  margin-top: auto;
-  margin-bottom: auto;
   
   @include max-width(lg) {
     // На мобильных используем overflow: visible для предотвращения обрезки
