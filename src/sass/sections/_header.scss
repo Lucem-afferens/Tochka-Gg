@@ -118,7 +118,7 @@
       transform: translateX(-50%) scaleX(0);
       width: 80%;
       height: 2px;
-      background: $gradient-primary;
+      background: $gradient-fire;
       border-radius: 2px;
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 0 12px rgba(255, 107, 53, 0.6);
@@ -480,7 +480,7 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: #ff6b35;
+    background: $color-fire-orange;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 0 8px rgba(255, 107, 53, 0.6);
   }
@@ -545,7 +545,7 @@
     
     &.active {
       // Только цвет текста для активной страницы
-      color: $color-primary;
+      color: $color-fire-orange;
       
       &::before {
         // Показываем горизонтальную линию для активной страницы
@@ -564,7 +564,7 @@
   @include respond-to(lg) {
     // Активное состояние - только цвет текста
     &.active {
-      color: #ff6b35;
+      color: $color-fire-orange;
     }
   }
 }
