@@ -49,7 +49,7 @@ export function initScrollAnimations() {
     entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
         // Проверяем, не был ли элемент уже обработан при загрузке
-        if (entry.target.dataset.animationProcessed === 'true') {
+        if (entry.target.getAttribute('data-animation-processed') === 'true') {
           // Элемент уже был обработан при загрузке, пропускаем
           observer.unobserve(entry.target);
           return;
@@ -66,22 +66,23 @@ export function initScrollAnimations() {
     });
   }, observerOptions);
   
-  // Проверяем элементы, которые уже видны при загрузке страницы
-  // и сразу устанавливаем для них финальное состояние без анимации
-  // Используем requestAnimationFrame для гарантии выполнения после рендеринга
-  requestAnimationFrame(() => {
-    animatedElements.forEach((element) => {
-      if (isElementInViewport(element)) {
-        // Элемент уже виден - устанавливаем финальное состояние напрямую
-        // чтобы избежать мерцания (не применяем анимацию)
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0)';
-        element.dataset.animationProcessed = 'true';
-      } else {
-        // Элемент не виден - добавляем в observer для анимации при появлении
-        observer.observe(element);
-      }
-    });
+  // КРИТИЧНО: Обрабатываем видимые элементы СИНХРОННО до первого рендера
+  // чтобы избежать мерцания
+  // Используем синхронный цикл без requestAnimationFrame для немедленного применения
+  animatedElements.forEach((element) => {
+    if (isElementInViewport(element)) {
+      // Элемент уже виден - устанавливаем атрибут для CSS и финальное состояние
+      // Атрибут data-animation-processed активирует CSS правило, которое показывает элемент
+      // Используем setAttribute синхронно для немедленного применения CSS правил
+      element.setAttribute('data-animation-processed', 'true');
+      // Дополнительно устанавливаем inline стили с !important через setProperty
+      // для гарантии переопределения любых CSS правил
+      element.style.setProperty('opacity', '1', 'important');
+      element.style.setProperty('transform', 'translateY(0)', 'important');
+    } else {
+      // Элемент не виден - добавляем в observer для анимации при появлении
+      observer.observe(element);
+    }
   });
 }
 

@@ -621,6 +621,7 @@
 
 .tgg-animate-fade-in-up {
   animation: fade-in-up 0.6s $ease-out-cubic;
+  animation-fill-mode: both; // Сохраняет начальное и конечное состояние анимации
 }
 
 .tgg-animate-fade-in {

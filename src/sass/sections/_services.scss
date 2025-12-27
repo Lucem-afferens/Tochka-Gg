@@ -73,6 +73,19 @@
     min-width: 0; // Предотвращает переполнение в grid
     box-sizing: border-box;
     
+    // Начальное состояние для анимации применяется только если элемент НЕ обработан JS
+    // Для видимых элементов JS установит атрибут data-animation-processed сразу
+    &:not([data-animation-processed="true"]) {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    // Если элемент уже обработан JS (виден при загрузке), показываем сразу
+    &[data-animation-processed="true"] {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+    
     // Яркая неоновая тень в статичном состоянии (сине-фиолетово-розовая)
     box-shadow: 
       0 6px 30px rgba(59, 130, 246, 0.4),
