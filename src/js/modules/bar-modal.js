@@ -181,7 +181,8 @@ function createModal() {
     <div class="tgg-bar-modal__container">
       <div class="tgg-bar-modal__content">
         <button class="tgg-bar-modal__close" aria-label="Закрыть" type="button">
-          <span aria-hidden="true">&times;</span>
+          <span class="tgg-bar-modal__close-line" aria-hidden="true"></span>
+          <span class="tgg-bar-modal__close-line" aria-hidden="true"></span>
         </button>
         <h2 class="tgg-bar-modal__title"></h2>
         <div class="tgg-bar-modal__items"></div>

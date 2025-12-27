@@ -469,48 +469,79 @@ body.tgg-bar-modal-open {
     position: absolute;
     top: $spacing-xl;
     right: $spacing-xl;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
     border: $border-width-medium solid rgba(59, 130, 246, 0.4);
     border-radius: 50%;
-    color: $color-text-primary;
-    font-size: 2rem;
-    line-height: 1;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     touch-action: manipulation;
     z-index: 10;
+    overflow: hidden;
     
     @include max-width(sm) {
       top: $spacing-md;
       right: $spacing-md;
-      width: 36px;
-      height: 36px;
-      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
     }
     
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.8);
-      background: rgba(59, 130, 246, 0.1);
-      transform: rotate(90deg);
+    // Hover только на устройствах с курсором
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.8);
+        background: rgba(59, 130, 246, 0.15);
+        box-shadow: 
+          0 0 20px rgba(59, 130, 246, 0.4),
+          0 0 40px rgba(59, 130, 246, 0.2);
+        transform: rotate(90deg) scale(1.05);
+        
+        .tgg-bar-modal__close-line {
+          background: rgba(59, 130, 246, 1);
+          box-shadow: 
+            0 0 8px rgba(59, 130, 246, 0.8),
+            0 0 16px rgba(59, 130, 246, 0.4);
+        }
+      }
     }
     
     &:active {
       transform: rotate(90deg) scale(0.95);
+      background: rgba(59, 130, 246, 0.2);
     }
     
     &:focus-visible {
       outline: 2px solid $color-primary;
       outline-offset: 2px;
     }
+  }
+  
+  &__close-line {
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
     
-    span {
-      display: block;
-      line-height: 1;
+    @include max-width(sm) {
+      width: 16px;
+      height: 2px;
+    }
+    
+    // Первая линия - поворот на 45 градусов
+    &:nth-child(1) {
+      transform: rotate(45deg);
+    }
+    
+    // Вторая линия - поворот на -45 градусов
+    &:nth-child(2) {
+      transform: rotate(-45deg);
     }
   }
   
