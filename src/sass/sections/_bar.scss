@@ -363,6 +363,13 @@
 // BAR MODAL
 // ============================================
 
+// iOS-safe блокировка скролла (только body, не трогаем html)
+body.tgg-bar-modal-open {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
+
 .tgg-bar-modal {
   position: fixed;
   top: 0;
@@ -391,21 +398,25 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    // Упрощенный backdrop-filter для лучшей совместимости на мобильных
+    @supports (backdrop-filter: blur(4px)) {
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
   }
   
   &__container {
     position: relative;
     width: 100%;
     max-width: 1200px;
-    max-height: 90vh;
+    // Используем calc для iOS-safe высоты (избегаем проблем с vh на мобильных)
+    max-height: calc(100vh - 2rem);
     margin: $spacing-xl;
     z-index: 1;
     
     @include max-width(sm) {
       margin: $spacing-md;
-      max-height: 95vh;
+      max-height: calc(100vh - 1rem);
     }
   }
   
@@ -417,13 +428,18 @@
     padding: $spacing-4xl;
     max-height: 90vh;
     overflow-y: auto;
+    // Упрощенные тени для лучшей производительности на мобильных
     box-shadow: 
       0 20px 60px rgba(0, 0, 0, 0.5),
-      0 0 80px rgba(59, 130, 246, 0.3);
+      0 0 40px rgba(59, 130, 246, 0.2);
     
     @include max-width(sm) {
       padding: $spacing-2xl $spacing-xl;
       max-height: 95vh;
+      // Еще более простые тени на мобильных
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(59, 130, 246, 0.15);
     }
     
     // Кастомный скроллбар
@@ -440,8 +456,11 @@
       background: rgba(59, 130, 246, 0.5);
       border-radius: 4px;
       
-      &:hover {
-        background: rgba(59, 130, 246, 0.7);
+      // Hover только на устройствах с курсором
+      @media (hover: hover) {
+        &:hover {
+          background: rgba(59, 130, 246, 0.7);
+        }
       }
     }
   }

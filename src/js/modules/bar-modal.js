@@ -3,6 +3,7 @@
  * 
  * Модальное окно для отображения товаров категории бара
  * Открывается по клику на кнопку категории
+ * iOS-safe: использует класс на body вместо overflow на html
  */
 
 export function initBarModal() {
@@ -18,7 +19,6 @@ export function initBarModal() {
 
   const overlay = modal.querySelector('.tgg-bar-modal__overlay');
   const closeBtn = modal.querySelector('.tgg-bar-modal__close');
-  const modalContent = modal.querySelector('.tgg-bar-modal__content');
   const modalTitle = modal.querySelector('.tgg-bar-modal__title');
   const modalItems = modal.querySelector('.tgg-bar-modal__items');
 
@@ -27,14 +27,11 @@ export function initBarModal() {
   
   if (categoryButtons.length === 0) return;
 
-  // Обработчики для кнопок категорий
+  // Обработчики для кнопок категорий - ТОЛЬКО click (браузер сам обрабатывает tap → click)
   categoryButtons.forEach((button) => {
-    // Функция открытия модального окна
-    const openModal = (e) => {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       
       const categoryIndex = button.getAttribute('data-bar-category-btn');
       const category = barSection.querySelector(`[data-category-index="${categoryIndex}"]`);
@@ -66,58 +63,7 @@ export function initBarModal() {
       
       // Показываем модальное окно
       showModal(modal);
-    };
-    
-    // Обработчик для touch устройств
-    let touchStartTime = 0;
-    let touchStartY = 0;
-    let touchStartX = 0;
-    let hasMoved = false;
-    
-    button.addEventListener('touchstart', (e) => {
-      touchStartTime = Date.now();
-      const touch = e.touches[0];
-      if (touch) {
-        touchStartY = touch.clientY;
-        touchStartX = touch.clientX;
-        hasMoved = false;
-      }
-    }, { passive: true });
-    
-    button.addEventListener('touchmove', (e) => {
-      const touch = e.touches[0];
-      if (touch) {
-        const moveY = Math.abs(touch.clientY - touchStartY);
-        const moveX = Math.abs(touch.clientX - touchStartX);
-        if (moveY > 10 || moveX > 10) {
-          hasMoved = true;
-        }
-      }
-    }, { passive: true });
-    
-    button.addEventListener('touchend', (e) => {
-      const touchDuration = Date.now() - touchStartTime;
-      const touch = e.changedTouches[0];
-      
-      if (touch) {
-        const moveY = Math.abs(touch.clientY - touchStartY);
-        const moveX = Math.abs(touch.clientX - touchStartX);
-        
-        // Если это был тап без движения - открываем модальное окно
-        if (!hasMoved && touchDuration < 400 && moveY < 10 && moveX < 10) {
-          e.preventDefault();
-          e.stopPropagation();
-          openModal(e);
-        }
-      }
-      
-      // Сбрасываем флаги
-      hasMoved = false;
-      touchStartTime = 0;
-    }, { passive: false });
-    
-    // Обработчик для клика (работает на всех устройствах)
-    button.addEventListener('click', openModal);
+    });
   });
 
   // Закрытие модального окна
@@ -174,16 +120,20 @@ function createModal() {
 
 /**
  * Показывает модальное окно
+ * iOS-safe: использует класс на body, не трогает html
  */
 function showModal(modal) {
   if (!modal) return;
   
+  // Сохраняем позицию скролла
+  const scrollY = window.scrollY || window.pageYOffset;
+  
   modal.classList.add('tgg-bar-modal--visible');
   modal.setAttribute('aria-hidden', 'false');
   
-  // Блокируем скролл body
-  document.body.style.overflow = 'hidden';
-  document.documentElement.style.overflow = 'hidden';
+  // iOS-safe блокировка скролла: только body, не трогаем html
+  document.body.classList.add('tgg-bar-modal-open');
+  document.body.style.top = `-${scrollY}px`;
   
   // Фокус на кнопке закрытия
   const closeBtn = modal.querySelector('.tgg-bar-modal__close');
@@ -194,6 +144,7 @@ function showModal(modal) {
 
 /**
  * Закрывает модальное окно
+ * iOS-safe: восстанавливает позицию скролла
  */
 function closeModal(modal) {
   if (!modal) return;
@@ -201,8 +152,12 @@ function closeModal(modal) {
   modal.classList.remove('tgg-bar-modal--visible');
   modal.setAttribute('aria-hidden', 'true');
   
-  // Разблокируем скролл body
-  document.body.style.overflow = '';
-  document.documentElement.style.overflow = '';
+  // Восстанавливаем скролл (iOS-safe)
+  const scrollY = document.body.style.top;
+  document.body.classList.remove('tgg-bar-modal-open');
+  document.body.style.top = '';
+  
+  if (scrollY) {
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+  }
 }
-
