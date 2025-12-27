@@ -2,47 +2,33 @@
  * Bar Menu Section Styles
  * 
  * Стили для каталога товаров клубного бара
+ * Оптимизированы для производительности
  */
 
 .tgg-bar {
   padding: $spacing-5xl 0;
-  background: transparent; // Прозрачный фон, чтобы был виден фон body
-  // Оптимизация производительности
-  contain: layout style;
-  // Предотвращаем скачки при скролле
-  will-change: auto;
+  background: transparent;
+  position: relative;
   
   @include max-width(xs) {
-    padding: $spacing-4xl 0 $spacing-3xl; // Верхний отступ 96px вместо 64px для предотвращения скрытия под шапкой
+    padding: $spacing-4xl 0 $spacing-3xl;
   }
   
   &__title {
     font-family: $font-heading;
-    font-size: $font-size-h1;
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 3rem);
     font-weight: $font-weight-heading-bold;
     line-height: $line-height-tight;
     color: $color-text-primary;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 0; // Отступ контролируется через margin-top уведомления
-    // Единое неоновое свечение (через миксин)
+    margin-bottom: 0;
     @include heading-neon-glow;
     
-    // Более адаптивный размер для всех экранов
-    font-size: clamp(1.5rem, 4vw + 0.5rem, 3rem); // От 24px на маленьких до 48px на больших
-    letter-spacing: clamp(0.03em, 0.05vw + 0.03em, 0.05em);
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    
     @include max-width(xs) {
-      font-size: clamp(1.25rem, 5vw, 2rem); // Для очень маленьких экранов: 20px-32px
+      font-size: clamp(1.25rem, 5vw, 2rem);
       padding: 0 $spacing-sm;
-      letter-spacing: 0.03em;
-    }
-    
-    @media (max-width: 360px) {
-      font-size: clamp(1.125rem, 5.5vw, 1.75rem); // Для 320px: 18px-28px
     }
   }
   
@@ -67,42 +53,30 @@
     position: relative;
     margin-bottom: $spacing-xl;
     
-    // Оптимизация производительности
-    contain: layout style;
-    
-    // Состояние открыто/закрыто обрабатывается через CSS классы
-    
     &-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: $spacing-md;
       margin-bottom: $spacing-md;
+      background: transparent;
+      border: none;
+      padding: 0;
+      width: 100%;
+      text-align: left;
       cursor: pointer;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      // Предотвращаем скачки при скролле
       touch-action: manipulation;
-      -webkit-touch-callout: none;
       
       @media (max-width: 767px) {
-        cursor: pointer;
-        // Улучшаем область нажатия на мобильных
         padding: $spacing-xs 0;
-        margin-left: -$spacing-xs;
-        margin-right: -$spacing-xs;
-        padding-left: $spacing-xs;
-        padding-right: $spacing-xs;
-        // Оптимизация для мобильных
-        -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2);
       }
       
-      // Активное состояние при нажатии
-      &:active {
-        @media (max-width: 767px) {
-          opacity: 0.8;
-          transform: scale(0.98);
-        }
+      &:focus-visible {
+        outline: 2px solid $color-primary;
+        outline-offset: 2px;
+        border-radius: $border-radius-sm;
       }
     }
     
@@ -123,25 +97,12 @@
       transition: text-shadow 0.3s ease, color 0.3s ease;
       padding-bottom: $spacing-md;
       border-bottom: $border-width-medium solid rgba(59, 130, 246, 0.3);
-      position: relative;
       
-      // Адаптивный размер для мобильных
       @include max-width(sm) {
         font-size: clamp(1.125rem, 3vw, 1.75rem);
         padding-bottom: $spacing-sm;
       }
       
-      // Hover эффекты только на устройствах с курсором
-      @media (hover: hover) {
-        .tgg-bar__category-header:hover & {
-          text-shadow: 
-            0 0 30px rgba(59, 130, 246, 1),
-            0 0 50px rgba(30, 144, 255, 0.7),
-            0 0 40px rgba(255, 107, 53, 0.6);
-        }
-      }
-      
-      // Активное состояние
       .tgg-bar__category.is-open & {
         color: $color-primary;
         text-shadow: 
@@ -151,110 +112,21 @@
       }
     }
     
-    &-toggle {
-      background: transparent;
-      border: $border-width-medium solid rgba(59, 130, 246, 0.4);
-      border-radius: $border-radius-md;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      padding: 0;
-      margin: 0;
-      position: relative;
-      flex-shrink: 0;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      outline: none;
-      
-      // Неоновая тень
-      box-shadow: 
-        0 0 10px rgba(59, 130, 246, 0.3),
-        0 0 20px rgba(59, 130, 246, 0.2),
-        inset 0 0 10px rgba(59, 130, 246, 0.1);
-      
-      // Градиентная граница
-      &::before {
-        content: '';
-        position: absolute;
-        inset: -2px;
-        border-radius: inherit;
-        padding: 2px;
-        background: linear-gradient(
-          135deg,
-          rgba(59, 130, 246, 0.6) 0%,
-          rgba(192, 38, 211, 0.6) 50%,
-          rgba(239, 68, 68, 0.6) 100%
-        );
-        background-size: 200% 200%;
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        opacity: 0.6;
-        animation: neon-border-shine 3s ease-in-out infinite;
-        pointer-events: none;
-        z-index: -1;
-      }
-      
-      // Hover эффекты
-      @media (hover: hover) {
-        &:hover {
-          border-color: rgba(59, 130, 246, 0.8);
-          box-shadow: 
-            0 0 15px rgba(59, 130, 246, 0.5),
-            0 0 30px rgba(59, 130, 246, 0.3),
-            inset 0 0 15px rgba(59, 130, 246, 0.2);
-          transform: scale(1.05);
-          
-          &::before {
-            opacity: 1;
-            animation-duration: 2s;
-          }
-        }
-      }
-      
-      // Активное состояние (нажатие)
-      &:active {
-        transform: scale(0.95);
-      }
-      
-      // Фокус для доступности
-      &:focus-visible {
-        outline: 2px solid $color-primary;
-        outline-offset: 2px;
-      }
-      
-      // На мобильных всегда показываем
-      @media (max-width: 767px) {
-        display: flex;
-      }
-      
-      // На десктопе скрываем (категории открыты по умолчанию)
-      @media (min-width: 768px) {
-        display: none;
-      }
-    }
-    
     &-toggle-icon {
       display: block;
       width: 20px;
       height: 20px;
       position: relative;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
       
-      // Стрелка вниз (V-образная)
       &::before,
       &::after {
         content: '';
         position: absolute;
         background: $color-primary;
-        box-shadow: 
-          0 0 6px rgba(59, 130, 246, 0.9),
-          0 0 12px rgba(59, 130, 246, 0.6);
+        box-shadow: 0 0 6px rgba(59, 130, 246, 0.9);
         border-radius: 1px;
-        transition: all 0.3s ease;
       }
       
       &::before {
@@ -275,26 +147,13 @@
         transform-origin: bottom center;
       }
       
-      // Поворот при открытом состоянии
       .tgg-bar__category.is-open & {
         transform: rotate(180deg);
-        
-        &::before,
-        &::after {
-          box-shadow: 
-            0 0 8px rgba(59, 130, 246, 1),
-            0 0 16px rgba(59, 130, 246, 0.8);
-        }
       }
       
-      // Hover эффект
-      .tgg-bar__category-toggle:hover & {
-        &::before,
-        &::after {
-          box-shadow: 
-            0 0 8px rgba(59, 130, 246, 1),
-            0 0 16px rgba(59, 130, 246, 0.8);
-        }
+      // На десктопе скрываем иконку
+      @media (min-width: 768px) {
+        display: none;
       }
     }
     
@@ -313,41 +172,6 @@
     grid-template-columns: 1fr;
     gap: $spacing-xl;
     width: 100%;
-    max-width: 100%;
-    
-    // Оптимизация производительности для мобильных
-    @media (max-width: 767px) {
-      // Используем max-height для плавной анимации вместо height
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: 
-        max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.3s ease,
-        transform 0.3s ease,
-        padding 0.3s ease,
-        margin 0.3s ease;
-      padding-top: 0;
-      padding-bottom: 0;
-      margin-top: 0;
-      margin-bottom: 0;
-      // Оптимизация для производительности
-      will-change: max-height, opacity, transform;
-      contain: layout style;
-      
-      // Открытое состояние
-      &.is-open {
-        max-height: 5000px; // Большое значение для плавной анимации
-        opacity: 1;
-        transform: translateY(0);
-        padding-top: 0;
-        padding-bottom: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        will-change: auto; // Убираем после анимации
-      }
-    }
     
     @include respond-to(sm) {
       grid-template-columns: repeat(2, 1fr);
@@ -361,14 +185,23 @@
       grid-template-columns: repeat(4, 1fr);
     }
     
-    // На десктопе всегда видимы и без анимации
+    // На мобильных - аккордеон
+    @media (max-width: 767px) {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      
+      &.is-open {
+        max-height: 10000px; // Большое значение для плавной анимации
+        opacity: 1;
+      }
+    }
+    
+    // На десктопе всегда видимы
     @media (min-width: 768px) {
-      display: grid;
       max-height: none;
       opacity: 1;
-      transform: none;
-      transition: none;
-      will-change: auto;
     }
   }
   
@@ -377,25 +210,18 @@
     border: $border-width-thin solid rgba(59, 130, 246, 0.4);
     border-radius: $border-radius-lg;
     overflow: hidden;
-    transition: all $duration-normal $ease-out-cubic;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     height: 100%;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
     position: relative;
     
-    // Яркая неоновая тень в статичном состоянии (сине-фиолетово-розовая)
     box-shadow: 
       0 6px 30px rgba(59, 130, 246, 0.4),
       0 0 40px rgba(59, 130, 246, 0.25),
       0 0 30px rgba(192, 38, 211, 0.3),
       0 0 20px rgba(239, 68, 68, 0.2);
-    border: $border-width-thin solid rgba(59, 130, 246, 0.5);
     
-    // Неоновая граница в статичном состоянии
     &::after {
       content: '';
       position: absolute;
@@ -416,19 +242,16 @@
       opacity: 0.6;
       animation: neon-border-shine 3s ease-in-out infinite;
       pointer-events: none;
-      z-index: 3;
-    }
-    
-    // Контент должен быть выше декоративных элементов
-    > * {
-      position: relative;
       z-index: 1;
     }
     
-    // Hover эффекты только на устройствах с курсором
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+    
     @media (hover: hover) {
       &:hover {
-        border-color: rgba(59, 130, 246, 0.8);
         transform: translateY(-4px);
         box-shadow: 
           0 12px 40px rgba(59, 130, 246, 0.5),
@@ -438,16 +261,10 @@
         
         &::after {
           opacity: 1;
-          animation: neon-border-shine 2s ease-in-out infinite;
         }
         
         .tgg-bar__item-image img {
           transform: scale(1.1);
-        }
-        
-        .tgg-bar__item-price {
-          color: $color-primary;
-          text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
         }
       }
     }
@@ -462,7 +279,7 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
-        transition: transform $duration-slow $ease-out-cubic;
+        transition: transform 0.3s ease;
         filter: contrast(1.1) brightness(0.9);
       }
     }
@@ -472,10 +289,6 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
-      box-sizing: border-box;
     }
     
     &-name {
@@ -486,10 +299,6 @@
       margin-bottom: $spacing-sm;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      
-      
-      width: 100%;
-      max-width: 100%;
     }
     
     &-description {
@@ -499,12 +308,6 @@
       color: $color-text-secondary;
       margin-bottom: $spacing-md;
       flex: 1;
-      
-      
-      
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
     }
     
     &-price {
@@ -512,14 +315,7 @@
       font-size: $font-size-price;
       font-weight: $font-weight-heading-bold;
       color: $color-primary;
-      transition: all $duration-normal ease;
-      // Предотвращение переноса текста (без overflow: hidden, чтобы свечение было видно)
       white-space: nowrap;
-      // Padding для видимости свечения
-      padding: $spacing-xs $spacing-sm;
-      margin: -$spacing-xs -$spacing-sm;
-      box-sizing: content-box;
-      // Минимальное неоновое свечение для цен
       text-shadow: 
         0 0 2px rgba(59, 130, 246, 0.15),
         0 0 4px rgba(59, 130, 246, 0.08);
@@ -537,26 +333,11 @@
           0 0 2px rgba(59, 130, 246, 0.15),
           0 0 3px rgba(59, 130, 246, 0.08);
       }
-      
-      @media (hover: hover) {
-        .tgg-bar__item:hover & {
-          text-shadow: 
-            0 0 3px rgba(59, 130, 246, 0.2),
-            0 0 6px rgba(59, 130, 246, 0.12);
-          transform: scale(1.1);
-          
-          &::before {
-            box-shadow: 
-              0 0 3px rgba(59, 130, 246, 0.2),
-              0 0 5px rgba(59, 130, 246, 0.12);
-          }
-        }
-      }
     }
   }
 }
 
-// Анимация сияния неоновой границы для карточек
+// Анимация сияния неоновой границы
 @keyframes neon-border-shine {
   0%, 100% {
     background-position: 0% 50%;
@@ -567,5 +348,3 @@
     opacity: 0.8;
   }
 }
-
-

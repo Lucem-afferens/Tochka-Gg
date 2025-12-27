@@ -11,12 +11,19 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$bar_title = get_field('bar_title') ?: 'Клубный бар';
-$bar_description = get_field('bar_description') ?: 'Кофе, энергетики, закуски и многое другое';
-$bar_currency_symbol = get_field('bar_currency_symbol') ?: '₽';
+// Получаем поля SCF (Secure Custom Fields / ACF)
+$bar_title = function_exists('get_field') ? get_field('bar_title') : null;
+$bar_description = function_exists('get_field') ? get_field('bar_description') : null;
+$bar_currency_symbol = function_exists('get_field') ? get_field('bar_currency_symbol') : null;
+$bar_categories = function_exists('get_field') ? get_field('bar_categories') : null;
 
-// Категории товаров
-$categories = get_field('bar_categories') ?: [
+// Значения по умолчанию
+$bar_title = $bar_title ?: 'Клубный бар';
+$bar_description = $bar_description ?: 'Кофе, энергетики, закуски и многое другое';
+$bar_currency_symbol = $bar_currency_symbol ?: '₽';
+
+// Fallback категории (если SCF не настроен)
+$default_categories = [
     [
         'name' => 'Кофе',
         'items' => [
@@ -68,9 +75,14 @@ $categories = get_field('bar_categories') ?: [
         ]
     ],
 ];
+
+// Используем данные из SCF или fallback
+$categories = $bar_categories && is_array($bar_categories) && !empty($bar_categories) 
+    ? $bar_categories 
+    : $default_categories;
 ?>
 
-<section class="tgg-bar">
+<section class="tgg-bar" data-bar-page="true">
     <div class="tgg-container">
         <?php if ($bar_title) : ?>
             <h1 class="tgg-bar__title">
@@ -90,16 +102,24 @@ $categories = get_field('bar_categories') ?: [
         
         <?php if ($categories && is_array($categories)) : ?>
             <div class="tgg-bar__categories">
-                <?php foreach ($categories as $category) : 
-                    $category_name = $category['name'] ?? '';
-                    $category_description = $category['category_description'] ?? '';
-                    $items = $category['items'] ?? [];
+                <?php foreach ($categories as $index => $category) : 
+                    $category_name = isset($category['name']) ? $category['name'] : '';
+                    $category_description = isset($category['category_description']) ? $category['category_description'] : '';
+                    $category_description = isset($category['description']) ? $category['description'] : $category_description; // Альтернативное поле
+                    $items = isset($category['items']) && is_array($category['items']) ? $category['items'] : [];
                 ?>
                     <?php if ($category_name && !empty($items)) : ?>
-                        <div class="tgg-bar__category">
-                            <h2 class="tgg-bar__category-title">
-                                <?php echo esc_html($category_name); ?>
-                            </h2>
+                        <div class="tgg-bar__category" data-category-index="<?php echo esc_attr($index); ?>">
+                            <button class="tgg-bar__category-header" 
+                                    type="button"
+                                    aria-expanded="false"
+                                    aria-controls="bar-category-<?php echo esc_attr($index); ?>"
+                                    data-category-toggle>
+                                <h2 class="tgg-bar__category-title" id="bar-category-title-<?php echo esc_attr($index); ?>">
+                                    <?php echo esc_html($category_name); ?>
+                                </h2>
+                                <span class="tgg-bar__category-toggle-icon" aria-hidden="true"></span>
+                            </button>
                             
                             <?php if ($category_description) : ?>
                                 <p class="tgg-bar__category-description">
@@ -107,39 +127,53 @@ $categories = get_field('bar_categories') ?: [
                                 </p>
                             <?php endif; ?>
                             
-                            <div class="tgg-bar__items">
+                            <div class="tgg-bar__items" 
+                                 id="bar-category-<?php echo esc_attr($index); ?>"
+                                 aria-labelledby="bar-category-title-<?php echo esc_attr($index); ?>">
                                 <?php foreach ($items as $item) : 
-                                    $item_name = $item['name'] ?? '';
-                                    $item_price = $item['price'] ?? '0';
-                                    $item_description = $item['description'] ?? '';
-                                    $item_image = $item['image'] ?? null;
+                                    $item_name = isset($item['name']) ? $item['name'] : '';
+                                    $item_price = isset($item['price']) ? $item['price'] : '0';
+                                    $item_description = isset($item['description']) ? $item['description'] : '';
+                                    $item_image = isset($item['image']) ? $item['image'] : null;
                                 ?>
-                                    <div class="tgg-bar__item">
-                                        <div class="tgg-bar__item-image">
-                                            <?php
-                                            $product_image_data = tochkagg_get_image_or_placeholder($item_image, 300, 300, $item_name);
-                                            ?>
-                                            <img src="<?php echo esc_url($product_image_data['url']); ?>" 
-                                                 alt="<?php echo esc_attr($product_image_data['alt']); ?>"
-                                                 loading="lazy">
-                                        </div>
-                                        
-                                        <div class="tgg-bar__item-content">
-                                            <h3 class="tgg-bar__item-name">
-                                                <?php echo esc_html($item_name); ?>
-                                            </h3>
+                                    <?php if ($item_name) : ?>
+                                        <div class="tgg-bar__item">
+                                            <div class="tgg-bar__item-image">
+                                                <?php
+                                                $product_image_data = function_exists('tochkagg_get_image_or_placeholder')
+                                                    ? tochkagg_get_image_or_placeholder($item_image, 300, 300, $item_name)
+                                                    : [
+                                                        'url' => 'https://placehold.co/300x300/1a1d29/3b82f6?text=' . urlencode($item_name),
+                                                        'alt' => esc_attr($item_name),
+                                                        'width' => 300,
+                                                        'height' => 300
+                                                    ];
+                                                ?>
+                                                <img src="<?php echo esc_url($product_image_data['url']); ?>" 
+                                                     alt="<?php echo esc_attr($product_image_data['alt']); ?>"
+                                                     width="<?php echo esc_attr($product_image_data['width'] ?? 300); ?>"
+                                                     height="<?php echo esc_attr($product_image_data['height'] ?? 300); ?>"
+                                                     loading="lazy"
+                                                     decoding="async">
+                                            </div>
                                             
-                                            <?php if ($item_description) : ?>
-                                                <p class="tgg-bar__item-description">
-                                                    <?php echo esc_html($item_description); ?>
-                                                </p>
-                                            <?php endif; ?>
-                                            
-                                            <div class="tgg-bar__item-price">
-                                                <?php echo esc_html($item_price); ?> <?php echo esc_html($bar_currency_symbol); ?>
+                                            <div class="tgg-bar__item-content">
+                                                <h3 class="tgg-bar__item-name">
+                                                    <?php echo esc_html($item_name); ?>
+                                                </h3>
+                                                
+                                                <?php if ($item_description) : ?>
+                                                    <p class="tgg-bar__item-description">
+                                                        <?php echo esc_html($item_description); ?>
+                                                    </p>
+                                                <?php endif; ?>
+                                                
+                                                <div class="tgg-bar__item-price">
+                                                    <?php echo esc_html($item_price); ?> <?php echo esc_html($bar_currency_symbol); ?>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -149,5 +183,3 @@ $categories = get_field('bar_categories') ?: [
         <?php endif; ?>
     </div>
 </section>
-
-

@@ -5,20 +5,15 @@
  */
 
 export function initSmoothScroll() {
+  // Проверяем, не на странице бара (где нет якорных ссылок)
+  const isBarPage = document.querySelector('.tgg-bar[data-bar-page="true"]');
+  if (isBarPage) {
+    // На странице бара не инициализируем smooth scroll
+    return;
+  }
+  
   const links = document.querySelectorAll('a[href^="#"]');
-  
-  // Флаг для отслеживания скролла (предотвращает случайные срабатывания)
-  let isScrolling = false;
-  let scrollTimeout;
-  
-  // Отслеживаем скролл страницы
-  window.addEventListener('scroll', () => {
-    isScrolling = true;
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      isScrolling = false;
-    }, 150);
-  }, { passive: true });
+  if (links.length === 0) return;
   
   links.forEach(link => {
     // Проверяем, не добавлен ли уже обработчик (защита от дублирования)
@@ -30,13 +25,6 @@ export function initSmoothScroll() {
       
       // Пропускаем пустые якоря и ссылки только с #
       if (!href || href === '#' || href.length <= 1) return;
-      
-      // КРИТИЧНО: Если страница скроллится - не обрабатываем клик
-      if (isScrolling) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
       
       try {
         const target = document.querySelector(href);
@@ -55,26 +43,18 @@ export function initSmoothScroll() {
           });
           
           // Update URL without reloading page
-          // ВАЖНО: Обновляем URL только если элемент существует на странице
-          // Это предотвращает перезагрузку страницы при клике на несуществующие якоря
           try {
             if (history.pushState && target) {
               const currentUrl = new URL(window.location.href);
-              // Обновляем только hash, не трогая pathname
-              // КРИТИЧНО: Проверяем, что мы не на странице бара (где нет якорных секций)
-              const isBarPage = document.querySelector('.tgg-bar');
-              if (!isBarPage) {
-                history.pushState(null, '', currentUrl.pathname + href);
-              }
+              history.pushState(null, '', currentUrl.pathname + href);
             }
           } catch (error) {
             console.warn('Error updating URL:', error);
           }
         } else {
-          // Если элемент не найден, не делаем ничего (предотвращаем перезагрузку)
+          // Если элемент не найден, предотвращаем перезагрузку
           e.preventDefault();
           e.stopPropagation();
-          console.warn('Target element not found for:', href);
         }
       } catch (error) {
         e.preventDefault();
