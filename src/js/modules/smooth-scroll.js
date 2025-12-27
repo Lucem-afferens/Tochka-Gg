@@ -7,6 +7,19 @@
 export function initSmoothScroll() {
   const links = document.querySelectorAll('a[href^="#"]');
   
+  // Флаг для отслеживания скролла (предотвращает случайные срабатывания)
+  let isScrolling = false;
+  let scrollTimeout;
+  
+  // Отслеживаем скролл страницы
+  window.addEventListener('scroll', () => {
+    isScrolling = true;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      isScrolling = false;
+    }, 150);
+  }, { passive: true });
+  
   links.forEach(link => {
     // Проверяем, не добавлен ли уже обработчик (защита от дублирования)
     if (link.dataset.smoothScrollHandlerAdded) return;
@@ -17,6 +30,13 @@ export function initSmoothScroll() {
       
       // Пропускаем пустые якоря и ссылки только с #
       if (!href || href === '#' || href.length <= 1) return;
+      
+      // КРИТИЧНО: Если страница скроллится - не обрабатываем клик
+      if (isScrolling) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       
       try {
         const target = document.querySelector(href);
@@ -41,19 +61,27 @@ export function initSmoothScroll() {
             if (history.pushState && target) {
               const currentUrl = new URL(window.location.href);
               // Обновляем только hash, не трогая pathname
-              history.pushState(null, '', currentUrl.pathname + href);
+              // КРИТИЧНО: Проверяем, что мы не на странице бара (где нет якорных секций)
+              const isBarPage = document.querySelector('.tgg-bar');
+              if (!isBarPage) {
+                history.pushState(null, '', currentUrl.pathname + href);
+              }
             }
           } catch (error) {
             console.warn('Error updating URL:', error);
           }
         } else {
           // Если элемент не найден, не делаем ничего (предотвращаем перезагрузку)
+          e.preventDefault();
+          e.stopPropagation();
           console.warn('Target element not found for:', href);
         }
       } catch (error) {
+        e.preventDefault();
+        e.stopPropagation();
         console.error('Error in smooth scroll:', error);
       }
-    });
+    }, { passive: false });
   });
 }
 
