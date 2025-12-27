@@ -29,9 +29,12 @@ export function initBarModal() {
 
   // Обработчики для кнопок категорий
   categoryButtons.forEach((button) => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    // Функция открытия модального окна
+    const openModal = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       
       const categoryIndex = button.getAttribute('data-bar-category-btn');
       const category = barSection.querySelector(`[data-category-index="${categoryIndex}"]`);
@@ -63,7 +66,58 @@ export function initBarModal() {
       
       // Показываем модальное окно
       showModal(modal);
+    };
+    
+    // Обработчик для touch устройств
+    let touchStartTime = 0;
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let hasMoved = false;
+    
+    button.addEventListener('touchstart', (e) => {
+      touchStartTime = Date.now();
+      const touch = e.touches[0];
+      if (touch) {
+        touchStartY = touch.clientY;
+        touchStartX = touch.clientX;
+        hasMoved = false;
+      }
+    }, { passive: true });
+    
+    button.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      if (touch) {
+        const moveY = Math.abs(touch.clientY - touchStartY);
+        const moveX = Math.abs(touch.clientX - touchStartX);
+        if (moveY > 10 || moveX > 10) {
+          hasMoved = true;
+        }
+      }
+    }, { passive: true });
+    
+    button.addEventListener('touchend', (e) => {
+      const touchDuration = Date.now() - touchStartTime;
+      const touch = e.changedTouches[0];
+      
+      if (touch) {
+        const moveY = Math.abs(touch.clientY - touchStartY);
+        const moveX = Math.abs(touch.clientX - touchStartX);
+        
+        // Если это был тап без движения - открываем модальное окно
+        if (!hasMoved && touchDuration < 400 && moveY < 10 && moveX < 10) {
+          e.preventDefault();
+          e.stopPropagation();
+          openModal(e);
+        }
+      }
+      
+      // Сбрасываем флаги
+      hasMoved = false;
+      touchStartTime = 0;
     }, { passive: false });
+    
+    // Обработчик для клика (работает на всех устройствах)
+    button.addEventListener('click', openModal);
   });
 
   // Закрытие модального окна

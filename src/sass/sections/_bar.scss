@@ -69,27 +69,41 @@
       transition: all 0.3s ease;
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+      box-sizing: border-box;
+      min-height: 60px;
       
       @media (max-width: 767px) {
         padding: $spacing-md $spacing-lg;
+        min-height: 56px;
+        gap: $spacing-sm;
       }
       
-      &:hover {
-        border-color: rgba(59, 130, 246, 0.8);
-        box-shadow: 
-          0 6px 30px rgba(59, 130, 246, 0.4),
-          0 0 40px rgba(59, 130, 246, 0.25);
-        transform: translateY(-2px);
+      // Hover только на устройствах с курсором
+      @media (hover: hover) {
+        &:hover {
+          border-color: rgba(59, 130, 246, 0.8);
+          box-shadow: 
+            0 6px 30px rgba(59, 130, 246, 0.4),
+            0 0 40px rgba(59, 130, 246, 0.25);
+          transform: translateY(-2px);
+        }
       }
       
       &:active {
-        transform: translateY(0);
+        transform: scale(0.98);
+        border-color: rgba(59, 130, 246, 0.6);
       }
       
       &:focus-visible {
         outline: 2px solid $color-primary;
         outline-offset: 2px;
       }
+      
+      // Убираем стандартные стили кнопки
+      -webkit-appearance: none;
+      appearance: none;
     }
     
     &-btn-icon {
@@ -97,9 +111,27 @@
       color: $color-primary;
       transition: transform 0.3s ease;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
       
-      .tgg-bar__category-btn:hover & {
-        transform: translateX(4px);
+      @media (max-width: 767px) {
+        font-size: 1.25rem;
+        width: 20px;
+        height: 20px;
+      }
+      
+      // Hover только на устройствах с курсором
+      @media (hover: hover) {
+        .tgg-bar__category-btn:hover & {
+          transform: translateX(4px);
+        }
+      }
+      
+      .tgg-bar__category-btn:active & {
+        transform: translateX(2px);
       }
     }
     
