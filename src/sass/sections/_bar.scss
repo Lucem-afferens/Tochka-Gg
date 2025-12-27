@@ -54,17 +54,10 @@
     margin-bottom: $spacing-xl;
     
     &-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: $spacing-md;
+      display: block;
       margin-bottom: $spacing-md;
-      background: transparent;
-      border: none;
       padding: 0;
       width: 100%;
-      text-align: left;
-      pointer-events: none; // Кнопка неактивна, товары всегда видны
       
       @media (max-width: 767px) {
         padding: $spacing-xs 0;

@@ -110,16 +110,11 @@ $categories = $bar_categories && is_array($bar_categories) && !empty($bar_catego
                 ?>
                     <?php if ($category_name && !empty($items)) : ?>
                         <div class="tgg-bar__category" data-category-index="<?php echo esc_attr($index); ?>">
-                            <button class="tgg-bar__category-header" 
-                                    type="button"
-                                    aria-expanded="false"
-                                    aria-controls="bar-category-<?php echo esc_attr($index); ?>"
-                                    data-category-toggle>
+                            <div class="tgg-bar__category-header">
                                 <h2 class="tgg-bar__category-title" id="bar-category-title-<?php echo esc_attr($index); ?>">
                                     <?php echo esc_html($category_name); ?>
                                 </h2>
-                                <span class="tgg-bar__category-toggle-icon" aria-hidden="true"></span>
-                            </button>
+                            </div>
                             
                             <?php if ($category_description) : ?>
                                 <p class="tgg-bar__category-description">

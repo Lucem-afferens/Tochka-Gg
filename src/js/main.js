@@ -30,7 +30,6 @@ import { initLangameBooking } from './modules/booking.js';
 import { initNewsCards } from './modules/news-cards.js';
 import './modules/vr-modal.js';
 import { optimizeHeroForMobile } from './modules/hero-optimization.js';
-import { initBarAccordion } from './modules/bar-accordion.js';
 
 // ============================================
 // INITIALIZATION
