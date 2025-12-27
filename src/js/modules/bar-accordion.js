@@ -29,6 +29,14 @@ export function initBarAccordion() {
     // Флаг для предотвращения множественных кликов
     let isAnimating = false;
     
+    // Отслеживание touch событий для различения скролла и клика
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+    let hasMoved = false;
+    const TOUCH_MOVE_THRESHOLD = 10; // пикселей
+    const TOUCH_TIME_THRESHOLD = 300; // миллисекунд
+    
     // Создаем кнопку для открытия/закрытия
     const toggleButton = document.createElement('button');
     toggleButton.className = 'tgg-bar__category-toggle';
@@ -49,16 +57,102 @@ export function initBarAccordion() {
     titleWrapper.appendChild(categoryTitle);
     titleWrapper.appendChild(toggleButton);
     
+    // Функция для безопасного переключения
+    const safeToggle = (e) => {
+      if (isAnimating) return false;
+      
+      // На мобильных проверяем, что это был реальный клик, а не скролл
+      if (isMobile()) {
+        // Если было движение - это точно скролл
+        if (hasMoved) {
+          return false;
+        }
+        
+        // Для touch событий проверяем время и расстояние
+        if (e.type === 'touchend' || e.changedTouches) {
+          const touchTime = Date.now() - touchStartTime;
+          const touch = e.changedTouches?.[0] || e.touches?.[0];
+          
+          if (touch) {
+            const moveDistance = Math.sqrt(
+              Math.pow(touchStartX - touch.clientX, 2) +
+              Math.pow(touchStartY - touch.clientY, 2)
+            );
+            
+            // Если было движение или слишком долгое нажатие - это не клик
+            if (moveDistance > TOUCH_MOVE_THRESHOLD || touchTime > TOUCH_TIME_THRESHOLD) {
+              return false;
+            }
+          }
+        }
+        
+        // Для обычных кликов (не touch) на мобильных - проверяем, не было ли недавнего touch
+        if (e.type === 'click' && touchStartTime > 0) {
+          const timeSinceTouch = Date.now() - touchStartTime;
+          // Если touch был недавно и не было движения - это может быть клик после touch
+          if (timeSinceTouch < 500 && !hasMoved) {
+            return true;
+          }
+        }
+      }
+      
+      return true;
+    };
+    
+    // Обработка touch событий для различения скролла и клика
+    const handleTouchStart = (e) => {
+      if (!isMobile()) return;
+      
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchStartTime = Date.now();
+      hasMoved = false;
+    };
+    
+    const handleTouchMove = (e) => {
+      if (!isMobile()) return;
+      
+      const touch = e.touches[0];
+      const moveX = Math.abs(touch.clientX - touchStartX);
+      const moveY = Math.abs(touch.clientY - touchStartY);
+      
+      // Если движение больше порога - это скролл
+      if (moveX > TOUCH_MOVE_THRESHOLD || moveY > TOUCH_MOVE_THRESHOLD) {
+        hasMoved = true;
+      }
+    };
+    
+    const handleTouchEnd = (e) => {
+      if (!isMobile()) return;
+      
+      // Сбрасываем флаги через небольшую задержку
+      setTimeout(() => {
+        hasMoved = false;
+        touchStartX = 0;
+        touchStartY = 0;
+        touchStartTime = 0;
+      }, 100);
+    };
+    
+    // Добавляем обработчики touch событий
+    titleWrapper.addEventListener('touchstart', handleTouchStart, { passive: true });
+    titleWrapper.addEventListener('touchmove', handleTouchMove, { passive: true });
+    titleWrapper.addEventListener('touchend', handleTouchEnd, { passive: true });
+    toggleButton.addEventListener('touchstart', handleTouchStart, { passive: true });
+    toggleButton.addEventListener('touchmove', handleTouchMove, { passive: true });
+    toggleButton.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
     // Делаем заголовок кликабельным (на мобильных работает всегда, на десктопе только если кнопка видна)
     titleWrapper.addEventListener('click', (e) => {
       // Если клик не на кнопку, то переключаем (только на мобильных)
       if (isMobile() && e.target !== toggleButton && !toggleButton.contains(e.target)) {
-        e.preventDefault();
-        if (!isAnimating) {
+        if (safeToggle(e)) {
+          e.preventDefault();
           toggleButton.click();
         }
       }
-    }, { passive: true });
+    }, { passive: false });
     
     // Устанавливаем ID для контента
     categoryItems.id = `bar-category-${index}`;
@@ -77,10 +171,32 @@ export function initBarAccordion() {
       categoryItems.classList.remove('is-open');
     }
     
-    // Обработчик клика с защитой от множественных кликов
-    toggleButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    // Флаг для предотвращения двойного срабатывания (click + touchend)
+    let wasTouched = false;
+    
+    // Обработчик клика с защитой от множественных кликов и случайных срабатываний
+    const handleToggle = (e) => {
+      // На мобильных проверяем, что это не случайное срабатывание при скролле
+      if (isMobile() && !safeToggle(e)) {
+        if (e.type === 'click') {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        return;
+      }
+      
+      // Предотвращаем двойное срабатывание (touchend + click)
+      if (isMobile() && e.type === 'click' && wasTouched) {
+        wasTouched = false;
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      
+      if (e.type !== 'touchend') {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       
       // Защита от множественных кликов
       if (isAnimating) return;
@@ -102,7 +218,27 @@ export function initBarAccordion() {
       setTimeout(() => {
         isAnimating = false;
       }, prefersReducedMotion ? 0 : 400);
-    }, { passive: false });
+    };
+    
+    toggleButton.addEventListener('click', handleToggle, { passive: false });
+    
+    // На мобильных обрабатываем touchend для более точного определения клика
+    if (isMobile()) {
+      toggleButton.addEventListener('touchend', (e) => {
+        // Проверяем, что это не скролл
+        if (!hasMoved && !isAnimating) {
+          const touchTime = Date.now() - touchStartTime;
+          if (touchTime < TOUCH_TIME_THRESHOLD) {
+            wasTouched = true;
+            handleToggle(e);
+            // Сбрасываем флаг через время, достаточное для предотвращения click события
+            setTimeout(() => {
+              wasTouched = false;
+            }, 300);
+          }
+        }
+      }, { passive: false });
+    }
   });
 
   // Обработка изменения размера окна (оптимизировано)
