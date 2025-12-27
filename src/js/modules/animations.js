@@ -6,6 +6,13 @@
 
 // Оптимизированная версия: проверка prefers-reduced-motion
 export function initScrollAnimations() {
+  // Проверяем, не на странице бара (где могут быть конфликты)
+  const isBarPage = document.querySelector('.tgg-bar[data-bar-page="true"]');
+  if (isBarPage) {
+    // На странице бара не инициализируем анимации для предотвращения конфликтов
+    return;
+  }
+  
   // Проверяем настройки пользователя для уменьшенной анимации
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) {

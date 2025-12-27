@@ -103,7 +103,15 @@ export function initNavigation() {
   });
   
   // Блокировка скролла при открытом меню
+  // ВАЖНО: Работает только когда меню открыто, не блокируем скролл на странице бара
   document.addEventListener('wheel', (e) => {
+    // Проверяем, не на странице бара
+    const isBarPage = document.querySelector('.tgg-bar[data-bar-page="true"]');
+    if (isBarPage) {
+      // На странице бара не блокируем wheel
+      return;
+    }
+    
     if (window.innerWidth <= 1023 && nav.classList.contains('active')) {
       e.preventDefault();
       return false;
@@ -111,7 +119,15 @@ export function initNavigation() {
   }, { passive: false });
   
   // Блокировка touchmove (для мобильных устройств)
+  // ВАЖНО: Работает только когда меню открыто, не блокируем скролл на странице бара
   document.addEventListener('touchmove', (e) => {
+    // Проверяем, не на странице бара
+    const isBarPage = document.querySelector('.tgg-bar[data-bar-page="true"]');
+    if (isBarPage) {
+      // На странице бара не блокируем touchmove
+      return;
+    }
+    
     if (window.innerWidth <= 1023 && nav.classList.contains('active')) {
       // Разрешаем скролл только внутри меню
       if (!nav.contains(e.target)) {
@@ -240,6 +256,20 @@ export function initNavigation() {
   let scrollTimeout;
   
   function handleScroll() {
+    // Проверяем, не на странице бара
+    const isBarPage = document.querySelector('.tgg-bar[data-bar-page="true"]');
+    if (isBarPage) {
+      // На странице бара только обновляем header, не трогаем меню
+      const currentScroll = window.pageYOffset;
+      if (currentScroll > 50) {
+        header?.classList.add('scrolled');
+      } else {
+        header?.classList.remove('scrolled');
+      }
+      scrollTicking = false;
+      return;
+    }
+    
     const currentScroll = window.pageYOffset;
     
     // Обновление header (scrolled класс)
