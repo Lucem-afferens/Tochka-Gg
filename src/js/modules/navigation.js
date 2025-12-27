@@ -150,58 +150,86 @@ export function initNavigation() {
   // ============================================
   
   function setActiveMenuItem() {
-    const currentPath = window.location.pathname;
-    const currentHref = window.location.href;
-    
-    // Очищаем все активные классы
-    navLinks.forEach((link) => {
-      link.classList.remove('active');
-    });
-    
-    // Определяем активную ссылку по текущему URL
-    navLinks.forEach((link) => {
-      const href = link.getAttribute('href');
-      if (!href) return;
+    try {
+      const currentPath = window.location.pathname;
+      const currentHref = window.location.href;
+      const currentHash = window.location.hash;
       
-      // Нормализуем URL для сравнения
-      const linkUrl = new URL(href, window.location.origin);
-      const currentUrl = new URL(currentHref);
+      // Очищаем все активные классы
+      navLinks.forEach((link) => {
+        link.classList.remove('active');
+      });
       
-      // Проверяем совпадение пути
-      const linkPath = linkUrl.pathname.replace(/\/$/, ''); // Убираем trailing slash
-      const currentPathNormalized = currentPath.replace(/\/$/, '');
-      
-      // Для главной страницы
-      if ((linkPath === '' || linkPath === '/') && (currentPathNormalized === '' || currentPathNormalized === '/')) {
-        link.classList.add('active');
-        return;
-      }
-      
-      // Для других страниц - проверяем совпадение пути
-      if (linkPath !== '' && linkPath !== '/' && currentPathNormalized.includes(linkPath)) {
-        link.classList.add('active');
-        return;
-      }
-      
-      // Проверка по якорям (для секций на главной странице)
-      if (href.startsWith('#')) {
-        const targetId = href.substring(1);
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          const rect = targetElement.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 100) {
-            link.classList.add('active');
+      // Определяем активную ссылку по текущему URL
+      navLinks.forEach((link) => {
+        const href = link.getAttribute('href');
+        if (!href || href === '#') return;
+        
+        // Проверка по якорям (для секций на главной странице)
+        if (href.startsWith('#')) {
+          const targetId = href.substring(1);
+          if (!targetId) return;
+          
+          // Проверяем, есть ли элемент на странице
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            const rect = targetElement.getBoundingClientRect();
+            // Проверяем, находится ли элемент в видимой области
+            if (rect.top <= 200 && rect.bottom >= 100) {
+              link.classList.add('active');
+            }
           }
+          return;
         }
-      }
-    });
+        
+        // Для обычных ссылок - нормализуем URL для сравнения
+        try {
+          const linkUrl = new URL(href, window.location.origin);
+          const currentUrl = new URL(currentHref);
+          
+          // Проверяем совпадение пути
+          const linkPath = linkUrl.pathname.replace(/\/$/, ''); // Убираем trailing slash
+          const currentPathNormalized = currentPath.replace(/\/$/, '');
+          
+          // Для главной страницы
+          if ((linkPath === '' || linkPath === '/') && (currentPathNormalized === '' || currentPathNormalized === '/')) {
+            // Проверяем, нет ли хеша в URL
+            if (!currentHash) {
+              link.classList.add('active');
+            }
+            return;
+          }
+          
+          // Для других страниц - проверяем совпадение пути
+          if (linkPath !== '' && linkPath !== '/' && currentPathNormalized.includes(linkPath)) {
+            link.classList.add('active');
+            return;
+          }
+        } catch (e) {
+          // Игнорируем ошибки парсинга URL (например, для mailto:, tel: и т.д.)
+          console.warn('Error parsing URL:', href, e);
+        }
+      });
+    } catch (error) {
+      console.error('Error in setActiveMenuItem:', error);
+    }
   }
   
   // Проверка активного элемента при загрузке и изменении URL
   setActiveMenuItem();
   
   // Обновляем при изменении истории (навигация назад/вперед)
-  window.addEventListener('popstate', setActiveMenuItem);
+  // ВАЖНО: Обрабатываем только реальные изменения истории, не трогаем при скролле
+  window.addEventListener('popstate', (e) => {
+    // Защита от множественных вызовов
+    if (window._isHandlingPopstate) return;
+    window._isHandlingPopstate = true;
+    
+    setTimeout(() => {
+      setActiveMenuItem();
+      window._isHandlingPopstate = false;
+    }, 50);
+  });
   
   // ============================================
   // HEADER SCROLL EFFECT + ACTIVE MENU DETECTION (объединены)
@@ -222,16 +250,20 @@ export function initNavigation() {
     }
     
     // Обновление активного пункта меню (только для якорных ссылок, с debounce)
+    // ВАЖНО: Обновляем только если мы на главной странице (где есть якорные секции)
+    // На других страницах (например, страница бара) не обновляем активный пункт при скролле
+    const isHomePage = window.location.pathname === '/' || window.location.pathname === '';
     const anchorLinks = Array.from(navLinks).filter(link => {
       const href = link.getAttribute('href');
-      return href && href.startsWith('#');
+      return href && href.startsWith('#') && href !== '#';
     });
     
-    if (anchorLinks.length > 0) {
+    // Обновляем активный пункт меню только на главной странице и только если есть якорные ссылки
+    if (isHomePage && anchorLinks.length > 0) {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         setActiveMenuItem();
-      }, 100);
+      }, 150);
     }
     
     lastScroll = currentScroll;
@@ -247,33 +279,30 @@ export function initNavigation() {
   }, { passive: true });
   
   // ============================================
-  // SMOOTH SCROLL FOR ANCHOR LINKS
+  // SMOOTH SCROLL FOR ANCHOR LINKS (только для навигации)
   // ============================================
+  // ПРИМЕЧАНИЕ: smooth-scroll.js обрабатывает все якорные ссылки на странице,
+  // поэтому здесь мы обрабатываем только ссылки в навигации для дополнительной логики
   
   navLinks.forEach(link => {
     const href = link.getAttribute('href');
     
-    if (href && href.startsWith('#')) {
+    if (href && href.startsWith('#') && href !== '#') {
+      // Проверяем, не добавлен ли уже обработчик (защита от дублирования)
+      if (link.dataset.navHandlerAdded) return;
+      link.dataset.navHandlerAdded = 'true';
+      
       link.addEventListener('click', (e) => {
         const targetId = href.substring(1);
+        if (!targetId) return;
+        
         const targetElement = document.getElementById(targetId);
         
         if (targetElement) {
-          e.preventDefault();
-          
+          // Не предотвращаем стандартное поведение здесь, так как smooth-scroll.js уже обработает это
+          // Просто обновляем активный класс
           navLinks.forEach(l => l.classList.remove('active'));
           link.classList.add('active');
-          
-          const headerHeight = header?.offsetHeight || 0;
-          const targetPosition = targetElement.offsetTop - headerHeight - 20;
-          
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-          
-          // Обновляем URL без перезагрузки
-          history.pushState(null, '', href);
         }
       });
     }
