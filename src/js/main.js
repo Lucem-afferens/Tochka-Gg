@@ -30,6 +30,7 @@ import { initLangameBooking } from './modules/booking.js';
 import { initNewsCards } from './modules/news-cards.js';
 import './modules/vr-modal.js';
 import { optimizeHeroForMobile } from './modules/hero-optimization.js';
+import { initBarModal } from './modules/bar-modal.js';
 
 // ============================================
 // INITIALIZATION
@@ -70,7 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initNewsCards();
   }
   
-  // Аккордеон для категорий бара отключен - товары всегда видны
+  // Модальное окно для категорий бара
+  if (document.querySelector('.tgg-bar')) {
+    initBarModal();
+  }
   
   console.log('✅ Tochka Gg theme initialized');
 });

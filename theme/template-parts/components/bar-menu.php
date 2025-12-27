@@ -110,11 +110,15 @@ $categories = $bar_categories && is_array($bar_categories) && !empty($bar_catego
                 ?>
                     <?php if ($category_name && !empty($items)) : ?>
                         <div class="tgg-bar__category" data-category-index="<?php echo esc_attr($index); ?>">
-                            <div class="tgg-bar__category-header">
+                            <button class="tgg-bar__category-btn" 
+                                    type="button"
+                                    data-bar-category-btn="<?php echo esc_attr($index); ?>"
+                                    aria-label="<?php echo esc_attr(sprintf('Открыть категорию %s', $category_name)); ?>">
                                 <h2 class="tgg-bar__category-title" id="bar-category-title-<?php echo esc_attr($index); ?>">
                                     <?php echo esc_html($category_name); ?>
                                 </h2>
-                            </div>
+                                <span class="tgg-bar__category-btn-icon" aria-hidden="true">→</span>
+                            </button>
                             
                             <?php if ($category_description) : ?>
                                 <p class="tgg-bar__category-description">
@@ -122,10 +126,12 @@ $categories = $bar_categories && is_array($bar_categories) && !empty($bar_catego
                                 </p>
                             <?php endif; ?>
                             
+                            <!-- Товары скрыты, будут показаны в модальном окне -->
                             <div class="tgg-bar__items" 
                                  id="bar-category-<?php echo esc_attr($index); ?>"
                                  aria-labelledby="bar-category-title-<?php echo esc_attr($index); ?>"
-                                 data-bar-items>
+                                 data-bar-items
+                                 style="display: none;">
                                 <?php foreach ($items as $item) : 
                                     $item_name = isset($item['name']) ? $item['name'] : '';
                                     $item_price = isset($item['price']) ? $item['price'] : '0';

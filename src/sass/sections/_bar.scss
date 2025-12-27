@@ -53,14 +53,53 @@
     position: relative;
     margin-bottom: $spacing-xl;
     
-    &-header {
-      display: block;
-      margin-bottom: $spacing-md;
-      padding: 0;
+    &-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $spacing-md;
       width: 100%;
+      margin-bottom: $spacing-md;
+      padding: $spacing-lg $spacing-xl;
+      background: transparent;
+      border: $border-width-medium solid rgba(59, 130, 246, 0.4);
+      border-radius: $border-radius-lg;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.3s ease;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
       
       @media (max-width: 767px) {
-        padding: $spacing-xs 0;
+        padding: $spacing-md $spacing-lg;
+      }
+      
+      &:hover {
+        border-color: rgba(59, 130, 246, 0.8);
+        box-shadow: 
+          0 6px 30px rgba(59, 130, 246, 0.4),
+          0 0 40px rgba(59, 130, 246, 0.25);
+        transform: translateY(-2px);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+      
+      &:focus-visible {
+        outline: 2px solid $color-primary;
+        outline-offset: 2px;
+      }
+    }
+    
+    &-btn-icon {
+      font-size: 1.5rem;
+      color: $color-primary;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+      
+      .tgg-bar__category-btn:hover & {
+        transform: translateX(4px);
       }
     }
     
@@ -79,14 +118,18 @@
         0 0 35px rgba(59, 130, 246, 0.5),
         0 0 25px rgba(255, 107, 53, 0.4);
       transition: text-shadow 0.3s ease, color 0.3s ease;
-      padding-bottom: $spacing-md;
-      border-bottom: $border-width-medium solid rgba(59, 130, 246, 0.3);
       
       @include max-width(sm) {
         font-size: clamp(1.125rem, 3vw, 1.75rem);
-        padding-bottom: $spacing-sm;
       }
       
+      .tgg-bar__category-btn:hover & {
+        color: $color-primary;
+        text-shadow: 
+          0 0 25px rgba(59, 130, 246, 1),
+          0 0 45px rgba(59, 130, 246, 0.7),
+          0 0 35px rgba(255, 107, 53, 0.5);
+      }
     }
     
     &-toggle-icon {
@@ -281,5 +324,183 @@
   50% {
     background-position: 100% 50%;
     opacity: 0.8;
+  }
+}
+
+// ============================================
+// BAR MODAL
+// ============================================
+
+.tgg-bar-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+  
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+  
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  &__container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    max-height: 90vh;
+    margin: $spacing-xl;
+    z-index: 1;
+    
+    @include max-width(sm) {
+      margin: $spacing-md;
+      max-height: 95vh;
+    }
+  }
+  
+  &__content {
+    position: relative;
+    background: $color-bg-primary;
+    border: $border-width-medium solid rgba(59, 130, 246, 0.4);
+    border-radius: $border-radius-xl;
+    padding: $spacing-4xl;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 0 80px rgba(59, 130, 246, 0.3);
+    
+    @include max-width(sm) {
+      padding: $spacing-2xl $spacing-xl;
+      max-height: 95vh;
+    }
+    
+    // Кастомный скроллбар
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.5);
+      border-radius: 4px;
+      
+      &:hover {
+        background: rgba(59, 130, 246, 0.7);
+      }
+    }
+  }
+  
+  &__close {
+    position: absolute;
+    top: $spacing-xl;
+    right: $spacing-xl;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: $border-width-medium solid rgba(59, 130, 246, 0.4);
+    border-radius: 50%;
+    color: $color-text-primary;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    touch-action: manipulation;
+    z-index: 10;
+    
+    @include max-width(sm) {
+      top: $spacing-md;
+      right: $spacing-md;
+      width: 36px;
+      height: 36px;
+      font-size: 1.5rem;
+    }
+    
+    &:hover {
+      border-color: rgba(59, 130, 246, 0.8);
+      background: rgba(59, 130, 246, 0.1);
+      transform: rotate(90deg);
+    }
+    
+    &:active {
+      transform: rotate(90deg) scale(0.95);
+    }
+    
+    &:focus-visible {
+      outline: 2px solid $color-primary;
+      outline-offset: 2px;
+    }
+    
+    span {
+      display: block;
+      line-height: 1;
+    }
+  }
+  
+  &__title {
+    font-family: $font-heading;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: $font-weight-heading-bold;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 $spacing-3xl 0;
+    text-align: center;
+    @include heading-neon-glow;
+    
+    @include max-width(sm) {
+      margin-bottom: $spacing-2xl;
+      padding-right: $spacing-4xl; // Место для кнопки закрытия
+    }
+  }
+  
+  &__items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: $spacing-xl;
+    
+    @include max-width(sm) {
+      grid-template-columns: 1fr;
+      gap: $spacing-lg;
+    }
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    // Стили для товаров в модальном окне (наследуются от .tgg-bar__item)
+    .tgg-bar__item {
+      margin: 0;
+    }
   }
 }
