@@ -45,7 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Дополнительные функции (если есть нужные элементы)
   if (document.querySelector('.tgg-hero')) {
-    initParallax();
+    // Параллакс отключен - фон прокручивается вместе с секцией как обычный элемент
+    // initParallax();
     optimizeHeroForMobile(); // Оптимизация hero для мобильных устройств
   }
   

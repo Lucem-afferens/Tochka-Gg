@@ -86,8 +86,8 @@ function tochkagg_cache_bust() {
         return $src;
     }, 10, 1);
 }
-// Раскомментируйте следующую строку для принудительного сброса кеша
-// add_action('wp_enqueue_scripts', 'tochkagg_cache_bust', 999);
+// Принудительный сброс кеша (временно включен для обновления крестика модального окна)
+add_action('wp_enqueue_scripts', 'tochkagg_cache_bust', 999);
 
 /**
  * Обновление правил перезаписи (flush rewrite rules)
