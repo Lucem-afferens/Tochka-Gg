@@ -64,27 +64,10 @@
       padding: 0;
       width: 100%;
       text-align: left;
-      cursor: pointer;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      // Изолируем события кнопки от карточек
-      position: relative;
-      z-index: 10;
+      pointer-events: none; // Кнопка неактивна, товары всегда видны
       
       @media (max-width: 767px) {
         padding: $spacing-xs 0;
-      }
-      
-      &:focus-visible {
-        outline: 2px solid $color-primary;
-        outline-offset: 2px;
-        border-radius: $border-radius-sm;
-      }
-      
-      // Предотвращаем взаимодействие с дочерними элементами при скролле
-      * {
-        pointer-events: none;
       }
     }
     
@@ -111,58 +94,10 @@
         padding-bottom: $spacing-sm;
       }
       
-      .tgg-bar__category.is-open & {
-        color: $color-primary;
-        text-shadow: 
-          0 0 25px rgba(59, 130, 246, 1),
-          0 0 45px rgba(59, 130, 246, 0.7),
-          0 0 35px rgba(255, 107, 53, 0.5);
-      }
     }
     
     &-toggle-icon {
-      display: block;
-      width: 20px;
-      height: 20px;
-      position: relative;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-      
-      &::before,
-      &::after {
-        content: '';
-        position: absolute;
-        background: $color-primary;
-        box-shadow: 0 0 6px rgba(59, 130, 246, 0.9);
-        border-radius: 1px;
-      }
-      
-      &::before {
-        width: 2.5px;
-        height: 10px;
-        top: 4px;
-        left: 50%;
-        transform: translateX(-50%) translateY(-2px) rotate(45deg);
-        transform-origin: bottom center;
-      }
-      
-      &::after {
-        width: 2.5px;
-        height: 10px;
-        top: 4px;
-        right: 50%;
-        transform: translateX(50%) translateY(-2px) rotate(-45deg);
-        transform-origin: bottom center;
-      }
-      
-      .tgg-bar__category.is-open & {
-        transform: rotate(180deg);
-      }
-      
-      // На десктопе скрываем иконку
-      @media (min-width: 768px) {
-        display: none;
-      }
+      display: none; // Иконка скрыта, аккордеон отключен
     }
     
     &-description {
@@ -180,9 +115,11 @@
     grid-template-columns: 1fr;
     gap: $spacing-xl;
     width: 100%;
-    // Изолируем события карточек от кнопки аккордеона
     position: relative;
     z-index: 1;
+    // Товары всегда видны на всех устройствах
+    max-height: none;
+    opacity: 1;
     
     @include respond-to(sm) {
       grid-template-columns: repeat(2, 1fr);
@@ -194,25 +131,6 @@
     
     @include respond-to(lg) {
       grid-template-columns: repeat(4, 1fr);
-    }
-    
-    // На мобильных - аккордеон
-    @media (max-width: 767px) {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 0.3s ease, opacity 0.3s ease;
-      
-      &.is-open {
-        max-height: 10000px; // Большое значение для плавной анимации
-        opacity: 1;
-      }
-    }
-    
-    // На десктопе всегда видимы
-    @media (min-width: 768px) {
-      max-height: none;
-      opacity: 1;
     }
   }
   

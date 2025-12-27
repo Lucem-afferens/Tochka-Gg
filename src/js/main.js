@@ -71,10 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNewsCards();
   }
   
-  // Аккордеон для категорий бара
-  if (document.querySelector('.tgg-bar')) {
-    initBarAccordion();
-  }
+  // Аккордеон для категорий бара отключен - товары всегда видны
   
   console.log('✅ Tochka Gg theme initialized');
 });
