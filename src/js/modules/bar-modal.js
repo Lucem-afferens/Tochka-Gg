@@ -6,9 +6,21 @@
  * iOS-safe: использует класс на body вместо overflow на html
  */
 
+// Флаг для защиты от дублирования обработчика keydown
+let escapeHandlerAdded = false;
+let escapeHandler = null;
+
 export function initBarModal() {
   const barSection = document.querySelector('.tgg-bar');
   if (!barSection) return;
+
+  // Проверка: если accordion активен, не инициализируем модальное окно
+  // (защита от конфликта, хотя accordion сейчас отключен)
+  const accordionButtons = barSection.querySelectorAll('[data-category-toggle]');
+  if (accordionButtons.length > 0) {
+    console.warn('Bar accordion detected. Modal will not initialize to avoid conflicts.');
+    return;
+  }
 
   // Создаем модальное окно, если его еще нет
   let modal = document.getElementById('bar-modal');
@@ -29,6 +41,10 @@ export function initBarModal() {
 
   // Обработчики для кнопок категорий - ТОЛЬКО click (браузер сам обрабатывает tap → click)
   categoryButtons.forEach((button) => {
+    // Проверка: не добавляем обработчик повторно
+    if (button.dataset.barModalHandlerAdded) return;
+    button.dataset.barModalHandlerAdded = 'true';
+    
     button.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -54,9 +70,9 @@ export function initBarModal() {
       if (modalItems) {
         modalItems.innerHTML = '';
         
-        // Копируем товары в модальное окно
+        // Копируем товары в модальное окно с очисткой лишних атрибутов
         items.forEach((item) => {
-          const itemClone = item.cloneNode(true);
+          const itemClone = cloneItemSafely(item);
           modalItems.appendChild(itemClone);
         });
       }
@@ -68,27 +84,85 @@ export function initBarModal() {
 
   // Закрытие модального окна
   if (closeBtn) {
-    closeBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeModal(modal);
-    });
+    // Проверка: не добавляем обработчик повторно
+    if (!closeBtn.dataset.barModalCloseHandlerAdded) {
+      closeBtn.dataset.barModalCloseHandlerAdded = 'true';
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal(modal);
+      });
+    }
   }
 
   if (overlay) {
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        closeModal(modal);
-      }
-    });
+    // Проверка: не добавляем обработчик повторно
+    if (!overlay.dataset.barModalOverlayHandlerAdded) {
+      overlay.dataset.barModalOverlayHandlerAdded = 'true';
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          closeModal(modal);
+        }
+      });
+    }
   }
 
-  // Закрытие по Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('tgg-bar-modal--visible')) {
-      closeModal(modal);
-    }
+  // Закрытие по Escape - защита от дублирования
+  if (!escapeHandlerAdded) {
+    escapeHandler = (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('tgg-bar-modal--visible')) {
+        closeModal(modal);
+      }
+    };
+    document.addEventListener('keydown', escapeHandler);
+    escapeHandlerAdded = true;
+  }
+}
+
+/**
+ * Безопасное клонирование карточки товара
+ * Очищает лишние атрибуты и состояние, которые могут вызвать конфликты
+ */
+function cloneItemSafely(item) {
+  const clone = item.cloneNode(true);
+  
+  // Очищаем data-атрибуты, которые могут быть связаны с интерактивностью
+  const dataAttributes = clone.querySelectorAll('[data-*]');
+  dataAttributes.forEach((el) => {
+    // Сохраняем только data-bar-item (структурный атрибут)
+    const attrs = Array.from(el.attributes);
+    attrs.forEach((attr) => {
+      if (attr.name.startsWith('data-') && attr.name !== 'data-bar-item') {
+        el.removeAttribute(attr.name);
+      }
+    });
   });
+  
+  // Очищаем aria-атрибуты, которые могут быть связаны с интерактивностью
+  const ariaElements = clone.querySelectorAll('[aria-*]');
+  ariaElements.forEach((el) => {
+    const attrs = Array.from(el.attributes);
+    attrs.forEach((attr) => {
+      if (attr.name.startsWith('aria-') && 
+          attr.name !== 'aria-hidden' && 
+          attr.name !== 'aria-label') {
+        el.removeAttribute(attr.name);
+      }
+    });
+  });
+  
+  // Очищаем inline стили, которые могут быть связаны с состоянием
+  const styledElements = clone.querySelectorAll('[style]');
+  styledElements.forEach((el) => {
+    // Сохраняем только критичные inline стили (если есть)
+    // В нашем случае удаляем все, так как стили должны быть в CSS
+    el.removeAttribute('style');
+  });
+  
+  // Удаляем event listeners (они не копируются через cloneNode, но на всякий случай)
+  // Это не нужно, но оставляем комментарий для ясности
+  
+  return clone;
 }
 
 /**
@@ -159,5 +233,16 @@ function closeModal(modal) {
   
   if (scrollY) {
     window.scrollTo(0, parseInt(scrollY || '0') * -1);
+  }
+}
+
+/**
+ * Очистка обработчиков (для будущего использования, если понадобится)
+ */
+export function cleanupBarModal() {
+  if (escapeHandler && escapeHandlerAdded) {
+    document.removeEventListener('keydown', escapeHandler);
+    escapeHandlerAdded = false;
+    escapeHandler = null;
   }
 }
