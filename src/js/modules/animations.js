@@ -25,6 +25,20 @@ export function initScrollAnimations() {
   
   if (animatedElements.length === 0) return;
   
+  // Функция для проверки, виден ли элемент в viewport при загрузке
+  const isElementInViewport = (element) => {
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    
+    // Элемент считается видимым, если он находится в видимой области экрана
+    // с учетом небольшого отступа сверху
+    return (
+      rect.top < windowHeight + 100 && // Учитываем rootMargin
+      rect.bottom > -100
+    );
+  };
+  
+  // Создаем observer с опциями
   const observerOptions = {
     root: null,
     rootMargin: '0px 0px -100px 0px',
@@ -34,6 +48,13 @@ export function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
+        // Проверяем, не был ли элемент уже обработан при загрузке
+        if (entry.target.dataset.animationProcessed === 'true') {
+          // Элемент уже был обработан при загрузке, пропускаем
+          observer.unobserve(entry.target);
+          return;
+        }
+        
         // Используем requestAnimationFrame вместо setTimeout для лучшей производительности
         requestAnimationFrame(() => {
           setTimeout(() => {
@@ -45,8 +66,22 @@ export function initScrollAnimations() {
     });
   }, observerOptions);
   
-  animatedElements.forEach(element => {
-    observer.observe(element);
+  // Проверяем элементы, которые уже видны при загрузке страницы
+  // и сразу устанавливаем для них финальное состояние без анимации
+  // Используем requestAnimationFrame для гарантии выполнения после рендеринга
+  requestAnimationFrame(() => {
+    animatedElements.forEach((element) => {
+      if (isElementInViewport(element)) {
+        // Элемент уже виден - устанавливаем финальное состояние напрямую
+        // чтобы избежать мерцания (не применяем анимацию)
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
+        element.dataset.animationProcessed = 'true';
+      } else {
+        // Элемент не виден - добавляем в observer для анимации при появлении
+        observer.observe(element);
+      }
+    });
   });
 }
 
