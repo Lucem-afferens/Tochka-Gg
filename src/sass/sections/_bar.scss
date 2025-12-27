@@ -68,6 +68,9 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      // Изолируем события кнопки от карточек
+      position: relative;
+      z-index: 10;
       
       @media (max-width: 767px) {
         padding: $spacing-xs 0;
@@ -77,6 +80,11 @@
         outline: 2px solid $color-primary;
         outline-offset: 2px;
         border-radius: $border-radius-sm;
+      }
+      
+      // Предотвращаем взаимодействие с дочерними элементами при скролле
+      * {
+        pointer-events: none;
       }
     }
     
@@ -172,6 +180,9 @@
     grid-template-columns: 1fr;
     gap: $spacing-xl;
     width: 100%;
+    // Изолируем события карточек от кнопки аккордеона
+    position: relative;
+    z-index: 1;
     
     @include respond-to(sm) {
       grid-template-columns: repeat(2, 1fr);
@@ -215,6 +226,10 @@
     flex-direction: column;
     height: 100%;
     position: relative;
+    // Предотвращаем всплытие событий
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
     
     box-shadow: 
       0 6px 30px rgba(59, 130, 246, 0.4),
@@ -274,6 +289,10 @@
       aspect-ratio: 4 / 3;
       overflow: hidden;
       background: $color-bg-primary;
+      // Предотвращаем перетаскивание и выбор изображений
+      -webkit-user-drag: none;
+      user-select: none;
+      touch-action: manipulation;
       
       img {
         width: 100%;
@@ -281,6 +300,11 @@
         object-fit: contain;
         transition: transform 0.3s ease;
         filter: contrast(1.1) brightness(0.9);
+        // Предотвращаем перетаскивание и выбор изображений
+        -webkit-user-drag: none;
+        user-select: none;
+        pointer-events: auto;
+        touch-action: manipulation;
       }
     }
     

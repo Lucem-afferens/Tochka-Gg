@@ -129,7 +129,8 @@ $categories = $bar_categories && is_array($bar_categories) && !empty($bar_catego
                             
                             <div class="tgg-bar__items" 
                                  id="bar-category-<?php echo esc_attr($index); ?>"
-                                 aria-labelledby="bar-category-title-<?php echo esc_attr($index); ?>">
+                                 aria-labelledby="bar-category-title-<?php echo esc_attr($index); ?>"
+                                 data-bar-items>
                                 <?php foreach ($items as $item) : 
                                     $item_name = isset($item['name']) ? $item['name'] : '';
                                     $item_price = isset($item['price']) ? $item['price'] : '0';
@@ -137,7 +138,7 @@ $categories = $bar_categories && is_array($bar_categories) && !empty($bar_catego
                                     $item_image = isset($item['image']) ? $item['image'] : null;
                                 ?>
                                     <?php if ($item_name) : ?>
-                                        <div class="tgg-bar__item">
+                                        <div class="tgg-bar__item" data-bar-item>
                                             <div class="tgg-bar__item-image">
                                                 <?php
                                                 $product_image_data = function_exists('tochkagg_get_image_or_placeholder')
@@ -154,7 +155,8 @@ $categories = $bar_categories && is_array($bar_categories) && !empty($bar_catego
                                                      width="<?php echo esc_attr($product_image_data['width'] ?? 300); ?>"
                                                      height="<?php echo esc_attr($product_image_data['height'] ?? 300); ?>"
                                                      loading="lazy"
-                                                     decoding="async">
+                                                     decoding="async"
+                                                     draggable="false">
                                             </div>
                                             
                                             <div class="tgg-bar__item-content">
