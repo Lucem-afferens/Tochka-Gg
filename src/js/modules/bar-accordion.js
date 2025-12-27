@@ -15,8 +15,9 @@ export function initBarAccordion() {
   // Проверяем настройки пользователя для уменьшенной анимации
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
-  // Определяем, мобильное ли устройство
-  const isMobile = () => window.innerWidth < 768;
+  // Определяем, мобильное ли устройство (кешируем для производительности)
+  let isMobileCached = window.innerWidth < 768;
+  const isMobile = () => isMobileCached;
   
   // Инициализация категорий
   categories.forEach((category, index) => {
@@ -25,6 +26,9 @@ export function initBarAccordion() {
     
     if (!categoryTitle || !categoryItems) return;
 
+    // Флаг для предотвращения множественных кликов
+    let isAnimating = false;
+    
     // Создаем кнопку для открытия/закрытия
     const toggleButton = document.createElement('button');
     toggleButton.className = 'tgg-bar__category-toggle';
@@ -50,9 +54,11 @@ export function initBarAccordion() {
       // Если клик не на кнопку, то переключаем (только на мобильных)
       if (isMobile() && e.target !== toggleButton && !toggleButton.contains(e.target)) {
         e.preventDefault();
-        toggleButton.click();
+        if (!isAnimating) {
+          toggleButton.click();
+        }
       }
-    });
+    }, { passive: true });
     
     // Устанавливаем ID для контента
     categoryItems.id = `bar-category-${index}`;
@@ -69,84 +75,49 @@ export function initBarAccordion() {
     } else {
       category.classList.remove('is-open');
       categoryItems.classList.remove('is-open');
-      // На мобильных скрываем контент сразу
-      categoryItems.style.display = 'none';
     }
     
-    // Обработчик клика
+    // Обработчик клика с защитой от множественных кликов
     toggleButton.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
       
+      // Защита от множественных кликов
+      if (isAnimating) return;
+      
       const isOpen = category.classList.contains('is-open');
       const willBeOpen = !isOpen;
+      
+      isAnimating = true;
       
       // Обновляем состояние
       toggleButton.setAttribute('aria-expanded', willBeOpen);
       category.classList.toggle('is-open', willBeOpen);
       categoryItems.classList.toggle('is-open', willBeOpen);
       
-      // Плавная анимация высоты (если не отключена)
-      if (!prefersReducedMotion) {
-        // Используем requestAnimationFrame для плавности
-        requestAnimationFrame(() => {
-          if (willBeOpen) {
-            // Открываем
-            categoryItems.style.display = 'grid';
-            const height = categoryItems.scrollHeight;
-            categoryItems.style.height = '0px';
-            categoryItems.style.overflow = 'hidden';
-            categoryItems.style.opacity = '0';
-            
-            requestAnimationFrame(() => {
-              categoryItems.style.transition = 'height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease';
-              categoryItems.style.height = `${height}px`;
-              categoryItems.style.opacity = '1';
-              
-              // После завершения анимации
-              setTimeout(() => {
-                categoryItems.style.height = '';
-                categoryItems.style.overflow = '';
-                categoryItems.style.opacity = '';
-                categoryItems.style.transition = '';
-              }, 400);
-            });
-          } else {
-            // Закрываем
-            const height = categoryItems.scrollHeight;
-            categoryItems.style.height = `${height}px`;
-            categoryItems.style.overflow = 'hidden';
-            categoryItems.style.opacity = '1';
-            
-            requestAnimationFrame(() => {
-              categoryItems.style.transition = 'height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease';
-              categoryItems.style.height = '0px';
-              categoryItems.style.opacity = '0';
-              
-              setTimeout(() => {
-                categoryItems.style.display = 'none';
-                categoryItems.style.height = '';
-                categoryItems.style.overflow = '';
-                categoryItems.style.opacity = '';
-                categoryItems.style.transition = '';
-              }, 400);
-            });
-          }
-        });
-      } else {
-        // Если анимация отключена, просто показываем/скрываем
-        if (willBeOpen) {
-          categoryItems.style.display = 'grid';
-        } else {
-          categoryItems.style.display = 'none';
-        }
-      }
-    });
+      // Используем CSS transitions вместо JavaScript анимаций для лучшей производительности
+      // CSS уже настроен для плавных анимаций
+      
+      // Сбрасываем флаг после завершения анимации
+      setTimeout(() => {
+        isAnimating = false;
+      }, prefersReducedMotion ? 0 : 400);
+    }, { passive: false });
   });
 
-  // Обработка изменения размера окна
+  // Обработка изменения размера окна (оптимизировано)
   let resizeTimeout;
-  window.addEventListener('resize', () => {
+  let resizeTicking = false;
+  
+  const handleResize = () => {
+    if (!resizeTicking) {
+      window.requestAnimationFrame(() => {
+        isMobileCached = window.innerWidth < 768;
+        resizeTicking = false;
+      });
+      resizeTicking = true;
+    }
+    
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       const nowIsMobile = isMobile();
@@ -166,15 +137,15 @@ export function initBarAccordion() {
           if (shouldBeOpen) {
             category.classList.add('is-open');
             categoryItems.classList.add('is-open');
-            categoryItems.style.display = 'grid';
           } else {
             category.classList.remove('is-open');
             categoryItems.classList.remove('is-open');
-            categoryItems.style.display = 'none';
           }
         }
       });
-    }, 150);
-  }, { passive: true });
+    }, 200);
+  };
+  
+  window.addEventListener('resize', handleResize, { passive: true });
 }
 

@@ -7,6 +7,10 @@
 .tgg-bar {
   padding: $spacing-5xl 0;
   background: transparent; // Прозрачный фон, чтобы был виден фон body
+  // Оптимизация производительности
+  contain: layout style;
+  // Предотвращаем скачки при скролле
+  will-change: auto;
   
   @include max-width(xs) {
     padding: $spacing-4xl 0 $spacing-3xl; // Верхний отступ 96px вместо 64px для предотвращения скрытия под шапкой
@@ -63,14 +67,10 @@
     position: relative;
     margin-bottom: $spacing-xl;
     
-    // Состояние открыто/закрыто
-    &:not(.is-open) {
-      .tgg-bar__items {
-        @media (max-width: 767px) {
-          display: none;
-        }
-      }
-    }
+    // Оптимизация производительности
+    contain: layout style;
+    
+    // Состояние открыто/закрыто обрабатывается через CSS классы
     
     &-header {
       display: flex;
@@ -81,6 +81,9 @@
       cursor: pointer;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
+      // Предотвращаем скачки при скролле
+      touch-action: manipulation;
+      -webkit-touch-callout: none;
       
       @media (max-width: 767px) {
         cursor: pointer;
@@ -90,12 +93,15 @@
         margin-right: -$spacing-xs;
         padding-left: $spacing-xs;
         padding-right: $spacing-xs;
+        // Оптимизация для мобильных
+        -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2);
       }
       
       // Активное состояние при нажатии
       &:active {
         @media (max-width: 767px) {
           opacity: 0.8;
+          transform: scale(0.98);
         }
       }
     }
@@ -309,6 +315,40 @@
     width: 100%;
     max-width: 100%;
     
+    // Оптимизация производительности для мобильных
+    @media (max-width: 767px) {
+      // Используем max-height для плавной анимации вместо height
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: 
+        max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        padding 0.3s ease,
+        margin 0.3s ease;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      // Оптимизация для производительности
+      will-change: max-height, opacity, transform;
+      contain: layout style;
+      
+      // Открытое состояние
+      &.is-open {
+        max-height: 5000px; // Большое значение для плавной анимации
+        opacity: 1;
+        transform: translateY(0);
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        will-change: auto; // Убираем после анимации
+      }
+    }
+    
     @include respond-to(sm) {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -321,9 +361,14 @@
       grid-template-columns: repeat(4, 1fr);
     }
     
-    // На десктопе всегда видимы
+    // На десктопе всегда видимы и без анимации
     @media (min-width: 768px) {
       display: grid;
+      max-height: none;
+      opacity: 1;
+      transform: none;
+      transition: none;
+      will-change: auto;
     }
   }
   
