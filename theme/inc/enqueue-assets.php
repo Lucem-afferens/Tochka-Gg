@@ -19,10 +19,8 @@ function tochkagg_enqueue_assets() {
     $style_path = TOCHKAGG_THEME_PATH . '/assets/css/style.css';
     if (file_exists($style_path)) {
         // Используем версию темы + время изменения файла для надежного сброса кеша
-        // Добавляем timestamp для принудительного обновления на мобильных
-        $file_time = filemtime($style_path);
-        $cache_bust = time(); // Текущее время для принудительного обновления кэша
-        $style_version = TOCHKAGG_THEME_VERSION . '.' . $file_time . '.' . $cache_bust;
+        // Убрали timestamp, чтобы избежать перезагрузки стилей при каждом запросе
+        $style_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($style_path);
         
         wp_enqueue_style(
             'tochkagg-style',
@@ -37,10 +35,8 @@ function tochkagg_enqueue_assets() {
     $script_path = TOCHKAGG_THEME_PATH . '/assets/js/main.js';
     if (file_exists($script_path)) {
         // Используем версию темы + время изменения файла для надежного сброса кеша
-        // Добавляем timestamp для принудительного обновления на мобильных
-        $file_time = filemtime($script_path);
-        $cache_bust = time(); // Текущее время для принудительного обновления кэша
-        $script_version = TOCHKAGG_THEME_VERSION . '.' . $file_time . '.' . $cache_bust;
+        // Убрали timestamp, чтобы избежать перезагрузки скриптов при каждом запросе
+        $script_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($script_path);
         
         wp_enqueue_script(
             'tochkagg-script',
