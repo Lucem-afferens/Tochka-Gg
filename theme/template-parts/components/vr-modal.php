@@ -74,6 +74,8 @@ $vr_page_link = function_exists('tochkagg_get_page_url')
                 </div>
             <?php endif; ?>
             
+            <!-- Модальное окно показывается даже без изображения -->
+            
             <div class="tgg-vr-modal__text">
                 <h3 class="tgg-vr-modal__title" id="vr-modal-title">
                     <?php echo esc_html($vr_ad_title); ?>

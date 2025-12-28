@@ -9,8 +9,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$vr_title = get_field('vr_title') ?: 'VR Арена "Другие миры"';
-$vr_description = get_field('vr_description') ?: 'Привыкли управлять героем в игре? Это в прошлом! Теперь вы и есть герой!';
+// Получаем данные из Options Page (глобальные настройки)
+$vr_title = get_field('vr_title', 'option') ?: 'VR Арена "Другие миры"';
+$vr_description = get_field('vr_description', 'option') ?: 'Привыкли управлять героем в игре? Это в прошлом! Теперь вы и есть герой!';
+$vr_link = get_field('vr_link', 'option') ?: 'https://vk.com/another_world_kungur';
+$vr_button_text = get_field('vr_button_text', 'option') ?: 'ВКонтакте арены';
+$vr_phone = get_field('vr_phone', 'option') ?: '+7 912 068-34-17';
+$vr_image = get_field('vr_image', 'option'); // Изображение из Options Page
+
+// Получаем данные со страницы (если есть, иначе используем значения по умолчанию)
 $vr_area = get_field('vr_area') ?: '840';
 $vr_area_label = get_field('vr_area_label') ?: 'Площадь виртуальной арены';
 $vr_area_unit = get_field('vr_area_unit') ?: 'м²';
@@ -18,11 +25,7 @@ $vr_players = get_field('vr_players') ?: '10';
 $vr_players_label = get_field('vr_players_label') ?: 'Игроков одновременно';
 $vr_players_prefix = get_field('vr_players_prefix') ?: 'до';
 $vr_media_type = get_field('vr_media_type') ?: 'image'; // 'image' или 'video'
-$vr_image = get_field('vr_image');
 $vr_video = get_field('vr_video');
-$vr_link = get_field('vr_link') ?: 'https://vk.com/another_world_kungur';
-$vr_button_text = get_field('vr_button_text') ?: 'ВКонтакте арены';
-$vr_phone = get_field('vr_phone') ?: '+7 912 068-34-17';
 $vr_services = get_field('vr_services');
 ?>
 
