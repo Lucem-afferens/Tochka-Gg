@@ -127,8 +127,9 @@ function cloneItemSafely(item) {
   const clone = item.cloneNode(true);
   
   // Очищаем data-атрибуты, которые могут быть связаны с интерактивностью
-  const dataAttributes = clone.querySelectorAll('[data-*]');
-  dataAttributes.forEach((el) => {
+  // Используем querySelectorAll('*') вместо невалидного '[data-*]'
+  const allElements = clone.querySelectorAll('*');
+  allElements.forEach((el) => {
     // Сохраняем только data-bar-item (структурный атрибут)
     const attrs = Array.from(el.attributes);
     attrs.forEach((attr) => {
@@ -138,9 +139,17 @@ function cloneItemSafely(item) {
     });
   });
   
+  // Также обрабатываем сам клонированный элемент
+  const cloneAttrs = Array.from(clone.attributes);
+  cloneAttrs.forEach((attr) => {
+    if (attr.name.startsWith('data-') && attr.name !== 'data-bar-item') {
+      clone.removeAttribute(attr.name);
+    }
+  });
+  
   // Очищаем aria-атрибуты, которые могут быть связаны с интерактивностью
-  const ariaElements = clone.querySelectorAll('[aria-*]');
-  ariaElements.forEach((el) => {
+  // Используем querySelectorAll('*') вместо невалидного '[aria-*]'
+  allElements.forEach((el) => {
     const attrs = Array.from(el.attributes);
     attrs.forEach((attr) => {
       if (attr.name.startsWith('aria-') && 
@@ -149,6 +158,16 @@ function cloneItemSafely(item) {
         el.removeAttribute(attr.name);
       }
     });
+  });
+  
+  // Также обрабатываем сам клонированный элемент
+  const cloneAriaAttrs = Array.from(clone.attributes);
+  cloneAriaAttrs.forEach((attr) => {
+    if (attr.name.startsWith('aria-') && 
+        attr.name !== 'aria-hidden' && 
+        attr.name !== 'aria-label') {
+      clone.removeAttribute(attr.name);
+    }
   });
   
   // Очищаем inline стили, которые могут быть связаны с состоянием
