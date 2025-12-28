@@ -19,8 +19,10 @@ export function initScrollAnimations() {
     return; // Не инициализируем анимации, если пользователь предпочитает их отключить
   }
   
+  // Исключаем .tgg-advantages__item и .tgg-services__item из анимаций
+  // Обрабатываем только .tgg-archive__item и .tgg-card
   const animatedElements = document.querySelectorAll(
-    '.tgg-advantages__item, .tgg-services__item, .tgg-archive__item, .tgg-card'
+    '.tgg-archive__item, .tgg-card'
   );
   
   if (animatedElements.length === 0) return;
