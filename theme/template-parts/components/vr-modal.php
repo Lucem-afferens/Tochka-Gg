@@ -23,28 +23,29 @@ if (!$vr_ad_enabled) {
 $vr_ad_delay = function_exists('get_field') ? get_field('vr_ad_delay', 'option') : 30;
 $vr_ad_delay = is_numeric($vr_ad_delay) && $vr_ad_delay >= 5 ? intval($vr_ad_delay) : 30;
 
-// Получаем данные VR рекламы из SCF или используем значения по умолчанию
+// Получаем данные рекламы из Options Page (универсальная реклама, не привязана к VR)
+// Если поля рекламы не заполнены, используем значения по умолчанию
 $vr_ad_title = (function_exists('get_field') ? get_field('vr_ad_title', 'option') : null) 
-    ?: ((function_exists('get_field') ? get_field('vr_title', 'option') : null) ?: 'VR Арена "Другие миры"');
+    ?: 'VR Арена "Другие миры"';
     
 $vr_ad_description = (function_exists('get_field') ? get_field('vr_ad_description', 'option') : null) 
-    ?: ((function_exists('get_field') ? get_field('vr_description', 'option') : null) ?: 'Привыкли управлять героем в игре? Это в прошлом! Теперь вы и есть герой!');
+    ?: 'Привыкли управлять героем в игре? Это в прошлом! Теперь вы и есть герой!';
     
 $vr_ad_image = function_exists('get_field') ? get_field('vr_ad_image', 'option') : false;
-// Если изображение рекламы не указано, используем общее изображение VR
-if (!$vr_ad_image) {
-    $vr_ad_image = function_exists('get_field') ? get_field('vr_image', 'option') : false;
-}
+// Изображение рекламы берется только из Options Page (универсальное для любой рекламы)
 
 $vr_ad_button_text = (function_exists('get_field') ? get_field('vr_ad_button_text', 'option') : null) ?: 'Узнать больше';
 
-$vr_ad_phone = (function_exists('get_field') ? get_field('vr_ad_phone', 'option') : null) 
-    ?: ((function_exists('get_field') ? get_field('vr_phone', 'option') : null) ?: '+7 912 068-34-17');
+$vr_ad_phone = (function_exists('get_field') ? get_field('vr_ad_phone', 'option') : null);
 
-// Получаем путь к странице VR арены (используем функцию для надежности)
-$vr_page_link = function_exists('tochkagg_get_page_url') 
-    ? tochkagg_get_page_url('vr', home_url('/vr/'))
-    : (get_permalink(get_page_by_path('vr')) ?: home_url('/vr/'));
+// Получаем ссылку для кнопки рекламы (универсальная - можно указать любую ссылку)
+$vr_ad_link = function_exists('get_field') ? get_field('vr_ad_link', 'option') : null;
+// Если ссылка не указана, используем ссылку на страницу VR арены
+if (!$vr_ad_link) {
+    $vr_ad_link = function_exists('tochkagg_get_page_url') 
+        ? tochkagg_get_page_url('vr', home_url('/vr/'))
+        : (get_permalink(get_page_by_path('vr')) ?: home_url('/vr/'));
+}
 ?>
 
 <div class="tgg-vr-modal" 
@@ -88,7 +89,7 @@ $vr_page_link = function_exists('tochkagg_get_page_url')
                 <?php endif; ?>
                 
                 <div class="tgg-vr-modal__actions">
-                    <a href="<?php echo esc_url($vr_page_link); ?>" class="tgg-btn-fire tgg-vr-modal__btn">
+                    <a href="<?php echo esc_url($vr_ad_link); ?>" class="tgg-btn-fire tgg-vr-modal__btn">
                         <?php echo esc_html($vr_ad_button_text); ?>
                     </a>
                     
