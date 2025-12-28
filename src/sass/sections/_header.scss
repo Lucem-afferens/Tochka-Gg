@@ -15,13 +15,25 @@
   z-index: 1000;
   // Улучшенный глоссморфизм для навигации - максимально прозрачный
   background: rgba(18, 13, 26, 0.25);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
   border-bottom: 1px solid rgba(59, 130, 246, 0.12);
   box-shadow: 
     0 0 0 1px rgba(239, 68, 68, 0.03),
     0 8px 32px rgba(0, 0, 0, 0.15);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // backdrop-filter только на мобильных (где нужен для меню)
+  // На десктопе используем обычный background для лучшей производительности
+  @media (max-width: 1023px) {
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+  }
+  
+  // На десктопе используем более непрозрачный background вместо backdrop-filter
+  @include respond-to(lg) {
+    background: rgba(18, 13, 26, 0.85);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
   
   // Кибер-сетка на фоне с красными акцентами
   &::before {
@@ -66,14 +78,33 @@
   // Эффект при скролле - более прозрачный глоссморфизм
   &.scrolled {
     background: rgba(18, 13, 26, 0.4);
-    backdrop-filter: blur(15px) saturate(200%);
-    -webkit-backdrop-filter: blur(15px) saturate(200%);
-    box-shadow: 
-      0 4px 30px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(59, 130, 246, 0.15),
-      0 0 20px rgba(239, 68, 68, 0.12),
-      0 8px 40px rgba(0, 0, 0, 0.25);
     border-bottom-color: rgba(59, 130, 246, 0.2);
+    
+    // backdrop-filter только на мобильных
+    @media (max-width: 1023px) {
+      backdrop-filter: blur(15px) saturate(200%);
+      -webkit-backdrop-filter: blur(15px) saturate(200%);
+    }
+    
+    // На десктопе упрощаем box-shadow (меньше слоев для лучшей производительности)
+    @media (max-width: 1023px) {
+      box-shadow: 
+        0 4px 30px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(59, 130, 246, 0.15),
+        0 0 20px rgba(239, 68, 68, 0.12),
+        0 8px 40px rgba(0, 0, 0, 0.25);
+    }
+    
+    @include respond-to(lg) {
+      background: rgba(18, 13, 26, 0.95);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      // Упрощенный box-shadow для десктопа (3 слоя вместо 4)
+      box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(59, 130, 246, 0.2),
+        0 8px 30px rgba(0, 0, 0, 0.3);
+    }
     
     &::before {
       opacity: 0.4;
