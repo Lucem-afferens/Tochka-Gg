@@ -653,14 +653,19 @@
 }
 
 // Оптимизация: добавляем will-change для анимируемых элементов (только когда они видны)
+// Упрощено: убран filter из will-change (filter больше не используется в анимациях)
 .tgg-animate-glow,
 .tgg-animate-text-glow,
-.tgg-animate-neon-border,
+.tgg-animate-neon-border {
+  will-change: opacity;
+}
+
 .tgg-animate-fire-glow,
 .tgg-animate-fire-text,
 .tgg-animate-fire-border,
 .tgg-animate-fire-gradient {
-  will-change: opacity, filter;
+  // Огненные эффекты используют box-shadow и text-shadow, не filter
+  will-change: opacity;
 }
 
 .tgg-animate-pulse-scale,
@@ -671,6 +676,20 @@
 
 .tgg-animate-neon-spin {
   will-change: transform;
+}
+
+// На десктопе используем меньше will-change для лучшей производительности
+@include respond-to(lg) {
+  .tgg-animate-glow,
+  .tgg-animate-text-glow,
+  .tgg-animate-neon-border,
+  .tgg-animate-fire-glow,
+  .tgg-animate-fire-text,
+  .tgg-animate-fire-border,
+  .tgg-animate-fire-gradient {
+    // На десктопе убираем will-change для простых анимаций (браузер сам оптимизирует)
+    will-change: auto;
+  }
 }
 
 // ============================================

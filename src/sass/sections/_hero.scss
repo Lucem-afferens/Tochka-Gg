@@ -287,8 +287,14 @@
       .tgg-hero__title-letter {
         display: inline-block;
         position: relative;
-        // Оптимизация: убран filter из will-change (больше не используется)
-        will-change: opacity, text-shadow, background-position;
+        // Оптимизация: упрощен will-change (убраны text-shadow и background-position)
+        // На десктопе используем меньше will-change
+        @media (max-width: 1023px) {
+          will-change: opacity, text-shadow, background-position;
+        }
+        @include respond-to(lg) {
+          will-change: opacity; // На десктопе только opacity для лучшей производительности
+        }
         animation: cyber-letter-flicker 8s ease-in-out infinite, cyber-gradient-shift 5s ease-in-out infinite; // Увеличено в 2 раза (было 4s)
         // Анимированный градиент цвета текста (синий -> фиолетовый -> розовый)
         background: linear-gradient(
