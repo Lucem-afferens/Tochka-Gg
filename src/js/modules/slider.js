@@ -108,13 +108,21 @@ export function initSliders() {
       }
       
       // Debounced версия функции для resize с более длительной задержкой
+      let lastSliderWidth = window.innerWidth;
       function debouncedSyncSlideHeights(swiper) {
+        const currentWidth = window.innerWidth;
+        // Выполняем синхронизацию только при реальном изменении размера
+        if (Math.abs(currentWidth - lastSliderWidth) < 10) {
+          return; // Игнорируем незначительные изменения
+        }
+        lastSliderWidth = currentWidth;
+        
         if (resizeTimeout) {
           clearTimeout(resizeTimeout);
         }
         resizeTimeout = setTimeout(() => {
           syncSlideHeights(swiper);
-        }, 250); // Увеличена задержка до 250мс
+        }, 500); // Увеличена задержка до 500ms для лучшей производительности
       }
       
       const tournamentsSwiper = new Swiper(sliderElement, {

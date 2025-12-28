@@ -165,6 +165,11 @@ export function initNavigation() {
   // ACTIVE MENU ITEM DETECTION
   // ============================================
   
+  // Кэш для getBoundingClientRect (обновляется реже)
+  let rectCache = new Map();
+  let cacheTimestamp = 0;
+  const CACHE_DURATION = 200; // Кэш действителен 200ms
+  
   function setActiveMenuItem() {
     try {
       const currentPath = window.location.pathname;
@@ -189,7 +194,18 @@ export function initNavigation() {
           // Проверяем, есть ли элемент на странице
           const targetElement = document.getElementById(targetId);
           if (targetElement) {
-            const rect = targetElement.getBoundingClientRect();
+            // Используем кэш для getBoundingClientRect
+            const now = Date.now();
+            let rect;
+            
+            if (now - cacheTimestamp > CACHE_DURATION || !rectCache.has(targetId)) {
+              rect = targetElement.getBoundingClientRect();
+              rectCache.set(targetId, rect);
+              cacheTimestamp = now;
+            } else {
+              rect = rectCache.get(targetId);
+            }
+            
             // Проверяем, находится ли элемент в видимой области
             if (rect.top <= 200 && rect.bottom >= 100) {
               link.classList.add('active');
@@ -283,17 +299,25 @@ export function initNavigation() {
     // ВАЖНО: Обновляем только если мы на главной странице (где есть якорные секции)
     // На других страницах (например, страница бара) не обновляем активный пункт при скролле
     const isHomePage = window.location.pathname === '/' || window.location.pathname === '';
-    const anchorLinks = Array.from(navLinks).filter(link => {
-      const href = link.getAttribute('href');
-      return href && href.startsWith('#') && href !== '#';
-    });
     
-    // Обновляем активный пункт меню только на главной странице и только если есть якорные ссылки
-    if (isHomePage && anchorLinks.length > 0) {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        setActiveMenuItem();
-      }, 150);
+    // Проверяем наличие якорных ссылок ДО вызова функции (оптимизация)
+    if (isHomePage) {
+      // Кэшируем список якорных ссылок (обновляется только при изменении DOM)
+      if (!window._cachedAnchorLinks) {
+        window._cachedAnchorLinks = Array.from(navLinks).filter(link => {
+          const href = link.getAttribute('href');
+          return href && href.startsWith('#') && href !== '#';
+        });
+      }
+      
+      // Обновляем активный пункт меню только если есть якорные ссылки
+      // Увеличен debounce до 300ms для лучшей производительности
+      if (window._cachedAnchorLinks.length > 0) {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          setActiveMenuItem();
+        }, 300); // Увеличено с 150ms до 300ms
+      }
     }
     
     lastScroll = currentScroll;

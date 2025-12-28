@@ -54,12 +54,21 @@ export function initNewsCards() {
   }
   
   // Синхронизируем при изменении размера окна
+  // Увеличен debounce до 500ms для лучшей производительности
   let resizeTimeout;
+  let lastWidth = window.innerWidth;
   window.addEventListener('resize', () => {
+    const currentWidth = window.innerWidth;
+    // Выполняем синхронизацию только при реальном изменении размера (не при каждом событии)
+    if (Math.abs(currentWidth - lastWidth) < 10) {
+      return; // Игнорируем незначительные изменения
+    }
+    lastWidth = currentWidth;
+    
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       syncNewsCardsHeight();
-    }, 250);
+    }, 500); // Увеличено с 250ms до 500ms
   });
   
   // Синхронизируем после загрузки всех изображений (оптимизировано)
