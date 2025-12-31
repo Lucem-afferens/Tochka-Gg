@@ -358,16 +358,16 @@ function tochkagg_custom_cursor() {
             });
             
             // ============================================
-            // Эффект хвоста курсора (trail effect)
+            // Эффект хвоста курсора (trail effect) - непрерывная полоса
             // ============================================
             const trailEnabled = <?php echo $trail_enabled ? 'true' : 'false'; ?>;
             const trailColor = '<?php echo esc_js($trail_color); ?>';
             
             if (trailEnabled) {
-                // Создаем контейнер для хвоста
-                const trailContainer = document.createElement('div');
-                trailContainer.id = 'tochkagg-cursor-trail';
-                trailContainer.style.cssText = `
+                // Используем Canvas для производительности
+                const trailCanvas = document.createElement('canvas');
+                trailCanvas.id = 'tochkagg-cursor-trail';
+                trailCanvas.style.cssText = `
                     position: fixed;
                     top: 0;
                     left: 0;
@@ -375,69 +375,123 @@ function tochkagg_custom_cursor() {
                     height: 100%;
                     pointer-events: none;
                     z-index: 999998;
-                    overflow: hidden;
                 `;
-                document.body.appendChild(trailContainer);
+                document.body.appendChild(trailCanvas);
                 
-                // Массив точек хвоста
+                const ctx = trailCanvas.getContext('2d');
+                const trailWidth = 3; // Толщина линии хвоста
+                const fadeSpeed = 0.15; // Скорость затухания (чем больше, тем быстрее исчезает)
+                const maxTrailLength = 20; // Максимальная длина хвоста в точках
+                
+                // Устанавливаем размер canvas
+                function resizeCanvas() {
+                    trailCanvas.width = window.innerWidth;
+                    trailCanvas.height = window.innerHeight;
+                }
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas, { passive: true });
+                
+                // Массив точек хвоста (история позиций мыши)
                 const trailPoints = [];
-                const maxTrailPoints = 8; // Количество точек в хвосте
-                const trailPointSize = 4; // Размер точки хвоста
                 let lastMouseX = 0;
                 let lastMouseY = 0;
+                let isMoving = false;
                 let rafTrailId = null;
+                let lastMoveTime = 0;
+                const movementThreshold = 50; // Минимальное время между движениями для скрытия (мс)
                 
-                // Создаем точки хвоста
-                for (let i = 0; i < maxTrailPoints; i++) {
-                    const point = document.createElement('div');
-                    point.style.cssText = `
-                        position: absolute;
-                        width: ${trailPointSize}px;
-                        height: ${trailPointSize}px;
-                        background: ${trailColor};
-                        border-radius: 50%;
-                        opacity: ${(maxTrailPoints - i) / maxTrailPoints * 0.6};
-                        transform: translate(-50%, -50%);
-                        transition: opacity 0.1s ease-out;
-                    `;
-                    trailContainer.appendChild(point);
-                    trailPoints.push({
-                        element: point,
-                        x: 0,
-                        y: 0
-                    });
+                // Функция добавления точки в хвост
+                function addTrailPoint(x, y) {
+                    trailPoints.push({ x, y, time: Date.now() });
+                    // Ограничиваем длину хвоста для производительности
+                    if (trailPoints.length > maxTrailLength) {
+                        trailPoints.shift();
+                    }
                 }
                 
-                // Функция обновления хвоста
-                function updateTrail() {
-                    trailPoints.forEach((point, index) => {
-                        if (index === 0) {
-                            // Первая точка следует за мышью
-                            point.x = lastMouseX;
-                            point.y = lastMouseY;
-                        } else {
-                            // Остальные точки следуют за предыдущей с задержкой
-                            const prevPoint = trailPoints[index - 1];
-                            point.x += (prevPoint.x - point.x) * 0.3;
-                            point.y += (prevPoint.y - point.y) * 0.3;
-                        }
-                        
-                        point.element.style.left = point.x + 'px';
-                        point.element.style.top = point.y + 'px';
-                    });
+                // Функция очистки старых точек (затухание)
+                function fadeTrail() {
+                    const now = Date.now();
+                    // Удаляем точки старше определенного времени
+                    while (trailPoints.length > 0 && (now - trailPoints[0].time) > movementThreshold) {
+                        trailPoints.shift();
+                    }
+                }
+                
+                // Функция отрисовки хвоста
+                function drawTrail() {
+                    // Очищаем canvas
+                    ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
                     
-                    rafTrailId = requestAnimationFrame(updateTrail);
+                    // Если точек меньше 2, не рисуем
+                    if (trailPoints.length < 2) {
+                        rafTrailId = requestAnimationFrame(drawTrail);
+                        return;
+                    }
+                    
+                    // Рисуем плавную линию через все точки
+                    ctx.beginPath();
+                    ctx.strokeStyle = trailColor;
+                    ctx.lineWidth = trailWidth;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    
+                    // Используем квадратичную кривую для плавности
+                    for (let i = 0; i < trailPoints.length - 1; i++) {
+                        const current = trailPoints[i];
+                        const next = trailPoints[i + 1];
+                        
+                        if (i === 0) {
+                            ctx.moveTo(current.x, current.y);
+                        } else {
+                            // Используем предыдущую точку для создания плавной кривой
+                            const prev = trailPoints[i - 1];
+                            const cpX = current.x;
+                            const cpY = current.y;
+                            ctx.quadraticCurveTo(prev.x, prev.y, cpX, cpY);
+                        }
+                    }
+                    
+                    // Завершаем линию до последней точки
+                    if (trailPoints.length > 1) {
+                        const last = trailPoints[trailPoints.length - 1];
+                        const prev = trailPoints[trailPoints.length - 2];
+                        ctx.quadraticCurveTo(prev.x, prev.y, last.x, last.y);
+                    }
+                    
+                    ctx.stroke();
+                    
+                    // Затухание старых точек
+                    fadeTrail();
+                    
+                    // Продолжаем анимацию только если есть точки
+                    if (trailPoints.length > 0) {
+                        rafTrailId = requestAnimationFrame(drawTrail);
+                    } else {
+                        rafTrailId = null;
+                    }
                 }
                 
                 // Обновляем позицию хвоста при движении мыши
                 const originalHandleMouseMove = handleMouseMove;
                 const newHandleMouseMove = function(e) {
                     originalHandleMouseMove(e);
-                    lastMouseX = e.clientX;
-                    lastMouseY = e.clientY;
                     
-                    if (!rafTrailId) {
-                        updateTrail();
+                    const now = Date.now();
+                    const timeSinceLastMove = now - lastMoveTime;
+                    
+                    // Добавляем точку только если мышь действительно двигается
+                    if (timeSinceLastMove > 5) { // Минимальный интервал для производительности
+                        addTrailPoint(e.clientX, e.clientY);
+                        lastMouseX = e.clientX;
+                        lastMouseY = e.clientY;
+                        lastMoveTime = now;
+                        isMoving = true;
+                        
+                        // Запускаем отрисовку если еще не запущена
+                        if (!rafTrailId) {
+                            rafTrailId = requestAnimationFrame(drawTrail);
+                        }
                     }
                 };
                 
@@ -445,28 +499,24 @@ function tochkagg_custom_cursor() {
                 document.removeEventListener('mousemove', handleMouseMove, { passive: true });
                 document.addEventListener('mousemove', newHandleMouseMove, { passive: true });
                 
+                // Очищаем хвост при остановке движения
+                let stopTrailTimeout;
+                document.addEventListener('mousemove', function() {
+                    clearTimeout(stopTrailTimeout);
+                    stopTrailTimeout = setTimeout(function() {
+                        // Очищаем хвост через некоторое время после остановки
+                        trailPoints.length = 0;
+                        ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+                    }, 100); // Очищаем через 100ms после остановки
+                }, { passive: true });
+                
                 // Скрываем хвост при выходе за пределы окна
                 document.addEventListener('mouseleave', function() {
-                    trailPoints.forEach(point => {
-                        point.element.style.opacity = '0';
-                    });
+                    trailPoints.length = 0;
+                    ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
                     if (rafTrailId) {
                         cancelAnimationFrame(rafTrailId);
                         rafTrailId = null;
-                    }
-                });
-                
-                // Показываем хвост при входе в окно
-                document.addEventListener('mouseenter', function(e) {
-                    lastMouseX = e.clientX;
-                    lastMouseY = e.clientY;
-                    trailPoints.forEach((point, index) => {
-                        point.x = e.clientX;
-                        point.y = e.clientY;
-                        point.element.style.opacity = ((maxTrailPoints - index) / maxTrailPoints * 0.6).toString();
-                    });
-                    if (!rafTrailId) {
-                        updateTrail();
                     }
                 });
             }
