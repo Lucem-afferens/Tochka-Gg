@@ -49,7 +49,7 @@ export function initSmoothScroll() {
               history.pushState(null, '', currentUrl.pathname + href);
             }
           } catch (error) {
-            console.warn('Error updating URL:', error);
+            // Ошибка обновления URL - игнорируем
           }
         } else {
           // Если элемент не найден, предотвращаем перезагрузку
@@ -59,7 +59,7 @@ export function initSmoothScroll() {
       } catch (error) {
         e.preventDefault();
         e.stopPropagation();
-        console.error('Error in smooth scroll:', error);
+        // Ошибка в smooth scroll - игнорируем
       }
     }, { passive: false });
   });

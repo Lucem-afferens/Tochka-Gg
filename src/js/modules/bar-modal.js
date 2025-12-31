@@ -18,7 +18,7 @@ export function initBarModal() {
   // (защита от конфликта, хотя accordion сейчас отключен)
   const accordionButtons = barSection.querySelectorAll('[data-category-toggle]');
   if (accordionButtons.length > 0) {
-    console.warn('Bar accordion detected. Modal will not initialize to avoid conflicts.');
+    return;
     return;
   }
 

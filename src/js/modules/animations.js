@@ -57,13 +57,11 @@ export function initScrollAnimations() {
           return;
         }
         
-        // Используем requestAnimationFrame вместо setTimeout для лучшей производительности
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            entry.target.classList.add('tgg-animate-fade-in-up');
-            observer.unobserve(entry.target);
-          }, index * 100); // Задержка для последовательного появления
-        });
+        // Упрощенная анимация без лишних RAF
+        setTimeout(() => {
+          entry.target.classList.add('tgg-animate-fade-in-up');
+          observer.unobserve(entry.target);
+        }, index * 50); // Уменьшена задержка для более быстрого появления
       }
     });
   }, observerOptions);

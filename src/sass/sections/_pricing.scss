@@ -111,7 +111,7 @@
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask-composite: exclude;
       opacity: 0.5;
-      animation: neon-border-shine 3s ease-in-out infinite;
+      animation: neon-border-shine 5s ease-in-out infinite; // Увеличено для снижения частоты
       pointer-events: none;
       z-index: 0;
     }

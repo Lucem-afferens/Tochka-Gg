@@ -14,7 +14,7 @@ export function initMap() {
   
   // Проверка, загружена ли Яндекс.Карта API
   if (typeof ymaps === 'undefined') {
-    console.warn('Яндекс.Карты API не загружен. Добавьте скрипт в functions.php');
+    return;
     
     // Показываем ссылку на карту
     mapContainer.innerHTML = `

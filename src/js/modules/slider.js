@@ -7,7 +7,7 @@
 export function initSliders() {
   // Проверка наличия Swiper
   if (typeof window.Swiper === 'undefined' || !window.SwiperModules) {
-    console.warn('Swiper не подключен.');
+    return;
     return;
   }
   
@@ -53,58 +53,48 @@ export function initSliders() {
         isSyncing = true;
         lastSyncTime = now;
         
-        // Используем requestAnimationFrame для предотвращения конфликтов с рендерингом
-        requestAnimationFrame(() => {
-          let maxHeight = 0;
+        // Упрощенная синхронизация высоты (без двойного RAF)
+        let maxHeight = 0;
+        
+        // Находим максимальную высоту
+        slides.forEach(slide => {
+          const card = slide.querySelector('.tgg-tournaments-preview__card');
+          if (card) {
+            // Временно сбрасываем высоту для измерения
+            const oldHeight = card.style.height;
+            card.style.height = 'auto';
+            const height = card.offsetHeight;
+            if (height > maxHeight) {
+              maxHeight = height;
+            }
+            // Восстанавливаем высоту
+            if (oldHeight) {
+              card.style.height = oldHeight;
+            }
+          }
+        });
+        
+        // Устанавливаем высоту только если изменилась значительно
+        const heightDifference = Math.abs(maxHeight - currentMaxHeight);
+        if (maxHeight > 0 && heightDifference > 5) {
+          currentMaxHeight = maxHeight;
           
-          // Находим максимальную высоту
+          // Устанавливаем высоту напрямую (без лишних RAF)
           slides.forEach(slide => {
             const card = slide.querySelector('.tgg-tournaments-preview__card');
             if (card) {
-              // Сохраняем текущую высоту
-              const oldHeight = card.style.height;
-              // Временно сбрасываем высоту для измерения реальной высоты
-              card.style.height = '';
-              card.style.minHeight = '';
-              // Принудительно пересчитываем layout
-              void card.offsetHeight; // Force reflow
-              const height = card.offsetHeight;
-              if (height > maxHeight) {
-                maxHeight = height;
-              }
-              // Восстанавливаем высоту временно
-              if (oldHeight) {
-                card.style.height = oldHeight;
-              }
+              card.style.height = maxHeight + 'px';
+              card.style.minHeight = maxHeight + 'px';
             }
           });
           
-          // Устанавливаем одинаковую высоту для всех карточек только если высота изменилась значительно
-          const heightDifference = Math.abs(maxHeight - currentMaxHeight);
-          if (maxHeight > 0 && heightDifference > 5) { // Изменение больше 5px
-            currentMaxHeight = maxHeight;
-            
-            // Устанавливаем высоту через requestAnimationFrame для избежания конфликтов
-            requestAnimationFrame(() => {
-              slides.forEach(slide => {
-                const card = slide.querySelector('.tgg-tournaments-preview__card');
-                if (card) {
-                  card.style.height = maxHeight + 'px';
-                  card.style.minHeight = maxHeight + 'px';
-                }
-              });
-              
-              // Обновляем высоту Swiper после установки высоты карточек
-              setTimeout(() => {
-                if (swiper && swiper.update) {
-                  swiper.update();
-                }
-              }, 50);
-            });
+          // Обновляем Swiper с минимальной задержкой
+          if (swiper && swiper.update) {
+            swiper.update();
           }
-          
-          isSyncing = false;
-        });
+        }
+        
+        isSyncing = false;
       }
       
       // Debounced версия функции для resize с более длительной задержкой

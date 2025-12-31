@@ -295,7 +295,7 @@
         @include respond-to(lg) {
           will-change: opacity; // На десктопе только opacity для лучшей производительности
         }
-        animation: cyber-letter-flicker 8s ease-in-out infinite, cyber-gradient-shift 5s ease-in-out infinite; // Увеличено в 2 раза (было 4s)
+        animation: cyber-letter-flicker 12s ease-in-out infinite, cyber-gradient-shift 8s ease-in-out infinite; // Увеличено для снижения частоты обновлений
         // Анимированный градиент цвета текста (синий -> фиолетовый -> розовый)
         background: linear-gradient(
           90deg,
@@ -337,7 +337,7 @@
         
         // Буквы, которые мигают чаще (эффект электричества)
         &--flicker {
-          animation: cyber-letter-flicker-intense 6s ease-in-out infinite, cyber-gradient-shift 4s ease-in-out infinite; // Увеличено в 2 раза (было 3s)
+          animation: cyber-letter-flicker-intense 10s ease-in-out infinite, cyber-gradient-shift 6s ease-in-out infinite; // Увеличено для снижения частоты обновлений
         }
       }
     }

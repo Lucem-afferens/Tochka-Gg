@@ -4,7 +4,7 @@
  * Синхронизация высоты карточек новостей для одинакового размера
  */
 
-// Оптимизированная версия с requestAnimationFrame для лучшей производительности
+// Упрощенная версия синхронизации высоты (без лишних RAF)
 export function syncNewsCardsHeight() {
   const newsSection = document.querySelector('.tgg-news-preview__items');
   if (!newsSection) return;
@@ -12,34 +12,26 @@ export function syncNewsCardsHeight() {
   const newsCards = newsSection.querySelectorAll('.tgg-news-preview__item');
   if (!newsCards || newsCards.length === 0) return;
   
-  // Используем requestAnimationFrame для синхронизации с рендерингом браузера
-  requestAnimationFrame(() => {
-    // Сбрасываем высоту для измерения реальной высоты
-    newsCards.forEach(card => {
-      card.style.height = 'auto';
-    });
-    
-    // Принудительный reflow для измерения реальной высоты
-    void newsSection.offsetHeight;
-    
-    // Находим максимальную высоту
-    let maxHeight = 0;
-    newsCards.forEach(card => {
-      const height = card.offsetHeight;
-      if (height > maxHeight) {
-        maxHeight = height;
-      }
-    });
-    
-    // Устанавливаем одинаковую высоту для всех карточек в следующем кадре
-    if (maxHeight > 0) {
-      requestAnimationFrame(() => {
-        newsCards.forEach(card => {
-          card.style.height = maxHeight + 'px';
-        });
-      });
+  // Сбрасываем высоту для измерения
+  newsCards.forEach(card => {
+    card.style.height = 'auto';
+  });
+  
+  // Находим максимальную высоту
+  let maxHeight = 0;
+  newsCards.forEach(card => {
+    const height = card.offsetHeight;
+    if (height > maxHeight) {
+      maxHeight = height;
     }
   });
+  
+  // Устанавливаем одинаковую высоту
+  if (maxHeight > 0) {
+    newsCards.forEach(card => {
+      card.style.height = maxHeight + 'px';
+    });
+  }
 }
 
 // Инициализация при загрузке страницы
@@ -81,14 +73,11 @@ export function initNewsCards() {
     return;
   }
   
-  // Оптимизация: используем { once: true } для автоматического удаления обработчиков
+  // Упрощенная обработка загрузки изображений
   const handleImageLoad = () => {
     imagesLoaded++;
     if (imagesLoaded === totalImages) {
-      // Используем requestAnimationFrame вместо setTimeout для лучшей производительности
-      requestAnimationFrame(() => {
-        setTimeout(syncNewsCardsHeight, 50);
-      });
+      syncNewsCardsHeight();
     }
   };
   
@@ -96,13 +85,11 @@ export function initNewsCards() {
     if (img.complete) {
       imagesLoaded++;
       if (imagesLoaded === totalImages) {
-        requestAnimationFrame(() => {
-          setTimeout(syncNewsCardsHeight, 50);
-        });
+        syncNewsCardsHeight();
       }
     } else {
       img.addEventListener('load', handleImageLoad, { once: true });
-      img.addEventListener('error', handleImageLoad, { once: true }); // Обрабатываем ошибки загрузки
+      img.addEventListener('error', handleImageLoad, { once: true });
     }
   });
 }

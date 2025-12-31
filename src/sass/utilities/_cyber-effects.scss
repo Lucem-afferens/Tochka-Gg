@@ -20,7 +20,7 @@
     position: absolute;
     inset: 0;
     @include cyber-grid(rgba(59, 130, 246, 0.1));
-    animation: grid-move 20s linear infinite;
+    animation: grid-move 30s linear infinite; // Увеличено для снижения частоты обновлений
     pointer-events: none;
     z-index: 0;
   }
@@ -40,7 +40,7 @@
       transparent 100%
     );
     background-size: 100% 4px;
-    animation: scan-line 3s linear infinite;
+    animation: scan-line 5s linear infinite; // Увеличено для снижения частоты обновлений
     pointer-events: none;
     z-index: 1;
   }

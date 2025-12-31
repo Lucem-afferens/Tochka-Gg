@@ -12,7 +12,6 @@ export function initNavigation() {
   const navList = document.querySelector('.tgg-nav__list');
   
   if (!burger || !nav) {
-    console.warn('Navigation elements not found');
     return;
   }
   
@@ -79,11 +78,6 @@ export function initNavigation() {
       ? 'Закрыть меню' 
       : 'Открыть меню');
     
-    // Отладочная информация
-    if (willBeExpanded) {
-      const navItems = nav.querySelectorAll('.tgg-nav__list li');
-      console.log('Menu opened, found items:', navItems.length);
-    }
   });
   
   // Закрытие меню при клике вне его
@@ -239,11 +233,10 @@ export function initNavigation() {
           }
         } catch (e) {
           // Игнорируем ошибки парсинга URL (например, для mailto:, tel: и т.д.)
-          console.warn('Error parsing URL:', href, e);
         }
       });
     } catch (error) {
-      console.error('Error in setActiveMenuItem:', error);
+      // Ошибка в setActiveMenuItem - игнорируем для стабильности
     }
   }
   

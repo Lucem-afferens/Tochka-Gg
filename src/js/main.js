@@ -77,6 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initBarModal();
   }
   
-  console.log('✅ Tochka Gg theme initialized');
+  // Theme initialized
 });
 

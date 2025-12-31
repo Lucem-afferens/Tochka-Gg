@@ -618,15 +618,15 @@
 }
 
 .tgg-animate-glow {
-  animation: glow-pulse 2s ease-in-out infinite;
+  animation: glow-pulse 3s ease-in-out infinite; // Увеличено для снижения частоты
 }
 
 .tgg-animate-text-glow {
-  animation: text-glow 2.5s ease-in-out infinite;
+  animation: text-glow 4s ease-in-out infinite; // Увеличено для снижения частоты
 }
 
 .tgg-animate-neon-border {
-  animation: neon-border 2s ease-in-out infinite;
+  animation: neon-border 3s ease-in-out infinite; // Увеличено для снижения частоты
 }
 
 .tgg-animate-float {
@@ -705,15 +705,15 @@
 }
 
 .tgg-animate-fire-glow {
-  animation: fire-glow 2s ease-in-out infinite;
+  animation: fire-glow 3s ease-in-out infinite; // Увеличено для снижения частоты
 }
 
 .tgg-animate-fire-text {
-  animation: fire-text 3s ease-in-out infinite;
+  animation: fire-text 5s ease-in-out infinite; // Увеличено для снижения частоты
 }
 
 .tgg-animate-fire-border {
-  animation: fire-border 2s ease-in-out infinite;
+  animation: fire-border 3s ease-in-out infinite; // Увеличено для снижения частоты
 }
 
 .tgg-animate-fire-gradient {
@@ -725,7 +725,7 @@
 // ============================================
 
 .tgg-animate-pulse-scale {
-  animation: pulse-scale 2s ease-in-out infinite;
+  animation: pulse-scale 3s ease-in-out infinite; // Увеличено для снижения частоты
 }
 
 .tgg-animate-neon-breath {
@@ -737,7 +737,7 @@
 }
 
 .tgg-animate-bounce-glow {
-  animation: bounce-glow 2s ease-in-out infinite;
+  animation: bounce-glow 3s ease-in-out infinite; // Увеличено для снижения частоты
 }
 
 .tgg-animate-shake-neon {
@@ -745,7 +745,7 @@
 }
 
 .tgg-animate-cyber-fire {
-  animation: cyber-fire-glow 3s ease-in-out infinite;
+  animation: cyber-fire-glow 5s ease-in-out infinite; // Увеличено для снижения частоты
 }
 
 // Оптимизация производительности для огненных анимаций - только при hover

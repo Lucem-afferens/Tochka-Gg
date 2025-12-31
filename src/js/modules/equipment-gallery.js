@@ -102,14 +102,15 @@ export function initEquipmentGalleries() {
       }
     });
     
-    // Автопрокрутка (опционально)
+    // Автопрокрутка (опционально, только если больше 1 слайда)
     let autoplayInterval = null;
     
     function startAutoplay() {
       if (totalSlides <= 1) return;
+      // Увеличена задержка для снижения нагрузки
       autoplayInterval = setInterval(() => {
-        nextSlide(); // Используем функцию nextSlide для цикличности
-      }, 5000); // 5 секунд
+        nextSlide();
+      }, 8000); // 8 секунд вместо 5
     }
     
     function stopAutoplay() {
@@ -119,13 +120,18 @@ export function initEquipmentGalleries() {
       }
     }
     
-    // Останавливаем автопрокрутку при наведении
-    gallery.addEventListener('mouseenter', stopAutoplay);
-    gallery.addEventListener('mouseleave', startAutoplay);
+    // Останавливаем автопрокрутку при наведении (только на десктопе)
+    if (window.innerWidth >= 768) {
+      gallery.addEventListener('mouseenter', stopAutoplay, { passive: true });
+      gallery.addEventListener('mouseleave', startAutoplay, { passive: true });
+    }
     
     // Инициализация
     updateSlider();
-    startAutoplay();
+    // Автопрокрутка только если больше 1 слайда
+    if (totalSlides > 1) {
+      startAutoplay();
+    }
     
     // Поддержка свайпов на мобильных устройствах
     let touchStartX = 0;

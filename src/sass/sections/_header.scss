@@ -265,7 +265,7 @@
         0 0 20px rgba(59, 130, 246, 0.5),
         0 0 30px rgba(192, 38, 211, 0.4),
         0 0 40px rgba(239, 68, 68, 0.3);
-      animation: border-scan 2s linear infinite, border-pulse-color 3s ease-in-out infinite;
+      animation: border-scan 3s linear infinite, border-pulse-color 5s ease-in-out infinite; // Увеличено для снижения частоты
       z-index: 1;
     }
     
@@ -316,7 +316,7 @@
           0 0 50px rgba(239, 68, 68, 0.8),
           0 0 40px rgba(34, 211, 238, 0.8),
           0 0 60px rgba(59, 130, 246, 0.6);
-        animation: border-scan 2s linear infinite, border-pulse 3s ease-in-out infinite, border-pulse-color 4s ease-in-out infinite;
+        animation: border-scan 3s linear infinite, border-pulse 5s ease-in-out infinite, border-pulse-color 6s ease-in-out infinite; // Увеличено для снижения частоты
       }
       
       // Дополнительный слой свечения по краям
