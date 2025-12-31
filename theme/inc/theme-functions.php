@@ -259,13 +259,13 @@ function tochkagg_custom_cursor() {
                 }
                 
                 // Создаем элемент для кастомного курсора
-                // Фиксированный размер 32x32px для любого изображения
+                // Фиксированный размер 48x48px для любого изображения
                 const cursorElement = document.createElement('div');
                 cursorElement.id = 'tochkagg-custom-cursor-element';
                 cursorElement.style.cssText = `
                     position: fixed;
-                    width: 32px;
-                    height: 32px;
+                    width: 48px;
+                    height: 48px;
                     pointer-events: none;
                     z-index: 999999;
                     display: none;
