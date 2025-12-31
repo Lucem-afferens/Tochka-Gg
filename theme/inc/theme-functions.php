@@ -259,6 +259,7 @@ function tochkagg_custom_cursor() {
                 }
                 
                 // Создаем элемент для кастомного курсора
+                // Фиксированный размер 32x32px для любого изображения
                 const cursorElement = document.createElement('div');
                 cursorElement.id = 'tochkagg-custom-cursor-element';
                 cursorElement.style.cssText = `
@@ -272,6 +273,7 @@ function tochkagg_custom_cursor() {
                 `;
                 
                 // Создаем изображение курсора
+                // Используем object-fit: contain для вписывания любого изображения в 32x32px
                 const cursorImage = document.createElement('img');
                 cursorImage.src = '<?php echo $cursor_url; ?>';
                 cursorImage.style.cssText = `
@@ -283,18 +285,6 @@ function tochkagg_custom_cursor() {
                 cursorImage.alt = 'Custom cursor';
                 cursorElement.appendChild(cursorImage);
                 document.body.appendChild(cursorElement);
-            
-            // Получаем размеры изображения для правильного позиционирования
-            let imageWidth = 32;
-            let imageHeight = 32;
-            
-            cursorImage.onload = function() {
-                imageWidth = this.naturalWidth || 32;
-                imageHeight = this.naturalHeight || 32;
-                // Устанавливаем размер изображения
-                cursorElement.style.width = imageWidth + 'px';
-                cursorElement.style.height = imageHeight + 'px';
-            };
             
             // Отслеживаем движение мыши
             let mouseX = 0;
