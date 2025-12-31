@@ -1,0 +1,212 @@
+---
+rule_type: always
+description: Performance and minimalism rules - highest priority
+---
+
+# Performance & Minimalism Rules
+
+## 🎯 1️⃣ Главный принцип (ОБЯЗАТЕЛЬНО)
+
+**RULE: Performance and simplicity have the highest priority.**
+
+**RULE: Always prefer the simplest possible solution that meets the requirements.**
+
+**RULE: Do NOT add abstractions, libraries, or logic unless explicitly required.**
+
+Cursor НЕ умеет "догадываться", что вы хотите минимализм. Это нужно прописать как приоритет №1.
+
+Без этого AI почти всегда:
+- добавит лишние хелперы
+- сделает переабстракцию
+- напишет "на вырост"
+
+---
+
+## 🚫 2️⃣ Правила против лишнего кода (САМОЕ ВАЖНОЕ)
+
+**RULE: Do not add code "for future use".**
+
+**RULE: Do not add features that were not explicitly requested.**
+
+**RULE: Avoid overengineering and premature optimization.**
+
+**RULE: Avoid unnecessary configuration, helpers, wrappers, or utils.**
+
+📌 Эти правила резко снижают количество мусорного кода.
+
+---
+
+## ⚡ 3️⃣ Производительность JavaScript (ОЧЕНЬ ВАЖНО)
+
+**RULE: Minimize JavaScript execution on the main thread.**
+
+**RULE: Avoid heavy computations, large loops, and unnecessary re-renders.**
+
+**RULE: Use native browser APIs instead of custom abstractions whenever possible.**
+
+**RULE: Avoid unnecessary event listeners and observers.**
+
+**RULE: Use requestAnimationFrame only when absolutely necessary for animations.**
+
+**RULE: Debounce or throttle event handlers that fire frequently (scroll, resize, mousemove).**
+
+**RULE: Remove event listeners when elements are removed from DOM.**
+
+---
+
+## 🎨 4️⃣ DOM и рендеринг
+
+**RULE: Minimize DOM nodes and nesting.**
+
+**RULE: Avoid unnecessary wrappers and containers.**
+
+**RULE: Batch DOM updates and avoid layout thrashing.**
+
+**RULE: Do not manipulate the DOM unless required.**
+
+**RULE: Use transform and opacity for animations (GPU accelerated).**
+
+**RULE: Avoid reading layout properties (offsetWidth, scrollTop) in loops.**
+
+---
+
+## 💅 5️⃣ Стили и CSS / SCSS
+
+**RULE: Keep CSS/SCSS minimal and component-scoped.**
+
+**RULE: Avoid global styles unless absolutely necessary.**
+
+**RULE: Avoid deep selectors and excessive nesting (max 3 levels).**
+
+**RULE: Do not add unused variables, mixins, or styles.**
+
+**RULE: Avoid expensive CSS properties (box-shadow, filter, backdrop-filter) on desktop when possible.**
+
+**RULE: Minimize text-shadow and box-shadow layers (max 3 layers).**
+
+**RULE: Use will-change sparingly and only for elements that will actually animate.**
+
+👉 Это напрямую влияет на CLS, LCP и общий вес CSS.
+
+---
+
+## 🖼️ 6️⃣ Изображения, шрифты, ассеты
+
+**RULE: Optimize images for size and format (WebP/AVIF when possible).**
+
+**RULE: Always specify width and height for images to avoid layout shifts.**
+
+**RULE: Avoid loading assets that are not visible on the first screen.**
+
+**RULE: Load fonts efficiently and avoid blocking rendering.**
+
+**RULE: Use lazy loading for images below the fold.**
+
+**RULE: Compress images before uploading (max 200KB for regular images).**
+
+---
+
+## 🎬 7️⃣ Анимации и эффекты (часто забывают)
+
+**RULE: Avoid animations unless they improve UX.**
+
+**RULE: Prefer CSS animations over JavaScript.**
+
+**RULE: Avoid continuous or infinite animations.**
+
+**RULE: Respect reduced motion preferences when applicable.**
+
+**RULE: Remove filter properties from keyframe animations (use only transform, opacity, box-shadow, text-shadow).**
+
+**RULE: Disable animations for elements outside viewport.**
+
+---
+
+## 📊 8️⃣ Core Web Vitals как явное требование
+
+Cursor должен понимать цели, а не просто "писать оптимально".
+
+**RULE: All code must aim to meet Core Web Vitals targets:**
+- **LCP < 2.5s** (Largest Contentful Paint)
+- **FID < 100ms** (First Input Delay)
+- **CLS < 0.1** (Cumulative Layout Shift)
+
+Это заставляет AI автоматически:
+- избегать тяжёлого JS
+- задавать размеры элементам
+- не перегружать первый экран
+- оптимизировать изображения
+
+---
+
+## 🛑 9️⃣ Запреты (очень эффективно)
+
+Запреты работают лучше рекомендаций.
+
+**RULE: Do not add third-party libraries without explicit approval.**
+
+**RULE: Do not add polyfills unless required by target browsers.**
+
+**RULE: Do not add analytics, trackers, or monitoring by default.**
+
+**RULE: Do not add console.logs in production code.**
+
+**RULE: Do not add debug code or commented-out code.**
+
+**RULE: Do not add unused imports or dependencies.**
+
+---
+
+## 🔥 🔟 Супер-правило (САМОЕ СИЛЬНОЕ)
+
+**RULE: If there is a choice between a simpler and a more complex solution, always choose the simpler one.**
+
+**RULE: If you are unsure whether something is needed, do NOT add it.**
+
+**RULE: When in doubt, ask the user before adding complexity.**
+
+---
+
+## 📋 Контрольный список производительности
+
+### Перед добавлением любого кода:
+
+- [ ] Это действительно необходимо?
+- [ ] Можно ли сделать проще?
+- [ ] Не добавляю ли я "на будущее"?
+- [ ] Не перегружаю ли я производительность?
+- [ ] Соответствует ли Core Web Vitals?
+
+### JavaScript:
+
+- [ ] Минимум обработчиков событий
+- [ ] Debounce/throttle для частых событий
+- [ ] Нет тяжелых вычислений в основном потоке
+- [ ] Используются нативные API браузера
+- [ ] Нет лишних библиотек
+
+### CSS:
+
+- [ ] Минимум селекторов и вложенности
+- [ ] Нет неиспользуемых стилей
+- [ ] Оптимизированы дорогие свойства (backdrop-filter, filter)
+- [ ] Минимум слоев box-shadow/text-shadow
+- [ ] will-change используется только когда нужно
+
+### DOM:
+
+- [ ] Минимум элементов
+- [ ] Нет лишних оберток
+- [ ] Батчинг обновлений DOM
+- [ ] Используется transform для анимаций
+
+### Анимации:
+
+- [ ] Только если улучшают UX
+- [ ] CSS анимации предпочтительнее JS
+- [ ] Уважается prefers-reduced-motion
+- [ ] Нет filter в keyframes
+
+---
+
+**Помни: Простота и производительность - приоритет №1. Если сомневаешься - не добавляй.**
