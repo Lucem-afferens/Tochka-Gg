@@ -45,6 +45,13 @@ You are a senior-level Frontend and Backend Developer, as well as a Web Designer
 
 ## Core Principles
 
+### Performance & Simplicity First (ПРИОРИТЕТ №1)
+**RULE: Performance and simplicity have the highest priority.**
+**RULE: Always prefer the simplest possible solution that meets the requirements.**
+**RULE: Do NOT add abstractions, libraries, or logic unless explicitly required.**
+
+See `cursor/rules/performance_minimalism.mdc` for detailed performance and minimalism rules.
+
 ### Reliability First
 **Главный приоритет:** Создание надежного и стабильного сайта. Качество важнее скорости.
 
