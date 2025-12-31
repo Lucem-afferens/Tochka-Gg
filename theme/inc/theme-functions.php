@@ -216,6 +216,11 @@ function tochkagg_custom_cursor() {
         return;
     }
     
+    // Получаем расположение точки клика курсора (верхний край или центр)
+    $cursor_hotspot = function_exists('get_field') ? get_field('custom_cursor_hotspot', 'option') : 'center';
+    // Значения: 'top' (верхний край) или 'center' (центр)
+    $hotspot_position = ($cursor_hotspot === 'top') ? 'top' : 'center';
+    
     // Выводим CSS для кастомного курсора
     // Курсор отображается в 1.5 раза меньше (через JavaScript масштабирование)
     ?>
@@ -286,11 +291,29 @@ function tochkagg_custom_cursor() {
                 cursorElement.appendChild(cursorImage);
                 document.body.appendChild(cursorElement);
             
+            // Расположение точки клика курсора
+            const hotspotPosition = '<?php echo esc_js($hotspot_position); ?>';
+            const cursorSize = 48; // Размер курсора в пикселях
+            
+            // Вычисляем смещение в зависимости от расположения точки клика
+            let offsetX = 0;
+            let offsetY = 0;
+            
+            if (hotspotPosition === 'top') {
+                // Для верхнего края: точка клика вверху, смещаем элемент вверх на половину высоты
+                offsetX = -cursorSize / 2; // Центрируем по горизонтали
+                offsetY = 0; // Верхний край совпадает с позицией мыши
+            } else {
+                // Для центра: точка клика в центре, смещаем элемент вверх и влево на половину размера
+                offsetX = -cursorSize / 2;
+                offsetY = -cursorSize / 2;
+            }
+            
             // Отслеживаем движение мыши - резкое движение без задержки (как дефолтный курсор)
             function handleMouseMove(e) {
-                // Курсор сразу следует за мышью без плавности
-                cursorElement.style.left = e.clientX + 'px';
-                cursorElement.style.top = e.clientY + 'px';
+                // Курсор сразу следует за мышью с учетом смещения для точки клика
+                cursorElement.style.left = (e.clientX + offsetX) + 'px';
+                cursorElement.style.top = (e.clientY + offsetY) + 'px';
                 cursorElement.style.display = 'block';
             }
             
@@ -303,8 +326,8 @@ function tochkagg_custom_cursor() {
             
             // Показываем курсор при входе в окно
             document.addEventListener('mouseenter', function(e) {
-                cursorElement.style.left = e.clientX + 'px';
-                cursorElement.style.top = e.clientY + 'px';
+                cursorElement.style.left = (e.clientX + offsetX) + 'px';
+                cursorElement.style.top = (e.clientY + offsetY) + 'px';
                 cursorElement.style.display = 'block';
             });
             }
