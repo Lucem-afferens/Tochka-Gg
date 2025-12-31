@@ -283,6 +283,9 @@ function tochkagg_custom_cursor() {
                     z-index: 999999;
                     display: none;
                     will-change: transform;
+                    transform: translate(0, 0);
+                    left: 0;
+                    top: 0;
                 `;
                 
                 // Создаем изображение курсора
@@ -336,11 +339,41 @@ function tochkagg_custom_cursor() {
             }
             
             // Отслеживаем движение мыши - резкое движение без задержки (как дефолтный курсор)
-            function handleMouseMove(e) {
-                // Курсор сразу следует за мышью с учетом смещения для точки клика
-                cursorElement.style.left = (e.clientX + offsetX) + 'px';
-                cursorElement.style.top = (e.clientY + offsetY) + 'px';
+            // Оптимизировано: используем transform вместо left/top для лучшей производительности
+            let lastCursorX = 0;
+            let lastCursorY = 0;
+            let rafCursorId = null;
+            
+            function updateCursorPosition(x, y) {
+                const newX = x + offsetX;
+                const newY = y + offsetY;
+                
+                // Обновляем только если позиция изменилась (избегаем лишних обновлений)
+                if (newX !== lastCursorX || newY !== lastCursorY) {
+                    cursorElement.style.transform = `translate(${newX}px, ${newY}px)`;
+                    lastCursorX = newX;
+                    lastCursorY = newY;
+                }
+                
                 cursorElement.style.display = 'block';
+            }
+            
+            function handleMouseMove(e) {
+                // Используем requestAnimationFrame для синхронизации с браузером
+                if (!rafCursorId) {
+                    rafCursorId = requestAnimationFrame(function() {
+                        updateCursorPosition(e.clientX, e.clientY);
+                        rafCursorId = null;
+                    });
+                } else {
+                    // Если уже есть запланированное обновление, обновляем координаты
+                    const currentX = e.clientX;
+                    const currentY = e.clientY;
+                    rafCursorId = requestAnimationFrame(function() {
+                        updateCursorPosition(currentX, currentY);
+                        rafCursorId = null;
+                    });
+                }
             }
             
             document.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -352,9 +385,7 @@ function tochkagg_custom_cursor() {
             
             // Показываем курсор при входе в окно
             document.addEventListener('mouseenter', function(e) {
-                cursorElement.style.left = (e.clientX + offsetX) + 'px';
-                cursorElement.style.top = (e.clientY + offsetY) + 'px';
-                cursorElement.style.display = 'block';
+                updateCursorPosition(e.clientX, e.clientY);
             });
             
             // ============================================
