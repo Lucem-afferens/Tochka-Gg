@@ -446,7 +446,6 @@ function tochkagg_custom_cursor() {
                 document.addEventListener('mousemove', newHandleMouseMove, { passive: true });
                 
                 // Скрываем хвост при выходе за пределы окна
-                const originalMouseLeave = document.addEventListener;
                 document.addEventListener('mouseleave', function() {
                     trailPoints.forEach(point => {
                         point.element.style.opacity = '0';
