@@ -356,6 +356,121 @@ function tochkagg_custom_cursor() {
                 cursorElement.style.top = (e.clientY + offsetY) + 'px';
                 cursorElement.style.display = 'block';
             });
+            
+            // ============================================
+            // Эффект хвоста курсора (trail effect)
+            // ============================================
+            const trailEnabled = <?php echo $trail_enabled ? 'true' : 'false'; ?>;
+            const trailColor = '<?php echo esc_js($trail_color); ?>';
+            
+            if (trailEnabled) {
+                // Создаем контейнер для хвоста
+                const trailContainer = document.createElement('div');
+                trailContainer.id = 'tochkagg-cursor-trail';
+                trailContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    z-index: 999998;
+                    overflow: hidden;
+                `;
+                document.body.appendChild(trailContainer);
+                
+                // Массив точек хвоста
+                const trailPoints = [];
+                const maxTrailPoints = 8; // Количество точек в хвосте
+                const trailPointSize = 4; // Размер точки хвоста
+                let lastMouseX = 0;
+                let lastMouseY = 0;
+                let rafTrailId = null;
+                
+                // Создаем точки хвоста
+                for (let i = 0; i < maxTrailPoints; i++) {
+                    const point = document.createElement('div');
+                    point.style.cssText = `
+                        position: absolute;
+                        width: ${trailPointSize}px;
+                        height: ${trailPointSize}px;
+                        background: ${trailColor};
+                        border-radius: 50%;
+                        opacity: ${(maxTrailPoints - i) / maxTrailPoints * 0.6};
+                        transform: translate(-50%, -50%);
+                        transition: opacity 0.1s ease-out;
+                    `;
+                    trailContainer.appendChild(point);
+                    trailPoints.push({
+                        element: point,
+                        x: 0,
+                        y: 0
+                    });
+                }
+                
+                // Функция обновления хвоста
+                function updateTrail() {
+                    trailPoints.forEach((point, index) => {
+                        if (index === 0) {
+                            // Первая точка следует за мышью
+                            point.x = lastMouseX;
+                            point.y = lastMouseY;
+                        } else {
+                            // Остальные точки следуют за предыдущей с задержкой
+                            const prevPoint = trailPoints[index - 1];
+                            point.x += (prevPoint.x - point.x) * 0.3;
+                            point.y += (prevPoint.y - point.y) * 0.3;
+                        }
+                        
+                        point.element.style.left = point.x + 'px';
+                        point.element.style.top = point.y + 'px';
+                    });
+                    
+                    rafTrailId = requestAnimationFrame(updateTrail);
+                }
+                
+                // Обновляем позицию хвоста при движении мыши
+                const originalHandleMouseMove = handleMouseMove;
+                const newHandleMouseMove = function(e) {
+                    originalHandleMouseMove(e);
+                    lastMouseX = e.clientX;
+                    lastMouseY = e.clientY;
+                    
+                    if (!rafTrailId) {
+                        updateTrail();
+                    }
+                };
+                
+                // Переопределяем обработчик
+                document.removeEventListener('mousemove', handleMouseMove, { passive: true });
+                document.addEventListener('mousemove', newHandleMouseMove, { passive: true });
+                
+                // Скрываем хвост при выходе за пределы окна
+                const originalMouseLeave = document.addEventListener;
+                document.addEventListener('mouseleave', function() {
+                    trailPoints.forEach(point => {
+                        point.element.style.opacity = '0';
+                    });
+                    if (rafTrailId) {
+                        cancelAnimationFrame(rafTrailId);
+                        rafTrailId = null;
+                    }
+                });
+                
+                // Показываем хвост при входе в окно
+                document.addEventListener('mouseenter', function(e) {
+                    lastMouseX = e.clientX;
+                    lastMouseY = e.clientY;
+                    trailPoints.forEach((point, index) => {
+                        point.x = e.clientX;
+                        point.y = e.clientY;
+                        point.element.style.opacity = ((maxTrailPoints - index) / maxTrailPoints * 0.6).toString();
+                    });
+                    if (!rafTrailId) {
+                        updateTrail();
+                    }
+                });
+            }
             }
             
             // Инициализируем курсор после загрузки DOM
