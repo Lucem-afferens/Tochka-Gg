@@ -358,7 +358,7 @@ function tochkagg_custom_cursor() {
             });
             
             // ============================================
-            // Эффект хвоста курсора (trail effect) - непрерывная полоса
+            // Эффект хвоста курсора (trail effect) - непрерывная полоса (оптимизировано)
             // ============================================
             const trailEnabled = <?php echo $trail_enabled ? 'true' : 'false'; ?>;
             const trailColor = '<?php echo esc_js($trail_color); ?>';
@@ -378,146 +378,154 @@ function tochkagg_custom_cursor() {
                 `;
                 document.body.appendChild(trailCanvas);
                 
-                const ctx = trailCanvas.getContext('2d');
+                // Оптимизированный контекст canvas
+                const ctx = trailCanvas.getContext('2d', { 
+                    alpha: true,
+                    desynchronized: true // Улучшает производительность
+                });
+                
                 const trailWidth = 3; // Толщина линии хвоста
-                const fadeSpeed = 0.15; // Скорость затухания (чем больше, тем быстрее исчезает)
-                const maxTrailLength = 20; // Максимальная длина хвоста в точках
+                const maxTrailLength = 12; // Уменьшено для производительности (было 20)
+                const minDistance = 3; // Минимальное расстояние между точками (пиксели)
+                const fadeDelay = 80; // Задержка перед затуханием (мс)
                 
                 // Устанавливаем размер canvas
                 function resizeCanvas() {
-                    trailCanvas.width = window.innerWidth;
-                    trailCanvas.height = window.innerHeight;
+                    const w = window.innerWidth;
+                    const h = window.innerHeight;
+                    trailCanvas.width = w;
+                    trailCanvas.height = h;
                 }
                 resizeCanvas();
-                window.addEventListener('resize', resizeCanvas, { passive: true });
+                let resizeTimeout;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(resizeCanvas, 100);
+                }, { passive: true });
                 
-                // Массив точек хвоста (история позиций мыши)
+                // Массив точек хвоста (только координаты, без времени)
                 const trailPoints = [];
-                let lastMouseX = 0;
-                let lastMouseY = 0;
-                let isMoving = false;
                 let rafTrailId = null;
-                let lastMoveTime = 0;
-                const movementThreshold = 50; // Минимальное время между движениями для скрытия (мс)
+                let lastAddTime = 0;
+                let lastX = 0;
+                let lastY = 0;
+                let isAnimating = false;
                 
-                // Функция добавления точки в хвост
+                // Throttle для добавления точек (16ms = ~60fps)
+                const addPointThrottle = 16;
+                
+                // Функция добавления точки в хвост (оптимизировано)
                 function addTrailPoint(x, y) {
-                    trailPoints.push({ x, y, time: Date.now() });
-                    // Ограничиваем длину хвоста для производительности
-                    if (trailPoints.length > maxTrailLength) {
-                        trailPoints.shift();
-                    }
-                }
-                
-                // Функция очистки старых точек (затухание)
-                function fadeTrail() {
-                    const now = Date.now();
-                    // Удаляем точки старше определенного времени
-                    while (trailPoints.length > 0 && (now - trailPoints[0].time) > movementThreshold) {
-                        trailPoints.shift();
-                    }
-                }
-                
-                // Функция отрисовки хвоста
-                function drawTrail() {
-                    // Очищаем canvas
-                    ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+                    const now = performance.now();
                     
-                    // Если точек меньше 2, не рисуем
-                    if (trailPoints.length < 2) {
-                        rafTrailId = requestAnimationFrame(drawTrail);
+                    // Throttle: добавляем точку не чаще чем раз в 16ms
+                    if (now - lastAddTime < addPointThrottle) {
                         return;
                     }
                     
-                    // Рисуем плавную линию через все точки
-                    ctx.beginPath();
+                    // Проверяем минимальное расстояние (избегаем дубликатов)
+                    if (trailPoints.length > 0) {
+                        const lastPoint = trailPoints[trailPoints.length - 1];
+                        const dx = x - lastPoint.x;
+                        const dy = y - lastPoint.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < minDistance) {
+                            return; // Пропускаем точку если слишком близко
+                        }
+                    }
+                    
+                    trailPoints.push({ x, y });
+                    lastX = x;
+                    lastY = y;
+                    lastAddTime = now;
+                    
+                    // Ограничиваем длину хвоста
+                    if (trailPoints.length > maxTrailLength) {
+                        trailPoints.shift();
+                    }
+                    
+                    // Запускаем анимацию если еще не запущена
+                    if (!isAnimating && trailPoints.length >= 2) {
+                        isAnimating = true;
+                        if (!rafTrailId) {
+                            rafTrailId = requestAnimationFrame(drawTrail);
+                        }
+                    }
+                }
+                
+                // Оптимизированная функция отрисовки хвоста
+                function drawTrail() {
+                    // Если точек меньше 2, останавливаем анимацию
+                    if (trailPoints.length < 2) {
+                        ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+                        isAnimating = false;
+                        rafTrailId = null;
+                        return;
+                    }
+                    
+                    // Очищаем canvas (оптимизировано)
+                    ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+                    
+                    // Настройки линии (выносим из цикла)
                     ctx.strokeStyle = trailColor;
                     ctx.lineWidth = trailWidth;
                     ctx.lineCap = 'round';
                     ctx.lineJoin = 'round';
                     
-                    // Используем квадратичную кривую для плавности
-                    for (let i = 0; i < trailPoints.length - 1; i++) {
-                        const current = trailPoints[i];
-                        const next = trailPoints[i + 1];
-                        
-                        if (i === 0) {
-                            ctx.moveTo(current.x, current.y);
-                        } else {
-                            // Используем предыдущую точку для создания плавной кривой
-                            const prev = trailPoints[i - 1];
-                            const cpX = current.x;
-                            const cpY = current.y;
-                            ctx.quadraticCurveTo(prev.x, prev.y, cpX, cpY);
-                        }
-                    }
+                    // Рисуем упрощенную линию (без квадратичных кривых для производительности)
+                    ctx.beginPath();
+                    ctx.moveTo(trailPoints[0].x, trailPoints[0].y);
                     
-                    // Завершаем линию до последней точки
-                    if (trailPoints.length > 1) {
-                        const last = trailPoints[trailPoints.length - 1];
-                        const prev = trailPoints[trailPoints.length - 2];
-                        ctx.quadraticCurveTo(prev.x, prev.y, last.x, last.y);
+                    // Простая линия через все точки (быстрее чем кривые)
+                    for (let i = 1; i < trailPoints.length; i++) {
+                        ctx.lineTo(trailPoints[i].x, trailPoints[i].y);
                     }
                     
                     ctx.stroke();
                     
-                    // Затухание старых точек
-                    fadeTrail();
-                    
-                    // Продолжаем анимацию только если есть точки
-                    if (trailPoints.length > 0) {
-                        rafTrailId = requestAnimationFrame(drawTrail);
-                    } else {
-                        rafTrailId = null;
-                    }
+                    // Продолжаем анимацию
+                    rafTrailId = requestAnimationFrame(drawTrail);
                 }
                 
-                // Обновляем позицию хвоста при движении мыши
+                // Обновляем позицию хвоста при движении мыши (оптимизировано)
                 const originalHandleMouseMove = handleMouseMove;
                 const newHandleMouseMove = function(e) {
                     originalHandleMouseMove(e);
-                    
-                    const now = Date.now();
-                    const timeSinceLastMove = now - lastMoveTime;
-                    
-                    // Добавляем точку только если мышь действительно двигается
-                    if (timeSinceLastMove > 5) { // Минимальный интервал для производительности
-                        addTrailPoint(e.clientX, e.clientY);
-                        lastMouseX = e.clientX;
-                        lastMouseY = e.clientY;
-                        lastMoveTime = now;
-                        isMoving = true;
-                        
-                        // Запускаем отрисовку если еще не запущена
-                        if (!rafTrailId) {
-                            rafTrailId = requestAnimationFrame(drawTrail);
-                        }
-                    }
+                    addTrailPoint(e.clientX, e.clientY);
                 };
                 
                 // Переопределяем обработчик
                 document.removeEventListener('mousemove', handleMouseMove, { passive: true });
                 document.addEventListener('mousemove', newHandleMouseMove, { passive: true });
                 
-                // Очищаем хвост при остановке движения
+                // Очищаем хвост при остановке движения (оптимизировано)
                 let stopTrailTimeout;
-                document.addEventListener('mousemove', function() {
+                const clearTrail = function() {
                     clearTimeout(stopTrailTimeout);
                     stopTrailTimeout = setTimeout(function() {
-                        // Очищаем хвост через некоторое время после остановки
                         trailPoints.length = 0;
+                        if (rafTrailId) {
+                            cancelAnimationFrame(rafTrailId);
+                            rafTrailId = null;
+                        }
+                        isAnimating = false;
                         ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
-                    }, 100); // Очищаем через 100ms после остановки
-                }, { passive: true });
+                    }, fadeDelay);
+                };
+                
+                // Очищаем при остановке движения
+                document.addEventListener('mousemove', clearTrail, { passive: true });
                 
                 // Скрываем хвост при выходе за пределы окна
                 document.addEventListener('mouseleave', function() {
                     trailPoints.length = 0;
-                    ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
                     if (rafTrailId) {
                         cancelAnimationFrame(rafTrailId);
                         rafTrailId = null;
                     }
+                    isAnimating = false;
+                    ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
                 });
             }
             }
