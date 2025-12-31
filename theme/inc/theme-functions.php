@@ -339,41 +339,11 @@ function tochkagg_custom_cursor() {
             }
             
             // Отслеживаем движение мыши - резкое движение без задержки (как дефолтный курсор)
-            // Оптимизировано: используем transform вместо left/top для лучшей производительности
-            let lastCursorX = 0;
-            let lastCursorY = 0;
-            let rafCursorId = null;
-            
-            function updateCursorPosition(x, y) {
-                const newX = x + offsetX;
-                const newY = y + offsetY;
-                
-                // Обновляем только если позиция изменилась (избегаем лишних обновлений)
-                if (newX !== lastCursorX || newY !== lastCursorY) {
-                    cursorElement.style.transform = `translate(${newX}px, ${newY}px)`;
-                    lastCursorX = newX;
-                    lastCursorY = newY;
-                }
-                
-                cursorElement.style.display = 'block';
-            }
-            
+            // Оптимизировано: используем transform вместо left/top для GPU ускорения
             function handleMouseMove(e) {
-                // Используем requestAnimationFrame для синхронизации с браузером
-                if (!rafCursorId) {
-                    rafCursorId = requestAnimationFrame(function() {
-                        updateCursorPosition(e.clientX, e.clientY);
-                        rafCursorId = null;
-                    });
-                } else {
-                    // Если уже есть запланированное обновление, обновляем координаты
-                    const currentX = e.clientX;
-                    const currentY = e.clientY;
-                    rafCursorId = requestAnimationFrame(function() {
-                        updateCursorPosition(currentX, currentY);
-                        rafCursorId = null;
-                    });
-                }
+                // Прямое обновление через transform (GPU ускорение, без задержек)
+                cursorElement.style.transform = `translate(${e.clientX + offsetX}px, ${e.clientY + offsetY}px)`;
+                cursorElement.style.display = 'block';
             }
             
             document.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -385,7 +355,8 @@ function tochkagg_custom_cursor() {
             
             // Показываем курсор при входе в окно
             document.addEventListener('mouseenter', function(e) {
-                updateCursorPosition(e.clientX, e.clientY);
+                cursorElement.style.transform = `translate(${e.clientX + offsetX}px, ${e.clientY + offsetY}px)`;
+                cursorElement.style.display = 'block';
             });
             
             // ============================================
