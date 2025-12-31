@@ -286,32 +286,12 @@ function tochkagg_custom_cursor() {
                 cursorElement.appendChild(cursorImage);
                 document.body.appendChild(cursorElement);
             
-            // Отслеживаем движение мыши
-            let mouseX = 0;
-            let mouseY = 0;
-            let cursorX = 0;
-            let cursorY = 0;
-            let rafId = null;
-            
-            function updateCursor() {
-                // Плавное движение курсора (оптимизировано для производительности)
-                cursorX += (mouseX - cursorX) * 0.15;
-                cursorY += (mouseY - cursorY) * 0.15;
-                
-                cursorElement.style.left = cursorX + 'px';
-                cursorElement.style.top = cursorY + 'px';
-                cursorElement.style.display = 'block';
-                
-                rafId = requestAnimationFrame(updateCursor);
-            }
-            
+            // Отслеживаем движение мыши - резкое движение без задержки (как дефолтный курсор)
             function handleMouseMove(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                
-                if (!rafId) {
-                    updateCursor();
-                }
+                // Курсор сразу следует за мышью без плавности
+                cursorElement.style.left = e.clientX + 'px';
+                cursorElement.style.top = e.clientY + 'px';
+                cursorElement.style.display = 'block';
             }
             
             document.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -319,17 +299,13 @@ function tochkagg_custom_cursor() {
             // Скрываем курсор при выходе за пределы окна
             document.addEventListener('mouseleave', function() {
                 cursorElement.style.display = 'none';
-                if (rafId) {
-                    cancelAnimationFrame(rafId);
-                    rafId = null;
-                }
             });
             
             // Показываем курсор при входе в окно
-            document.addEventListener('mouseenter', function() {
-                if (!rafId) {
-                    updateCursor();
-                }
+            document.addEventListener('mouseenter', function(e) {
+                cursorElement.style.left = e.clientX + 'px';
+                cursorElement.style.top = e.clientY + 'px';
+                cursorElement.style.display = 'block';
             });
             }
             
