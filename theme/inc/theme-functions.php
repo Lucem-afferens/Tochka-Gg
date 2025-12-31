@@ -216,10 +216,11 @@ function tochkagg_custom_cursor() {
         return;
     }
     
-    // Получаем расположение точки клика курсора (верхний край или центр)
-    $cursor_hotspot = function_exists('get_field') ? get_field('custom_cursor_hotspot', 'option') : 'center';
-    // Значения: 'top' (верхний край) или 'center' (центр)
-    $hotspot_position = ($cursor_hotspot === 'top') ? 'top' : 'center';
+    // Получаем расположение точки клика курсора
+    $cursor_hotspot = function_exists('get_field') ? get_field('custom_cursor_hotspot', 'option') : 'top-left';
+    // Значения: 'top-left' (верхний левый угол), 'top-center' (верхний центр), 
+    // 'top-right' (верхний правый угол), 'center' (центр)
+    $hotspot_position = $cursor_hotspot ? $cursor_hotspot : 'top-left';
     
     // Выводим CSS для кастомного курсора
     // Курсор отображается в 1.5 раза меньше (через JavaScript масштабирование)
