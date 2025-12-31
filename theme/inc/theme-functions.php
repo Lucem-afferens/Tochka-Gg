@@ -297,17 +297,35 @@ function tochkagg_custom_cursor() {
             const cursorSize = 48; // Размер курсора в пикселях
             
             // Вычисляем смещение в зависимости от расположения точки клика
+            // Дефолтный курсор имеет точку клика в верхнем левом углу (0, 0)
             let offsetX = 0;
             let offsetY = 0;
             
-            if (hotspotPosition === 'top') {
-                // Для верхнего края: точка клика вверху, смещаем элемент вверх на половину высоты
-                offsetX = -cursorSize / 2; // Центрируем по горизонтали
-                offsetY = 0; // Верхний край совпадает с позицией мыши
-            } else {
-                // Для центра: точка клика в центре, смещаем элемент вверх и влево на половину размера
-                offsetX = -cursorSize / 2;
-                offsetY = -cursorSize / 2;
+            switch(hotspotPosition) {
+                case 'top-left':
+                    // Верхний левый угол (как дефолтный курсор)
+                    offsetX = 0;
+                    offsetY = 0;
+                    break;
+                case 'top-center':
+                    // Верхний центр
+                    offsetX = -cursorSize / 2;
+                    offsetY = 0;
+                    break;
+                case 'top-right':
+                    // Верхний правый угол
+                    offsetX = -cursorSize;
+                    offsetY = 0;
+                    break;
+                case 'center':
+                    // Центр
+                    offsetX = -cursorSize / 2;
+                    offsetY = -cursorSize / 2;
+                    break;
+                default:
+                    // По умолчанию верхний левый угол
+                    offsetX = 0;
+                    offsetY = 0;
             }
             
             // Отслеживаем движение мыши - резкое движение без задержки (как дефолтный курсор)
