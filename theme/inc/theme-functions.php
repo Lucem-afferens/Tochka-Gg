@@ -233,43 +233,58 @@ function tochkagg_custom_cursor() {
     </style>
     <script>
         // JavaScript решение для кастомного курсора с уменьшением в 1.5 раза
+        // Ожидаем загрузки DOM перед выполнением
         (function() {
             'use strict';
             
-            // Проверяем, что мы не на мобильном устройстве (там курсор не нужен)
-            if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
-                // На мобильных устройствах показываем дефолтный курсор
-                document.querySelector('#tochkagg-custom-cursor').innerHTML = '* { cursor: auto !important; }';
-                return;
-            }
-            
-            // Создаем элемент для кастомного курсора
-            const cursorElement = document.createElement('div');
-            cursorElement.id = 'tochkagg-custom-cursor-element';
-            cursorElement.style.cssText = `
-                position: fixed;
-                width: 32px;
-                height: 32px;
-                pointer-events: none;
-                z-index: 999999;
-                transform: scale(0.6667);
-                transform-origin: top left;
-                display: none;
-                will-change: transform;
-            `;
-            
-            // Создаем изображение курсора
-            const cursorImage = document.createElement('img');
-            cursorImage.src = '<?php echo $cursor_url; ?>';
-            cursorImage.style.cssText = `
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                display: block;
-            `;
-            cursorImage.alt = 'Custom cursor';
-            cursorElement.appendChild(cursorImage);
-            document.body.appendChild(cursorElement);
+            function initCustomCursor() {
+                // Проверяем, что body существует
+                if (!document.body) {
+                    return;
+                }
+                
+                // Проверяем, что мы не на мобильном устройстве (там курсор не нужен)
+                if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+                    // На мобильных устройствах показываем дефолтный курсор
+                    const styleElement = document.querySelector('#tochkagg-custom-cursor');
+                    if (styleElement) {
+                        styleElement.innerHTML = '* { cursor: auto !important; }';
+                    }
+                    return;
+                }
+                
+                // Проверяем, не создан ли уже курсор
+                if (document.getElementById('tochkagg-custom-cursor-element')) {
+                    return;
+                }
+                
+                // Создаем элемент для кастомного курсора
+                const cursorElement = document.createElement('div');
+                cursorElement.id = 'tochkagg-custom-cursor-element';
+                cursorElement.style.cssText = `
+                    position: fixed;
+                    width: 32px;
+                    height: 32px;
+                    pointer-events: none;
+                    z-index: 999999;
+                    transform: scale(0.6667);
+                    transform-origin: top left;
+                    display: none;
+                    will-change: transform;
+                `;
+                
+                // Создаем изображение курсора
+                const cursorImage = document.createElement('img');
+                cursorImage.src = '<?php echo $cursor_url; ?>';
+                cursorImage.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    display: block;
+                `;
+                cursorImage.alt = 'Custom cursor';
+                cursorElement.appendChild(cursorImage);
+                document.body.appendChild(cursorElement);
             
             // Получаем размеры изображения для правильного позиционирования
             let imageWidth = 32;
@@ -329,6 +344,15 @@ function tochkagg_custom_cursor() {
                     updateCursor();
                 }
             });
+            }
+            
+            // Инициализируем курсор после загрузки DOM
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initCustomCursor);
+            } else {
+                // DOM уже загружен
+                initCustomCursor();
+            }
         })();
     </script>
     <?php
