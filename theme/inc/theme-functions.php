@@ -222,6 +222,13 @@ function tochkagg_custom_cursor() {
     // 'top-right' (верхний правый угол), 'center' (центр)
     $hotspot_position = $cursor_hotspot ? $cursor_hotspot : 'top-left';
     
+    // Получаем настройки хвоста курсора
+    $cursor_trail_enabled = function_exists('get_field') ? get_field('custom_cursor_trail_enabled', 'option') : false;
+    $cursor_trail_color = function_exists('get_field') ? get_field('custom_cursor_trail_color', 'option') : '#3b82f6';
+    // Если цвет не задан, используем синий по умолчанию
+    $trail_color = $cursor_trail_color ? $cursor_trail_color : '#3b82f6';
+    $trail_enabled = ($cursor_trail_enabled === true || $cursor_trail_enabled === '1' || $cursor_trail_enabled === 1);
+    
     // Выводим CSS для кастомного курсора
     // Курсор отображается в 1.5 раза меньше (через JavaScript масштабирование)
     ?>
