@@ -273,7 +273,7 @@ function tochkagg_custom_cursor() {
                 `;
                 
                 // Создаем изображение курсора
-                // Используем object-fit: contain для вписывания любого изображения в 32x32px
+                // Используем object-fit: contain для вписывания любого изображения в 48x48px
                 const cursorImage = document.createElement('img');
                 cursorImage.src = '<?php echo $cursor_url; ?>';
                 cursorImage.style.cssText = `
