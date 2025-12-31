@@ -217,31 +217,120 @@ function tochkagg_custom_cursor() {
     }
     
     // Выводим CSS для кастомного курсора
+    // Курсор отображается в 1.5 раза меньше (через JavaScript масштабирование)
     ?>
     <style id="tochkagg-custom-cursor">
-        /* Кастомный курсор */
+        /* Скрываем дефолтный курсор - используем кастомный через JavaScript */
         * {
-            cursor: url('<?php echo $cursor_url; ?>'), auto !important;
+            cursor: none !important;
         }
         
-        /* Для интерактивных элементов используем pointer */
-        a, button, [role="button"], input[type="submit"], input[type="button"], 
-        .tgg-button, .swiper-button-next, .swiper-button-prev,
-        .tgg-header__burger, .tgg-nav__link, .tgg-accordion__header {
-            cursor: url('<?php echo $cursor_url; ?>'), pointer !important;
-        }
-        
-        /* Для текстовых полей используем text */
+        /* Восстанавливаем курсор для элементов, где нужен дефолтный */
         input[type="text"], input[type="email"], input[type="tel"], 
         input[type="number"], textarea {
-            cursor: url('<?php echo $cursor_url; ?>'), text !important;
-        }
-        
-        /* Для элементов, которые нельзя выбрать */
-        .no-select, [draggable="false"] {
-            cursor: url('<?php echo $cursor_url; ?>'), not-allowed !important;
+            cursor: text !important;
         }
     </style>
+    <script>
+        // JavaScript решение для кастомного курсора с уменьшением в 1.5 раза
+        (function() {
+            'use strict';
+            
+            // Проверяем, что мы не на мобильном устройстве (там курсор не нужен)
+            if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+                // На мобильных устройствах показываем дефолтный курсор
+                document.querySelector('#tochkagg-custom-cursor').innerHTML = '* { cursor: auto !important; }';
+                return;
+            }
+            
+            // Создаем элемент для кастомного курсора
+            const cursorElement = document.createElement('div');
+            cursorElement.id = 'tochkagg-custom-cursor-element';
+            cursorElement.style.cssText = `
+                position: fixed;
+                width: 32px;
+                height: 32px;
+                pointer-events: none;
+                z-index: 999999;
+                transform: scale(0.6667);
+                transform-origin: top left;
+                display: none;
+                will-change: transform;
+            `;
+            
+            // Создаем изображение курсора
+            const cursorImage = document.createElement('img');
+            cursorImage.src = '<?php echo $cursor_url; ?>';
+            cursorImage.style.cssText = `
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                display: block;
+            `;
+            cursorImage.alt = 'Custom cursor';
+            cursorElement.appendChild(cursorImage);
+            document.body.appendChild(cursorElement);
+            
+            // Получаем размеры изображения для правильного позиционирования
+            let imageWidth = 32;
+            let imageHeight = 32;
+            const scaleFactor = 0.6667; // 1 / 1.5 = 0.6667 (уменьшение в 1.5 раза)
+            
+            cursorImage.onload = function() {
+                imageWidth = this.naturalWidth || 32;
+                imageHeight = this.naturalHeight || 32;
+                // Устанавливаем размер с учетом масштабирования
+                cursorElement.style.width = (imageWidth * scaleFactor) + 'px';
+                cursorElement.style.height = (imageHeight * scaleFactor) + 'px';
+            };
+            
+            // Отслеживаем движение мыши
+            let mouseX = 0;
+            let mouseY = 0;
+            let cursorX = 0;
+            let cursorY = 0;
+            let rafId = null;
+            
+            function updateCursor() {
+                // Плавное движение курсора (оптимизировано для производительности)
+                cursorX += (mouseX - cursorX) * 0.15;
+                cursorY += (mouseY - cursorY) * 0.15;
+                
+                cursorElement.style.left = cursorX + 'px';
+                cursorElement.style.top = cursorY + 'px';
+                cursorElement.style.display = 'block';
+                
+                rafId = requestAnimationFrame(updateCursor);
+            }
+            
+            function handleMouseMove(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                if (!rafId) {
+                    updateCursor();
+                }
+            }
+            
+            document.addEventListener('mousemove', handleMouseMove, { passive: true });
+            
+            // Скрываем курсор при выходе за пределы окна
+            document.addEventListener('mouseleave', function() {
+                cursorElement.style.display = 'none';
+                if (rafId) {
+                    cancelAnimationFrame(rafId);
+                    rafId = null;
+                }
+            });
+            
+            // Показываем курсор при входе в окно
+            document.addEventListener('mouseenter', function() {
+                if (!rafId) {
+                    updateCursor();
+                }
+            });
+        })();
+    </script>
     <?php
 }
 add_action('wp_head', 'tochkagg_custom_cursor', 100);
