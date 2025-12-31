@@ -190,4 +190,60 @@ function tochkagg_force_set_equipment_template() {
 // Раскомментируйте следующую строку и укажите ID страницы:
 // add_action('admin_init', 'tochkagg_force_set_equipment_template');
 
+/**
+ * Вывод кастомного курсора в head
+ * Получает изображение курсора из SCF Options Page
+ */
+function tochkagg_custom_cursor() {
+    // Получаем изображение курсора из Options Page
+    $cursor_image = function_exists('get_field') ? get_field('custom_cursor', 'option') : false;
+    
+    if (!$cursor_image) {
+        return; // Если курсор не задан, используем дефолтный
+    }
+    
+    // Получаем URL изображения
+    $cursor_url = '';
+    if (is_array($cursor_image) && isset($cursor_image['url'])) {
+        $cursor_url = esc_url($cursor_image['url']);
+    } elseif (is_string($cursor_image)) {
+        $cursor_url = esc_url($cursor_image);
+    } elseif (is_numeric($cursor_image)) {
+        $cursor_url = esc_url(wp_get_attachment_image_url($cursor_image, 'full'));
+    }
+    
+    if (!$cursor_url) {
+        return;
+    }
+    
+    // Выводим CSS для кастомного курсора
+    ?>
+    <style id="tochkagg-custom-cursor">
+        /* Кастомный курсор */
+        * {
+            cursor: url('<?php echo $cursor_url; ?>'), auto !important;
+        }
+        
+        /* Для интерактивных элементов используем pointer */
+        a, button, [role="button"], input[type="submit"], input[type="button"], 
+        .tgg-button, .swiper-button-next, .swiper-button-prev,
+        .tgg-header__burger, .tgg-nav__link, .tgg-accordion__header {
+            cursor: url('<?php echo $cursor_url; ?>'), pointer !important;
+        }
+        
+        /* Для текстовых полей используем text */
+        input[type="text"], input[type="email"], input[type="tel"], 
+        input[type="number"], textarea {
+            cursor: url('<?php echo $cursor_url; ?>'), text !important;
+        }
+        
+        /* Для элементов, которые нельзя выбрать */
+        .no-select, [draggable="false"] {
+            cursor: url('<?php echo $cursor_url; ?>'), not-allowed !important;
+        }
+    </style>
+    <?php
+}
+add_action('wp_head', 'tochkagg_custom_cursor', 100);
+
 
