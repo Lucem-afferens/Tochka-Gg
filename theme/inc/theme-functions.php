@@ -267,8 +267,6 @@ function tochkagg_custom_cursor() {
                     height: 32px;
                     pointer-events: none;
                     z-index: 999999;
-                    transform: scale(0.6667);
-                    transform-origin: top left;
                     display: none;
                     will-change: transform;
                 `;
@@ -289,14 +287,13 @@ function tochkagg_custom_cursor() {
             // Получаем размеры изображения для правильного позиционирования
             let imageWidth = 32;
             let imageHeight = 32;
-            const scaleFactor = 0.6667; // 1 / 1.5 = 0.6667 (уменьшение в 1.5 раза)
             
             cursorImage.onload = function() {
                 imageWidth = this.naturalWidth || 32;
                 imageHeight = this.naturalHeight || 32;
-                // Устанавливаем размер с учетом масштабирования
-                cursorElement.style.width = (imageWidth * scaleFactor) + 'px';
-                cursorElement.style.height = (imageHeight * scaleFactor) + 'px';
+                // Устанавливаем размер изображения
+                cursorElement.style.width = imageWidth + 'px';
+                cursorElement.style.height = imageHeight + 'px';
             };
             
             // Отслеживаем движение мыши
