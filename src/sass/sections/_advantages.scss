@@ -61,6 +61,7 @@
     padding: $spacing-2xl;
     text-align: center;
     // Убрана transition - элементы не кликабельные, не нужны анимации
+    transition: none !important; // Явно отключаем все transitions
     overflow: hidden; // Нужен для радужного перелива
     width: 100%;
     max-width: 100%;
@@ -115,10 +116,22 @@
     }
     
     // Убраны hover эффекты - элементы преимуществ не кликабельные
-    // Явно отключаем все hover эффекты
+    // Явно отключаем все hover эффекты с максимальной специфичностью
     @media (hover: hover) {
       &:hover {
-        // Никаких изменений при hover - элементы не кликабельные
+        // Явно переопределяем все возможные hover эффекты
+        transform: none !important;
+        box-shadow: 
+          0 6px 30px rgba(59, 130, 246, 0.4),
+          0 0 45px rgba(59, 130, 246, 0.25),
+          0 0 35px rgba(192, 38, 211, 0.3),
+          0 0 25px rgba(239, 68, 68, 0.2) !important;
+        border-color: rgba(59, 130, 246, 0.5) !important;
+        
+        &::after {
+          opacity: 0.6 !important;
+          animation: neon-border-shine 5s ease-in-out infinite !important;
+        }
       }
     }
     
