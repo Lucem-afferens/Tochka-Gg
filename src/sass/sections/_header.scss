@@ -13,12 +13,10 @@
   // Поддержка safe-area для iPhone с выемкой
   padding-top: env(safe-area-inset-top);
   z-index: 1000;
-  // Улучшенный глоссморфизм для навигации - максимально прозрачный
-  background: rgba(18, 13, 26, 0.25);
-  border-bottom: 1px solid rgba(59, 130, 246, 0.12);
-  box-shadow: 
-    0 0 0 1px rgba(239, 68, 68, 0.03),
-    0 8px 32px rgba(0, 0, 0, 0.15);
+  // Изначально полностью прозрачный фон (появляется только при скролле)
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  box-shadow: none;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   
   // backdrop-filter только на мобильных (где нужен для меню)
@@ -75,19 +73,18 @@
     }
   }
   
-  // Эффект при скролле - более прозрачный глоссморфизм
+  // Эффект при скролле - появляется фон (глоссморфизм)
   &.scrolled {
     background: rgba(18, 13, 26, 0.4);
-    border-bottom-color: rgba(59, 130, 246, 0.2);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 
+      0 0 0 1px rgba(239, 68, 68, 0.03),
+      0 8px 32px rgba(0, 0, 0, 0.15);
     
     // backdrop-filter только на мобильных
     @media (max-width: 1023px) {
       backdrop-filter: blur(15px) saturate(200%);
       -webkit-backdrop-filter: blur(15px) saturate(200%);
-    }
-    
-    // На десктопе упрощаем box-shadow (меньше слоев для лучшей производительности)
-    @media (max-width: 1023px) {
       box-shadow: 
         0 4px 30px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(59, 130, 246, 0.15),
