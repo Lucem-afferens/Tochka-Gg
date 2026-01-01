@@ -43,7 +43,15 @@
     padding: $spacing-2xl;
     transition: all $duration-normal $ease-out-cubic;
     
-    // Убраны hover эффекты - карточки поиска не кликабельные
+    // Hover эффекты только для кликабельных элементов (ссылок)
+    @media (hover: hover) {
+      &:has(.tgg-search__item-link:hover),
+      &:has(a:hover) {
+        border-color: rgba(59, 130, 246, 0.5);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+      }
+    }
     
     &-title {
       font-family: $font-heading;
