@@ -10,6 +10,62 @@ if (!defined('ABSPATH')) {
 }
 
 get_header();
+
+// Кастомный запрос для сортировки турниров по дате проведения
+$tournaments_query = new WP_Query([
+    'post_type' => 'tournament',
+    'posts_per_page' => -1, // Получаем все турниры для сортировки
+    'post_status' => 'publish',
+    'orderby' => 'date',
+    'order' => 'ASC'
+]);
+
+// Получаем все турниры и сортируем по дате проведения
+$tournaments = [];
+if ($tournaments_query->have_posts()) {
+    while ($tournaments_query->have_posts()) {
+        $tournaments_query->the_post();
+        $post = get_post();
+        
+        $date_type = get_field('tournament_date_type', $post->ID) ?: 'exact';
+        $sort_date = null;
+        
+        if ($date_type === 'exact') {
+            // Точная дата
+            $tournament_date = get_field('tournament_date', $post->ID);
+            if ($tournament_date) {
+                $sort_date = strtotime($tournament_date);
+            }
+        } elseif ($date_type === 'month_only') {
+            // Только месяц/год - используем первый день месяца
+            $tournament_month = get_field('tournament_date_month', $post->ID);
+            $tournament_year = get_field('tournament_date_year', $post->ID);
+            if ($tournament_month && $tournament_year) {
+                $sort_date = strtotime($tournament_year . '-' . str_pad($tournament_month, 2, '0', STR_PAD_LEFT) . '-01');
+            }
+        }
+        
+        // Если дата не найдена, используем дату публикации поста (для обратной совместимости)
+        if (!$sort_date) {
+            $sort_date = strtotime($post->post_date);
+        }
+        
+        $tournaments[] = [
+            'post' => $post,
+            'sort_date' => $sort_date
+        ];
+    }
+    wp_reset_postdata();
+}
+
+// Сортируем по дате проведения (от ближайшего к самому позднему)
+usort($tournaments, function($a, $b) {
+    return $a['sort_date'] <=> $b['sort_date'];
+});
+
+// Устанавливаем глобальный $wp_query для пагинации
+global $wp_query;
+$wp_query = $tournaments_query;
 ?>
 
 <main class="tgg-main">
@@ -24,15 +80,18 @@ get_header();
                 <?php endif; ?>
             </header>
             
-            <?php if (have_posts()) : ?>
+            <?php if (!empty($tournaments)) : ?>
                 <div class="tgg-archive__items">
-                    <?php while (have_posts()) : the_post(); 
-                        $tournament_date_type = get_field('tournament_date_type') ?: 'exact';
-                        $tournament_date = get_field('tournament_date');
-                        $tournament_date_month = get_field('tournament_date_month');
-                        $tournament_date_year = get_field('tournament_date_year');
-                        $tournament_time = get_field('tournament_time');
-                        $tournament_prize = get_field('tournament_prize');
+                    <?php foreach ($tournaments as $tournament_item) : 
+                        $post = $tournament_item['post'];
+                        setup_postdata($post);
+                        
+                        $tournament_date_type = get_field('tournament_date_type', $post->ID) ?: 'exact';
+                        $tournament_date = get_field('tournament_date', $post->ID);
+                        $tournament_date_month = get_field('tournament_date_month', $post->ID);
+                        $tournament_date_year = get_field('tournament_date_year', $post->ID);
+                        $tournament_time = get_field('tournament_time', $post->ID);
+                        $tournament_prize = get_field('tournament_prize', $post->ID);
                         
                         // Формируем строку даты в зависимости от типа
                         $tournament_date_display = '';
@@ -108,15 +167,9 @@ get_header();
                                 </a>
                             </div>
                         </article>
-                    <?php endwhile; ?>
+                    <?php endforeach; 
+                    wp_reset_postdata(); ?>
                 </div>
-                
-                <?php
-                the_posts_pagination([
-                    'prev_text' => '← Назад',
-                    'next_text' => 'Вперёд →',
-                ]);
-                ?>
             <?php else : ?>
                 <div class="tgg-archive__empty">
                     <p>Турниров пока нет. Следите за новостями!</p>
