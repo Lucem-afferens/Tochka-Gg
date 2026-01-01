@@ -177,58 +177,8 @@
       min-width: 0;
     }
     
-    // Hover эффекты только на устройствах с курсором
-    @media (hover: hover) {
-      &:hover {
-        transform: translateY(-8px);
-        border-color: rgba(59, 130, 246, 0.8);
-        box-shadow: 
-          0 20px 60px rgba(59, 130, 246, 0.5),
-          0 0 80px rgba(59, 130, 246, 0.35),
-          0 0 50px rgba(192, 38, 211, 0.4),
-          0 0 35px rgba(239, 68, 68, 0.3),
-          inset 0 0 0 1px rgba(59, 130, 246, 0.2);
-        
-        &::after {
-          opacity: 1;
-          animation: neon-border-shine 2s ease-in-out infinite;
-        }
-        
-        .tgg-booking__option-image {
-          &::before {
-            opacity: 1;
-          }
-          
-          img {
-            transform: scale(1.1);
-            filter: brightness(0.85) contrast(1.2);
-          }
-        }
-        
-        .tgg-booking__option-overlay {
-          background: linear-gradient(
-            180deg,
-            transparent 0%,
-            rgba(18, 13, 26, 0.3) 50%,
-            rgba(18, 13, 26, 0.9) 100%
-          );
-        }
-        
-        .tgg-booking__option-badge {
-          transform: scale(1.1) translateY(-2px);
-          box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
-        }
-        
-        .tgg-booking__option-badges .tgg-booking__option-badge {
-          transform: scale(1.05);
-          box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-        }
-        
-        .tgg-booking__option-button {
-          transform: translateY(-2px);
-        }
-      }
-    }
+    // Убраны hover эффекты с карточки - карточка не кликабельная
+    // Hover эффекты остаются только на кнопках и ссылках внутри карточки
     
     // Уникальные стили для каждой карточки
     &--phone {

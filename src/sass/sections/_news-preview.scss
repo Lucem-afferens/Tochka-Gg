@@ -117,8 +117,10 @@
     
     position: relative;
     
+    // Hover эффекты только для кликабельных элементов (ссылок)
     @media (hover: hover) {
-      &:hover {
+      a:hover &,
+      .tgg-news-preview__item-link:hover & {
         transform: translateY(-8px);
         border-color: rgba(59, 130, 246, 0.6);
         box-shadow: 
@@ -160,7 +162,8 @@
     }
     
     @media (hover: hover) {
-      .tgg-news-preview__item:hover & {
+      a:hover &,
+      .tgg-news-preview__item-link:hover & {
         img {
           transform: scale(1.1);
           filter: brightness(0.85) contrast(1.2);
@@ -262,7 +265,8 @@
     transition: filter 0.3s ease;
     
     @media (hover: hover) {
-      .tgg-news-preview__item:hover & {
+      a:hover &,
+      .tgg-news-preview__item-link:hover & {
         filter: 
           drop-shadow(0 0 6px rgba(59, 130, 246, 0.6))
           drop-shadow(0 0 12px rgba(59, 130, 246, 0.3));
@@ -298,7 +302,8 @@
     text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
     
     @media (hover: hover) {
-      .tgg-news-preview__item:hover & {
+      a:hover &,
+      .tgg-news-preview__item-link:hover & {
         color: rgba(192, 38, 211, 1);
         text-shadow: 
           0 0 12px rgba(192, 38, 211, 0.6),

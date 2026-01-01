@@ -51,9 +51,12 @@
     z-index: -1;
   }
   
-  // Hover эффекты только на устройствах с курсором
+  // Hover эффекты только для кликабельных элементов (ссылок и кнопок)
   @media (hover: hover) {
-    &:hover {
+    a:hover &,
+    button:hover &,
+    [role="button"]:hover &,
+    [onclick]:hover & {
       border-color: rgba(59, 130, 246, 0.8);
       box-shadow: 
         0 12px 40px rgba(59, 130, 246, 0.5),
@@ -92,7 +95,9 @@
   margin-bottom: $spacing-md;
   
   @media (hover: hover) {
-    .tgg-card:hover & {
+    a:hover &,
+    button:hover &,
+    [role="button"]:hover & {
       transform: scale(1.05);
     }
   }

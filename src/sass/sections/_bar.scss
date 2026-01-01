@@ -251,24 +251,7 @@
       z-index: 2;
     }
     
-    @media (hover: hover) {
-      &:hover {
-        transform: translateY(-4px);
-        box-shadow: 
-          0 12px 40px rgba(59, 130, 246, 0.5),
-          0 0 60px rgba(59, 130, 246, 0.3),
-          0 0 35px rgba(192, 38, 211, 0.35),
-          0 0 25px rgba(239, 68, 68, 0.25);
-        
-        &::after {
-          opacity: 1;
-        }
-        
-        .tgg-bar__item-image img {
-          transform: scale(1.1);
-        }
-      }
-    }
+    // Убраны hover эффекты - элементы бара не кликабельные
     
     &-image {
       width: 100%;
