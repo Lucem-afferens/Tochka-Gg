@@ -175,8 +175,8 @@
     
     // Hover эффекты только для кликабельных элементов (ссылок)
     @media (hover: hover) {
-      a:hover &,
-      .tgg-tournaments-preview__card-link:hover & {
+      &:has(.tgg-tournaments-preview__card-link:hover),
+      &:has(a:hover) {
         background: rgba(22, 26, 33, 0.25);
         backdrop-filter: blur(25px) saturate(200%);
         border-color: rgba(192, 38, 211, 0.8);
@@ -209,8 +209,8 @@
       }
       
       @media (hover: hover) {
-        a:hover &,
-        .tgg-tournaments-preview__card-link:hover & {
+        .tgg-tournaments-preview__card:has(.tgg-tournaments-preview__card-link:hover) &,
+        .tgg-tournaments-preview__card:has(a:hover) & {
           img {
             transform: scale(1.1);
           }
@@ -542,8 +542,8 @@
       }
       
       @media (hover: hover) {
-        a:hover &,
-        .tgg-tournaments-preview__card-link:hover & {
+        .tgg-tournaments-preview__card:has(.tgg-tournaments-preview__card-link:hover) &,
+        .tgg-tournaments-preview__card:has(a:hover) & {
           img {
             transform: scale(1.08);
           }
@@ -598,8 +598,8 @@
       transition: filter 0.3s ease;
       
       @media (hover: hover) {
-        a:hover &,
-        .tgg-tournaments-preview__card-link:hover & {
+        .tgg-tournaments-preview__card:has(.tgg-tournaments-preview__card-link:hover) &,
+        .tgg-tournaments-preview__card:has(a:hover) & {
           filter: 
             drop-shadow(0 0 6px rgba(59, 130, 246, 0.6))
             drop-shadow(0 0 12px rgba(59, 130, 246, 0.3));

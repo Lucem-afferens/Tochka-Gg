@@ -145,8 +145,8 @@
       // Hover эффекты только для кликабельных элементов (ссылок)
       @media (hover: hover) {
         @include respond-to(lg) {
-          a:hover &,
-          .tgg-services__item-link:hover & {
+          &:has(.tgg-services__item-link:hover),
+          &:has(a:hover) {
             border-color: rgba(59, 130, 246, 1);
             transform: translateY(-12px) rotateY(8deg) rotateX(-3deg);
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -170,8 +170,8 @@
         }
         
         @media (max-width: 1023px) {
-          a:hover &,
-          .tgg-services__item-link:hover & {
+          .tgg-services__item:has(.tgg-services__item-link:hover) &,
+          .tgg-services__item:has(a:hover) & {
             transform: translateY(-8px);
             
             .tgg-services__item-image img {
@@ -215,8 +215,8 @@
       // Hover эффекты только для кликабельных элементов (ссылок)
       @media (hover: hover) {
         @include respond-to(lg) {
-          a:hover &,
-          .tgg-services__item-link:hover & {
+          &:has(.tgg-services__item-link:hover),
+          &:has(a:hover) {
             border-color: rgba(192, 38, 211, 1);
             transform: translateY(-12px) rotateY(-8deg) rotateX(-3deg);
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -240,8 +240,8 @@
         }
         
         @media (max-width: 1023px) {
-          a:hover &,
-          .tgg-services__item-link:hover & {
+          .tgg-services__item:has(.tgg-services__item-link:hover) &,
+          .tgg-services__item:has(a:hover) & {
             transform: translateY(-8px);
             
             .tgg-services__item-image img {
@@ -285,8 +285,8 @@
       // Hover эффекты только для кликабельных элементов (ссылок)
       @media (hover: hover) {
         @include respond-to(lg) {
-          a:hover &,
-          .tgg-services__item-link:hover & {
+          &:has(.tgg-services__item-link:hover),
+          &:has(a:hover) {
             border-color: rgba(34, 211, 238, 1);
             transform: translateY(-12px) rotateY(8deg) rotateX(3deg);
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -310,8 +310,8 @@
         }
         
         @media (max-width: 1023px) {
-          a:hover &,
-          .tgg-services__item-link:hover & {
+          .tgg-services__item:has(.tgg-services__item-link:hover) &,
+          .tgg-services__item:has(a:hover) & {
             transform: translateY(-8px);
             
             .tgg-services__item-image img {
@@ -355,8 +355,8 @@
       // Hover эффекты только для кликабельных элементов (ссылок)
       @media (hover: hover) {
         @include respond-to(lg) {
-          a:hover &,
-          .tgg-services__item-link:hover & {
+          &:has(.tgg-services__item-link:hover),
+          &:has(a:hover) {
             border-color: rgba(255, 107, 53, 1);
             transform: translateY(-12px) rotateY(-8deg) rotateX(3deg);
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -380,8 +380,8 @@
         }
         
         @media (max-width: 1023px) {
-          a:hover &,
-          .tgg-services__item-link:hover & {
+          .tgg-services__item:has(.tgg-services__item-link:hover) &,
+          .tgg-services__item:has(a:hover) & {
             transform: translateY(-8px);
             
             .tgg-services__item-image img {
