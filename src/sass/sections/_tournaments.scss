@@ -356,6 +356,44 @@
     @include respond-to(lg) {
       padding: $spacing-md $spacing-3xl $spacing-4xl; // Добавлен верхний padding для свечения
       margin: 0 (-$spacing-3xl);
+      
+      // На десктопе (от 1024px) - просто карточки без карусели
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: $spacing-xl;
+      
+      // Если 2 карточки
+      &[data-count="2"] {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      // Если 1 карточка
+      &[data-count="1"] {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .swiper-wrapper {
+        display: contents; // Убираем обертку Swiper на десктопе
+      }
+      
+      .swiper-slide {
+        display: block; // Убираем flex на десктопе
+        padding: 0; // Убираем padding на десктопе
+        height: auto;
+      }
+      
+      // Скрываем навигацию и пагинацию на десктопе
+      .swiper-button-next,
+      .swiper-button-prev,
+      .swiper-pagination {
+        display: none !important;
+      }
     }
     
     // Swiper wrapper - разрешаем свечение
