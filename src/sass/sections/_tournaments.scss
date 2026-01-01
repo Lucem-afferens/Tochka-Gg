@@ -354,28 +354,22 @@
     }
     
     @include respond-to(lg) {
-      padding: $spacing-md $spacing-3xl $spacing-4xl; // Добавлен верхний padding для свечения
-      margin: 0 (-$spacing-3xl);
+      padding: 0; // Убираем padding на десктопе
+      margin: 0; // Убираем margin на десктопе
       
-      // На десктопе (от 1024px) - просто карточки без карусели
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: $spacing-xl;
+      // На десктопе (от 1024px) - просто карточки без карусели (как карточки новостей)
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: $spacing-2xl;
       
-      // Если 2 карточки
-      &[data-count="2"] {
-        grid-template-columns: repeat(2, 1fr);
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
+      @include respond-to(md) {
+        gap: $spacing-3xl;
       }
       
-      // Если 1 карточка
-      &[data-count="1"] {
-        grid-template-columns: 1fr;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
+      @include respond-to(lg) {
+        gap: $spacing-4xl;
       }
       
       .swiper-wrapper {
@@ -386,6 +380,18 @@
         display: block; // Убираем flex на десктопе
         padding: 0; // Убираем padding на десктопе
         height: auto;
+        flex: 0 0 100%;
+        max-width: 100%;
+        
+        @include respond-to(md) {
+          flex: 0 0 calc(50% - #{$spacing-3xl / 2});
+          max-width: calc(50% - #{$spacing-3xl / 2});
+        }
+        
+        @include respond-to(lg) {
+          flex: 0 0 calc(33.333% - #{$spacing-4xl * 2 / 3});
+          max-width: calc(33.333% - #{$spacing-4xl * 2 / 3});
+        }
       }
       
       // Скрываем навигацию и пагинацию на десктопе
@@ -490,26 +496,32 @@
     }
   }
   
-  // Маленькие карточки турниров
+  // Маленькие карточки турниров (как карточки новостей)
   &__card {
     height: 100%; // Растягиваем на всю высоту слайда
     min-height: 100%; // Минимальная высота для одинакового размера
-    @include glassmorphism-light(0.1, 10px);
-    border: $border-width-thin solid rgba(59, 130, 246, 0.3);
-    border-radius: $border-radius-md;
-    overflow: visible !important; // Разрешаем свечение заголовка выходить за границы (важно!)
-    transition: all $duration-normal $ease-out-cubic;
+    background: rgba(18, 13, 26, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: $border-radius-xl;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-self: stretch; // Растягиваем до высоты самой высокой карточки в ряду
     position: relative;
-    margin: $spacing-sm; // Отступы для видимости свечения
-    box-sizing: border-box;
+    margin: 0; // Убираем margin на десктопе
     
-    // Неоновая тень в статичном состоянии
+    // Улучшенные неоновые тени в статичном состоянии (как у новостей)
     box-shadow: 
-      0 4px 20px rgba(59, 130, 246, 0.2),
-      0 0 25px rgba(59, 130, 246, 0.1),
-      0 0 15px rgba(192, 38, 211, 0.15);
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 6px 30px rgba(59, 130, 246, 0.25),
+      0 0 40px rgba(59, 130, 246, 0.15),
+      0 0 30px rgba(192, 38, 211, 0.2),
+      0 0 20px rgba(239, 68, 68, 0.15);
     
-    // Неоновая граница
+    // Неоновая граница в статичном состоянии (как у новостей)
     &::after {
       content: '';
       position: absolute;
@@ -518,9 +530,9 @@
       padding: 1px;
       background: linear-gradient(
         135deg,
-        rgba(59, 130, 246, 0.3) 0%,
-        rgba(192, 38, 211, 0.3) 50%,
-        rgba(239, 68, 68, 0.3) 100%
+        rgba(59, 130, 246, 0.4) 0%,
+        rgba(192, 38, 211, 0.4) 50%,
+        rgba(239, 68, 68, 0.4) 100%
       );
       background-size: 200% 200%;
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -530,21 +542,22 @@
       opacity: 0.5;
       animation: neon-border-shine 5s ease-in-out infinite; // Увеличено для снижения частоты
       pointer-events: none;
-      z-index: 1;
+      z-index: 0;
     }
     
-    // Hover эффекты только на устройствах с курсором
+    // Hover эффекты только на устройствах с курсором (как у новостей)
     @media (hover: hover) {
       &:hover {
+        transform: translateY(-8px);
         border-color: rgba(59, 130, 246, 0.6);
-        transform: translateY(-4px);
         box-shadow: 
-          0 8px 30px rgba(59, 130, 246, 0.4),
-          0 0 40px rgba(59, 130, 246, 0.25),
-          0 0 25px rgba(192, 38, 211, 0.3);
+          0 20px 60px rgba(59, 130, 246, 0.4),
+          0 0 80px rgba(59, 130, 246, 0.25),
+          0 0 50px rgba(192, 38, 211, 0.3),
+          0 0 35px rgba(239, 68, 68, 0.25);
         
         &::after {
-          opacity: 0.8;
+          opacity: 0.9;
           animation: neon-border-shine 2s ease-in-out infinite;
         }
       }
@@ -561,19 +574,15 @@
     &-image {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
+      height: 220px; // Такая же высота как у карточек новостей
       overflow: hidden;
       flex-shrink: 0;
-      // Закругляем верхние углы, чтобы соответствовать карточке
-      border-radius: $border-radius-md $border-radius-md 0 0;
       
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform $duration-slow $ease-out-cubic;
-        // Закругляем верхние углы изображения
-        border-radius: inherit;
       }
       
       @media (hover: hover) {
@@ -584,42 +593,46 @@
     }
     
     &-content {
-      // Увеличенные отступы со всех сторон для полной видимости свечения (особенно боковые)
-      padding: clamp($spacing-md, 1.5vw, $spacing-lg) clamp($spacing-lg, 3vw, $spacing-2xl);
-      flex-grow: 1;
+      flex: 1 1 auto; // Растягиваем контент для заполнения пространства
       display: flex;
       flex-direction: column;
-      gap: $spacing-xs;
+      padding: $spacing-xl;
+      gap: $spacing-md;
+      min-height: 0; // Позволяет flex-элементам сжиматься
       overflow: visible !important; // Разрешаем свечение заголовка выходить за границы (важно!)
       position: relative; // Для корректного позиционирования свечения
     }
     
     &-title {
       font-family: $font-heading;
-      font-size: clamp(0.875rem, 1.5vw, 1rem);
+      font-size: clamp(1rem, 2.5vw, $font-size-h4); // Такие же размеры как у новостей
       font-weight: $font-weight-heading-bold;
       color: $color-text-primary;
-      line-height: 1.4;
       margin: 0;
-      padding: 0; // Убираем padding, так как увеличен в content
-      box-sizing: border-box;
+      line-height: $line-height-tight;
       min-height: 2.5em; // Минимальная высота для одинакового размера
       position: relative;
       z-index: 2; // Поверх других элементов
       overflow: visible !important; // Разрешаем свечение выходить за границы (важно!)
+      padding: $spacing-sm $spacing-md; // Добавлен padding для видимости свечения
+      margin: 0 (-$spacing-md); // Компенсируем padding родителя
+      box-sizing: content-box;
     }
     
     &-title-text {
       display: block;
-      line-height: 1.4;
+      line-height: $line-height-tight;
       max-height: 2.8em; // Примерно 2 строки (ограничиваем только высоту)
       position: relative;
       overflow: visible !important; // Разрешаем свечение выходить за границы (критично!)
       word-wrap: break-word;
       overflow-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; // Ограничиваем до 2 строк
+      -webkit-box-orient: vertical;
       // Применяем свечение напрямую через filter: drop-shadow
       // Это не обрезается overflow: hidden родительских элементов
-      // Унифицированное свечение (такая же сила, как у новостей)
+      // Такая же сила свечения, как было у новостей
       filter: 
         drop-shadow(0 0 4px rgba(59, 130, 246, 0.4))
         drop-shadow(0 0 8px rgba(59, 130, 246, 0.2));
