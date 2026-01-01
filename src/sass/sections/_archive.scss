@@ -82,11 +82,8 @@
     min-width: 0;
     box-sizing: border-box;
     
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.5);
-      transform: translateY(-8px);
-      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
-    }
+    // Убраны hover эффекты с карточки - карточка не кликабельная
+    // Hover эффекты остаются только на ссылках внутри карточки
     
     &-image {
       position: relative;
