@@ -371,6 +371,15 @@
       }
     }
     
+    // Убираем все стили для Swiper (больше не используется)
+    .swiper-wrapper,
+    .swiper-slide,
+    .swiper-button-next,
+    .swiper-button-prev,
+    .swiper-pagination {
+      display: none !important;
+    }
+    
     // Swiper навигация
     .swiper-button-prev,
     .swiper-button-next {
