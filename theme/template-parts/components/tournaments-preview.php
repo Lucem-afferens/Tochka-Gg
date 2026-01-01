@@ -319,16 +319,18 @@ if ($tournaments_bg_image_mobile) {
                                 <?php 
                                 // Используем wp_get_attachment_image для контроля над атрибутами
                                 $thumbnail_id = get_post_thumbnail_id();
-                                echo wp_get_attachment_image(
-                                    $thumbnail_id,
-                                    'thumbnail',
-                                    false,
-                                    array(
-                                        'loading' => 'lazy',
-                                        'decoding' => 'async',
-                                        'alt' => get_the_title()
-                                    )
-                                );
+                                            echo wp_get_attachment_image(
+                                                $thumbnail_id,
+                                                'thumbnail',
+                                                false,
+                                                array(
+                                                    'loading' => 'lazy',
+                                                    'decoding' => 'async',
+                                                    'alt' => get_the_title(),
+                                                    'width' => 400,
+                                                    'height' => 300
+                                                )
+                                            );
                                 ?>
                             <?php else : ?>
                                 <?php 

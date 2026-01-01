@@ -51,19 +51,28 @@ function handleIOSApp(deepLink, fallbackUrl) {
   let appOpened = false;
   const startTime = Date.now();
   const timeout = 2500;
+  let timeoutId = null;
+
+  // Функция очистки обработчиков
+  const cleanup = () => {
+    window.removeEventListener('blur', handleBlur);
+    window.removeEventListener('visibilitychange', handleVisibilityChange);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+  };
 
   // Отслеживаем фокус страницы - если страница теряет фокус, значит приложение открылось
   const handleBlur = () => {
     appOpened = true;
-    window.removeEventListener('blur', handleBlur);
-    window.removeEventListener('visibilitychange', handleVisibilityChange);
+    cleanup();
   };
 
   const handleVisibilityChange = () => {
     if (document.hidden) {
       appOpened = true;
-      window.removeEventListener('blur', handleBlur);
-      window.removeEventListener('visibilitychange', handleVisibilityChange);
+      cleanup();
     }
   };
 
@@ -74,9 +83,8 @@ function handleIOSApp(deepLink, fallbackUrl) {
   window.location.href = deepLink;
 
   // Если через timeout приложение не открылось, перенаправляем в App Store
-  setTimeout(() => {
-    window.removeEventListener('blur', handleBlur);
-    window.removeEventListener('visibilitychange', handleVisibilityChange);
+  timeoutId = setTimeout(() => {
+    cleanup();
 
     if (!appOpened && !document.hidden) {
       // Приложение не открылось - перенаправляем в App Store
@@ -91,19 +99,28 @@ function handleIOSApp(deepLink, fallbackUrl) {
 function handleAndroidApp(deepLink, fallbackUrl) {
   let appOpened = false;
   const timeout = 2000;
+  let timeoutId = null;
+
+  // Функция очистки обработчиков
+  const cleanup = () => {
+    window.removeEventListener('blur', handleBlur);
+    window.removeEventListener('visibilitychange', handleVisibilityChange);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+  };
 
   // Отслеживаем фокус и видимость страницы
   const handleBlur = () => {
     appOpened = true;
-    window.removeEventListener('blur', handleBlur);
-    window.removeEventListener('visibilitychange', handleVisibilityChange);
+    cleanup();
   };
 
   const handleVisibilityChange = () => {
     if (document.hidden) {
       appOpened = true;
-      window.removeEventListener('blur', handleBlur);
-      window.removeEventListener('visibilitychange', handleVisibilityChange);
+      cleanup();
     }
   };
 
@@ -114,9 +131,8 @@ function handleAndroidApp(deepLink, fallbackUrl) {
   window.location.href = deepLink;
 
   // Если через timeout приложение не открылось, перенаправляем в Google Play
-  setTimeout(() => {
-    window.removeEventListener('blur', handleBlur);
-    window.removeEventListener('visibilitychange', handleVisibilityChange);
+  timeoutId = setTimeout(() => {
+    cleanup();
 
     if (!appOpened && !document.hidden) {
       // Приложение не открылось - перенаправляем в Google Play

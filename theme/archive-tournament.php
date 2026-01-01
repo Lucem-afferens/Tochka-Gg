@@ -115,7 +115,20 @@ $wp_query = $tournaments_query;
                             <div class="tgg-archive__item-image">
                                 <a href="<?php the_permalink(); ?>">
                                     <?php if (has_post_thumbnail()) : ?>
-                                        <?php the_post_thumbnail('medium'); ?>
+                                        <?php 
+                                        // Используем wp_get_attachment_image для контроля над атрибутами
+                                        $thumbnail_id = get_post_thumbnail_id();
+                                        echo wp_get_attachment_image(
+                                            $thumbnail_id,
+                                            'medium',
+                                            false,
+                                            array(
+                                                'loading' => 'lazy',
+                                                'decoding' => 'async',
+                                                'alt' => get_the_title()
+                                            )
+                                        );
+                                        ?>
                                     <?php else : ?>
                                         <?php 
                                         $tournament_placeholder = function_exists('tochkagg_get_placeholder_image') 

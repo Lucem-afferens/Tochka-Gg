@@ -51,17 +51,17 @@
         // Устанавливаем таймер на показ модального окна
         timeoutId = setTimeout(showModal, validDelay);
         
-        // Обработчики событий
+        // Обработчики событий (сохраняем для последующего удаления)
         if (closeBtn) {
-            closeBtn.addEventListener('click', closeModal);
+            closeBtn.addEventListener('click', closeModal, { once: false });
         }
         
         if (overlay) {
-            overlay.addEventListener('click', closeModal);
+            overlay.addEventListener('click', closeModal, { once: false });
         }
         
-        // Закрытие по Escape
-        document.addEventListener('keydown', handleKeydown);
+        // Закрытие по Escape (сохраняем для последующего удаления)
+        document.addEventListener('keydown', handleKeydown, { once: false });
     }
     
     /**
@@ -104,6 +104,15 @@
             clearTimeout(timeoutId);
             timeoutId = null;
         }
+        
+        // Удаляем обработчики событий для предотвращения утечек памяти
+        if (closeBtn) {
+            closeBtn.removeEventListener('click', closeModal);
+        }
+        if (overlay) {
+            overlay.removeEventListener('click', closeModal);
+        }
+        document.removeEventListener('keydown', handleKeydown);
     }
     
     /**

@@ -18,8 +18,8 @@ function tochkagg_enqueue_assets() {
     // Основной стиль
     $style_path = TOCHKAGG_THEME_PATH . '/assets/css/style.css';
     if (file_exists($style_path)) {
-        // Принудительное обновление кеша: версия темы + время изменения файла + timestamp
-        $style_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($style_path) . '.' . time();
+        // Версия темы + время изменения файла (без time() для кеширования)
+        $style_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($style_path);
         
         wp_enqueue_style(
             'tochkagg-style',
@@ -33,8 +33,8 @@ function tochkagg_enqueue_assets() {
     // Основной скрипт (отложенная загрузка для лучшей производительности)
     $script_path = TOCHKAGG_THEME_PATH . '/assets/js/main.js';
     if (file_exists($script_path)) {
-        // Принудительное обновление кеша: версия темы + время изменения файла + timestamp
-        $script_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($script_path) . '.' . time();
+        // Версия темы + время изменения файла (без time() для кеширования)
+        $script_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($script_path);
         
         wp_enqueue_script(
             'tochkagg-script',

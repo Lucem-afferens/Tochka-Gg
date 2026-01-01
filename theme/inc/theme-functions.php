@@ -67,27 +67,10 @@ add_filter('option_home', function($url) {
 add_filter('wp_is_using_https', '__return_false');
 
 /**
- * Принудительный сброс кеша для CSS/JS файлов
- * Добавляет параметр версии к URL для обхода кеша браузера
+ * Добавление версии к URL CSS/JS файлов (уже делается в enqueue-assets.php)
+ * Эта функция больше не нужна, так как версии добавляются при enqueue
  */
-function tochkagg_cache_bust() {
-    // Добавляем уникальный параметр к стилям и скриптам
-    add_filter('style_loader_src', function($src) {
-        if (strpos($src, 'assets/css/style.css') !== false) {
-            $src = add_query_arg('v', TOCHKAGG_THEME_VERSION . '.' . time(), $src);
-        }
-        return $src;
-    }, 10, 1);
-    
-    add_filter('script_loader_src', function($src) {
-        if (strpos($src, 'assets/js/main.js') !== false) {
-            $src = add_query_arg('v', TOCHKAGG_THEME_VERSION . '.' . time(), $src);
-        }
-        return $src;
-    }, 10, 1);
-}
-// Принудительный сброс кеша (временно включен для обновления крестика модального окна)
-add_action('wp_enqueue_scripts', 'tochkagg_cache_bust', 999);
+// Функция удалена - версии добавляются в enqueue-assets.php
 
 /**
  * Обновление правил перезаписи (flush rewrite rules)

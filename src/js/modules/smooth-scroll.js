@@ -34,8 +34,12 @@ export function initSmoothScroll() {
           e.stopPropagation();
           
           const header = document.querySelector('.tgg-header');
+          // Оптимизация: кэшируем headerHeight и батчим чтения layout свойств
           const headerHeight = header ? header.offsetHeight : 80;
-          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+          // Батчим чтения: сначала getBoundingClientRect, потом pageYOffset
+          const targetRect = target.getBoundingClientRect();
+          const scrollY = window.pageYOffset;
+          const targetPosition = targetRect.top + scrollY - headerHeight;
           
           window.scrollTo({
             top: targetPosition,

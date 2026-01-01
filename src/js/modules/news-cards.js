@@ -4,7 +4,7 @@
  * Синхронизация высоты карточек новостей для одинакового размера
  */
 
-// Упрощенная версия синхронизации высоты (без лишних RAF)
+// Оптимизированная версия синхронизации высоты (батчинг для избежания layout thrashing)
 export function syncNewsCardsHeight() {
   const newsSection = document.querySelector('.tgg-news-preview__items');
   if (!newsSection) return;
@@ -12,21 +12,20 @@ export function syncNewsCardsHeight() {
   const newsCards = newsSection.querySelectorAll('.tgg-news-preview__item');
   if (!newsCards || newsCards.length === 0) return;
   
-  // Сбрасываем высоту для измерения
+  // Батчинг: сначала все чтения, потом все записи
+  // Шаг 1: Сбрасываем высоту для измерения (одна операция записи)
   newsCards.forEach(card => {
     card.style.height = 'auto';
   });
   
-  // Находим максимальную высоту
-  let maxHeight = 0;
-  newsCards.forEach(card => {
-    const height = card.offsetHeight;
-    if (height > maxHeight) {
-      maxHeight = height;
-    }
-  });
+  // Шаг 2: Принудительный reflow один раз
+  void newsSection.offsetHeight;
   
-  // Устанавливаем одинаковую высоту
+  // Шаг 3: Читаем все высоты (батчинг чтений)
+  const heights = Array.from(newsCards).map(card => card.offsetHeight);
+  const maxHeight = Math.max(...heights);
+  
+  // Шаг 4: Устанавливаем одинаковую высоту (батчинг записей)
   if (maxHeight > 0) {
     newsCards.forEach(card => {
       card.style.height = maxHeight + 'px';

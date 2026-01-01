@@ -54,42 +54,42 @@ export function initSliders() {
         isSyncing = true;
         lastSyncTime = now;
         
-        // Упрощенная синхронизация высоты (без двойного RAF)
-        let maxHeight = 0;
-        
-        // Находим максимальную высоту
+        // Оптимизированная синхронизация высоты (батчинг для избежания layout thrashing)
+        // Шаг 1: Сбрасываем высоту для всех карточек (батчинг записей)
+        const cards = [];
         slides.forEach(slide => {
           const card = slide.querySelector('.tgg-tournaments-preview__card');
           if (card) {
-            // Временно сбрасываем высоту для измерения
-            const oldHeight = card.style.height;
+            cards.push(card);
             card.style.height = 'auto';
-            const height = card.offsetHeight;
-            if (height > maxHeight) {
-              maxHeight = height;
-            }
-            // Восстанавливаем высоту
-            if (oldHeight) {
-              card.style.height = oldHeight;
-            }
           }
         });
         
-        // Устанавливаем высоту только если изменилась значительно
+        // Шаг 2: Принудительный reflow один раз
+        if (cards.length > 0) {
+          void cards[0].offsetHeight;
+        }
+        
+        // Шаг 3: Читаем все высоты (батчинг чтений)
+        let maxHeight = 0;
+        cards.forEach(card => {
+          const height = card.offsetHeight;
+          if (height > maxHeight) {
+            maxHeight = height;
+          }
+        });
+        
+        // Шаг 4: Устанавливаем высоту только если изменилась значительно (батчинг записей)
         const heightDifference = Math.abs(maxHeight - currentMaxHeight);
         if (maxHeight > 0 && heightDifference > 5) {
           currentMaxHeight = maxHeight;
           
-          // Устанавливаем высоту напрямую (без лишних RAF)
-          slides.forEach(slide => {
-            const card = slide.querySelector('.tgg-tournaments-preview__card');
-            if (card) {
-              card.style.height = maxHeight + 'px';
-              card.style.minHeight = maxHeight + 'px';
-            }
+          cards.forEach(card => {
+            card.style.height = maxHeight + 'px';
+            card.style.minHeight = maxHeight + 'px';
           });
           
-          // Обновляем Swiper с минимальной задержкой
+          // Обновляем Swiper
           if (swiper && swiper.update) {
             swiper.update();
           }
