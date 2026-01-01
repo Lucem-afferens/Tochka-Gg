@@ -60,7 +60,7 @@
     border-radius: $border-radius-lg;
     padding: $spacing-2xl;
     text-align: center;
-    transition: all $duration-normal $ease-out-cubic;
+    // Убрана transition - элементы не кликабельные, не нужны анимации
     overflow: hidden; // Нужен для радужного перелива
     width: 100%;
     max-width: 100%;
