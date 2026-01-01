@@ -25,8 +25,15 @@ export function initSliders() {
     const sliderElement = document.querySelector(selector);
     if (!sliderElement) return;
     
-    // Настройки для карусели турниров
+    // Настройки для карусели турниров (только на мобильных)
     if (selector === '.tgg-slider-tournaments') {
+      // Проверяем, что мы на мобильном устройстве (меньше 1024px)
+      const isMobile = window.innerWidth < 1024;
+      
+      // Если десктоп, не инициализируем карусель
+      if (!isMobile) {
+        return;
+      }
       // Переменная для хранения текущей высоты и предотвращения бесконечных циклов
       let currentMaxHeight = 0;
       let isSyncing = false;
@@ -144,12 +151,6 @@ export function initSliders() {
           },
           768: {
             slidesPerView: 2.5,
-            spaceBetween: 24,
-            centeredSlides: true,
-            autoHeight: false,
-          },
-          1024: {
-            slidesPerView: 3.5,
             spaceBetween: 24,
             centeredSlides: true,
             autoHeight: false,

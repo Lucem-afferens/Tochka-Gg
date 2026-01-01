@@ -24,8 +24,9 @@ $tournaments_description = function_exists('get_field')
     : null;
 $tournaments_count = function_exists('get_field') 
     ? (get_field('tournaments_preview_count') ?: get_field('tournaments_count'))
-    : 6;
-$tournaments_count = is_numeric($tournaments_count) && $tournaments_count > 0 ? intval($tournaments_count) : 6;
+    : 3;
+// Ограничиваем максимум 3 турнира (1, 2 или 3)
+$tournaments_count = is_numeric($tournaments_count) && $tournaments_count > 0 ? min(intval($tournaments_count), 3) : 3;
 
 // Получаем ссылку на все турниры
 $tournaments_link = function_exists('get_field') ? get_field('tournaments_preview_link') : null;
@@ -284,7 +285,7 @@ if ($tournaments_bg_image_mobile) {
         <?php endif; ?>
         
         <?php if (!empty($all_tournaments_posts)) : ?>
-            <div class="tgg-tournaments-preview__carousel swiper tgg-slider-tournaments">
+            <div class="tgg-tournaments-preview__carousel swiper tgg-slider-tournaments" data-count="<?php echo esc_attr(count($all_tournaments_posts)); ?>">
                 <div class="swiper-wrapper">
                     <?php foreach ($all_tournaments_posts as $post) : 
                         setup_postdata($post);
@@ -374,11 +375,11 @@ if ($tournaments_bg_image_mobile) {
                     <?php endforeach; ?>
                 </div>
                 
-                <!-- Навигация Swiper -->
+                <!-- Навигация Swiper (скрыта на десктопе) -->
                 <div class="swiper-button-next tgg-slider-tournaments-next"></div>
                 <div class="swiper-button-prev tgg-slider-tournaments-prev"></div>
                 
-                <!-- Пагинация Swiper -->
+                <!-- Пагинация Swiper (скрыта на десктопе) -->
                 <div class="swiper-pagination tgg-slider-tournaments-pagination"></div>
             </div>
             
