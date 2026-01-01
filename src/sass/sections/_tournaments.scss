@@ -341,92 +341,34 @@
     margin-top: $spacing-3xl;
   }
   
-  // Карусель с маленькими карточками
+  // Контейнер для одной карточки турнира
   &__carousel {
     position: relative;
-    padding: $spacing-md $spacing-2xl $spacing-3xl; // Добавлен верхний padding для свечения
-    margin: 0 (-$spacing-2xl);
-    overflow: visible; // Разрешаем свечение карточек выходить за границы
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: $spacing-md 0 $spacing-3xl;
+    overflow: visible; // Разрешаем свечение карточки выходить за границы
     
     @include max-width(xs) {
-      padding: $spacing-sm $spacing-md $spacing-2xl; // Добавлен верхний padding для свечения
-      margin: 0 (-$spacing-md);
+      padding: $spacing-sm 0 $spacing-2xl;
     }
     
     @include respond-to(lg) {
-      padding: 0; // Убираем padding на десктопе
-      margin: 0; // Убираем margin на десктопе
-      
-      // На десктопе (от 1024px) - просто карточки без карусели (как карточки новостей)
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: stretch;
-      gap: $spacing-2xl;
+      padding: $spacing-md 0 $spacing-4xl;
+    }
+    
+    // Одна карточка - центрированная
+    &__single {
+      max-width: 100%;
       
       @include respond-to(md) {
-        gap: $spacing-3xl;
+        max-width: 600px;
       }
       
       @include respond-to(lg) {
-        gap: $spacing-4xl;
+        max-width: 500px;
       }
-      
-      .swiper-wrapper {
-        display: contents; // Убираем обертку Swiper на десктопе
-      }
-      
-      .swiper-slide {
-        display: block; // Убираем flex на десктопе
-        padding: 0; // Убираем padding на десктопе
-        height: auto;
-        flex: 0 0 100%;
-        max-width: 100%;
-        
-        @include respond-to(md) {
-          flex: 0 0 calc(50% - #{$spacing-3xl / 2});
-          max-width: calc(50% - #{$spacing-3xl / 2});
-        }
-        
-        @include respond-to(lg) {
-          flex: 0 0 calc(33.333% - #{$spacing-4xl * 2 / 3});
-          max-width: calc(33.333% - #{$spacing-4xl * 2 / 3});
-        }
-      }
-      
-      // Скрываем навигацию и пагинацию на десктопе
-      .swiper-button-next,
-      .swiper-button-prev,
-      .swiper-pagination {
-        display: none !important;
-      }
-    }
-    
-    // Swiper wrapper - разрешаем свечение
-    .swiper-wrapper {
-      overflow: visible !important; // Разрешаем свечение карточек (!important для переопределения Swiper)
-    }
-    
-    // Swiper - разрешаем свечение
-    &.swiper {
-      overflow: visible !important; // Разрешаем свечение карточек (!important для переопределения Swiper)
-    }
-    
-    // Swiper slide - добавляем padding для свечения
-    .swiper-slide {
-      height: auto; // Автоматическая высота, но все слайды будут одинаковыми благодаря Swiper
-      display: flex; // Flexbox для растягивания карточки
-      align-items: center; // Центрируем карточку по вертикали
-      justify-content: center; // Центрируем карточку по горизонтали
-      
-      // Убеждаемся, что карточка растягивается на всю высоту слайда
-      > * {
-        height: 100%;
-        width: 100%;
-      }
-      padding: $spacing-sm; // Симметричные отступы со всех сторон для свечения
-      overflow: visible; // Разрешаем свечение карточек
-      box-sizing: border-box;
     }
     
     // Swiper навигация

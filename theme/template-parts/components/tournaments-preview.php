@@ -22,11 +22,8 @@ $tournaments_title = (function_exists('get_field')
 $tournaments_description = function_exists('get_field') 
     ? (get_field('tournaments_preview_description') ?: get_field('tournaments_description'))
     : null;
-$tournaments_count = function_exists('get_field') 
-    ? (get_field('tournaments_preview_count') ?: get_field('tournaments_count'))
-    : 3;
-// Ограничиваем максимум 3 турнира (1, 2 или 3)
-$tournaments_count = is_numeric($tournaments_count) && $tournaments_count > 0 ? min(intval($tournaments_count), 3) : 3;
+// Всегда показываем только 1 турнир
+$tournaments_count = 1;
 
 // Получаем ссылку на все турниры
 $tournaments_link = function_exists('get_field') ? get_field('tournaments_preview_link') : null;
@@ -285,9 +282,11 @@ if ($tournaments_bg_image_mobile) {
         <?php endif; ?>
         
         <?php if (!empty($all_tournaments_posts)) : ?>
-            <div class="tgg-tournaments-preview__carousel swiper tgg-slider-tournaments" data-count="<?php echo esc_attr(count($all_tournaments_posts)); ?>">
-                <div class="swiper-wrapper">
-                    <?php foreach ($all_tournaments_posts as $post) : 
+            <div class="tgg-tournaments-preview__carousel tgg-tournaments-preview__single">
+                <?php 
+                // Показываем только первый турнир
+                $post = $all_tournaments_posts[0];
+                setup_postdata($post); 
                         setup_postdata($post);
                         $tournament_date_type = get_field('tournament_date_type') ?: 'exact';
                         $tournament_date = get_field('tournament_date');

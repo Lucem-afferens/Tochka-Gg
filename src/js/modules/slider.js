@@ -25,15 +25,9 @@ export function initSliders() {
     const sliderElement = document.querySelector(selector);
     if (!sliderElement) return;
     
-    // Настройки для карусели турниров (только на мобильных)
+    // Карусель турниров больше не используется (всегда показывается только 1 турнир)
     if (selector === '.tgg-slider-tournaments') {
-      // Проверяем, что мы на мобильном устройстве (меньше 1024px)
-      const isMobile = window.innerWidth < 1024;
-      
-      // Если десктоп, не инициализируем карусель
-      if (!isMobile) {
-        return;
-      }
+      return; // Не инициализируем карусель
       // Переменная для хранения текущей высоты и предотвращения бесконечных циклов
       let currentMaxHeight = 0;
       let isSyncing = false;
