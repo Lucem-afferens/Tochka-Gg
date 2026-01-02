@@ -3,12 +3,20 @@
  * Dynamic XML Sitemap Generator
  * 
  * Генерация динамического XML sitemap для поисковых систем
+ * 
+ * ПРИМЕЧАНИЕ: Если установлен Yoast SEO, этот генератор отключается,
+ * так как Yoast SEO уже генерирует sitemap автоматически
  *
  * @package Tochkagg_Theme
  */
 
 if (!defined('ABSPATH')) {
     exit;
+}
+
+// Отключаем наш генератор, если установлен Yoast SEO
+if (defined('WPSEO_VERSION') || class_exists('WPSEO_Sitemaps')) {
+    return;
 }
 
 /**

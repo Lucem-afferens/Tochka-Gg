@@ -20,5 +20,5 @@ Allow: /wp-content/uploads/*.png$
 Allow: /wp-content/uploads/*.gif$
 Allow: /wp-content/uploads/*.webp$
 
-# Sitemap
-Sitemap: https://kungur-tochkagg.ru/sitemap.xml
+# Sitemap (генерируется Yoast SEO)
+Sitemap: https://kungur-tochkagg.ru/sitemap_index.xml
