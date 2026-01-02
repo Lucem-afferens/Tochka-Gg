@@ -35,8 +35,14 @@ function tochkagg_generate_sitemap() {
     // Проверяем через query var (для rewrite rule)
     $is_sitemap = get_query_var('tochkagg_sitemap');
     
+    // Проверяем через REQUEST_URI (для прямого доступа к /sitemap.xml)
+    $request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+    $is_sitemap_uri = (strpos($request_uri, '/sitemap.xml') !== false);
+    
     // Также проверяем через GET параметр (для обратной совместимости)
-    if (!$is_sitemap && (!isset($_GET['sitemap']) || $_GET['sitemap'] !== 'xml')) {
+    $is_sitemap_get = (isset($_GET['sitemap']) && $_GET['sitemap'] === 'xml');
+    
+    if (!$is_sitemap && !$is_sitemap_uri && !$is_sitemap_get) {
         return;
     }
     
