@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Константы темы
-define('TOCHKAGG_THEME_VERSION', '2.2.1'); // Удалены все hover эффекты с некликабельных элементов
+define('TOCHKAGG_THEME_VERSION', '2.3.0'); // Полная SEO-оптимизация: Schema.org, Open Graph, хлебные крошки, sitemap, оптимизация изображений
 define('TOCHKAGG_THEME_PATH', get_template_directory());
 define('TOCHKAGG_THEME_URI', get_template_directory_uri());
 
@@ -23,5 +23,7 @@ require_once TOCHKAGG_THEME_PATH . '/inc/theme-functions.php';
 require_once TOCHKAGG_THEME_PATH . '/inc/theme-security.php';
 require_once TOCHKAGG_THEME_PATH . '/inc/theme-helpers.php';
 require_once TOCHKAGG_THEME_PATH . '/inc/scf-options.php';
+require_once TOCHKAGG_THEME_PATH . '/inc/seo-functions.php';
+require_once TOCHKAGG_THEME_PATH . '/inc/sitemap-generator.php';
 
 

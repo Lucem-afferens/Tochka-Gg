@@ -71,6 +71,13 @@ $wp_query = $tournaments_query;
 <main class="tgg-main">
     <section class="tgg-archive">
         <div class="tgg-container">
+            <?php 
+            // Хлебные крошки
+            if (locate_template('template-parts/components/breadcrumbs.php')) {
+                get_template_part('template-parts/components/breadcrumbs');
+            }
+            ?>
+            
             <header class="tgg-archive__header">
                 <h1 class="tgg-archive__title">Турниры</h1>
                 <?php if (get_the_archive_description()) : ?>
@@ -116,17 +123,17 @@ $wp_query = $tournaments_query;
                                 <a href="<?php the_permalink(); ?>">
                                     <?php if (has_post_thumbnail()) : ?>
                                         <?php 
-                                        // Используем wp_get_attachment_image для контроля над атрибутами
+                                        // Оптимизированное изображение с srcset и sizes
                                         $thumbnail_id = get_post_thumbnail_id();
                                         echo wp_get_attachment_image(
                                             $thumbnail_id,
                                             'medium',
                                             false,
-                                            array(
+                                            [
                                                 'loading' => 'lazy',
                                                 'decoding' => 'async',
                                                 'alt' => get_the_title()
-                                            )
+                                            ]
                                         );
                                         ?>
                                     <?php else : ?>

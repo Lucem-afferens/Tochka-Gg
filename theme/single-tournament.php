@@ -15,6 +15,13 @@ get_header();
 <main class="tgg-main">
     <article class="tgg-single-tournament">
         <div class="tgg-container">
+            <?php 
+            // Хлебные крошки
+            if (locate_template('template-parts/components/breadcrumbs.php')) {
+                get_template_part('template-parts/components/breadcrumbs');
+            }
+            ?>
+            
             <?php while (have_posts()) : the_post(); 
                 $tournament_date_type = get_field('tournament_date_type') ?: 'exact';
                 $tournament_date = get_field('tournament_date');
@@ -46,7 +53,21 @@ get_header();
                 <header class="tgg-single-tournament__header">
                     <div class="tgg-single-tournament__image">
                         <?php if (has_post_thumbnail()) : ?>
-                            <?php the_post_thumbnail('medium'); ?>
+                            <?php 
+                            // Оптимизированное изображение с srcset и sizes
+                            $thumbnail_id = get_post_thumbnail_id();
+                            echo wp_get_attachment_image(
+                                $thumbnail_id,
+                                'large',
+                                false,
+                                [
+                                    'loading' => 'eager',
+                                    'decoding' => 'async',
+                                    'alt' => get_the_title(),
+                                    'fetchpriority' => 'high'
+                                ]
+                            );
+                            ?>
                         <?php else : ?>
                             <?php 
                             $tournament_placeholder = function_exists('tochkagg_get_placeholder_image') 
@@ -110,20 +131,52 @@ get_header();
                     </div>
                 <?php endif; ?>
                 
-                <nav class="tgg-single-tournament__navigation">
+                <?php
+                // Связанные турниры (внутренняя перелинковка)
+                $related_tournaments = get_posts([
+                    'post_type' => 'tournament',
+                    'posts_per_page' => 3,
+                    'post__not_in' => [get_the_ID()],
+                    'orderby' => 'date',
+                    'order' => 'DESC'
+                ]);
+                
+                if ($related_tournaments) : ?>
+                    <div class="tgg-single-tournament__related">
+                        <h2 class="tgg-single-tournament__related-title">Другие турниры</h2>
+                        <div class="tgg-single-tournament__related-items">
+                            <?php foreach ($related_tournaments as $related_post) : ?>
+                                <article class="tgg-single-tournament__related-item">
+                                    <a href="<?php echo esc_url(get_permalink($related_post->ID)); ?>" class="tgg-single-tournament__related-link">
+                                        <?php if (has_post_thumbnail($related_post->ID)) : ?>
+                                            <div class="tgg-single-tournament__related-image">
+                                                <?php echo get_the_post_thumbnail($related_post->ID, 'thumbnail', ['loading' => 'lazy', 'decoding' => 'async']); ?>
+                                            </div>
+                                        <?php endif; ?>
+                                        <h3 class="tgg-single-tournament__related-title-item">
+                                            <?php echo esc_html(get_the_title($related_post->ID)); ?>
+                                        </h3>
+                                    </a>
+                                </article>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <nav class="tgg-single-tournament__navigation" aria-label="Навигация по турнирам">
                     <?php
                     $prev_post = get_previous_post();
                     $next_post = get_next_post();
                     ?>
                     
                     <?php if ($prev_post) : ?>
-                        <a href="<?php echo esc_url(get_permalink($prev_post)); ?>" class="tgg-single-tournament__nav-link tgg-single-tournament__nav-link--prev">
+                        <a href="<?php echo esc_url(get_permalink($prev_post)); ?>" class="tgg-single-tournament__nav-link tgg-single-tournament__nav-link--prev" rel="prev">
                             ← <?php echo esc_html(get_the_title($prev_post)); ?>
                         </a>
                     <?php endif; ?>
                     
                     <?php if ($next_post) : ?>
-                        <a href="<?php echo esc_url(get_permalink($next_post)); ?>" class="tgg-single-tournament__nav-link tgg-single-tournament__nav-link--next">
+                        <a href="<?php echo esc_url(get_permalink($next_post)); ?>" class="tgg-single-tournament__nav-link tgg-single-tournament__nav-link--next" rel="next">
                             <?php echo esc_html(get_the_title($next_post)); ?> →
                         </a>
                     <?php endif; ?>

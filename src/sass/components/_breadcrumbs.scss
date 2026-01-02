@@ -1,0 +1,58 @@
+/**
+ * Breadcrumbs Component Styles
+ * 
+ * Стили для хлебных крошек
+ */
+
+.tgg-breadcrumbs {
+  margin-bottom: $spacing-xl;
+  padding: $spacing-md 0;
+  
+  @include max-width(xs) {
+    margin-bottom: $spacing-lg;
+    padding: $spacing-sm 0;
+  }
+  
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacing-xs;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+  }
+  
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+  
+  &__link {
+    color: $color-text-secondary;
+    text-decoration: none;
+    transition: color $duration-normal $ease-out-cubic;
+    
+    @media (hover: hover) {
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+  
+  &__current {
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+  }
+  
+  &__separator {
+    color: $color-text-tertiary;
+    margin: 0 $spacing-xs;
+    user-select: none;
+  }
+}
+

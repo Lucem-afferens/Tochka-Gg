@@ -43,10 +43,14 @@ function tochkagg_theme_setup() {
     add_theme_support('editor-styles');
     add_editor_style('assets/css/style.css');
 
-    // Размеры изображений
+    // Размеры изображений для адаптивности
     add_image_size('tgg-thumbnail', 300, 300, true);
     add_image_size('tgg-medium', 768, 512, true);
     add_image_size('tgg-large', 1200, 800, true);
+    add_image_size('tgg-xlarge', 1920, 1080, false); // Для hero секций
+    
+    // Включаем автоматическую генерацию srcset для изображений
+    add_theme_support('responsive-embeds');
 }
 add_action('after_setup_theme', 'tochkagg_theme_setup');
 
