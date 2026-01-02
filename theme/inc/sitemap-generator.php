@@ -29,23 +29,40 @@ function tochkagg_add_sitemap_query_var($vars) {
 add_filter('query_vars', 'tochkagg_add_sitemap_query_var');
 
 /**
+ * Ранняя проверка sitemap через init хук
+ */
+function tochkagg_check_sitemap_request() {
+    // Проверяем через REQUEST_URI (для прямого доступа к /sitemap.xml)
+    $request_uri = isset($_SERVER['REQUEST_URI']) ? trim($_SERVER['REQUEST_URI'], '/') : '';
+    
+    // Также проверяем через GET параметр
+    $is_sitemap_get = (isset($_GET['sitemap']) && $_GET['sitemap'] === 'xml');
+    
+    // Проверяем, что это запрос sitemap
+    if ($request_uri === 'sitemap.xml' || $is_sitemap_get || strpos($request_uri, 'sitemap.xml') !== false) {
+        tochkagg_output_sitemap();
+        exit;
+    }
+}
+add_action('init', 'tochkagg_check_sitemap_request', 1);
+
+/**
  * Генерация XML sitemap
  */
 function tochkagg_generate_sitemap() {
     // Проверяем через query var (для rewrite rule)
     $is_sitemap = get_query_var('tochkagg_sitemap');
     
-    // Проверяем через REQUEST_URI (для прямого доступа к /sitemap.xml)
-    $request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-    $is_sitemap_uri = (strpos($request_uri, '/sitemap.xml') !== false);
-    
-    // Также проверяем через GET параметр (для обратной совместимости)
-    $is_sitemap_get = (isset($_GET['sitemap']) && $_GET['sitemap'] === 'xml');
-    
-    if (!$is_sitemap && !$is_sitemap_uri && !$is_sitemap_get) {
-        return;
+    if ($is_sitemap) {
+        tochkagg_output_sitemap();
+        exit;
     }
-    
+}
+
+/**
+ * Вывод XML sitemap
+ */
+function tochkagg_output_sitemap() {
     // Устанавливаем заголовки
     status_header(200);
     header('Content-Type: application/xml; charset=utf-8');
@@ -161,8 +178,7 @@ function tochkagg_generate_sitemap() {
     }
     
     echo '</urlset>';
-    exit;
 }
-// Используем более ранний хук для перехвата запроса
+// Используем template_redirect как fallback для rewrite rules
 add_action('template_redirect', 'tochkagg_generate_sitemap', 1);
 
