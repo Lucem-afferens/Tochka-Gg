@@ -12,15 +12,38 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Регистрация rewrite rule для sitemap.xml
+ */
+function tochkagg_add_sitemap_rewrite_rule() {
+    add_rewrite_rule('^sitemap\.xml$', 'index.php?tochkagg_sitemap=1', 'top');
+}
+add_action('init', 'tochkagg_add_sitemap_rewrite_rule');
+
+/**
+ * Добавление query var для sitemap
+ */
+function tochkagg_add_sitemap_query_var($vars) {
+    $vars[] = 'tochkagg_sitemap';
+    return $vars;
+}
+add_filter('query_vars', 'tochkagg_add_sitemap_query_var');
+
+/**
  * Генерация XML sitemap
  */
 function tochkagg_generate_sitemap() {
-    // Проверяем, что это запрос sitemap
-    if (!isset($_GET['sitemap']) || $_GET['sitemap'] !== 'xml') {
+    // Проверяем через query var (для rewrite rule)
+    $is_sitemap = get_query_var('tochkagg_sitemap');
+    
+    // Также проверяем через GET параметр (для обратной совместимости)
+    if (!$is_sitemap && (!isset($_GET['sitemap']) || $_GET['sitemap'] !== 'xml')) {
         return;
     }
     
+    // Устанавливаем заголовки
+    status_header(200);
     header('Content-Type: application/xml; charset=utf-8');
+    nocache_headers();
     
     $site_url = home_url('/');
     $lastmod = date('c');
@@ -134,5 +157,6 @@ function tochkagg_generate_sitemap() {
     echo '</urlset>';
     exit;
 }
-add_action('template_redirect', 'tochkagg_generate_sitemap');
+// Используем более ранний хук для перехвата запроса
+add_action('template_redirect', 'tochkagg_generate_sitemap', 1);
 

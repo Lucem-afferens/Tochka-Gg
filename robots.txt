@@ -21,5 +21,4 @@ Allow: /wp-content/uploads/*.gif$
 Allow: /wp-content/uploads/*.webp$
 
 # Sitemap
-Sitemap: https://kungur-tochkagg.ru/?sitemap=xml
 Sitemap: https://kungur-tochkagg.ru/sitemap.xml
