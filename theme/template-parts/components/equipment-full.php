@@ -104,7 +104,7 @@ $ps5_gallery = get_field('ps5_zone_gallery') ?: [];
                                         foreach ($category_gallery as $image) {
                                             if (is_array($image) && !empty($image['url'])) {
                                                 echo '<div class="tgg-equipment-full__gallery-slide">';
-                                                echo '<img src="' . esc_url($image['url']) . '" alt="' . esc_attr($image['alt'] ?? $category_name) . '">';
+                                                echo '<img src="' . esc_url($image['url']) . '" alt="' . esc_attr($image['alt'] ?? $category_name) . '" loading="lazy" decoding="async">';
                                                 echo '</div>';
                                             }
                                         }
@@ -115,7 +115,7 @@ $ps5_gallery = get_field('ps5_zone_gallery') ?: [];
                                                 ? tochkagg_get_placeholder_image(400, 300, "{$category_name} - Фото {$i}", '1a1d29', '3b82f6')
                                                 : 'https://placehold.co/400x300/1a1d29/3b82f6?text=' . urlencode("{$category_name} - Фото {$i}");
                                             echo '<div class="tgg-equipment-full__gallery-slide">';
-                                            echo '<img src="' . esc_url($placeholder) . '" alt="' . esc_attr("{$category_name} - Фото {$i} (заглушка)") . '">';
+                                            echo '<img src="' . esc_url($placeholder) . '" alt="' . esc_attr("{$category_name} - Фото {$i} (заглушка)") . '" loading="lazy" decoding="async">';
                                             echo '</div>';
                                         }
                                     }
@@ -191,7 +191,7 @@ $ps5_gallery = get_field('ps5_zone_gallery') ?: [];
                                         foreach ($ps5_gallery as $image) {
                                             if (is_array($image) && !empty($image['url'])) {
                                                 echo '<div class="tgg-equipment-full__gallery-slide">';
-                                                echo '<img src="' . esc_url($image['url']) . '" alt="' . esc_attr($image['alt'] ?? 'PS-зона') . '">';
+                                                echo '<img src="' . esc_url($image['url']) . '" alt="' . esc_attr($image['alt'] ?? 'PS-зона') . '" loading="lazy" decoding="async">';
                                                 echo '</div>';
                                             }
                                         }
@@ -202,7 +202,7 @@ $ps5_gallery = get_field('ps5_zone_gallery') ?: [];
                                                 ? tochkagg_get_placeholder_image(400, 300, "PS-зона - Фото {$i}", '1a1d29', 'ec4899')
                                                 : 'https://placehold.co/400x300/1a1d29/ec4899?text=' . urlencode("PS-зона - Фото {$i}");
                                             echo '<div class="tgg-equipment-full__gallery-slide">';
-                                            echo '<img src="' . esc_url($placeholder) . '" alt="PS-зона - Фото ' . $i . ' (заглушка)">';
+                                            echo '<img src="' . esc_url($placeholder) . '" alt="PS-зона - Фото ' . $i . ' (заглушка)" loading="lazy" decoding="async">';
                                             echo '</div>';
                                         }
                                     }

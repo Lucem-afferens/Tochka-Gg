@@ -1,8 +1,10 @@
 /**
  * News Cards Module
- * 
+ *
  * Синхронизация высоты карточек новостей для одинакового размера
  */
+
+import { onResize } from './resize-manager.js';
 
 // Оптимизированная версия синхронизации высоты (батчинг для избежания layout thrashing)
 export function syncNewsCardsHeight() {
@@ -44,23 +46,7 @@ export function initNewsCards() {
     setTimeout(syncNewsCardsHeight, 100);
   }
   
-  // Синхронизируем при изменении размера окна
-  // Увеличен debounce до 500ms для лучшей производительности
-  let resizeTimeout;
-  let lastWidth = window.innerWidth;
-  window.addEventListener('resize', () => {
-    const currentWidth = window.innerWidth;
-    // Выполняем синхронизацию только при реальном изменении размера (не при каждом событии)
-    if (Math.abs(currentWidth - lastWidth) < 10) {
-      return; // Игнорируем незначительные изменения
-    }
-    lastWidth = currentWidth;
-    
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      syncNewsCardsHeight();
-    }, 500); // Увеличено с 250ms до 500ms
-  });
+  onResize(syncNewsCardsHeight);
   
   // Синхронизируем после загрузки всех изображений (оптимизировано)
   const images = document.querySelectorAll('.tgg-news-preview__item img');

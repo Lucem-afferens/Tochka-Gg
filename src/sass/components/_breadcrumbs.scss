@@ -46,11 +46,11 @@
   
   &__current {
     color: $color-text-primary;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-body-medium;
   }
   
   &__separator {
-    color: $color-text-tertiary;
+    color: $color-text-muted;
     margin: 0 $spacing-xs;
     user-select: none;
   }

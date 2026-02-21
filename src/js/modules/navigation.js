@@ -158,90 +158,67 @@ export function initNavigation() {
   // ============================================
   // ACTIVE MENU ITEM DETECTION
   // ============================================
-  
-  // Кэш для getBoundingClientRect (обновляется реже)
-  let rectCache = new Map();
-  let cacheTimestamp = 0;
-  const CACHE_DURATION = 200; // Кэш действителен 200ms
-  
+
+  // Устанавливает активный класс по URL-пути (без якорей — их обрабатывает IntersectionObserver)
   function setActiveMenuItem() {
     try {
       const currentPath = window.location.pathname;
-      const currentHref = window.location.href;
       const currentHash = window.location.hash;
-      
-      // Очищаем все активные классы
+
       navLinks.forEach((link) => {
         link.classList.remove('active');
-      });
-      
-      // Определяем активную ссылку по текущему URL
-      navLinks.forEach((link) => {
         const href = link.getAttribute('href');
-        if (!href || href === '#') return;
-        
-        // Проверка по якорям (для секций на главной странице)
-        if (href.startsWith('#')) {
-          const targetId = href.substring(1);
-          if (!targetId) return;
-          
-          // Проверяем, есть ли элемент на странице
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            // Используем кэш для getBoundingClientRect
-            const now = Date.now();
-            let rect;
-            
-            if (now - cacheTimestamp > CACHE_DURATION || !rectCache.has(targetId)) {
-              rect = targetElement.getBoundingClientRect();
-              rectCache.set(targetId, rect);
-              cacheTimestamp = now;
-            } else {
-              rect = rectCache.get(targetId);
-            }
-            
-            // Проверяем, находится ли элемент в видимой области
-            if (rect.top <= 200 && rect.bottom >= 100) {
-              link.classList.add('active');
-            }
-          }
-          return;
-        }
-        
-        // Для обычных ссылок - нормализуем URL для сравнения
+        if (!href || href === '#' || href.startsWith('#')) return;
+
         try {
           const linkUrl = new URL(href, window.location.origin);
-          const currentUrl = new URL(currentHref);
-          
-          // Проверяем совпадение пути
-          const linkPath = linkUrl.pathname.replace(/\/$/, ''); // Убираем trailing slash
+          const linkPath = linkUrl.pathname.replace(/\/$/, '');
           const currentPathNormalized = currentPath.replace(/\/$/, '');
-          
-          // Для главной страницы
+
           if ((linkPath === '' || linkPath === '/') && (currentPathNormalized === '' || currentPathNormalized === '/')) {
-            // Проверяем, нет ли хеша в URL
-            if (!currentHash) {
-              link.classList.add('active');
-            }
+            if (!currentHash) link.classList.add('active');
             return;
           }
-          
-          // Для других страниц - проверяем совпадение пути
           if (linkPath !== '' && linkPath !== '/' && currentPathNormalized.includes(linkPath)) {
             link.classList.add('active');
-            return;
           }
-        } catch (e) {
-          // Игнорируем ошибки парсинга URL (например, для mailto:, tel: и т.д.)
-        }
+        } catch (e) { /* mailto:, tel: и т.д. */ }
       });
-    } catch (error) {
-      // Ошибка в setActiveMenuItem - игнорируем для стабильности
-    }
+    } catch (e) {}
   }
-  
-  // Проверка активного элемента при загрузке и изменении URL
+
+  // IntersectionObserver для якорных ссылок — работает вне main thread
+  function initAnchorObserver() {
+    const anchorLinks = Array.from(navLinks).filter(link => {
+      const href = link.getAttribute('href');
+      return href && href.startsWith('#') && href.length > 1;
+    });
+    if (anchorLinks.length === 0) return;
+
+    const sectionMap = new Map(); // section element → nav link
+    anchorLinks.forEach(link => {
+      const id = link.getAttribute('href').substring(1);
+      const section = document.getElementById(id);
+      if (section) sectionMap.set(section, link);
+    });
+    if (sectionMap.size === 0) return;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const link = sectionMap.get(entry.target);
+        if (link) link.classList.toggle('active', entry.isIntersecting);
+      });
+    }, {
+      // Секция считается активной, когда занимает верхнюю 40% области просмотра
+      rootMargin: '-10% 0px -55% 0px',
+      threshold: 0,
+    });
+
+    sectionMap.forEach((_, section) => observer.observe(section));
+  }
+
   setActiveMenuItem();
+  initAnchorObserver();
   
   // Обновляем при изменении истории (навигация назад/вперед)
   // ВАЖНО: Обрабатываем только реальные изменения истории, не трогаем при скролле
@@ -260,60 +237,15 @@ export function initNavigation() {
   // HEADER SCROLL EFFECT + ACTIVE MENU DETECTION (объединены)
   // ============================================
   
-  let lastScroll = 0;
   let scrollTicking = false;
-  let scrollTimeout;
-  
+
   function handleScroll() {
-    // Проверяем, не на странице бара
-    const isBarPage = document.querySelector('.tgg-bar[data-bar-page="true"]');
-    if (isBarPage) {
-      // На странице бара только обновляем header, не трогаем меню
-      const currentScroll = window.pageYOffset;
-      if (currentScroll > 50) {
-        header?.classList.add('scrolled');
-      } else {
-        header?.classList.remove('scrolled');
-      }
-      scrollTicking = false;
-      return;
-    }
-    
     const currentScroll = window.pageYOffset;
-    
-    // Обновление header (scrolled класс)
     if (currentScroll > 50) {
       header?.classList.add('scrolled');
     } else {
       header?.classList.remove('scrolled');
     }
-    
-    // Обновление активного пункта меню (только для якорных ссылок, с debounce)
-    // ВАЖНО: Обновляем только если мы на главной странице (где есть якорные секции)
-    // На других страницах (например, страница бара) не обновляем активный пункт при скролле
-    const isHomePage = window.location.pathname === '/' || window.location.pathname === '';
-    
-    // Проверяем наличие якорных ссылок ДО вызова функции (оптимизация)
-    if (isHomePage) {
-      // Кэшируем список якорных ссылок (обновляется только при изменении DOM)
-      if (!window._cachedAnchorLinks) {
-        window._cachedAnchorLinks = Array.from(navLinks).filter(link => {
-          const href = link.getAttribute('href');
-          return href && href.startsWith('#') && href !== '#';
-        });
-      }
-      
-      // Обновляем активный пункт меню только если есть якорные ссылки
-      // Увеличен debounce до 300ms для лучшей производительности
-      if (window._cachedAnchorLinks.length > 0) {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          setActiveMenuItem();
-        }, 300); // Увеличено с 150ms до 300ms
-      }
-    }
-    
-    lastScroll = currentScroll;
     scrollTicking = false;
   }
   

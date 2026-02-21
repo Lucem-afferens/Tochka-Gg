@@ -1,37 +1,51 @@
 /**
  * Map Module
- * 
- * Инициализация Яндекс.Карты
+ *
+ * Инициализация Яндекс.Карты.
+ * API загружается лениво — только когда #map входит в viewport.
  */
+
+function loadYandexMapsApi() {
+  return new Promise((resolve, reject) => {
+    if (typeof ymaps !== 'undefined') {
+      resolve();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
+    script.async = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
 
 export function initMap() {
   const mapContainer = document.getElementById('map');
   if (!mapContainer) return;
-  
+
+  // Загружаем API только когда карта входит в зону видимости
+  const observer = new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+    loadYandexMapsApi()
+      .then(() => renderMap(mapContainer))
+      .catch(() => {
+        // Если API не загрузился — показываем ссылку
+        mapContainer.innerHTML = `<div class="tgg-contacts__map-placeholder">
+          <p><a href="https://yandex.ru/maps/?pt=${mapContainer.dataset.lng || 56.963968},${mapContainer.dataset.lat || 57.424953}&z=17" target="_blank" rel="noopener noreferrer">Открыть карту в Яндекс.Картах</a></p>
+        </div>`;
+      });
+  }, { rootMargin: '200px' }); // Предзагрузка за 200px до появления
+
+  observer.observe(mapContainer);
+}
+
+function renderMap(mapContainer) {
   const lat = parseFloat(mapContainer.dataset.lat) || 57.424953;
   const lng = parseFloat(mapContainer.dataset.lng) || 56.963968;
   const logoUrl = mapContainer.dataset.logo || '';
-  
-  // Проверка, загружена ли Яндекс.Карта API
-  if (typeof ymaps === 'undefined') {
-    return;
-    
-    // Показываем ссылку на карту
-    mapContainer.innerHTML = `
-      <div class="tgg-contacts__map-placeholder">
-        <p>Карта загружается...</p>
-        <p class="tgg-contacts__map-link">
-          <a href="https://yandex.ru/maps/?pt=${lng},${lat}&z=17&l=map" 
-             target="_blank" 
-             rel="noopener noreferrer">
-            Открыть карту в новом окне
-          </a>
-        </p>
-      </div>
-    `;
-    return;
-  }
-  
+
   // Инициализация карты с темной кибер-темой
   ymaps.ready(() => {
     // Кастомная темная цветовая схема (еще более темная)

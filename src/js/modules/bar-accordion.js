@@ -1,9 +1,11 @@
 /**
  * Bar Accordion Module
- * 
+ *
  * Простой и надежный аккордеон для категорий клубного бара
  * Определяет скролл только по touchmove на кнопке
  */
+
+import { onResize } from './resize-manager.js';
 
 export function initBarAccordion() {
   const barSection = document.querySelector('.tgg-bar');
@@ -129,34 +131,20 @@ export function initBarAccordion() {
     });
   });
   
-  // Обработка изменения размера окна
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      const nowIsMobile = isMobile();
-      
-      categoryButtons.forEach((button) => {
-        const category = button.closest('.tgg-bar__category');
-        if (!category) return;
-        
-        const items = category.querySelector('.tgg-bar__items');
-        if (!items) return;
-        
-        const wasOpen = category.classList.contains('is-open');
-        const shouldBeOpen = !nowIsMobile;
-        
-        if (wasOpen !== shouldBeOpen) {
-          button.setAttribute('aria-expanded', shouldBeOpen);
-          if (shouldBeOpen) {
-            category.classList.add('is-open');
-            items.classList.add('is-open');
-          } else {
-            category.classList.remove('is-open');
-            items.classList.remove('is-open');
-          }
-        }
-      });
-    }, 200);
-  }, { passive: true });
+  onResize(() => {
+    const nowIsMobile = isMobile();
+    categoryButtons.forEach((button) => {
+      const category = button.closest('.tgg-bar__category');
+      if (!category) return;
+      const items = category.querySelector('.tgg-bar__items');
+      if (!items) return;
+      const wasOpen = category.classList.contains('is-open');
+      const shouldBeOpen = !nowIsMobile;
+      if (wasOpen !== shouldBeOpen) {
+        button.setAttribute('aria-expanded', shouldBeOpen);
+        category.classList.toggle('is-open', shouldBeOpen);
+        items.classList.toggle('is-open', shouldBeOpen);
+      }
+    });
+  });
 }

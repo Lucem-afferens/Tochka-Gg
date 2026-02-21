@@ -12,10 +12,6 @@ export default defineConfig({
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]',
-        manualChunks: {
-          vendor: ['swiper'],
-          styles: ['src/sass/style.scss']
-        }
       }
     },
     // Критическая оптимизация

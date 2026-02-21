@@ -47,16 +47,8 @@ function tochkagg_enqueue_assets() {
         wp_script_add_data('tochkagg-script', 'defer', true);
     }
 
-    // Яндекс.Карты (для страницы контактов)
-    if (is_page_template('template-contacts.php') || is_page_template('page-contacts.php')) {
-        wp_enqueue_script(
-            'yandex-maps',
-            'https://api-maps.yandex.ru/2.1/?lang=ru_RU',
-            array(),
-            null,
-            true
-        );
-    }
+    // Яндекс.Карты загружаются лениво через IntersectionObserver в map.js
+    // (только когда #map входит в viewport)
 
     // Локализация скрипта (если нужно)
     wp_localize_script('tochkagg-script', 'tochkaggData', [
