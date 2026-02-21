@@ -21,7 +21,7 @@ window.SwiperModules = { Navigation, Pagination, Autoplay };
 // Импорт модулей
 import { initNavigation } from './modules/navigation.js';
 import { initSmoothScroll } from './modules/smooth-scroll.js';
-import { initScrollAnimations, initParallax } from './modules/animations.js';
+import { initScrollAnimations } from './modules/animations.js';
 import { initMap } from './modules/map.js';
 import { initForms } from './modules/forms.js';
 import { initSliders } from './modules/slider.js';

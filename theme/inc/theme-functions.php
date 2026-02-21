@@ -349,4 +349,35 @@ function tochkagg_custom_cursor() {
 }
 add_action('wp_head', 'tochkagg_custom_cursor', 100);
 
+/**
+ * Инвалидация transient-кэша при сохранении/удалении постов
+ */
+function tochkagg_clear_preview_transients($post_id, $post) {
+    if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) {
+        return;
+    }
 
+    if ($post->post_type === 'news') {
+        // Удаляем все возможные варианты ключа (разные значения news_count)
+        for ($i = 1; $i <= 10; $i++) {
+            delete_transient('tgg_news_preview_' . $i);
+        }
+    }
+
+    if ($post->post_type === 'tournament') {
+        // Удаляем кэш за сегодня и завтра (на случай смены даты)
+        $today    = date('Y-m-d');
+        $tomorrow = date('Y-m-d', strtotime('+1 day'));
+        for ($i = 1; $i <= 10; $i++) {
+            delete_transient('tgg_tournaments_preview_' . $i . '_' . $today);
+            delete_transient('tgg_tournaments_preview_' . $i . '_' . $tomorrow);
+        }
+    }
+}
+add_action('save_post', 'tochkagg_clear_preview_transients', 10, 2);
+add_action('delete_post', function($post_id) {
+    $post = get_post($post_id);
+    if ($post) {
+        tochkagg_clear_preview_transients($post_id, $post);
+    }
+});

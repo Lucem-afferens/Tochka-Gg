@@ -16,67 +16,72 @@ $news_count = get_field('news_preview_count') ?: 3;
 $news_url_default = get_post_type_archive_link('news') ?: home_url('/news/');
 $news_link = get_field('news_preview_link') ?: $news_url_default;
 
-// Получаем закрепленные новости
-$pinned_news_query = new WP_Query([
-    'post_type' => 'news',
-    'posts_per_page' => -1, // Получаем все закрепленные
-    'post_status' => 'publish',
-    'meta_query' => [
-        [
-            'key' => 'news_pinned',
-            'value' => '1',
+// Получаем посты новостей (с кэшированием через transient)
+$news_cache_key = 'tgg_news_preview_' . intval($news_count);
+$cached_news_ids = get_transient($news_cache_key);
+
+if (false === $cached_news_ids) {
+    // Получаем закрепленные новости
+    $pinned_news_query = new WP_Query([
+        'post_type'      => 'news',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'meta_query'     => [[
+            'key'     => 'news_pinned',
+            'value'   => '1',
             'compare' => '='
-        ]
-    ],
-    'orderby' => 'date',
-    'order' => 'DESC',
-]);
+        ]],
+        'orderby' => 'date',
+        'order'   => 'DESC',
+        'no_found_rows' => true,
+    ]);
 
-// Получаем обычные новости (не закрепленные)
-$regular_news_count = $news_count - $pinned_news_query->found_posts;
-if ($regular_news_count < 0) {
-    $regular_news_count = 0;
-}
+    $regular_news_count = max(0, $news_count - $pinned_news_query->found_posts);
 
-$regular_news_query = new WP_Query([
-    'post_type' => 'news',
-    'posts_per_page' => $regular_news_count,
-    'post_status' => 'publish',
-    'meta_query' => [
-        'relation' => 'OR',
-        [
-            'key' => 'news_pinned',
-            'compare' => 'NOT EXISTS'
+    $regular_news_query = new WP_Query([
+        'post_type'      => 'news',
+        'posts_per_page' => $regular_news_count,
+        'post_status'    => 'publish',
+        'meta_query'     => [
+            'relation' => 'OR',
+            ['key' => 'news_pinned', 'compare' => 'NOT EXISTS'],
+            ['key' => 'news_pinned', 'value' => '1', 'compare' => '!=']
         ],
-        [
-            'key' => 'news_pinned',
-            'value' => '1',
-            'compare' => '!='
-        ]
-    ],
-    'orderby' => 'date',
-    'order' => 'DESC',
-]);
+        'orderby'       => 'date',
+        'order'         => 'DESC',
+        'no_found_rows' => true,
+    ]);
 
-// Объединяем результаты: сначала закрепленные, затем обычные
-$all_news_posts = [];
-if ($pinned_news_query->have_posts()) {
-    while ($pinned_news_query->have_posts()) {
-        $pinned_news_query->the_post();
-        $all_news_posts[] = get_post();
+    $all_news_posts = [];
+    if ($pinned_news_query->have_posts()) {
+        while ($pinned_news_query->have_posts()) {
+            $pinned_news_query->the_post();
+            $all_news_posts[] = get_post();
+        }
+        wp_reset_postdata();
     }
-    wp_reset_postdata();
-}
-if ($regular_news_query->have_posts()) {
-    while ($regular_news_query->have_posts()) {
-        $regular_news_query->the_post();
-        $all_news_posts[] = get_post();
+    if ($regular_news_query->have_posts()) {
+        while ($regular_news_query->have_posts()) {
+            $regular_news_query->the_post();
+            $all_news_posts[] = get_post();
+        }
+        wp_reset_postdata();
     }
-    wp_reset_postdata();
-}
 
-// Ограничиваем общее количество новостей
-$all_news_posts = array_slice($all_news_posts, 0, $news_count);
+    $all_news_posts = array_slice($all_news_posts, 0, $news_count);
+    $cached_news_ids = wp_list_pluck($all_news_posts, 'ID');
+    set_transient($news_cache_key, $cached_news_ids, HOUR_IN_SECONDS);
+} else {
+    // Быстрый запрос по ID (не использует meta_query JOIN)
+    $all_news_posts = empty($cached_news_ids) ? [] : get_posts([
+        'post_type'      => 'news',
+        'post__in'       => $cached_news_ids,
+        'orderby'        => 'post__in',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'no_found_rows'  => true,
+    ]);
+}
 
 // Если новостей нет, не показываем секцию (если включено в настройках, но новостей нет - покажем пустое состояние)
 $has_news = !empty($all_news_posts);

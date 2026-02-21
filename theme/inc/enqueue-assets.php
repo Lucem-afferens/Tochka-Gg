@@ -132,12 +132,28 @@ add_filter('post_thumbnail_html', 'tochkagg_add_image_dimensions', 10, 5);
 add_filter('show_admin_bar', '__return_false');
 
 /**
- * Отключение Gutenberg стилей (опционально)
+ * Preload критического CSS + dns-prefetch для внешних ресурсов
+ */
+function tochkagg_resource_hints() {
+    $style_path = TOCHKAGG_THEME_PATH . '/assets/css/style.css';
+    if (file_exists($style_path)) {
+        $style_version = TOCHKAGG_THEME_VERSION . '.' . filemtime($style_path);
+        $style_url = TOCHKAGG_THEME_URI . '/assets/css/style.css?ver=' . $style_version;
+        echo '<link rel="preload" href="' . esc_url($style_url) . '" as="style">' . "\n";
+    }
+    // dns-prefetch для Яндекс.Карт (загружаются только на странице контактов)
+    echo '<link rel="dns-prefetch" href="//api-maps.yandex.ru">' . "\n";
+    echo '<link rel="dns-prefetch" href="//yandex.ru">' . "\n";
+}
+add_action('wp_head', 'tochkagg_resource_hints', 2);
+
+/**
+ * Отключение Gutenberg стилей (не используем блочный редактор)
  */
 function tochkagg_disable_gutenberg_styles() {
-    // Можно раскомментировать если не используете Gutenberg
-    // wp_dequeue_style('wp-block-library');
-    // wp_dequeue_style('wp-block-library-theme');
-    // wp_dequeue_style('wc-block-style');
+    wp_dequeue_style('wp-block-library');
+    wp_dequeue_style('wp-block-library-theme');
+    wp_dequeue_style('global-styles');
+    wp_dequeue_style('classic-theme-styles');
 }
 add_action('wp_enqueue_scripts', 'tochkagg_disable_gutenberg_styles', 100);

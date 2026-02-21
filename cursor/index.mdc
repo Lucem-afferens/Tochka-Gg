@@ -99,3 +99,34 @@ See `cursor/rules/performance_minimalism.mdc` for detailed performance and minim
 - **Performance:** Optimize assets, use lazy loading, minimize queries
 - **Maintainability:** Clean, readable, well-documented code
 - **Scalability:** Easy to add new features and content types
+
+## 0. ЭКОНОМИЯ ТОКЕНОВ
+
+### 0.1 Режим работы: APPLY-FIRST
+
+- Вносить изменения напрямую, сообщать коротко
+- Patch/DIFF только если: нет доступа, запрошено явно, рискованное изменение
+
+### 0.2 Контекст
+
+- `@`-ссылки на 1–5 ключевых файлов
+- Конкретные секции, не целые файлы
+- Запрещено требовать "весь репозиторий"
+
+### 0.3 Вывод
+
+- Максимум 150–200 строк кода за ответ
+- Использовать CODE REFERENCES формат
+
+### 0.4 Вопросы
+
+- Максимум 3–4 за итерацию
+- С вариантами ответа
+- Помечать `BLOCKER` если критично
+
+### 0.5 Формат ответа
+
+**Сделано:** что реализовано  
+**Файлы:** список изменённых  
+**BLOCKER:** что требуется (если есть)  
+**Следующий шаг:** что будет дальше

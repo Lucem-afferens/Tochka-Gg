@@ -131,14 +131,11 @@ body {
       radial-gradient(ellipse 650px 550px at 55% 85%, rgba(180, 190, 210, 0.02) 0%, transparent 35%);
     background-attachment: fixed;
     background-size: 400% 400%;
-    // Оптимизация: уменьшен blur до 25px для лучшей производительности
-    filter: blur(25px);
-    animation: cyber-gradient-smooth 50s cubic-bezier(0.4, 0, 0.6, 1) infinite; // Увеличено для снижения частоты обновлений
+    animation: cyber-gradient-smooth 50s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     opacity: 0.6;
     mix-blend-mode: screen;
-    // Оптимизация производительности: GPU-ускорение
-    will-change: background-position, filter;
-    transform: translateZ(0); // Принудительное GPU-ускорение
+    will-change: background-position;
+    transform: translateZ(0);
   }
   
   // Отключение анимаций для пользователей с prefers-reduced-motion

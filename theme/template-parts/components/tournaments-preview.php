@@ -77,122 +77,113 @@ if ($tournaments_bg_type === 'video' && $tournaments_bg_video) {
     }
 }
 
-// Получаем закрепленные турниры
-// Для закрепленных турниров не фильтруем по дате - они всегда показываются
-$pinned_tournaments_query = new WP_Query([
-    'post_type' => 'tournament',
-    'posts_per_page' => -1, // Получаем все закрепленные
-    'post_status' => 'publish',
-    'meta_query' => [
-        [
-            'key' => 'tournament_pinned',
-            'value' => '1',
-            'compare' => '='
-        ]
-    ],
-    'orderby' => 'date',
-    'order' => 'DESC'
-]);
-
-// Получаем обычные турниры (не закрепленные)
-$regular_tournaments_count = $tournaments_count - $pinned_tournaments_query->found_posts;
-if ($regular_tournaments_count < 0) {
-    $regular_tournaments_count = 0;
-}
-
-// Получаем обычные турниры (не закрепленные)
-// Фильтруем по дате: либо точная дата >= сегодня, либо год >= текущего года
+// Получаем турниры с кэшированием. Ключ включает дату — кэш сбрасывается каждый день.
 $current_date = date('Y-m-d');
 $current_year = intval(date('Y'));
+$tournaments_cache_key = 'tgg_tournaments_preview_' . intval($tournaments_count) . '_' . $current_date;
+$cached_tournament_ids = get_transient($tournaments_cache_key);
 
-// Используем более простую логику: получаем все не закрепленные турниры,
-// а фильтрацию по дате делаем в PHP для более гибкой логики
-$regular_tournaments_query = new WP_Query([
-    'post_type' => 'tournament',
-    'posts_per_page' => -1, // Получаем все для фильтрации
-    'post_status' => 'publish',
-    'meta_query' => [
-        [
+if (false === $cached_tournament_ids) {
+    // Получаем закрепленные турниры
+    $pinned_tournaments_query = new WP_Query([
+        'post_type'      => 'tournament',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'meta_query'     => [[
+            'key'     => 'tournament_pinned',
+            'value'   => '1',
+            'compare' => '='
+        ]],
+        'orderby'       => 'date',
+        'order'         => 'DESC',
+        'no_found_rows' => true,
+    ]);
+
+    $regular_tournaments_count = max(0, $tournaments_count - $pinned_tournaments_query->found_posts);
+
+    $regular_tournaments_query = new WP_Query([
+        'post_type'      => 'tournament',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'meta_query'     => [[
             'relation' => 'OR',
-            [
-                'key' => 'tournament_pinned',
-                'compare' => 'NOT EXISTS'
-            ],
-            [
-                'key' => 'tournament_pinned',
-                'value' => '1',
-                'compare' => '!='
-            ]
-        ]
-    ],
-    'orderby' => 'date',
-    'order' => 'ASC'
-]);
+            ['key' => 'tournament_pinned', 'compare' => 'NOT EXISTS'],
+            ['key' => 'tournament_pinned', 'value' => '1', 'compare' => '!=']
+        ]],
+        'orderby'       => 'date',
+        'order'         => 'ASC',
+        'no_found_rows' => true,
+    ]);
 
-// Фильтруем результаты в PHP
-$filtered_tournaments = [];
-if ($regular_tournaments_query->have_posts()) {
-    while ($regular_tournaments_query->have_posts()) {
-        $regular_tournaments_query->the_post();
-        $post = get_post();
-        
-        $date_type = get_field('tournament_date_type', $post->ID) ?: 'exact';
-        $should_include = false;
-        
-        if ($date_type === 'exact') {
-            // Точная дата: проверяем, что дата >= сегодня
-            $tournament_date = get_field('tournament_date', $post->ID);
-            if ($tournament_date) {
-                $tournament_timestamp = strtotime($tournament_date);
-                if ($tournament_timestamp !== false && $tournament_timestamp >= strtotime($current_date)) {
-                    $should_include = true;
+    // Фильтруем по дате в PHP
+    $filtered_tournaments = [];
+    if ($regular_tournaments_query->have_posts()) {
+        while ($regular_tournaments_query->have_posts()) {
+            $regular_tournaments_query->the_post();
+            $post = get_post();
+            $date_type = get_field('tournament_date_type', $post->ID) ?: 'exact';
+            $should_include = false;
+
+            if ($date_type === 'exact') {
+                $tournament_date = get_field('tournament_date', $post->ID);
+                if ($tournament_date) {
+                    $ts = strtotime($tournament_date);
+                    if ($ts !== false && $ts >= strtotime($current_date)) {
+                        $should_include = true;
+                    }
                 }
-            }
-        } elseif ($date_type === 'month_only') {
-            // Только месяц/год: проверяем, что год >= текущего года
-            $tournament_year = get_field('tournament_date_year', $post->ID);
-            if ($tournament_year) {
-                $year_int = intval($tournament_year);
-                if ($year_int >= $current_year) {
-                    $should_include = true;
-                }
-            }
-        } else {
-            // Старые записи без типа даты: используем точную дату, если она есть
-            // Если даты нет вообще, тоже включаем (для обратной совместимости)
-            $tournament_date = get_field('tournament_date', $post->ID);
-            if ($tournament_date) {
-                $tournament_timestamp = strtotime($tournament_date);
-                if ($tournament_timestamp !== false && $tournament_timestamp >= strtotime($current_date)) {
+            } elseif ($date_type === 'month_only') {
+                $tournament_year = get_field('tournament_date_year', $post->ID);
+                if ($tournament_year && intval($tournament_year) >= $current_year) {
                     $should_include = true;
                 }
             } else {
-                // Если даты нет, включаем турнир (для обратной совместимости со старыми записями)
-                $should_include = true;
+                $tournament_date = get_field('tournament_date', $post->ID);
+                if ($tournament_date) {
+                    $ts = strtotime($tournament_date);
+                    if ($ts !== false && $ts >= strtotime($current_date)) {
+                        $should_include = true;
+                    }
+                } else {
+                    $should_include = true;
+                }
+            }
+
+            if ($should_include) {
+                $filtered_tournaments[] = $post;
             }
         }
-        
-        if ($should_include) {
-            $filtered_tournaments[] = $post;
+        wp_reset_postdata();
+    }
+
+    $filtered_tournaments = array_slice($filtered_tournaments, 0, $regular_tournaments_count);
+
+    // Объединяем: закреплённые + отфильтрованные
+    $all_tournaments_posts = [];
+    if ($pinned_tournaments_query->have_posts()) {
+        while ($pinned_tournaments_query->have_posts()) {
+            $pinned_tournaments_query->the_post();
+            $all_tournaments_posts[] = get_post();
         }
+        wp_reset_postdata();
     }
-    wp_reset_postdata();
-}
+    $all_tournaments_posts = array_merge($all_tournaments_posts, $filtered_tournaments);
 
-// Ограничиваем количество результатов
-$filtered_tournaments = array_slice($filtered_tournaments, 0, $regular_tournaments_count);
-
-// Объединяем результаты: сначала закрепленные, затем обычные
-$all_tournaments_posts = [];
-if ($pinned_tournaments_query->have_posts()) {
-    while ($pinned_tournaments_query->have_posts()) {
-        $pinned_tournaments_query->the_post();
-        $all_tournaments_posts[] = get_post();
-    }
-    wp_reset_postdata();
+    $cached_tournament_ids = wp_list_pluck($all_tournaments_posts, 'ID');
+    // TTL до конца текущего дня
+    $seconds_until_midnight = strtotime('tomorrow midnight') - time();
+    set_transient($tournaments_cache_key, $cached_tournament_ids, $seconds_until_midnight);
+} else {
+    // Быстрый запрос по ID (без meta_query JOIN)
+    $all_tournaments_posts = empty($cached_tournament_ids) ? [] : get_posts([
+        'post_type'      => 'tournament',
+        'post__in'       => $cached_tournament_ids,
+        'orderby'        => 'post__in',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'no_found_rows'  => true,
+    ]);
 }
-// Добавляем отфильтрованные обычные турниры
-$all_tournaments_posts = array_merge($all_tournaments_posts, $filtered_tournaments);
 
 // Если нет турниров, все равно показываем секцию (но без карточек)
 // Это позволит видеть секцию даже если турниры еще не добавлены или все в прошлом
