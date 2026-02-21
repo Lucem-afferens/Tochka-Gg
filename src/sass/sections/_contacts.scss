@@ -156,8 +156,7 @@
       0 0 60px rgba(59, 130, 246, 0.2),
       0 0 90px rgba(59, 130, 246, 0.1),
       inset 0 0 80px rgba(59, 130, 246, 0.05);
-    background: linear-gradient(135deg, rgba(26, 29, 41, 0.95) 0%, rgba(30, 33, 40, 0.95) 100%);
-    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(22, 25, 36, 0.98) 0%, rgba(26, 29, 36, 0.98) 100%);
     
     // Неоновое свечение по краям - внешнее
     &::before {
@@ -312,8 +311,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(26, 29, 41, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(22, 25, 36, 0.98);
   border: 2px solid rgba(59, 130, 246, 0.5);
   border-radius: $border-radius-md;
   padding: $spacing-md $spacing-lg;
@@ -442,11 +440,10 @@
 
 // Баллун для маркера
 :global(.ymaps-2-1-79-balloon) {
-  background: rgba(26, 29, 41, 0.95) !important;
+  background: rgba(22, 25, 36, 0.98) !important;
   border: 2px solid rgba(59, 130, 246, 0.5) !important;
   border-radius: 12px !important;
   box-shadow: 0 0 30px rgba(59, 130, 246, 0.6) !important;
-  backdrop-filter: blur(10px) !important;
   padding: 0 !important;
   
   :global(.ymaps-2-1-79-balloon__content) {
