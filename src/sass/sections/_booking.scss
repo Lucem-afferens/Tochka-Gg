@@ -165,6 +165,15 @@
       animation-delay: 0.3s;
       animation-fill-mode: both;
     }
+
+    // Состояния из JS (вместо inline-стилей — меньше нагрузка на heap)
+    &--active {
+      z-index: 10;
+    }
+    &--dimmed {
+      opacity: 0.6;
+      filter: blur(2px);
+    }
     
     // Размеры карточек для адаптивности (Grid управляет размерами)
     @include respond-to(md) {

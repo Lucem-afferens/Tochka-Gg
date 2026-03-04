@@ -71,14 +71,9 @@ export function initScrollAnimations() {
   // Используем синхронный цикл без requestAnimationFrame для немедленного применения
   animatedElements.forEach((element) => {
     if (isElementInViewport(element)) {
-      // Элемент уже виден - устанавливаем атрибут для CSS и финальное состояние
-      // Атрибут data-animation-processed активирует CSS правило, которое показывает элемент
-      // Используем setAttribute синхронно для немедленного применения CSS правил
       element.setAttribute('data-animation-processed', 'true');
-      // Дополнительно устанавливаем inline стили с !important через setProperty
-      // для гарантии переопределения любых CSS правил
-      element.style.setProperty('opacity', '1', 'important');
-      element.style.setProperty('transform', 'translateY(0)', 'important');
+      // Класс вместо inline-стилей — меньше объектов CSSStyleDeclaration в heap
+      element.classList.add('tgg-animate-visible');
     } else {
       // Элемент не виден - добавляем в observer для анимации при появлении
       observer.observe(element);

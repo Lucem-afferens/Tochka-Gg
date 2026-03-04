@@ -21,7 +21,9 @@ export function initNavigation() {
   
   // Сохраняем позицию скролла перед блокировкой
   let scrollPosition = 0;
-  
+  // Кеш: страница бара (избегаем querySelector при каждом wheel/touchmove)
+  let isBarPageCached = false;
+
   // Функция закрытия меню
   function closeMenu() {
     nav.classList.remove('active');
@@ -54,6 +56,8 @@ export function initNavigation() {
     // Блокировка скролла и кликов
     if (window.innerWidth <= 1023) {
       if (willBeExpanded) {
+        // Кешируем флаг страницы бара один раз при открытии меню
+        isBarPageCached = !!document.querySelector('.tgg-bar[data-bar-page="true"]');
         // Сохраняем позицию скролла
         scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
         
@@ -98,32 +102,19 @@ export function initNavigation() {
   
   // Блокировка скролла при открытом меню
   // ВАЖНО: Работает только когда меню открыто, не блокируем скролл на странице бара
+  // isBarPageCached обновляется при открытии меню — избегаем querySelector на каждый wheel
   document.addEventListener('wheel', (e) => {
-    // Проверяем, не на странице бара
-    const isBarPage = document.querySelector('.tgg-bar[data-bar-page="true"]');
-    if (isBarPage) {
-      // На странице бара не блокируем wheel
-      return;
-    }
-    
+    if (isBarPageCached) return;
     if (window.innerWidth <= 1023 && nav.classList.contains('active')) {
       e.preventDefault();
       return false;
     }
   }, { passive: false });
-  
+
   // Блокировка touchmove (для мобильных устройств)
-  // ВАЖНО: Работает только когда меню открыто, не блокируем скролл на странице бара
   document.addEventListener('touchmove', (e) => {
-    // Проверяем, не на странице бара
-    const isBarPage = document.querySelector('.tgg-bar[data-bar-page="true"]');
-    if (isBarPage) {
-      // На странице бара не блокируем touchmove
-      return;
-    }
-    
+    if (isBarPageCached) return;
     if (window.innerWidth <= 1023 && nav.classList.contains('active')) {
-      // Разрешаем скролл только внутри меню
       if (!nav.contains(e.target)) {
         e.preventDefault();
         return false;
@@ -138,19 +129,16 @@ export function initNavigation() {
   const navLinks = nav.querySelectorAll('.tgg-nav__link, a');
   
   navLinks.forEach((link) => {
-    // Эффект при клике
-    link.addEventListener('click', (e) => {
-      // Плавная анимация клика
-      link.style.transform = 'scale(0.95)';
-      setTimeout(() => {
-        link.style.transform = '';
+    link.addEventListener('click', () => {
+      if (link._tapTimeout) clearTimeout(link._tapTimeout);
+      link.classList.add('tgg-nav__link--tap');
+      link._tapTimeout = setTimeout(() => {
+        link.classList.remove('tgg-nav__link--tap');
+        link._tapTimeout = null;
       }, 150);
-      
-      // Закрываем мобильное меню после небольшой задержки
+
       if (window.innerWidth <= 1023) {
-        setTimeout(() => {
-          closeMenu();
-        }, 300);
+        setTimeout(() => closeMenu(), 300);
       }
     });
   });

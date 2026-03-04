@@ -597,6 +597,11 @@
   }
 }
 
+// Кратковременный эффект нажатия (используется из JS вместо inline style)
+.tgg-nav__link--tap {
+  transform: scale(0.95);
+}
+
 .tgg-nav__link-text {
   position: relative;
   z-index: 1;

@@ -36,31 +36,7 @@ export function optimizeHeroForMobile() {
   
   // На мобильных используем absolute позиционирование, чтобы фон прокручивался вместе с секцией
   // CSS уже устанавливает правильные стили, но убеждаемся, что они применены
-  const bgImage = heroBg.querySelector('img');
-  const bgVideo = heroBg.querySelector('video');
-  
-  [bgImage, bgVideo].forEach(element => {
-    if (element) {
-      // Используем absolute позиционирование для прокрутки вместе с секцией
-      element.style.position = 'absolute';
-      element.style.top = '-80px';
-      element.style.left = '0';
-      element.style.width = '100%';
-      // Высота будет установлена через CSS, но убеждаемся, что она достаточна
-      const supportsLvh = CSS.supports('height', '100lvh');
-      if (supportsLvh) {
-        element.style.minHeight = 'calc(100lvh + 80px)';
-      } else {
-        element.style.minHeight = 'calc(100vh + 80px)';
-      }
-      element.style.zIndex = '-1';
-      // Убеждаемся, что изображение покрывает весь экран
-      element.style.objectFit = 'cover';
-      element.style.objectPosition = 'center center';
-      // Используем translateZ для GPU-ускорения
-      element.style.transform = 'translateZ(0)';
-      element.style.webkitTransform = 'translateZ(0)';
-    }
-  });
+  // Стили для мобильного фона уже заданы в CSS (@include max-width(lg) в _hero.scss).
+  // Раньше здесь задавались inline-стили — убраны, чтобы не плодить CSSStyleDeclaration в heap.
 }
 

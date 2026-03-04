@@ -608,6 +608,12 @@
 // ANIMATION CLASSES
 // ============================================
 
+// Состояние «уже виден» без inline-стилей (меньше нагрузка на CSSStyleDeclaration)
+.tgg-animate-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
 .tgg-animate-fade-in-up {
   animation: fade-in-up 0.6s $ease-out-cubic;
   animation-fill-mode: both; // Сохраняет начальное и конечное состояние анимации

@@ -14,13 +14,8 @@ export function initBarModal() {
   const barSection = document.querySelector('.tgg-bar');
   if (!barSection) return;
 
-  // Проверка: если accordion активен, не инициализируем модальное окно
-  // (защита от конфликта, хотя accordion сейчас отключен)
   const accordionButtons = barSection.querySelectorAll('[data-category-toggle]');
-  if (accordionButtons.length > 0) {
-    return;
-    return;
-  }
+  if (accordionButtons.length > 0) return;
 
   // Создаем модальное окно, если его еще нет
   let modal = document.getElementById('bar-modal');
@@ -125,58 +120,22 @@ export function initBarModal() {
  */
 function cloneItemSafely(item) {
   const clone = item.cloneNode(true);
-  
-  // Очищаем data-атрибуты, которые могут быть связаны с интерактивностью
-  // Используем querySelectorAll('*') вместо невалидного '[data-*]'
   const allElements = clone.querySelectorAll('*');
+  // Один проход по всем узлам: data-, aria- и style (меньше обходов DOM)
   allElements.forEach((el) => {
-    // Сохраняем только data-bar-item (структурный атрибут)
     const attrs = Array.from(el.attributes);
     attrs.forEach((attr) => {
-      if (attr.name.startsWith('data-') && attr.name !== 'data-bar-item') {
-        el.removeAttribute(attr.name);
-      }
+      if (attr.name.startsWith('data-') && attr.name !== 'data-bar-item') el.removeAttribute(attr.name);
+      else if (attr.name.startsWith('aria-') && attr.name !== 'aria-hidden' && attr.name !== 'aria-label') el.removeAttribute(attr.name);
     });
+    if (el.hasAttribute('style')) el.removeAttribute('style');
   });
-  
-  // Также обрабатываем сам клонированный элемент
   const cloneAttrs = Array.from(clone.attributes);
   cloneAttrs.forEach((attr) => {
-    if (attr.name.startsWith('data-') && attr.name !== 'data-bar-item') {
-      clone.removeAttribute(attr.name);
-    }
+    if (attr.name.startsWith('data-') && attr.name !== 'data-bar-item') clone.removeAttribute(attr.name);
+    else if (attr.name.startsWith('aria-') && attr.name !== 'aria-hidden' && attr.name !== 'aria-label') clone.removeAttribute(attr.name);
   });
-  
-  // Очищаем aria-атрибуты, которые могут быть связаны с интерактивностью
-  // Используем querySelectorAll('*') вместо невалидного '[aria-*]'
-  allElements.forEach((el) => {
-    const attrs = Array.from(el.attributes);
-    attrs.forEach((attr) => {
-      if (attr.name.startsWith('aria-') && 
-          attr.name !== 'aria-hidden' && 
-          attr.name !== 'aria-label') {
-        el.removeAttribute(attr.name);
-      }
-    });
-  });
-  
-  // Также обрабатываем сам клонированный элемент
-  const cloneAriaAttrs = Array.from(clone.attributes);
-  cloneAriaAttrs.forEach((attr) => {
-    if (attr.name.startsWith('aria-') && 
-        attr.name !== 'aria-hidden' && 
-        attr.name !== 'aria-label') {
-      clone.removeAttribute(attr.name);
-    }
-  });
-  
-  // Очищаем inline стили, которые могут быть связаны с состоянием
-  const styledElements = clone.querySelectorAll('[style]');
-  styledElements.forEach((el) => {
-    // Сохраняем только критичные inline стили (если есть)
-    // В нашем случае удаляем все, так как стили должны быть в CSS
-    el.removeAttribute('style');
-  });
+  if (clone.hasAttribute('style')) clone.removeAttribute('style');
   
   // Удаляем event listeners (они не копируются через cloneNode, но на всякий случай)
   // Это не нужно, но оставляем комментарий для ясности
